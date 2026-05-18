@@ -16,10 +16,10 @@ import net.bewis09.bewisclient.security.Security
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.settings.Settings
 import net.bewis09.bewisclient.settings.SettingsLoader
+import net.bewis09.bewisclient.version.EntityTypes
 import net.bewis09.bewisclient.version.id
 import net.bewis09.bewisclient.widget.Widget
 import net.bewis09.bewisclient.widget.WidgetLoader
-import net.minecraft.world.entity.EntityType
 import kotlin.jvm.optionals.getOrNull
 
 class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
@@ -64,12 +64,12 @@ class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
     )
 
     override fun getTiwylaEntityExtraInfoProviders(): List<TiwylaWidget.EntityInfoProvider<*>> = listOf(
-        TiwylaWidget.EntityInfoProvider(EntityType.CAT) { it.variant.unwrapKey().getOrNull()?.id()?.toString() },
-        TiwylaWidget.EntityInfoProvider(EntityType.FROG) { it.variant.unwrapKey().getOrNull()?.id()?.toString() },
-        TiwylaWidget.EntityInfoProvider(EntityType.AXOLOTL) { it.variant.name },
-        TiwylaWidget.EntityInfoProvider(EntityType.HORSE) { it.markings.name.lowercase() + ", " + it.variant.name.lowercase() },
-        TiwylaWidget.EntityInfoProvider(EntityType.RABBIT) { it.variant.name.lowercase() },
-        TiwylaWidget.EntityInfoProvider(EntityType.LLAMA) { it.variant.name.lowercase() },
+        TiwylaWidget.EntityInfoProvider(EntityTypes.CAT) { it.variant.unwrapKey().getOrNull()?.id()?.toString() },
+        TiwylaWidget.EntityInfoProvider(EntityTypes.FROG) { it.variant.unwrapKey().getOrNull()?.id()?.toString() },
+        TiwylaWidget.EntityInfoProvider(EntityTypes.AXOLOTL) { it.variant.name },
+        TiwylaWidget.EntityInfoProvider(EntityTypes.HORSE) { it.markings.name.lowercase() + ", " + it.variant.name.lowercase() },
+        TiwylaWidget.EntityInfoProvider(EntityTypes.RABBIT) { it.variant.name.lowercase() },
+        TiwylaWidget.EntityInfoProvider(EntityTypes.LLAMA) { it.variant.name.lowercase() },
     )
 
     override fun getCustomResourceProviders(): List<BewisclientResourcePack.CustomResourceProvider> = listOf(

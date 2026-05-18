@@ -2,37 +2,26 @@ package net.bewis09.bewisclient.core
 
 import com.mojang.blaze3d.platform.InputConstants
 import com.mojang.blaze3d.platform.NativeImage
-import com.mojang.blaze3d.platform.cursor.CursorTypes
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawingInterface
 import net.bewis09.bewisclient.version.GuiGraphics
 import net.bewis09.bewisclient.version.Identifier
+import net.bewis09.bewisclient.version.model
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry
 import net.minecraft.ChatFormatting
 import net.minecraft.client.KeyMapping
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
-import net.minecraft.client.model.geom.ModelLayers
-import net.minecraft.client.model.player.PlayerModel
-import net.minecraft.client.player.LocalPlayerResolver
-import net.minecraft.client.renderer.PlayerSkinRenderCache
 import net.minecraft.client.renderer.RenderPipelines
-import net.minecraft.client.renderer.block.BlockModelResolver
-import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.texture.DynamicTexture
-import net.minecraft.client.resources.model.EquipmentAssetManager
-import net.minecraft.core.DefaultedRegistry
 import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.FontDescription
 import net.minecraft.network.chat.MutableComponent
-import net.minecraft.resources.ResourceKey
-import net.minecraft.util.profiling.Profiler
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
 import net.minecraft.world.item.component.TooltipDisplay
-import java.io.File
 import java.util.function.Consumer
 
 fun Component.setFont(id: Identifier?): MutableComponent {
@@ -80,29 +69,6 @@ fun ItemStack.getItemFormattedName(): Component {
     }
 
     return mutableText
-}
-
-val model by lazy {
-    PlayerModel(
-        Minecraft.getInstance().run {
-            EntityRendererProvider.Context(
-                entityRenderDispatcher,
-                BlockModelResolver(this.modelManager),
-                itemModelResolver,
-                mapRenderer,
-                resourceManager,
-                entityModels,
-                EquipmentAssetManager(),
-                atlasManager,
-                font,
-                PlayerSkinRenderCache(
-                    textureManager,
-                    skinManager,
-                    LocalPlayerResolver(this, services().profileResolver())
-                )
-            ).bakeLayer(ModelLayers.PLAYER_CAPE)
-        }, false
-    )
 }
 
 fun ScreenDrawing.drawCape(identifier: Identifier, x: Int, y: Int, width: Int, height: Int) {

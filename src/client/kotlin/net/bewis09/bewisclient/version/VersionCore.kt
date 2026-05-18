@@ -3,13 +3,13 @@
 package net.bewis09.bewisclient.version
 
 import com.mojang.blaze3d.platform.InputConstants
-import com.mojang.blaze3d.platform.cursor.CursorTypes
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.minecraft.WorldVersion
 import net.minecraft.client.KeyMapping
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.screens.Screen
+import net.minecraft.client.model.geom.ModelLayers
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
@@ -47,7 +47,7 @@ fun setScreen(screen: Screen?) = Minecraft.getInstance()./*[@]*/gui.setScreen/*[
 fun getScreen() = Minecraft.getInstance()./*[@]*/gui.screen()/*[!@]*/
 
 // @[1.21.11] net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper.registerKeyBinding @[] net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper.registerKeyMapping
-fun registerKeyBinding(keyMapping: KeyMapping) = /*[@]*/net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper.registerKeyMapping/*[!@]*/(keyMapping)
+fun registerKeyBinding(keyMapping: KeyMapping) = /*[@]*/net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper.registerKeyMapping/*[!@]*/(keyMapping)!!
 
 fun GuiGraphics.string(font: Font, text: Component, x: Int, y: Int, color: Int, shadow: Boolean) {
     // @[1.21.11] drawString @[] text
@@ -85,8 +85,8 @@ fun isAllowedInIdentifier(char: Char) = Identifier./*[@]*/isAllowedInIdentifier/
 // @[1.21.10] location() @[] identifier()
 fun <T: Any> ResourceKey<T>.id(): Identifier = this./*[@]*/identifier()/*[!@]*/
 
-// @[1.21.8] @[] guiGraphics.requestCursor(CursorTypes.POINTING_HAND)
-fun ScreenDrawing.setCursorPointer() = /*[@]*/guiGraphics.requestCursor(CursorTypes.POINTING_HAND)/*[!@]*/
+// @[1.21.8] Unit @[] guiGraphics.requestCursor(com.mojang.blaze3d.platform.cursor.CursorTypes.POINTING_HAND)
+fun ScreenDrawing.setCursorPointer() = /*[@]*/guiGraphics.requestCursor(com.mojang.blaze3d.platform.cursor.CursorTypes.POINTING_HAND)/*[!@]*/
 
 fun ScreenDrawing.drawGuiTexture(
     texture: Identifier,
@@ -109,4 +109,15 @@ fun ScreenDrawing.drawGuiTexture(
 fun GuiGraphics.rotate(angle: Float) {
     // @[1.21.5] mulPose(org.joml.Quaternionf().rotateZ(angle)) @[] rotate(angle)
     this.pose()./*[@]*/rotate(angle)/*[!@]*/
+}
+
+val model by lazy {
+    // @[1.21.1] net.minecraft.client.model.PlayerModel<net.minecraft.world.entity.player.Player> @[1.21.10] net.minecraft.client.model.PlayerModel @[26.1] net.minecraft.client.model.player.PlayerModel @[] net.minecraft.client.model.Model.Simple
+    /*[@]*/net.minecraft.client.model.Model.Simple/*[!@]*/(
+        Minecraft.getInstance().entityModels.run {
+            // @[1.21.1] PLAYER @[] PLAYER_CAPE
+            bakeLayer(ModelLayers./*[@]*/PLAYER_CAPE/*[!@]*/)
+        }
+        // @[26.1] , false) @[] ) { net.minecraft.client.renderer.rendertype.RenderTypes.entitySolid(it) }
+    /*[@]*/) { net.minecraft.client.renderer.rendertype.RenderTypes.entitySolid(it) }/*[!@]*/
 }

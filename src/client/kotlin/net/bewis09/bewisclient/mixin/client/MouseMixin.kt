@@ -15,7 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 
 @Mixin(MouseHandler::class)
 class MouseMixin {
-    @Inject(method = ["onButton"], at = [At("HEAD")])
+    // @[1.21.8] "onPress" @[] "onButton"
+    @Inject(method = [/*[@]*/"onButton"/*[!@]*/], at = [At("HEAD")])
     // @[1.21.8] button: Int, action: Int, modifiers: Int @[] rawButtonInfo: net.minecraft.client.input.MouseButtonInfo, action: Int
     private fun bewisclientOnMouseButton(handle: Long, /*[@]*/rawButtonInfo: net.minecraft.client.input.MouseButtonInfo, action: Int/*[!@]*/, ci: CallbackInfo?) {
         if (action != 1) return

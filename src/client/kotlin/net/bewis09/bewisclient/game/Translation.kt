@@ -1,7 +1,6 @@
 package net.bewis09.bewisclient.game
 
 import net.bewis09.bewisclient.util.addTranslation
-import net.bewis09.bewisclient.util.toText
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 

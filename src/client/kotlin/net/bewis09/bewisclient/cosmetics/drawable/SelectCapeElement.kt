@@ -6,7 +6,7 @@ import net.bewis09.bewisclient.cosmetics.CosmeticIdentifier
 import net.bewis09.bewisclient.cosmetics.CosmeticLoader
 import net.bewis09.bewisclient.cosmetics.CosmeticType
 import net.bewis09.bewisclient.drawable.Animator
-import net.bewis09.bewisclient.drawable.renderables.TooltipHoverable
+import net.bewis09.bewisclient.drawable.renderables.Hoverable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.util.color.Color
@@ -14,7 +14,7 @@ import net.bewis09.bewisclient.util.color.within
 import net.bewis09.bewisclient.util.createIdentifier
 import net.bewis09.bewisclient.util.`snake_toWord With Spaces`
 
-class SelectCapeElement(val identifier: CosmeticIdentifier, val cosmetic: Cosmetic) : TooltipHoverable() {
+class SelectCapeElement(val identifier: CosmeticIdentifier, val cosmetic: Cosmetic) : Hoverable() {
     val selected = Animator(200, Animator.EASE_IN_OUT, 0f)
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {

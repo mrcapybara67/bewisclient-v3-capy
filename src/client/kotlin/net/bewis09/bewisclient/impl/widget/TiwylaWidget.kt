@@ -307,7 +307,7 @@ object TiwylaWidget : ScalableWidget(createIdentifier("bewisclient", "tiwyla_wid
         Information.Line({ entity ->
             return@Line entity.entityId().toString().toText()
         }, "entity_id", 0), Information.Line({ entity ->
-            return@Line if (client.isSingleplayer) (entity as? LivingEntity)?.let {
+            return@Line if (client.singleplayerServer != null) (entity as? LivingEntity)?.let {
                 convertToHearths(
                     it.health.toDouble(), it.maxHealth.toDouble(), it.absorptionAmount.toDouble()
                 )

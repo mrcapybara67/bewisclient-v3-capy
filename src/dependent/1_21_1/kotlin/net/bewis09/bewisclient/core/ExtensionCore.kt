@@ -15,6 +15,8 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.Screen
+import net.minecraft.client.model.PlayerModel
+import net.minecraft.client.model.geom.ModelLayers
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.renderer.texture.DynamicTexture
 import net.minecraft.core.DefaultedRegistry
@@ -22,6 +24,7 @@ import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceKey
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag

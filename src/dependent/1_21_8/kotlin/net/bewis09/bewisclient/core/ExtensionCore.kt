@@ -4,34 +4,24 @@ import com.mojang.blaze3d.platform.InputConstants
 import com.mojang.blaze3d.platform.NativeImage
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawingInterface
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
+import net.bewis09.bewisclient.version.Identifier
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry
 import net.minecraft.ChatFormatting
-import net.minecraft.Util
 import net.minecraft.client.KeyMapping
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.client.gui.screens.Screen
-import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.renderer.RenderPipelines
 import net.minecraft.client.renderer.texture.DynamicTexture
-import net.minecraft.core.DefaultedRegistry
 import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
-import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.profiling.Profiler
 import net.minecraft.world.entity.animal.horse.Horse
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
-import net.minecraft.world.item.component.ItemContainerContents
 import net.minecraft.world.item.component.TooltipDisplay
-import java.io.File
 import java.util.function.Consumer
-import java.util.stream.Stream
 
 fun Horse.getColor(): String = this.variant.name.lowercase()
 

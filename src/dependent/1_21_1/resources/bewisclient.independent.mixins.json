@@ -7,7 +7,6 @@
     "GameRendererMixin",
     "InGameHudMixin",
     "ItemStackMixin",
-    "MouseMixin",
     "PackListWidgetMixin",
     "SkinTexturesMixin",
     "WorldRendererMixin",

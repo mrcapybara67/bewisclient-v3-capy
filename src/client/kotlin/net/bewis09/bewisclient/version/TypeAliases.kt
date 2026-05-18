@@ -28,3 +28,6 @@ typealias TooltipComponentCallback = net.fabricmc.fabric.api.client.rendering.v1
 
 // @[1.21.1] MetadataSectionSerializer @[] MetadataSectionType
 typealias IndependentResourceMetadataSerializer<T> = net.minecraft.server.packs.metadata./*[@]*/MetadataSectionType/*[!@]*/<T>
+
+// @[26.1] EntityType<*> @[26.1] EntityTypes<*> @[] EntityTypes
+typealias EntityTypes = net.minecraft.world.entity./*[@]*/EntityTypes/*[!@]*/

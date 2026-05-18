@@ -8,7 +8,6 @@
     "InGameHudMixin",
     "ItemStackMixin",
     "LightmapTextureManagerMixin",
-    "MouseMixin",
     "PackListWidgetMixin",
     "SkinTexturesMixin",
     "TooltipDisplayComponentMixin",

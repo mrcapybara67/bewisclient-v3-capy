@@ -6,21 +6,14 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawingInterface
 import net.bewis09.bewisclient.version.GuiGraphics
 import net.bewis09.bewisclient.version.Identifier
+import net.bewis09.bewisclient.version.model
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry
 import net.minecraft.ChatFormatting
 import net.minecraft.client.KeyMapping
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
-import net.minecraft.client.model.Model
-import net.minecraft.client.model.geom.ModelLayers
-import net.minecraft.client.player.LocalPlayerResolver
-import net.minecraft.client.renderer.PlayerSkinRenderCache
 import net.minecraft.client.renderer.RenderPipelines
-import net.minecraft.client.renderer.block.BlockModelResolver
-import net.minecraft.client.renderer.entity.EntityRendererProvider
-import net.minecraft.client.renderer.rendertype.RenderTypes
 import net.minecraft.client.renderer.texture.DynamicTexture
-import net.minecraft.client.resources.model.EquipmentAssetManager
 import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.FontDescription
@@ -76,29 +69,6 @@ fun ItemStack.getItemFormattedName(): Component {
     }
 
     return mutableText
-}
-
-val model by lazy {
-    Model.Simple(
-        Minecraft.getInstance().run {
-            EntityRendererProvider.Context(
-                entityRenderDispatcher,
-                BlockModelResolver(this.modelManager),
-                itemModelResolver,
-                mapRenderer,
-                resourceManager,
-                entityModels,
-                EquipmentAssetManager(),
-                atlasManager,
-                font,
-                PlayerSkinRenderCache(
-                    textureManager,
-                    skinManager,
-                    LocalPlayerResolver(this, services().profileResolver())
-                )
-            ).bakeLayer(ModelLayers.PLAYER_CAPE)
-        }
-    ) { RenderTypes.entitySolid(it) }
 }
 
 fun ScreenDrawing.drawCape(identifier: Identifier, x: Int, y: Int, width: Int, height: Int) {

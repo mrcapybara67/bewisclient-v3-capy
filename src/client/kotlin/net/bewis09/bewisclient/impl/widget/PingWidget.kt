@@ -18,7 +18,7 @@ object PingWidget : LineWidget(createIdentifier("bewisclient", "ping_widget")) {
     override val description = "Displays your current ping in milliseconds (ms)."
 
     override fun getLine(): Component {
-        if ((client.isSingleplayer || !util.isInWorld()) && util.getCurrentRenderableScreen() != null) return pingText(99.toString())
+        if ((isHidden() || !util.isInWorld()) && util.getCurrentRenderableScreen() != null) return pingText(99.toString())
         if (getLatency() < 0) return loadingText()
         return pingText(getLatency().toString())
     }
@@ -27,11 +27,11 @@ object PingWidget : LineWidget(createIdentifier("bewisclient", "ping_widget")) {
 
     override fun getMinimumWidth(): Int = 80
 
-    override fun isHidden(): Boolean = client.isSingleplayer
+    override fun isHidden(): Boolean = client.singleplayerServer != null
 
     private fun getLatency(): Int {
         try {
-            if (client.isSingleplayer || client.connection == null) return -1
+            if (isHidden() || client.connection == null) return -1
 
             if (lastRequest + 100 < System.currentTimeMillis()) {
                 if (!client.debugOverlay.showNetworkCharts()) client.connection?.pingDebugMonitor?.tick()
