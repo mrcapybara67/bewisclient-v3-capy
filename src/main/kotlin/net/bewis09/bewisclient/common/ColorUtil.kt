@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package net.bewis09.bewisclient.util.color
+package net.bewis09.bewisclient.common
 
 infix fun Float.within(pair: Pair<Color, Color>): Color {
     val startAlpha = pair.first.alpha

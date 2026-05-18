@@ -16,8 +16,8 @@ import net.bewis09.bewisclient.security.Security
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.settings.Settings
 import net.bewis09.bewisclient.settings.SettingsLoader
-import net.bewis09.bewisclient.version.EntityTypes
-import net.bewis09.bewisclient.version.id
+import net.bewis09.bewisclient.common.EntityTypes
+import net.bewis09.bewisclient.common.id
 import net.bewis09.bewisclient.widget.Widget
 import net.bewis09.bewisclient.widget.WidgetLoader
 import kotlin.jvm.optionals.getOrNull

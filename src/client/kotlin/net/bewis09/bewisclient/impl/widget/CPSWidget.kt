@@ -2,8 +2,8 @@ package net.bewis09.bewisclient.impl.widget
 
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
-import net.bewis09.bewisclient.util.createIdentifier
-import net.bewis09.bewisclient.util.toText
+import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.common.toText
 import net.bewis09.bewisclient.settings.types.BooleanSetting
 import net.bewis09.bewisclient.widget.logic.RelativePosition
 import net.bewis09.bewisclient.widget.logic.WidgetPosition

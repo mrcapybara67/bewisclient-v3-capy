@@ -2,10 +2,10 @@ package net.bewis09.bewisclient.security
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import net.bewis09.bewisclient.version.Util
+import net.bewis09.bewisclient.common.Util
 import net.bewis09.bewisclient.generated.BuildInfo
 import net.bewis09.bewisclient.util.EventEntrypoint
-import net.bewis09.bewisclient.util.catch
+import net.bewis09.bewisclient.common.catch
 import net.bewis09.bewisclient.util.logic.BewisclientInterface
 import net.fabricmc.loader.api.FabricLoader
 import java.io.File

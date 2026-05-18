@@ -6,8 +6,8 @@ import net.bewis09.bewisclient.data.Constants
 import net.bewis09.bewisclient.settings.types.ObjectSetting
 import net.bewis09.bewisclient.settings.types.StringMapSetting
 import net.bewis09.bewisclient.util.EventEntrypoint
-import net.bewis09.bewisclient.util.catch
-import net.bewis09.bewisclient.version.Util
+import net.bewis09.bewisclient.common.catch
+import net.bewis09.bewisclient.common.Util
 import net.minecraft.client.multiplayer.PlayerInfo
 import net.minecraft.world.item.Items
 import java.net.HttpURLConnection

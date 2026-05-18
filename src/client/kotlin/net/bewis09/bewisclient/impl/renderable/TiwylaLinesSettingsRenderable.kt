@@ -8,7 +8,7 @@ import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.renderable.popup.TiwylaLinesSettingsPopup
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.impl.widget.TiwylaWidget
-import net.bewis09.bewisclient.util.color.Color
+import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.settings.types.ListSetting
 
 class TiwylaLinesSettingsRenderable : Renderable() {

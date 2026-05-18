@@ -9,9 +9,9 @@ import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.settings.DefaultWidgetSettings
 import net.bewis09.bewisclient.impl.settings.HomePlaneSettings
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
-import net.bewis09.bewisclient.util.color.Color
+import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.util.color.ThemeColorSaver
-import net.bewis09.bewisclient.util.createIdentifier
+import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.util.number.Precision
 import net.minecraft.network.chat.Component
 

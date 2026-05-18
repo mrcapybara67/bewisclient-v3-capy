@@ -23,11 +23,11 @@ import net.bewis09.bewisclient.security.Security
 import net.bewis09.bewisclient.settings.types.Setting
 import net.bewis09.bewisclient.util.Bewisclient
 import net.bewis09.bewisclient.util.EventEntrypoint
-import net.bewis09.bewisclient.util.color.Color
-import net.bewis09.bewisclient.util.createIdentifier
+import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.createIdentifier
 import net.minecraft.network.chat.CommonComponents
-import net.bewis09.bewisclient.version.Identifier
-import net.bewis09.bewisclient.version.Util
+import net.bewis09.bewisclient.common.Identifier
+import net.bewis09.bewisclient.common.Util
 import net.bewis09.bewisclient.version.setScreen
 import org.lwjgl.glfw.GLFW
 import kotlin.io.encoding.Base64

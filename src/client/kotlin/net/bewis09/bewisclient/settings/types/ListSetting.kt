@@ -1,7 +1,7 @@
 package net.bewis09.bewisclient.settings.types
 
 import com.google.gson.JsonElement
-import net.bewis09.bewisclient.util.catch
+import net.bewis09.bewisclient.common.catch
 import net.bewis09.bewisclient.util.jsonArray
 import net.bewis09.bewisclient.settings.Settings
 

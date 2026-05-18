@@ -7,8 +7,8 @@ import net.bewis09.bewisclient.impl.pack.Modrinth
 import net.bewis09.bewisclient.impl.pack.PackListScreen
 import net.bewis09.bewisclient.impl.settings.functionalities.PackAdderSettings
 import net.bewis09.bewisclient.screen.RenderableScreen
-import net.bewis09.bewisclient.util.createIdentifier
-import net.bewis09.bewisclient.version.Identifier
+import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.version.setScreen
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.screens.Screen

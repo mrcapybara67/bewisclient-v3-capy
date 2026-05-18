@@ -1,6 +1,5 @@
-package net.bewis09.bewisclient.util
+package net.bewis09.bewisclient.common
 
-import net.bewis09.bewisclient.version.Identifier
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent

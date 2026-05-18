@@ -10,8 +10,8 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.settings.functionalities.HeldItemTooltipSettings
 import net.bewis09.bewisclient.interfaces.SettingInterface
-import net.bewis09.bewisclient.util.color.Color
-import net.bewis09.bewisclient.util.setColor
+import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.setColor
 import net.bewis09.bewisclient.version.Profiler
 import net.minecraft.core.component.DataComponents
 import net.minecraft.core.registries.BuiltInRegistries

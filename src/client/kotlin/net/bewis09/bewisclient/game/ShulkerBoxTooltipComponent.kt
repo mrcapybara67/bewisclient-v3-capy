@@ -2,11 +2,11 @@
 
 package net.bewis09.bewisclient.game
 
-import net.bewis09.bewisclient.version.TooltipComponentCallback
+import net.bewis09.bewisclient.common.TooltipComponentCallback
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.util.EventEntrypoint
-import net.bewis09.bewisclient.util.color.Color
-import net.bewis09.bewisclient.util.createIdentifier
+import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.version.GuiGraphics
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent

@@ -7,8 +7,8 @@ import net.bewis09.bewisclient.drawable.renderables.settings.InfoTextRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.impl.widget.CustomWidget
-import net.bewis09.bewisclient.util.setColor
-import net.bewis09.bewisclient.util.toText
+import net.bewis09.bewisclient.common.setColor
+import net.bewis09.bewisclient.common.toText
 
 class CustomWidgetHelpPopup(val screen: PopupScreen) : Renderable() {
     init {

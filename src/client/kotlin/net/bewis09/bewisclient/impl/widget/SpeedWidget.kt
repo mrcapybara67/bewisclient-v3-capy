@@ -1,5 +1,7 @@
 package net.bewis09.bewisclient.impl.widget
 
+import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.common.toText
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.util.*
 import net.bewis09.bewisclient.widget.logic.RelativePosition

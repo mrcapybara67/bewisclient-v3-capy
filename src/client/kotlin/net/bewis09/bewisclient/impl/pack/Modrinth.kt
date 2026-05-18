@@ -7,10 +7,10 @@ import net.bewis09.bewisclient.drawable.renderables.notification.NotificationMan
 import net.bewis09.bewisclient.drawable.renderables.notification.SimpleTextNotification
 import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.settings.Settings.Companion.gson
-import net.bewis09.bewisclient.util.createIdentifier
+import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.util.logic.BewisclientInterface
-import net.bewis09.bewisclient.version.Identifier
-import net.bewis09.bewisclient.version.name
+import net.bewis09.bewisclient.common.Identifier
+import net.bewis09.bewisclient.common.name
 import net.minecraft.SharedConstants
 import net.minecraft.network.chat.Component
 import org.apache.commons.io.output.ByteArrayOutputStream

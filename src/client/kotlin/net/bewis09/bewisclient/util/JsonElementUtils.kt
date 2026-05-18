@@ -1,6 +1,7 @@
 package net.bewis09.bewisclient.util
 
 import com.google.gson.*
+import net.bewis09.bewisclient.common.then
 
 fun JsonElement.number(): Number? {
     return (this.isJsonPrimitive && this.asJsonPrimitive.isNumber) then { this.asNumber }

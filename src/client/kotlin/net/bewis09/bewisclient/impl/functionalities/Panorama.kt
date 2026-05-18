@@ -22,11 +22,11 @@ import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.impl.settings.functionalities.PanoramaSettings
 import net.bewis09.bewisclient.impl.settings.functionalities.PanoramaSettings.path
 import net.bewis09.bewisclient.util.EventEntrypoint
-import net.bewis09.bewisclient.util.catch
-import net.bewis09.bewisclient.util.createIdentifier
-import net.bewis09.bewisclient.version.Identifier
-import net.bewis09.bewisclient.version.Util
-import net.bewis09.bewisclient.version.isAllowedInIdentifier
+import net.bewis09.bewisclient.common.catch
+import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.common.Identifier
+import net.bewis09.bewisclient.common.Util
+import net.bewis09.bewisclient.common.isAllowedInIdentifier
 import net.bewis09.bewisclient.version.takePanoramaFull
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.network.chat.Component

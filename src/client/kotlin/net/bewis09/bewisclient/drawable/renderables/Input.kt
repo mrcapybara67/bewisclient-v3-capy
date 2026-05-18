@@ -1,10 +1,10 @@
 package net.bewis09.bewisclient.drawable.renderables
 
-import net.bewis09.bewisclient.version.Identifier
+import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.util.color.Color
-import net.bewis09.bewisclient.util.toText
+import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.toText
 import org.lwjgl.glfw.GLFW
 
 class Input : Renderable {

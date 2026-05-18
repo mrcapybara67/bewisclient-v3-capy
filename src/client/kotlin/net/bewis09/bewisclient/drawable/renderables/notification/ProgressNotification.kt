@@ -3,7 +3,7 @@ package net.bewis09.bewisclient.drawable.renderables.notification
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
-import net.bewis09.bewisclient.util.color.Color
+import net.bewis09.bewisclient.common.Color
 import net.minecraft.network.chat.Component
 
 class ProgressNotification(val text: Component): Notification() {

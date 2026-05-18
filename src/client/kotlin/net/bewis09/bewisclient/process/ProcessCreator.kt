@@ -1,6 +1,6 @@
 package net.bewis09.bewisclient.process
 
-import net.bewis09.bewisclient.version.Util
+import net.bewis09.bewisclient.common.Util
 import java.io.File
 
 object ProcessCreator {

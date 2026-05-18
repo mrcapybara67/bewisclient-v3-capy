@@ -9,8 +9,8 @@ import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.renderable.popup.CustomWidgetHelpPopup
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.impl.widget.CustomWidget
-import net.bewis09.bewisclient.util.color.Color
-import net.bewis09.bewisclient.util.createIdentifier
+import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.createIdentifier
 
 class CustomWidgetLineRenderable : Renderable() {
     val addLine = Translation("widget.tiwyla_widget.add_line", "Add Line")

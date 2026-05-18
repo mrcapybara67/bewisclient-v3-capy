@@ -6,7 +6,7 @@ import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.interfaces.Gettable
-import net.bewis09.bewisclient.util.color.Color
+import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.util.color.ColorSaver
 
 class ColorInfoButton(val state: Gettable<ColorSaver>, val onChange: (ColorSaver) -> Unit, val types: Array<String>) : TooltipHoverable(Translations.CHANGE_COLOR(), 160, 14) {

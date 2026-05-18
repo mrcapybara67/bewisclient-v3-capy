@@ -11,7 +11,7 @@ import net.bewis09.bewisclient.impl.renderable.TiwylaLinesSettingsRenderable
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.impl.widget.TiwylaWidget
 import net.bewis09.bewisclient.settings.types.ListSetting
-import net.bewis09.bewisclient.util.color.color
+import net.bewis09.bewisclient.common.color
 
 class TiwylaLinesSettingsPopup<T>(
     val setting: ListSetting<TiwylaWidget.Information<T>>, val options: List<TiwylaWidget.Information.Line<T>>, val yIndex: Int, val left: Boolean

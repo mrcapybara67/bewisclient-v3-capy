@@ -5,7 +5,7 @@ import net.bewis09.bewisclient.drawable.Animator
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.pushAlpha
-import net.bewis09.bewisclient.util.color.Color
+import net.bewis09.bewisclient.common.Color
 import org.lwjgl.glfw.GLFW
 
 abstract class PopupScreen : Renderable() {

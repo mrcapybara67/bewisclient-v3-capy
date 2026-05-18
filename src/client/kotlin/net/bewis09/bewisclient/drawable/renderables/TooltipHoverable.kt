@@ -4,7 +4,7 @@ import net.bewis09.bewisclient.core.translateToTopOptional
 import net.bewis09.bewisclient.drawable.Animator
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.util.color.Color
+import net.bewis09.bewisclient.common.Color
 import net.minecraft.network.chat.Component
 
 open class TooltipHoverable(

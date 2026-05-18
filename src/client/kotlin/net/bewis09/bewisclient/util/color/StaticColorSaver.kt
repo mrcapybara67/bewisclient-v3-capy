@@ -2,6 +2,8 @@ package net.bewis09.bewisclient.util.color
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
+import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.*
@@ -10,7 +12,7 @@ import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.util.number.Precision
 import net.bewis09.bewisclient.util.string
-import net.bewis09.bewisclient.util.toText
+import net.bewis09.bewisclient.common.toText
 import net.minecraft.network.chat.Component
 
 open class StaticColorSaver : ColorSaver {

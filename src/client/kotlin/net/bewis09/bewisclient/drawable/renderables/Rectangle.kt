@@ -2,7 +2,7 @@ package net.bewis09.bewisclient.drawable.renderables
 
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.util.color.Color
+import net.bewis09.bewisclient.common.Color
 
 class Rectangle(var color: () -> Color) : Renderable() {
     constructor(color: Color) : this({ color })

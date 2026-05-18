@@ -7,12 +7,12 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.widget.TiwylaWidget
 import net.bewis09.bewisclient.interfaces.SettingInterface
-import net.bewis09.bewisclient.util.color.Color
-import net.bewis09.bewisclient.util.color.alpha
-import net.bewis09.bewisclient.util.createIdentifier
-import net.bewis09.bewisclient.util.getOrNull
-import net.bewis09.bewisclient.util.snake_toCamelCase
-import net.bewis09.bewisclient.util.staticFun
+import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.alpha
+import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.common.getOrNull
+import net.bewis09.bewisclient.common.snake_toCamelCase
+import net.bewis09.bewisclient.common.staticFun
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.chat.Component
 

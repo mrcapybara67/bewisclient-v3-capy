@@ -2,7 +2,16 @@ package net.bewis09.bewisclient.impl.widget
 
 import com.google.gson.*
 import net.bewis09.bewisclient.api.APIEntrypointLoader
-import net.bewis09.bewisclient.version.Identifier
+import net.bewis09.bewisclient.common.blockId
+import net.bewis09.bewisclient.common.entityId
+import net.bewis09.bewisclient.common.setColor
+import net.bewis09.bewisclient.common.toText
+import net.bewis09.bewisclient.common.Identifier
+import net.bewis09.bewisclient.common.catch
+import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.common.getOrNull
+import net.bewis09.bewisclient.common.snake_toCamelCase
+import net.bewis09.bewisclient.common.`snake_toWord With Spaces`
 import net.bewis09.bewisclient.core.setFont
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
@@ -13,7 +22,7 @@ import net.bewis09.bewisclient.impl.renderable.TiwylaInfoSettingsRenderable
 import net.bewis09.bewisclient.impl.renderable.TiwylaLinesSettingsRenderable
 import net.bewis09.bewisclient.impl.settings.DefaultWidgetSettings
 import net.bewis09.bewisclient.util.*
-import net.bewis09.bewisclient.util.color.color
+import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.settings.types.BooleanMapSetting
 import net.bewis09.bewisclient.settings.types.ListSetting
 import net.bewis09.bewisclient.widget.logic.SidedPosition

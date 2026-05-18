@@ -1,6 +1,6 @@
 package net.bewis09.bewisclient.impl
 
-import net.bewis09.bewisclient.version.Util
+import net.bewis09.bewisclient.common.Util
 import net.bewis09.bewisclient.data.Constants
 import net.bewis09.bewisclient.drawable.Animator
 import net.bewis09.bewisclient.drawable.renderables.ThemeButton
@@ -10,9 +10,9 @@ import net.bewis09.bewisclient.drawable.renderables.settings.SettingRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
-import net.bewis09.bewisclient.util.color.Color
-import net.bewis09.bewisclient.util.color.alpha
-import net.bewis09.bewisclient.util.createIdentifier
+import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.alpha
+import net.bewis09.bewisclient.common.createIdentifier
 import kotlin.math.roundToInt
 
 object Contact : SidebarCategory(

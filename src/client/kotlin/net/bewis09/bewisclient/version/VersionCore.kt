@@ -3,8 +3,8 @@
 package net.bewis09.bewisclient.version
 
 import com.mojang.blaze3d.platform.InputConstants
+import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.minecraft.WorldVersion
 import net.minecraft.client.KeyMapping
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
@@ -12,7 +12,6 @@ import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.model.geom.ModelLayers
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceKey
 import net.minecraft.world.item.ItemStack
 import java.io.File
 
@@ -47,7 +46,7 @@ fun setScreen(screen: Screen?) = Minecraft.getInstance()./*[@]*/gui.setScreen/*[
 fun getScreen() = Minecraft.getInstance()./*[@]*/gui.screen()/*[!@]*/
 
 // @[1.21.11] net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper.registerKeyBinding @[] net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper.registerKeyMapping
-fun registerKeyBinding(keyMapping: KeyMapping) = /*[@]*/net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper.registerKeyMapping/*[!@]*/(keyMapping)!!
+fun registerKeyBinding(keyMapping: KeyMapping) = /*[@]*/net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper.registerKeyMapping/*[!@]*/(keyMapping)
 
 fun GuiGraphics.string(font: Font, text: Component, x: Int, y: Int, color: Int, shadow: Boolean) {
     // @[1.21.11] drawString @[] text
@@ -58,10 +57,6 @@ fun GuiGraphics.drawItem(itemStack: ItemStack, x: Int, y: Int) {
     // @[1.21.11] renderItem @[] item
     this./*[@]*/item/*[!@]*/(itemStack, x, y)
 }
-
-val WorldVersion.name: String
-    // @[1.21.5] name @[] name()
-    get() = this./*[@]*/name()/*[!@]*/
 
 object Profiler {
     // @[1.21.1] Minecraft.getInstance().profiler @[] net.minecraft.util.profiling.Profiler.get()
@@ -78,12 +73,6 @@ fun Minecraft.isKeyPressed(key: Int): Boolean {
 
 // @[1.21.5] , 1024, 1024) @[] )
 fun Minecraft.takePanoramaFull(file: File): Component = this.grabPanoramixScreenshot(file/*[@]*/)/*[!@]*/
-
-// @[1.21.10] isAllowedInResourceLocation @[] isAllowedInIdentifier
-fun isAllowedInIdentifier(char: Char) = Identifier./*[@]*/isAllowedInIdentifier/*[!@]*/(char)
-
-// @[1.21.10] location() @[] identifier()
-fun <T: Any> ResourceKey<T>.id(): Identifier = this./*[@]*/identifier()/*[!@]*/
 
 // @[1.21.8] Unit @[] guiGraphics.requestCursor(com.mojang.blaze3d.platform.cursor.CursorTypes.POINTING_HAND)
 fun ScreenDrawing.setCursorPointer() = /*[@]*/guiGraphics.requestCursor(com.mojang.blaze3d.platform.cursor.CursorTypes.POINTING_HAND)/*[!@]*/

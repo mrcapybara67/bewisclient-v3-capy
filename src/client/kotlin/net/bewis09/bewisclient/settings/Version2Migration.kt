@@ -2,6 +2,7 @@ package net.bewis09.bewisclient.settings
 
 import com.google.gson.Gson
 import com.google.gson.JsonElement
+import net.bewis09.bewisclient.common.catchAndPrint
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.impl.settings.functionalities.*
 import net.bewis09.bewisclient.impl.widget.*
@@ -10,7 +11,7 @@ import net.bewis09.bewisclient.util.*
 import net.bewis09.bewisclient.util.color.ChangingColorSaver
 import net.bewis09.bewisclient.util.color.ColorSaver
 import net.bewis09.bewisclient.util.color.StaticColorSaver
-import net.bewis09.bewisclient.util.color.color
+import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.util.logic.BewisclientInterface
 
 object Version2Migration : BewisclientInterface {

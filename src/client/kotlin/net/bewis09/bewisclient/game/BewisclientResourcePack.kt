@@ -2,10 +2,10 @@ package net.bewis09.bewisclient.game
 
 import net.bewis09.bewisclient.api.APIEntrypointLoader
 import net.bewis09.bewisclient.drawable.Translations
-import net.bewis09.bewisclient.util.createIdentifier
+import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.util.logic.BewisclientInterface
-import net.bewis09.bewisclient.version.Identifier
-import net.bewis09.bewisclient.version.IndependentResourceMetadataSerializer
+import net.bewis09.bewisclient.common.Identifier
+import net.bewis09.bewisclient.common.IndependentResourceMetadataSerializer
 import net.minecraft.server.packs.PackLocationInfo
 import net.minecraft.server.packs.PackResources
 import net.minecraft.server.packs.PackType

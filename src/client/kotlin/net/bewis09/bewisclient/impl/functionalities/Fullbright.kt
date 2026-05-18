@@ -7,9 +7,9 @@ import net.bewis09.bewisclient.game.Keybind
 import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.impl.settings.functionalities.FullbrightSettings
-import net.bewis09.bewisclient.util.color.color
-import net.bewis09.bewisclient.util.color.within
-import net.bewis09.bewisclient.util.setColor
+import net.bewis09.bewisclient.common.color
+import net.bewis09.bewisclient.common.within
+import net.bewis09.bewisclient.common.setColor
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import org.lwjgl.glfw.GLFW

@@ -1,6 +1,5 @@
 package net.bewis09.bewisclient.impl.widget
 
-import net.bewis09.bewisclient.version.name
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
@@ -8,10 +7,11 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.impl.settings.DefaultWidgetSettings
 import net.bewis09.bewisclient.impl.widget.InventoryWidget.indicatorText
-import net.bewis09.bewisclient.util.color.Color
-import net.bewis09.bewisclient.util.createIdentifier
-import net.bewis09.bewisclient.util.staticFun
-import net.bewis09.bewisclient.util.toText
+import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.common.name
+import net.bewis09.bewisclient.common.staticFun
+import net.bewis09.bewisclient.common.toText
 import net.bewis09.bewisclient.widget.logic.RelativePosition
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
 import net.bewis09.bewisclient.widget.types.ScalableWidget

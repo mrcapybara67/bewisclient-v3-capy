@@ -2,6 +2,7 @@ package net.bewis09.bewisclient.util.color
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
+import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.*
@@ -10,7 +11,7 @@ import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.util.float
 import net.bewis09.bewisclient.util.number.Precision
-import net.bewis09.bewisclient.util.then
+import net.bewis09.bewisclient.common.then
 
 class ThemeColorSaver : ColorSaver {
     val brightness: Float?

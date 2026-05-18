@@ -13,7 +13,7 @@ import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuick
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
-import net.bewis09.bewisclient.util.createIdentifier
+import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.util.logic.BewisclientInterface
 import net.bewis09.bewisclient.widget.WidgetLoader
 

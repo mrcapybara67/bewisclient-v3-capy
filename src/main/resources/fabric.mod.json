@@ -21,6 +21,12 @@
         "adapter": "kotlin"
       }
     ],
+    "main": [
+      {
+        "value": "net.bewis09.bewisclient.server.BewisclientServer",
+        "adapter": "kotlin"
+      }
+    ],
     "fabric-datagen": [
       {
         "value": "net.bewis09.bewisclient.util.BewisclientDataGenerator",

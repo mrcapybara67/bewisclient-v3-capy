@@ -5,8 +5,8 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.transform
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.interfaces.Gettable
-import net.bewis09.bewisclient.util.color.color
-import net.bewis09.bewisclient.util.color.within
+import net.bewis09.bewisclient.common.color
+import net.bewis09.bewisclient.common.within
 import kotlin.math.abs
 
 class Switch(var state: Gettable<Boolean>, val onChange: (new: Boolean) -> Unit) : Hoverable(24, 12) {

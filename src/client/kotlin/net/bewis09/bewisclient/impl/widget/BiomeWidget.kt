@@ -2,11 +2,15 @@ package net.bewis09.bewisclient.impl.widget
 
 import com.google.gson.Gson
 import com.google.gson.JsonElement
-import net.bewis09.bewisclient.version.id
+import net.bewis09.bewisclient.common.setColor
+import net.bewis09.bewisclient.common.toText
+import net.bewis09.bewisclient.common.id
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.util.*
-import net.bewis09.bewisclient.version.Identifier
+import net.bewis09.bewisclient.common.Identifier
+import net.bewis09.bewisclient.common.catch
+import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.widget.logic.SidedPosition
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
 import net.bewis09.bewisclient.widget.types.LineWidget

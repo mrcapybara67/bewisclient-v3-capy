@@ -49,6 +49,10 @@ tasks.register("replaceVersionDependentSources") {
         include "**/*.java", "**/*.kt"
     }.files
 
+    files.addAll(layout.projectDirectory.dir("src/main").asFileTree.matching {
+        include "**/*.java", "**/*.kt"
+    }.files)
+
     files.each {
         def mcVersion = project.property("like_version_" + project.minecraft_version.replace('.', '_'))
 

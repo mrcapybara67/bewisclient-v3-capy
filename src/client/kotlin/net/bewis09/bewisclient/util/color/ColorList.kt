@@ -1,5 +1,7 @@
 package net.bewis09.bewisclient.util.color
 
+import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.game.Translation
 
 val colors = listOf(
