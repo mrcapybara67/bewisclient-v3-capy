@@ -1,4 +1,4 @@
-package net.bewis09.bewisclient.core.mixin;
+package net.bewis09.bewisclient.cwore.mixin;
 
 import net.bewis09.bewisclient.impl.functionalities.HeldItemTooltip;
 import net.bewis09.bewisclient.impl.widget.InventoryWidget;

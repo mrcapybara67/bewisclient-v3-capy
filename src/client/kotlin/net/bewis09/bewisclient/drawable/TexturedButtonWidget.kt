@@ -20,7 +20,7 @@ open class TexturedButtonWidget(x: Int, y: Int, width: Int, height: Int, val nor
     constructor(x: Int, y: Int, width: Int, height: Int, normalTexture: Identifier, selectedTexture: Identifier, pressAction: OnPress) : this(x, y, width, height, normalTexture, selectedTexture, pressAction, null)
 
     // @[1.21.10] renderWidget @[1.21.11] renderContents @[] extractContents
-    override fun /*[@]*/renderWidget/*[!@]*/(context: GuiGraphics, mouseX: Int, mouseY: Int, deltaTicks: Float) {
+    override fun /*[@]*/extractContents/*[!@]*/(context: GuiGraphics, mouseX: Int, mouseY: Int, deltaTicks: Float) {
         ScreenDrawing(context, client.font).drawTexture(if(this.isHovered) selectedTexture else normalTexture, this.x, this.y, 0f, 0f, this.width, this.height, this.width, this.height, (0xFFFFFF alpha this.alpha))
         text?.let { ScreenDrawing(context, client.font).drawCenteredText(text, this.x + this.width / 2, this.y + 5, Color.WHITE) }
     }

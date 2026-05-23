@@ -5,7 +5,6 @@
   "client": [
     "EquippableComponentMixin",
     "FogRendererMixin",
-    "GameRendererMixin",
     "ItemStackMixin",
     "LightmapTextureManagerMixin",
     "PackScreenMixin",

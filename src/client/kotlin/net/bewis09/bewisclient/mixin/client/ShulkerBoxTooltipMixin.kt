@@ -24,7 +24,7 @@ class ShulkerBoxTooltipMixin(settings: Properties) : Item(settings) {
         val component: ItemContainerContents = stack.get<ItemContainerContents>(DataComponents.CONTAINER) ?: return super.getTooltipImage(stack)
 
         // @[1.21.11] stream @[] allItemsCopyStream
-        val array = component./*[@]*/stream/*[!@]*/().toArray { arrayOfNulls<ItemStack>(it) }.mapNotNull { it }.toTypedArray()
+        val array = component./*[@]*/allItemsCopyStream/*[!@]*/().toArray { arrayOfNulls<ItemStack>(it) }.mapNotNull { it }.toTypedArray()
 
         val color = block.color ?: return Optional.ofNullable<TooltipComponent?>(ShulkerBoxTooltipComponent.of(null, array))
 

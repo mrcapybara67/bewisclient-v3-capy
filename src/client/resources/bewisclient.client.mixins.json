@@ -18,7 +18,8 @@
     "PauseScreenButtonInjectorMixin",
     "BlurrinessInjectorMixin",
     "OverlayTextureChangerMixin",
-    "MouseMixin"
+    "MouseMixin",
+    "ZoomMixin"
   ],
   "injectors": {
     "defaultRequire": 1

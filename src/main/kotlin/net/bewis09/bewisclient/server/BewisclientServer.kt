@@ -11,9 +11,9 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 object BewisclientServer: ModInitializer {
     override fun onInitialize() {
         // @[1.21.11] playS2C @[] clientboundPlay
-        PayloadTypeRegistry./*[@]*/playS2C/*[!@]*/().register(ClientboundCosmeticPayload.TYPE, ClientboundCosmeticPayload.CODEC)
+        PayloadTypeRegistry./*[@]*/clientboundPlay/*[!@]*/().register(ClientboundCosmeticPayload.TYPE, ClientboundCosmeticPayload.CODEC)
         // @[1.21.11] playC2S @[] serverboundPlay
-        PayloadTypeRegistry./*[@]*/playC2S/*[!@]*/().register(ServerboundCosmeticPayload.TYPE, ServerboundCosmeticPayload.CODEC)
+        PayloadTypeRegistry./*[@]*/serverboundPlay/*[!@]*/().register(ServerboundCosmeticPayload.TYPE, ServerboundCosmeticPayload.CODEC)
 
         ServerPlayNetworking.registerGlobalReceiver(ServerboundCosmeticPayload.TYPE) { payload: ServerboundCosmeticPayload, context: ServerPlayNetworking.Context ->
 
