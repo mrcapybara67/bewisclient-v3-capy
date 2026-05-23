@@ -409,5 +409,6 @@
   "bewisclient.widget.tiwyla_widget.tool.pickaxe": "Pickaxe",
   "bewisclient.widget.tiwyla_widget.tool.shovel": "Shovel",
   "bewisclient.widget.tiwyla_widget.tool.sword": "Sword",
-  "bewisclient.widget.tiwyla_widget.unbreakable": "Unbreakable"
+  "bewisclient.widget.tiwyla_widget.unbreakable": "Unbreakable",
+  "key.category.bewisclient.category": "Bewisclient"
 }

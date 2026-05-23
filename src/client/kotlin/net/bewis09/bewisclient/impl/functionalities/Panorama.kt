@@ -27,6 +27,7 @@ import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.Util
 import net.bewis09.bewisclient.common.isAllowedInIdentifier
+import net.bewis09.bewisclient.version.registerTexture
 import net.bewis09.bewisclient.version.takePanoramaFull
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.network.chat.Component

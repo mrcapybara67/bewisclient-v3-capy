@@ -1,7 +1,6 @@
 package net.bewis09.bewisclient.impl.screenshot
 
 import com.mojang.blaze3d.platform.NativeImage
-import net.bewis09.bewisclient.core.registerTexture
 import net.bewis09.bewisclient.version.setScreen
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.Translations
@@ -30,6 +29,7 @@ import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.then
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.Util
+import net.bewis09.bewisclient.version.registerTexture
 import net.minecraft.client.Minecraft
 import java.io.ByteArrayInputStream
 import java.io.File

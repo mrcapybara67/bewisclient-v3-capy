@@ -1,9 +1,9 @@
 package net.bewis09.bewisclient.core.mixin;
 
-import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.bewis09.bewisclient.impl.BetterVisibilityImpl;
+import net.bewis09.bewisclient.impl.FogData;
 import net.bewis09.bewisclient.impl.settings.functionalities.BetterVisibilitySettings;
-import net.bewis09.bewisclient.util.MathHelper;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.world.entity.Entity;
@@ -23,40 +23,28 @@ public abstract class BackgroundRendererMixin {
         return null;
     }
 
-    @Inject(method = "setupFog", at = @At("HEAD"), cancellable = true)
-    private static void bewisclient$applyFog(Camera camera, FogRenderer.FogMode fogMode, float viewDistance, boolean thickenFog, float tickDelta, CallbackInfo cir) {
+    @Inject(method = "setupFog", at = @At("RETURN"))
+    private static void bewisclient$applyFog(Camera camera, FogRenderer.FogMode fogMode, float viewDistance, boolean thickenFog, float tickDelta, CallbackInfo ci) {
         if(!BetterVisibilitySettings.INSTANCE.getEnabled().get()) return;
 
         FogType cameraSubmersionType = camera.getFluidInCamera();
-        Entity entity = camera.getEntity();
-        FogRenderer.MobEffectFogFunction statusEffectFogModifier = getPriorityFogFunction(entity, tickDelta);
+        FogData fogData = new FogData(RenderSystem.getShaderFogStart(), RenderSystem.getShaderFogEnd());
 
         if (cameraSubmersionType == FogType.LAVA) {
-            if (entity.isSpectator() || !BetterVisibilitySettings.INSTANCE.getLava().get()) return;
-            RenderSystem.setShaderFogStart(-8f);
-            RenderSystem.setShaderFogEnd(16f);
-            RenderSystem.setShaderFogShape(FogShape.SPHERE);
+            BetterVisibilityImpl.INSTANCE.applyFogModifier("lava", fogData, viewDistance);
         } else if (cameraSubmersionType == FogType.POWDER_SNOW) {
-            if (!BetterVisibilitySettings.INSTANCE.getPowder_snow().get()) return;
-            RenderSystem.setShaderFogStart(-8f);
-            RenderSystem.setShaderFogEnd(8f);
-            RenderSystem.setShaderFogShape(FogShape.SPHERE);
-        } else if (statusEffectFogModifier != null) {
+            BetterVisibilityImpl.INSTANCE.applyFogModifier("powder_snow", fogData, viewDistance);
+        } else if (getPriorityFogFunction(camera.getEntity(), tickDelta) != null) {
             return;
         } else if (cameraSubmersionType == FogType.WATER) {
-            if (!BetterVisibilitySettings.INSTANCE.getWater().get()) return;
-            RenderSystem.setShaderFogStart(-8f);
-            RenderSystem.setShaderFogEnd(viewDistance);
-            RenderSystem.setShaderFogShape(FogShape.SPHERE);
+            BetterVisibilityImpl.INSTANCE.applyFogModifier("water", fogData, viewDistance);
         } else if (thickenFog) {
-            if (!BetterVisibilitySettings.INSTANCE.getNether().get()) return;
-            RenderSystem.setShaderFogStart(viewDistance * 2 - MathHelper.INSTANCE.clamp(viewDistance / 10.0f, 4.0f, 64.0f));
-            RenderSystem.setShaderFogEnd(viewDistance * 2);
-            RenderSystem.setShaderFogShape(FogShape.SPHERE);
+            BetterVisibilityImpl.INSTANCE.applyFogModifier("atmospheric", fogData, viewDistance);
         } else {
             return;
         }
 
-        cir.cancel();
+        RenderSystem.setShaderFogStart(fogData.getEnvironmentalStart());
+        RenderSystem.setShaderFogEnd(fogData.getEnvironmentalEnd());
     }
 }

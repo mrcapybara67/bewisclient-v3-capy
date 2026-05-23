@@ -2,7 +2,7 @@
 
 package net.bewis09.bewisclient.game
 
-import net.bewis09.bewisclient.common.TooltipComponentCallback
+import net.bewis09.bewisclient.version.TooltipComponentCallback
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.common.Color
@@ -16,7 +16,7 @@ import kotlin.collections.all
 
 class ShulkerBoxTooltipComponent(val data: Data) : ClientTooltipComponent {
     // @[1.21.1] () @[] (textRenderer: Font)
-    override fun getHeight/*[@]*/(textRenderer: Font)/*[!@]*/: Int {
+    override fun getHeight/*[@]*/()/*[!@]*/: Int {
         return getHeightDef()
     }
 
@@ -27,7 +27,7 @@ class ShulkerBoxTooltipComponent(val data: Data) : ClientTooltipComponent {
     fun getHeightDef(): Int = 77
 
     // @[1.21.1] renderImage(textRenderer: Font, x: Int, y: Int @[1.21.11] renderImage(textRenderer: Font, x: Int, y: Int, width: Int, height: Int @[] extractImage(textRenderer: Font, x: Int, y: Int, width: Int, height: Int
-    override fun /*[@]*/extractImage(textRenderer: Font, x: Int, y: Int, width: Int, height: Int/*[!@]*/, context: GuiGraphics) {
+    override fun /*[@]*/renderImage(textRenderer: Font, x: Int, y: Int/*[!@]*/, context: GuiGraphics) {
         val screenDrawing = ScreenDrawing(context, textRenderer)
 
         screenDrawing.fill(x + 1, y + 1, getWidth(screenDrawing.textRenderer) - 2, getHeightDef() - 7, data.color * 0xC3C3C3)

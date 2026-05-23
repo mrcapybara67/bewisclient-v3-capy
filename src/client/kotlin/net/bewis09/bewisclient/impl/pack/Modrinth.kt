@@ -11,6 +11,7 @@ import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.util.logic.BewisclientInterface
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.name
+import net.bewis09.bewisclient.version.registerTexture
 import net.minecraft.SharedConstants
 import net.minecraft.network.chat.Component
 import org.apache.commons.io.output.ByteArrayOutputStream

@@ -1,7 +1,7 @@
 package net.bewis09.bewisclient.drawable.screen_drawing
 
 import net.bewis09.bewisclient.version.drawItem
-import net.bewis09.bewisclient.core.drawItemOverlay
+import net.bewis09.bewisclient.version.drawItemOverlay
 import net.minecraft.world.item.ItemStack
 
 interface ItemDrawing : ScreenDrawingInterface {

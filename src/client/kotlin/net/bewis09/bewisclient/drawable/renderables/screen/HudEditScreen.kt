@@ -1,6 +1,5 @@
 package net.bewis09.bewisclient.drawable.renderables.screen
 
-import net.bewis09.bewisclient.core.translateToTopOptional
 import net.bewis09.bewisclient.drawable.SettingStructure
 import net.bewis09.bewisclient.drawable.renderables.ImageButton
 import net.bewis09.bewisclient.drawable.renderables.popup.AddWidgetPopup
@@ -23,6 +22,7 @@ import net.bewis09.bewisclient.widget.types.ScalableWidget
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.version.isKeyPressed
 import net.bewis09.bewisclient.version.setScreen
+import net.bewis09.bewisclient.version.translateToTopOptional
 import org.lwjgl.glfw.GLFW
 import kotlin.math.abs
 

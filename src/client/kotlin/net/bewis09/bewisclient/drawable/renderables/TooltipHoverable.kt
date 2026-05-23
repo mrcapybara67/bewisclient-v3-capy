@@ -1,10 +1,10 @@
 package net.bewis09.bewisclient.drawable.renderables
 
-import net.bewis09.bewisclient.core.translateToTopOptional
 import net.bewis09.bewisclient.drawable.Animator
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.version.translateToTopOptional
 import net.minecraft.network.chat.Component
 
 open class TooltipHoverable(

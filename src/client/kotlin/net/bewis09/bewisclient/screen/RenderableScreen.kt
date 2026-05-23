@@ -1,7 +1,7 @@
 package net.bewis09.bewisclient.screen
 
 import net.bewis09.bewisclient.version.GuiGraphics
-import net.bewis09.bewisclient.core.IndependentScreen
+import net.bewis09.bewisclient.drawable.IndependentScreen
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.notification.NotificationManager
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
@@ -28,20 +28,19 @@ class RenderableScreen(val renderable: Renderable) : IndependentScreen("".toText
         renderable(0, 0, width, height)
     }
 
-    override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int, deltaTicks: Float) {
+    override fun render(context: GuiGraphics, mouseX: Int, mouseY: Int) {
         renderIndependentBackground(context, mouseX, mouseY, deltaTicks)
-        this.deltaTicks = deltaTicks
         val screenDrawing = ScreenDrawing(context, font)
         renderable.render(screenDrawing, mouseX, mouseY)
         screenDrawing.runAfterDraw()
         NotificationManager.renderNotifications(screenDrawing, mouseX, mouseY)
     }
 
-    override fun renderMenuBackground(guiGraphics: GuiGraphics, x: Int, y: Int, width: Int, height: Int) {
+    override fun renderBackground(guiGraphics: GuiGraphics, x: Int, y: Int, width: Int, height: Int) {
         if (renderable is BackgroundEffectProvider) {
             guiGraphics.fill(x, y, x + width, y + height, 0x000000 or (renderable.getBackgroundEffectFactor() * 64).toInt() shl 24)
         } else {
-            super.renderMenuBackground(guiGraphics, x, y, width, height)
+            super.renderBackground(guiGraphics, x, y, width, height)
         }
     }
 

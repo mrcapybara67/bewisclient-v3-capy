@@ -1,6 +1,6 @@
 package net.bewis09.bewisclient.drawable.screen_drawing
 
-import net.bewis09.bewisclient.core.setFont
+import net.bewis09.bewisclient.version.setFont
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.common.toText

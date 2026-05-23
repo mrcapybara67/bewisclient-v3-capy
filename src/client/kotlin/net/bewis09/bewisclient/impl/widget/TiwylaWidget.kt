@@ -12,7 +12,7 @@ import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.getOrNull
 import net.bewis09.bewisclient.common.snake_toCamelCase
 import net.bewis09.bewisclient.common.`snake_toWord With Spaces`
-import net.bewis09.bewisclient.core.setFont
+import net.bewis09.bewisclient.version.setFont
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.drawable.renderables.settings.InfoTextRenderable

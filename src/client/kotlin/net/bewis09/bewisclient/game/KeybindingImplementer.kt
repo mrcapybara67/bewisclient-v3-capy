@@ -1,13 +1,21 @@
 package net.bewis09.bewisclient.game
 
 import net.bewis09.bewisclient.api.APIEntrypointLoader
+import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.version.registerKeyBinding
 import net.bewis09.bewisclient.impl.functionalities.Perspective
 import net.bewis09.bewisclient.util.EventEntrypoint
+import net.bewis09.bewisclient.version.createCategory
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.minecraft.client.Minecraft
 
 object KeybindingImplementer : EventEntrypoint {
+    init {
+        Translation("key.category.bewisclient", "category", "Bewisclient")
+    }
+
+    val category = createCategory(createIdentifier("bewisclient", "category"))
+
     override fun onInitializeClient() {
         val keybinds = APIEntrypointLoader.mapEntrypoint { it.getKeybinds() }.flatten()
 

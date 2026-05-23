@@ -1,6 +1,5 @@
 package net.bewis09.bewisclient.cosmetics.drawable
 
-import net.bewis09.bewisclient.core.drawCape
 import net.bewis09.bewisclient.cosmetics.Cosmetic
 import net.bewis09.bewisclient.cosmetics.CosmeticIdentifier
 import net.bewis09.bewisclient.cosmetics.CosmeticLoader
@@ -13,6 +12,7 @@ import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.within
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.`snake_toWord With Spaces`
+import net.bewis09.bewisclient.version.drawCape
 
 class SelectCapeElement(val identifier: CosmeticIdentifier, val cosmetic: Cosmetic) : Hoverable() {
     val selected = Animator(200, Animator.EASE_IN_OUT, 0f)

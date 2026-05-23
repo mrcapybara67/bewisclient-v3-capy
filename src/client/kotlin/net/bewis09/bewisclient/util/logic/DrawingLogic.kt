@@ -2,7 +2,7 @@ package net.bewis09.bewisclient.util.logic
 
 import com.mojang.blaze3d.platform.NativeImage
 import net.bewis09.bewisclient.common.Identifier
-import net.bewis09.bewisclient.core.registerTexture
+import net.bewis09.bewisclient.version.registerTexture
 import net.minecraft.client.Minecraft
 import java.awt.image.BufferedImage
 import java.io.*

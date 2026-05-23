@@ -1,7 +1,6 @@
 package net.bewis09.bewisclient.core.mixin;
 
-import net.bewis09.bewisclient.core.features.BetterVisibility;
-import net.bewis09.bewisclient.impl.settings.functionalities.BetterVisibilitySettings;
+import net.bewis09.bewisclient.impl.BetterVisibilityImpl;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.fog.FogData;
@@ -17,9 +16,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class FogRendererMixin {
     @Redirect(method = "setupFog", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/fog/environment/FogEnvironment;setupFog(Lnet/minecraft/client/renderer/fog/FogData;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/core/BlockPos;Lnet/minecraft/client/multiplayer/ClientLevel;FLnet/minecraft/client/DeltaTracker;)V"))
     private static void bewisclient$applyFog(FogEnvironment instance, FogData fogData, Entity entity, BlockPos blockPos, ClientLevel clientWorld, float v, DeltaTracker renderTickCounter) {
-        if (BetterVisibilitySettings.INSTANCE.isEnabled())
-            BetterVisibility.INSTANCE.applyFogModifier(instance, fogData, entity, blockPos, clientWorld, v, renderTickCounter);
-        else
-            instance.setupFog(fogData, entity, blockPos, clientWorld, v, renderTickCounter);
+        instance.setupFog(fogData, entity, blockPos, clientWorld, v, renderTickCounter);
+        BetterVisibilityImpl.INSTANCE.applyFogModifier(instance.getClass(), fogData, v);
     }
 }

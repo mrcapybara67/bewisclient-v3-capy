@@ -1,7 +1,6 @@
 package net.bewis09.bewisclient.impl.functionalities
 
-import net.bewis09.bewisclient.core.appendTooltip
-import net.bewis09.bewisclient.core.getItemFormattedName
+import net.bewis09.bewisclient.version.appendTooltip
 import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.options_structure.ImageSettingCategory
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
@@ -13,6 +12,7 @@ import net.bewis09.bewisclient.interfaces.SettingInterface
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.setColor
 import net.bewis09.bewisclient.version.Profiler
+import net.bewis09.bewisclient.version.getItemFormattedName
 import net.minecraft.core.component.DataComponents
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.chat.Component

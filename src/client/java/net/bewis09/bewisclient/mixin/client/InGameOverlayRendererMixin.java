@@ -11,10 +11,10 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(ScreenEffectRenderer.class)
 public class InGameOverlayRendererMixin {
     // @[26.1] "renderFire" @[] "lambda$submitFire$0"
-    @ModifyArg(method = /*[@]*/"lambda$submitFire$0"/*[!@]*/, at = @At(
+    @ModifyArg(method = /*[@]*/"renderFire"/*[!@]*/, at = @At(
             value = "INVOKE",
             // @[26.1] "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V" @[] "Lorg/joml/Matrix4f;translate(FFF)Lorg/joml/Matrix4f;"
-            target = /*[@]*/"Lorg/joml/Matrix4f;translate(FFF)Lorg/joml/Matrix4f;"/*[!@]*/
+            target = /*[@]*/"Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V"/*[!@]*/
     ), index = 1)
     private static float modifyTranslateY(float y) {
         if (!FireHeightSettings.INSTANCE.isEnabled()) return y;
