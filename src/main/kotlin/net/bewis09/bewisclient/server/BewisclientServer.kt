@@ -9,14 +9,25 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 
 object BewisclientServer: ModInitializer {
+    var publicKey: ByteArray? = null
+
     override fun onInitialize() {
-        // @[1.21.11] playS2C @[] clientboundPlay
-        PayloadTypeRegistry./*[@]*/clientboundPlay/*[!@]*/().register(ClientboundCosmeticPayload.TYPE, ClientboundCosmeticPayload.CODEC)
-        // @[1.21.11] playC2S @[] serverboundPlay
-        PayloadTypeRegistry./*[@]*/serverboundPlay/*[!@]*/().register(ServerboundCosmeticPayload.TYPE, ServerboundCosmeticPayload.CODEC)
+        registerPayloads()
+        loadPublicKey()
 
         ServerPlayNetworking.registerGlobalReceiver(ServerboundCosmeticPayload.TYPE) { payload: ServerboundCosmeticPayload, context: ServerPlayNetworking.Context ->
 
         }
+    }
+
+    fun loadPublicKey() {
+        val
+    }
+
+    fun registerPayloads() {
+        // @[1.21.11] playS2C @[] clientboundPlay
+        PayloadTypeRegistry./*[@]*/clientboundPlay/*[!@]*/().register(ClientboundCosmeticPayload.TYPE, ClientboundCosmeticPayload.CODEC)
+        // @[1.21.11] playC2S @[] serverboundPlay
+        PayloadTypeRegistry./*[@]*/serverboundPlay/*[!@]*/().register(ServerboundCosmeticPayload.TYPE, ServerboundCosmeticPayload.CODEC)
     }
 }

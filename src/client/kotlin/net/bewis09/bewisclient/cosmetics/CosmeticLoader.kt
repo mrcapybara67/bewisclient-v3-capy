@@ -91,16 +91,8 @@ object CosmeticLoader : ObjectSetting(), EventEntrypoint {
     override fun onInitializeClient() {
         Util.ioPool().execute {
             val result: ByteArray = catch {
-                val connection = URI(Constants.DATA_URL).toURL().openConnection() as? HttpURLConnection ?: return@execute
-                connection.requestMethod = "POST"
-                connection.doOutput = true
-
-                val out: ByteArray = """{"uuid":"${client.gameProfile.id}"}""".toByteArray()
-
-                connection.setFixedLengthStreamingMode(out.size)
+                val connection = URI(Constants.API_URL+"/startup/"+client.gameProfile.id).toURL().openConnection() as? HttpURLConnection ?: return@execute
                 connection.connect()
-                connection.outputStream.use { it.write(out) }
-
                 val res = connection.getInputStream().readAllBytes()
 
                 saveRelativeFile(res, "bewisclient", "server", "data.json")

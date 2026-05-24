@@ -1,22 +1,54 @@
 package net.bewis09.bewisclient.core.mixin;
 
 import net.bewis09.bewisclient.impl.BetterVisibilityImpl;
-import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.bewis09.bewisclient.impl.settings.functionalities.BetterVisibilitySettings;
+import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.fog.FogData;
 import net.minecraft.client.renderer.fog.FogRenderer;
-import net.minecraft.client.renderer.fog.environment.FogEnvironment;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.client.renderer.fog.environment.BlindnessFogEnvironment;
+import net.minecraft.client.renderer.fog.environment.DarknessFogEnvironment;
+import net.minecraft.world.level.material.FogType;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(FogRenderer.class)
-public class FogRendererMixin {
-    @Redirect(method = "setupFog", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/fog/environment/FogEnvironment;setupFog(Lnet/minecraft/client/renderer/fog/FogData;Lnet/minecraft/world/entity/Entity;Lnet/minecraft/core/BlockPos;Lnet/minecraft/client/multiplayer/ClientLevel;FLnet/minecraft/client/DeltaTracker;)V"))
-    private static void bewisclient$applyFog(FogEnvironment instance, FogData fogData, Entity entity, BlockPos blockPos, ClientLevel clientWorld, float v, DeltaTracker renderTickCounter) {
-        instance.setupFog(fogData, entity, blockPos, clientWorld, v, renderTickCounter);
-        BetterVisibilityImpl.INSTANCE.applyFogModifier(instance.getClass(), fogData, v);
+public abstract class FogRendererMixin {
+    @Shadow
+    protected abstract FogType getFogType(Camera camera, boolean bl);
+
+    @Redirect(method = "setupFog", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/fog/FogData;environmentalStart:F", opcode = Opcodes.GETFIELD))
+    private float bewisclient$applyFog(FogData fogData) {
+        if(!BetterVisibilitySettings.INSTANCE.getEnabled().get()) return fogData.environmentalStart;
+
+        Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
+        FogType cameraSubmersionType = camera.getFluidInCamera();
+
+        boolean bl = Minecraft.getInstance().level.effects().isFoggyAt(camera.getBlockPosition().getX(), camera.getBlockPosition().getZ())
+                || Minecraft.getInstance().gui.getBossOverlay().shouldCreateWorldFog();
+
+        float viewDistance = (float)(Minecraft.getInstance().options.getEffectiveRenderDistance() * 16);
+
+        if (cameraSubmersionType == FogType.LAVA) {
+            BetterVisibilityImpl.INSTANCE.applyFogModifier("lava", fogData, viewDistance);
+            return fogData.environmentalStart;
+        } else if (cameraSubmersionType == FogType.POWDER_SNOW) {
+            BetterVisibilityImpl.INSTANCE.applyFogModifier("powder_snow", fogData, viewDistance);
+            return fogData.environmentalStart;
+        }
+
+        if (new BlindnessFogEnvironment().isApplicable(this.getFogType(camera, bl), camera.getEntity()) || new DarknessFogEnvironment().isApplicable(this.getFogType(camera, bl), camera.getEntity())) {
+            return fogData.environmentalStart;
+        }
+
+        if (cameraSubmersionType == FogType.WATER) {
+            BetterVisibilityImpl.INSTANCE.applyFogModifier("water", fogData, viewDistance);
+        } else if (getFogType(camera, bl) == FogType.ATMOSPHERIC) {
+            BetterVisibilityImpl.INSTANCE.applyFogModifier("atmospheric", fogData, viewDistance);
+        }
+        return fogData.environmentalStart;
     }
 }
