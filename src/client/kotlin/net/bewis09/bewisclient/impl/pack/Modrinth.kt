@@ -1,14 +1,13 @@
 package net.bewis09.bewisclient.impl.pack
 
 import com.mojang.blaze3d.platform.NativeImage
-import net.bewis09.bewisclient.core.*
 import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.notification.NotificationManager
 import net.bewis09.bewisclient.drawable.renderables.notification.SimpleTextNotification
 import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.settings.Settings.Companion.gson
 import net.bewis09.bewisclient.common.createIdentifier
-import net.bewis09.bewisclient.util.logic.BewisclientInterface
+import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.name
 import net.bewis09.bewisclient.version.registerTexture
@@ -20,7 +19,7 @@ import java.net.URI
 import java.net.URLEncoder
 import javax.imageio.ImageIO
 
-object Modrinth : BewisclientInterface {
+object Modrinth : ClientInterface {
     val typeMaps = mutableMapOf<Pair<Type, String>, Pair<StartableFailureList<List<ListPack>>, Int?>>()
     val packCache = mutableMapOf<String, Pack?>()
     val versionCache = mutableMapOf<String, Map<String, Version>?>()

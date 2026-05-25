@@ -1,12 +1,14 @@
-package net.bewis09.bewisclient.util.logic
+package net.bewis09.bewisclient.common.logic
 
-import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * Interface for logging in the Bewisclient.
  */
 interface BewisclientLogger {
-    val logger: Logger
+    companion object {
+        private val logger = LoggerFactory.getLogger("Bewisclient")
+    }
 
     fun info(vararg msg: Any?) = logger.info(msg.joinToString(" ") { it.toString() })
     fun warn(vararg msg: Any?) = logger.warn(msg.joinToString(" ") { it.toString() })

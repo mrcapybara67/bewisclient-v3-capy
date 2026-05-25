@@ -10,7 +10,7 @@ import net.bewis09.bewisclient.impl.widget.TiwylaWidget
 import net.bewis09.bewisclient.game.BewisclientResourcePack
 import net.bewis09.bewisclient.util.*
 import net.bewis09.bewisclient.settings.Settings
-import net.bewis09.bewisclient.util.logic.BewisclientInterface
+import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.widget.Widget
 import net.fabricmc.loader.api.ModContainer
 import kotlin.jvm.optionals.getOrNull
@@ -22,7 +22,7 @@ import kotlin.jvm.optionals.getOrNull
  * To add your own Bewisclient API entrypoint, implement this interface in your mod.
  * Then register your entrypoint in your `fabric.mod.json` file under `custom`, `bewisclient`
  */
-open class BewisclientAPIEntrypoint : BewisclientInterface {
+open class BewisclientAPIEntrypoint : ClientInterface {
     val iconIdentifier: Identifier? = null
 
     open fun getExtensionTitle(modContainer: ModContainer): String = modContainer.metadata.name

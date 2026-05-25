@@ -14,10 +14,10 @@ import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.common.createIdentifier
-import net.bewis09.bewisclient.util.logic.BewisclientInterface
+import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.widget.WidgetLoader
 
-object SettingStructure : BewisclientInterface {
+object SettingStructure : ClientInterface {
     val widgets = WidgetLoader.widgets.map {
         DescriptionSettingCategory(it.widgetTitle, it.widgetDescription, arrayListOf<Renderable>().also { list -> it.appendSettingsRenderables(list) }.toTypedArray(), it.enabled)
     }

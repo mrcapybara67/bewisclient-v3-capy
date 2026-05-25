@@ -4,7 +4,6 @@ package net.bewis09.bewisclient.version
 
 import com.mojang.blaze3d.platform.InputConstants
 import com.mojang.blaze3d.platform.NativeImage
-import com.mojang.blaze3d.systems.RenderSystem
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
@@ -175,13 +174,13 @@ fun GuiGraphics.drawTexture(
     disableBlend()
 }
 
-// @[1.21.1] RenderSystem.enableBlend() @[] Unit
+// @[1.21.1] com.mojang.blaze3d.systems.RenderSystem.enableBlend() @[] Unit
 fun enableBlend() = /*[@]*/Unit/*[!@]*/
 
-// @[1.21.1] RenderSystem.disableBlend() @[] Unit
+// @[1.21.1] com.mojang.blaze3d.systems.RenderSystem.disableBlend() @[] Unit
 fun disableBlend() = /*[@]*/Unit/*[!@]*/
 
-// @[1.21.1] RenderSystem.setShaderColor(r, g, b, a) @[] Unit
+// @[1.21.1] com.mojang.blaze3d.systems.RenderSystem.setShaderColor(r, g, b, a) @[] Unit
 fun setShaderColor(r: Float, g: Float, b: Float, a: Float) = /*[@]*/Unit/*[!@]*/
 
 fun ScreenDrawing.drawCape(identifier: Identifier, x: Int, y: Int, width: Int, height: Int) {
@@ -189,7 +188,7 @@ fun ScreenDrawing.drawCape(identifier: Identifier, x: Int, y: Int, width: Int, h
     this.enableScissors(x - 8, y - 8, width + 16, height + 16)
     // @[1.21.8] this.drawTextureRegion(identifier, x, y, 1f, 1f, width, height, 10, 16, 64, 32) @[]
     /*[@]*//*[!@]*/
-    // @[1.21.8] @[1.21.11] this.guiGraphics.submitSkinRenderState(model, identifier, height.toFloat() * 0.9f, 18f, -195f, -10f, x - xOffset, y, x + (width * 1.13).toInt() - xOffset, y + (height * 1.13).toInt()) @[] this.guiGraphics.skin(model, identifier, height.toFloat() * 0.9f, 18f, -195f, -10f, x - xOffset, y, x + (width * 1.13).toInt() - xOffset, y + (height * 1.5).toInt())
-    /*[@]*/this.guiGraphics.skin(model, identifier, height.toFloat() * 0.9f, 18f, -195f, -10f, x - xOffset, y, x + (width * 1.13).toInt() - xOffset, y + (height * 1.5).toInt())/*[!@]*/
+    // @[1.21.8] @[1.21.11] this.guiGraphics.submitSkinRenderState(model, identifier, height.toFloat() * 0.9f, 18f, -195f, -10f, x - xOffset, y, x + (width * 1.13).toInt() - xOffset, y + (height * 1.13).toInt()) @[] this.guiGraphics.skin(model, identifier, height.toFloat() * 0.9f, 18f, -195f, -10f, x - xOffset, y, x + (width * 1.13).toInt() - xOffset, y + (height * 1.13).toInt())
+    /*[@]*/this.guiGraphics.skin(model, identifier, height.toFloat() * 0.9f, 18f, -195f, -10f, x - xOffset, y, x + (width * 1.13).toInt() - xOffset, y + (height * 1.13).toInt())/*[!@]*/
     this.disableScissors()
 }

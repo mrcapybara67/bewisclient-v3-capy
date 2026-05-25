@@ -6,7 +6,7 @@ import net.bewis09.bewisclient.common.Util
 import net.bewis09.bewisclient.generated.BuildInfo
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.common.catch
-import net.bewis09.bewisclient.util.logic.BewisclientInterface
+import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.fabricmc.loader.api.FabricLoader
 import java.io.File
 import java.io.FileNotFoundException
@@ -15,7 +15,7 @@ import java.security.MessageDigest
 import java.util.UUID
 
 @Suppress("ClassName")
-object Security : BewisclientInterface, EventEntrypoint {
+object Security : ClientInterface, EventEntrypoint {
     var verificationState: VerificationState = UNVERIFIED
 
     open class VerificationState(val allowed: Boolean)

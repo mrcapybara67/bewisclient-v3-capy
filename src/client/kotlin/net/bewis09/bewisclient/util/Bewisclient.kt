@@ -1,5 +1,5 @@
 package net.bewis09.bewisclient.util
 
-import net.bewis09.bewisclient.util.logic.BewisclientInterface
+import net.bewis09.bewisclient.util.logic.ClientInterface
 
-object Bewisclient : BewisclientInterface
+object Bewisclient : ClientInterface

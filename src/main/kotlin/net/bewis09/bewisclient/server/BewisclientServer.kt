@@ -2,26 +2,21 @@
 
 package net.bewis09.bewisclient.server
 
+import net.bewis09.bewisclient.common.logic.ServerInterface
 import net.bewis09.bewisclient.cosmetics.ClientboundCosmeticPayload
 import net.bewis09.bewisclient.cosmetics.ServerboundCosmeticPayload
+import net.bewis09.bewisclient.cosmetics.CommonCosmeticLoader
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 
-object BewisclientServer: ModInitializer {
-    var publicKey: ByteArray? = null
-
+object BewisclientServer: ModInitializer, ServerInterface {
     override fun onInitialize() {
-        registerPayloads()
-        loadPublicKey()
+//        registerPayloads()
+        CommonCosmeticLoader.loadPublicKey()
+        CommonCosmeticLoader.loadCosmeticData()
 
-        ServerPlayNetworking.registerGlobalReceiver(ServerboundCosmeticPayload.TYPE) { payload: ServerboundCosmeticPayload, context: ServerPlayNetworking.Context ->
-
-        }
-    }
-
-    fun loadPublicKey() {
-        val
+//        ServerPlayNetworking.registerGlobalReceiver(ServerboundCosmeticPayload.TYPE, CommonCosmeticLoader::processC2SPayload)
     }
 
     fun registerPayloads() {

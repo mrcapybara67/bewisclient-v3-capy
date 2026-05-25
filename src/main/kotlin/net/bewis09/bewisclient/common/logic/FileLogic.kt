@@ -1,4 +1,4 @@
-package net.bewis09.bewisclient.util.logic
+package net.bewis09.bewisclient.common.logic
 
 import net.fabricmc.loader.api.FabricLoader
 import java.io.File

@@ -3,11 +3,11 @@ package net.bewis09.bewisclient.drawable.screen_drawing
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.createIdentifier
-import net.bewis09.bewisclient.util.logic.BewisclientInterface
+import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.version.*
 import net.minecraft.client.gui.Font
 
-interface ScreenDrawingInterface : BewisclientInterface {
+interface ScreenDrawingInterface : ClientInterface {
     val guiGraphics: GuiGraphics
     val textRenderer: Font
 

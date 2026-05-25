@@ -6,7 +6,7 @@ import net.bewis09.bewisclient.common.Identifier
 import net.minecraft.server.packs.resources.Resource
 import java.util.function.Predicate
 
-object UtilLogic: BewisclientInterface {
+object UtilLogic: ClientInterface {
     val scaleFactor
         get() = client.window.guiScale.toFloat().toInt()
 

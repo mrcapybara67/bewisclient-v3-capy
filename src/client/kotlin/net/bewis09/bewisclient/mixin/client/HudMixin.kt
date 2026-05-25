@@ -9,7 +9,7 @@ import net.bewis09.bewisclient.impl.functionalities.HeldItemTooltip
 import net.bewis09.bewisclient.impl.settings.functionalities.HeldItemTooltipSettings
 import net.bewis09.bewisclient.impl.settings.functionalities.ScoreboardSettings
 import net.bewis09.bewisclient.impl.settings.functionalities.ScoreboardSettings.scale
-import net.bewis09.bewisclient.util.logic.BewisclientInterface
+import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.minecraft.client.gui.Font
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.scores.Objective
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 
 @Mixin(Hud::class)
-abstract class HudMixin: BewisclientInterface {
+abstract class HudMixin: ClientInterface {
     @Shadow
     abstract fun getFont(): Font?
 

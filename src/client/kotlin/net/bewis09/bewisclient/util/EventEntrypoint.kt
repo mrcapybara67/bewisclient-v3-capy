@@ -1,12 +1,12 @@
 package net.bewis09.bewisclient.util
 
 import net.bewis09.bewisclient.api.APIEntrypointLoader
-import net.bewis09.bewisclient.util.logic.BewisclientInterface
+import net.bewis09.bewisclient.util.logic.ClientInterface
 
 /**
  * A class when it is needed to do something when those entrypoints are called.
  */
-interface EventEntrypoint : BewisclientInterface {
+interface EventEntrypoint : ClientInterface {
     companion object {
         private val eventEntrypointReceivers = mutableListOf<EventEntrypoint>()
         private var isRegistered = false

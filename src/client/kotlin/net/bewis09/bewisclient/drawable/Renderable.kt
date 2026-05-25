@@ -1,14 +1,14 @@
 package net.bewis09.bewisclient.drawable
 
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.util.logic.BewisclientInterface
+import net.bewis09.bewisclient.util.logic.ClientInterface
 
 abstract class Renderable(
     val minWidth: Int = 0,
     val minHeight: Int = 0,
     widthProvider: (Renderable.() -> Int)? = null,
     heightProvider: (Renderable.() -> Int)? = null
-) : BewisclientInterface {
+) : ClientInterface {
     protected var internalX: Int = 0
     protected var internalY: Int = 0
     protected var internalWidth: Int = 0

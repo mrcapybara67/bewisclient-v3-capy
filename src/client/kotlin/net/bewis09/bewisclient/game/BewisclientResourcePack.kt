@@ -3,7 +3,7 @@ package net.bewis09.bewisclient.game
 import net.bewis09.bewisclient.api.APIEntrypointLoader
 import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.common.createIdentifier
-import net.bewis09.bewisclient.util.logic.BewisclientInterface
+import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.IndependentResourceMetadataSerializer
 import net.minecraft.server.packs.PackLocationInfo
@@ -18,7 +18,7 @@ import java.io.InputStream
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
-object BewisclientResourcePack : PackResources, BewisclientInterface {
+object BewisclientResourcePack : PackResources, ClientInterface {
     val packInfo = PackLocationInfo(
         "bewisclient_resources",
         Translations.BEWISCLIENT_RESOURCES(),

@@ -12,9 +12,9 @@ import net.bewis09.bewisclient.util.color.ChangingColorSaver
 import net.bewis09.bewisclient.util.color.ColorSaver
 import net.bewis09.bewisclient.util.color.StaticColorSaver
 import net.bewis09.bewisclient.common.color
-import net.bewis09.bewisclient.util.logic.BewisclientInterface
+import net.bewis09.bewisclient.util.logic.ClientInterface
 
-object Version2Migration : BewisclientInterface {
+object Version2Migration : ClientInterface {
     fun update(): Boolean {
         if (createBewisclientFile("bewisclient.json").exists()) return false
 

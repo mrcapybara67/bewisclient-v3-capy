@@ -2,7 +2,7 @@ package net.bewis09.bewisclient.settings.types
 
 import com.google.gson.JsonElement
 import net.bewis09.bewisclient.interfaces.SettingInterface
-import net.bewis09.bewisclient.util.logic.BewisclientInterface
+import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.settings.Settings
 import net.bewis09.bewisclient.settings.SettingsLoader
 
@@ -14,7 +14,7 @@ import net.bewis09.bewisclient.settings.SettingsLoader
  * @param default The default value of the setting.
  * @param onChangeListener An optional listener that is called when the setting value changes.
  */
-abstract class Setting<T>(val default: () -> T, val onChangeListener: (Setting<T>.(oldValue: T?, newValue: T?) -> Unit)?) : BewisclientInterface, SettingInterface<T> {
+abstract class Setting<T>(val default: () -> T, val onChangeListener: (Setting<T>.(oldValue: T?, newValue: T?) -> Unit)?) : ClientInterface, SettingInterface<T> {
     constructor(default: () -> T) : this(default, null)
 
     constructor(default: T, onChangeListener: (Setting<T>.(oldValue: T?, newValue: T?) -> Unit)? = null) : this({ default }, onChangeListener)

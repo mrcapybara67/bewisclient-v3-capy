@@ -7,13 +7,10 @@ import net.bewis09.bewisclient.settings.types.ObjectSetting
 import net.bewis09.bewisclient.settings.types.StringMapSetting
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.common.catch
-import net.bewis09.bewisclient.common.Util
+import net.bewis09.bewisclient.cosmetics.CommonCosmeticLoader.cosmeticData
 import net.minecraft.client.multiplayer.PlayerInfo
 import net.minecraft.world.item.Items
-import java.net.HttpURLConnection
-import java.net.URI
-import java.security.MessageDigest.getInstance
-import kotlin.io.encoding.Base64
+import kotlin.jvm.java
 
 object CosmeticLoader : ObjectSetting(), EventEntrypoint {
     val allowedCosmetics = mutableListOf<CosmeticIdentifier>()
@@ -53,17 +50,11 @@ object CosmeticLoader : ObjectSetting(), EventEntrypoint {
         }
     }
 
-    fun loadCosmetic(cosmetic: CosmeticIdentifier, hash: String, frames: Int) {
+    fun loadCosmetic(cosmetic: CosmeticIdentifier, frames: Int) {
         if (getStatus(cosmetic) == DownloadStatus.NOT_STARTED) {
             status[cosmetic] = DownloadStatus.IN_PROGRESS
 
-            val data = checkCosmetic(cosmetic.type, cosmetic.id + (if (frames > 1) ".gif" else ".png"), hash) ?: run {
-                downloadCosmetic(cosmetic, "${cosmetic.type}/${cosmetic.id}${if (frames > 1) ".gif" else ".png"}", frames)
-                return
-            }
-
-            byteData[cosmetic] = data to frames
-            status[cosmetic] = DownloadStatus.LOADED
+            downloadCosmetic(cosmetic, "${cosmetic.type}/${cosmetic.id}${if (frames > 1) ".gif" else ".png"}", frames)
         }
     }
 
@@ -75,48 +66,17 @@ object CosmeticLoader : ObjectSetting(), EventEntrypoint {
         }
     }
 
-    fun checkCosmetic(type: CosmeticType, path: String, hash: String): ByteArray? {
-        val data = readRelativeFileBytes("bewisclient", "server", "${type.id}/$path") ?: return null
-        return if (checkHash(data, hash)) data else null
-    }
-
-    fun checkHash(data: ByteArray, hash: String): Boolean {
-        return catch {
-            val digest = getInstance("SHA-256")
-            val computedHash = Base64.encode(digest.digest(data))
-            return@catch computedHash.equals(hash, ignoreCase = true)
-        } ?: false
-    }
-
     override fun onInitializeClient() {
-        Util.ioPool().execute {
-            val result: ByteArray = catch {
-                val connection = URI(Constants.API_URL+"/startup/"+client.gameProfile.id).toURL().openConnection() as? HttpURLConnection ?: return@execute
-                connection.connect()
-                val res = connection.getInputStream().readAllBytes()
+        CommonCosmeticLoader.afterLoadData {
+            val specials: ByteArray = downloadWithOfflineFile(Constants.API_URL+"/specials/"+client.gameProfile.id, "specials.json") ?: return@afterLoadData
 
-                saveRelativeFile(res, "bewisclient", "server", "data.json")
+            val specialData = Gson().fromJson(specials.decodeToString(), Array<SpecialEntry>::class.java)
 
-                return@catch res
-            } ?: readRelativeFileBytes("bewisclient", "server", "data.json") ?: return@execute
-
-            val data = Gson().fromJson(result.decodeToString(), CosmeticData::class.java)
-
-            data.cosmetics.forEach {
-                if (it.default || data.specials.any { a -> a.id == it.id && a.type == it.type && a.uuid == client.gameProfile.id.toString() }) {
-                    it.getCosmetic()?.let { element -> allowedCosmetics.add(element) }
-                }
-                if (it.has_elytra) {
-                    it.getCosmetic()?.let { element -> elytraCosmetics.add(element) }
-                }
-            }
-
-            data.cosmetics.forEach {
-                loadCosmetic(
-                    it.getCosmetic() ?: return@forEach,
-                    it.hash,
-                    it.frames,
-                )
+            cosmeticData?.forEach {
+                val identifier = it.getCosmetic() ?: return@forEach
+                if (it.default || specialData.any { (id, type) -> id == identifier.id && type == identifier.type.id }) allowedCosmetics.add(identifier)
+                if (it.hasElytra) elytraCosmetics.add(identifier)
+                loadCosmetic(identifier, it.frames)
             }
         }
     }
@@ -132,33 +92,6 @@ object CosmeticLoader : ObjectSetting(), EventEntrypoint {
         }
     }
 
-    @Suppress("PropertyName")
-    data class CosmeticData(
-        val base_url: String,
-        val cosmetics: Array<CosmeticEntry>,
-        val specials: Array<SpecialEntry>
-    ) {
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (javaClass != other?.javaClass) return false
-
-            other as CosmeticData
-
-            if (base_url != other.base_url) return false
-            if (!cosmetics.contentEquals(other.cosmetics)) return false
-            if (!specials.contentEquals(other.specials)) return false
-
-            return true
-        }
-
-        override fun hashCode(): Int {
-            var result = base_url.hashCode()
-            result = 31 * result + cosmetics.contentHashCode()
-            result = 31 * result + specials.contentHashCode()
-            return result
-        }
-    }
-
     fun getEntityBySkinTextures(hashCode: Int): PlayerInfo? {
         val playerList = client.connection?.listedOnlinePlayers ?: return null
         return playerList.firstOrNull { it.skin.hashCode() == hashCode }
@@ -167,20 +100,8 @@ object CosmeticLoader : ObjectSetting(), EventEntrypoint {
     data class SpecialEntry(
         val id: String,
         val type: String,
-        val uuid: String
+        val signature: String
     )
-
-    data class CosmeticEntry(
-        val id: String,
-        val type: String,
-        val hash: String,
-        val frames: Int,
-        val default: Boolean,
-        @Suppress("PropertyName")
-        val has_elytra: Boolean
-    ) {
-        fun getCosmetic() = CosmeticType.entries.firstOrNull { it.id == type }?.let { CosmeticIdentifier(it, id) }
-    }
 
     fun getCosmeticForPlayer(player: GameProfile, type: CosmeticType): Cosmetic? {
         val elytraEquipped = client.level?.players()?.firstOrNull { it.gameProfile.id == player.id }?.inventory?.getItem(38)?.item == Items.ELYTRA && type == CosmeticType.CAPE

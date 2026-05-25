@@ -1,10 +1,10 @@
 package net.bewis09.bewisclient.settings
 
 import com.google.gson.*
-import net.bewis09.bewisclient.util.logic.BewisclientInterface
+import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.settings.types.Setting
 
-abstract class Settings : BewisclientInterface {
+abstract class Settings : ClientInterface {
     companion object {
         val gson: Gson = GsonBuilder().setPrettyPrinting().create()
     }
