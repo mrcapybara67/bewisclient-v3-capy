@@ -2,10 +2,11 @@ package net.bewis09.bewisclient.drawable.renderables
 
 import kotlinx.atomicfu.AtomicRef
 import net.bewis09.bewisclient.drawable.Animator
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.drawable.screen_drawing.scale
-import net.bewis09.bewisclient.drawable.screen_drawing.translate
+import net.bewis09.bewisclient.drawable.screen_drawing.transform
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.version.setCursorPointer
 import net.minecraft.network.chat.Component
 
 class ThemeButton : TooltipHoverable {
@@ -36,30 +37,30 @@ class ThemeButton : TooltipHoverable {
         this.onClick = onClick
     }
 
-    val clickAnimation: Animator = Animator(200, Animator.EASE_IN_OUT, 1f)
-    val colorAnimation: Animator = Animator(200, Animator.EASE_IN_OUT, 0f)
+    val clickAnimation: Animator = Animator({ animationDuration }, Animator.EASE_IN_OUT, 1f)
+    val colorAnimation: Animator = Animator({ animationDuration }, Animator.EASE_IN_OUT, 0f)
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)
         colorAnimation.set(if (selected()) 1f else 0f)
-        val click = clickAnimation.get()
-        screenDrawing.translate(centerX.toFloat(), centerY.toFloat()) {
-            screenDrawing.scale(0.9f + 0.1f * click, 0.9f + 0.1f * click) {
-                screenDrawing.translate(-width / 2f, -height / 2f)
-                screenDrawing.fillWithBorderRounded(0, 0, width, height, 5, OptionsMenuSettings.getThemeColor(alpha = (hoverFactor.coerceAtLeast(colorAnimation.get()) + 1) * 0.15f), OptionsMenuSettings.getThemeColor(alpha = colorAnimation.get() * 0.5f))
-            }
+        val click = if(isMinecrafty) 1f else clickAnimation.get()
+        SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverFactor, colorAnimation.get(), x, y, width, height, click, selected(), mouseX, mouseY)
 
-            screenDrawing.scale(0.95f + 0.05f * click, 0.95f + 0.05f * click) {
-                screenDrawing.translate(0f, -screenDrawing.getTextHeight() / 2f)
-                screenDrawing.drawCenteredText(text, 0, 0, OptionsMenuSettings.getTextThemeColor())
-            }
+        if (isMouseOver(mouseX.toDouble(), mouseY.toDouble()))
+            screenDrawing.setCursorPointer()
+
+        screenDrawing.transform(x + width / 2f, y + height / 2f, 0.95f + 0.05f * click, 0.95f + 0.05f * click) {
+            screenDrawing.translate(0f, -screenDrawing.getTextHeight() / 2f)
+            screenDrawing.drawCenteredText(text, 0, 0, OptionsMenuSettings.getTextThemeColor())
         }
     }
 
     override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean {
-        colorAnimation.set(1f)
+        if (!isMinecrafty)
+            colorAnimation.set(1f)
         onClick(this)
-        clickAnimation.set(0f) { set(1f) }
+        if (!isMinecrafty)
+            clickAnimation.set(0f) { set(1f) }
         return true
     }
 }

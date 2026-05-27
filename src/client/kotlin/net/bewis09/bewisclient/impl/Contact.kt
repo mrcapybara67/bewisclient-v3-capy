@@ -9,10 +9,13 @@ import net.bewis09.bewisclient.drawable.renderables.options_structure.SidebarCat
 import net.bewis09.bewisclient.drawable.renderables.settings.SettingRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.alpha
 import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.drawable.Translations
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
+import net.bewis09.bewisclient.drawable.renderables.notification.NotificationManager
+import net.bewis09.bewisclient.drawable.renderables.notification.SimpleTextNotification
 import kotlin.math.roundToInt
 
 object Contact : SidebarCategory(
@@ -38,14 +41,7 @@ class ContactLinkElement(val id: String, val url: String, val title: String, val
     val descriptionTranslation = Translation("contact.$id.description", description)
     val identifier = createIdentifier("bewisclient", "textures/gui/contact/$id.png")
 
-    val menuAnimation = Animator(OptionsMenuSettings.animationTime.get().toLong(), Animator.EASE_IN_OUT, 0f)
-
-    val copyButton = ThemeButton(COPY_TO_CLIPBOARD()) {
-        client.keyboardHandler.clipboard = this.url
-    }.setSize(100, 14)
-    val openButton = ThemeButton(OPEN_LINK()) {
-        Util.getPlatform().openUri(url)
-    }.setSize(100, 14)
+    val menuAnimation = Animator({ animationDuration }, Animator.EASE_IN_OUT, 0f)
 
     var simpleHeight = 22
 
@@ -60,14 +56,19 @@ class ContactLinkElement(val id: String, val url: String, val title: String, val
         screenDrawing.drawTexture(identifier, x + 8, y + height / 2 - 8, 0f, 0f, 16, 16, 16, 16)
         renderRenderables(screenDrawing, mouseX, mouseY)
         simpleHeight = 22 + lines.size * 9 + 1
-        setHeight(simpleHeight + (menuAnimation.get() * 19).roundToInt())
+        setHeight(simpleHeight + (menuAnimation.get() * (5 + SelectiveScreenDrawer.getSideButtonHeight())).roundToInt())
         screenDrawing.disableScissors()
     }
 
     override fun init() {
         super.init()
-        addRenderable(copyButton.setPosition(x + width - 210, y + simpleHeight))
-        addRenderable(openButton.setPosition(x + width - 105, y + simpleHeight))
+        addRenderable(ThemeButton(COPY_TO_CLIPBOARD()) {
+            client.keyboardHandler.clipboard = this.url
+            NotificationManager.addNotification(SimpleTextNotification(Translations.COPY_LINK_SUCCESS()))
+        }(x + width - 210, y + simpleHeight, 100, SelectiveScreenDrawer.getSideButtonHeight()))
+        addRenderable(ThemeButton(OPEN_LINK()) {
+            Util.getPlatform().openUri(url)
+        }(x + width - 105, y + simpleHeight, 100, SelectiveScreenDrawer.getSideButtonHeight()))
     }
 
     override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean {

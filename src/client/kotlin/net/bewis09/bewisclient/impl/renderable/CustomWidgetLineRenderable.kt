@@ -46,12 +46,12 @@ class CustomWidgetLineRenderable : Renderable() {
         addRenderable(Rectangle { OptionsMenuSettings.getThemeColor(alpha = 0.5f) }(x, y + 3, width, 1))
         addRenderable(Rectangle { OptionsMenuSettings.getThemeColor(alpha = 0.5f) }(x, y + 27 + lines.size * 10 - if (CustomWidget.lines.isEmpty()) 1 else 0, width, 1))
         lines.forEachIndexed { index, input ->
-            addRenderable(ImageButton(createIdentifier("bewisclient", "textures/gui/sprites/remove.png")) {
+            addRenderable(ImageButton(createIdentifier("bewisclient", "textures/gui/sprites/remove.png"), {
                 CustomWidget.lines.removeAt(index)
                 lines = computeLines()
                 resize()
-            }.setImagePadding(1)(x, index * 10 + y + 7, 9, 9))
-            addRenderable(ImageButton(createIdentifier("bewisclient", "textures/gui/sprites/up.png")) {
+            }, small = true).setImagePadding(1)(x, index * 10 + y + 7, 9, 9))
+            addRenderable(ImageButton(createIdentifier("bewisclient", "textures/gui/sprites/up.png"), {
                 if (index > 0) {
                     val temp = CustomWidget.lines[index - 1]
                     CustomWidget.lines[index - 1] = CustomWidget.lines[index]
@@ -59,8 +59,8 @@ class CustomWidgetLineRenderable : Renderable() {
                     lines = computeLines()
                     resize()
                 }
-            }.setImagePadding(0)(x + 10, index * 10 + y + 7, 9, 9))
-            addRenderable(ImageButton(createIdentifier("bewisclient", "textures/gui/sprites/down.png")) {
+            }, small = true).setImagePadding(0)(x + 10, index * 10 + y + 7, 9, 9))
+            addRenderable(ImageButton(createIdentifier("bewisclient", "textures/gui/sprites/down.png"), {
                 if (index < lines.size - 1) {
                     val temp = CustomWidget.lines[index + 1]
                     CustomWidget.lines[index + 1] = CustomWidget.lines[index]
@@ -68,7 +68,7 @@ class CustomWidgetLineRenderable : Renderable() {
                     lines = computeLines()
                     resize()
                 }
-            }.setImagePadding(0)(x + 20, index * 10 + y + 7, 9, 9))
+            }, small = true).setImagePadding(0)(x + 20, index * 10 + y + 7, 9, 9))
             addRenderable(input.setPosition(x + 31, index * 10 + y + 7).setWidth(width / 2 - 33).setHeight(10))
             input.setText(CustomWidget.lines[index])
         }

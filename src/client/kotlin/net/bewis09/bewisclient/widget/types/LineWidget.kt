@@ -42,6 +42,8 @@ abstract class LineWidget(id: Identifier) : ScalableWidget(id) {
             0, 0, getWidth(), getHeight(), borderRadius(), backgroundColor().getColor() alpha backgroundOpacity(), borderColor().getColor() alpha borderOpacity()
         )
 
+        renderAccessories(screenDrawing)
+
         lines.forEachIndexed { i, line ->
             val y = (i * (9 + lineSpacing())) + paddingSize()
             if (isCentered()) {
@@ -51,6 +53,8 @@ abstract class LineWidget(id: Identifier) : ScalableWidget(id) {
             }
         }
     }
+
+    open fun renderAccessories(screenDrawing: ScreenDrawing) {}
 
     final override fun getWidth(): Int {
         return MathHelper.clamp(lineWidth, getMinimumWidth(), getMaximumWidth())

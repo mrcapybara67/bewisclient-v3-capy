@@ -12,10 +12,11 @@ import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.util.color.ThemeColorSaver
 import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.util.number.Precision
 import net.minecraft.network.chat.Component
 
-object HomePlane : Renderable(), OptionScreen.CutoutProvider {
+object HomePlane : Renderable() {
     val editQuickSettings = Translation("menu.home.edit_quick_settings", "Edit Quick Settings")
     val widgetPresets = Translation("menu.home.widget_presets", "Widget Presets")
     val moreWidgetOptions = Translation("menu.home.more_widget_options", "More customization options can be found in the widgets tab")
@@ -37,8 +38,6 @@ object HomePlane : Renderable(), OptionScreen.CutoutProvider {
         renderRenderables(screenDrawing, mouseX, mouseY)
     }
 
-    override fun getCutout(): Renderable = WidgetPresetList
-
     override fun init() {
         val button = Button(editQuickSettings()) {
             OptionScreen.currentInstance?.openPage(
@@ -59,7 +58,7 @@ object HomePlane : Renderable(), OptionScreen.CutoutProvider {
             addRenderable(Plane { x, y, width, height ->
                 listOf(
                     InfoTextRenderable(no_quick_settings(), OptionsMenuSettings.getTextThemeColor() alpha 0.66f, centered = true)(x + width / 2 - 100, y + height / 4, 200, 0),
-                    button(x + width / 2 - 50, y + height / 2, 100, 14)
+                    button(x + width / 2 - 50, y + height / 2, 100, SelectiveScreenDrawer.getSideButtonHeight())
                 )
             }(x, y, width, height))
             return
@@ -81,7 +80,7 @@ object HomePlane : Renderable(), OptionScreen.CutoutProvider {
                         listOf(
                             button(x + width / 2 - 50, y, 100, height)
                         )
-                    }.setHeight(14)
+                    }.setHeight(SelectiveScreenDrawer.getSideButtonHeight())
                 ), 5
             )(x, y, width, height)
         )
@@ -90,11 +89,16 @@ object HomePlane : Renderable(), OptionScreen.CutoutProvider {
     class ConfigureRenderableVisibilityPlane(val category: String, val id: String, val renderable: Renderable) : Renderable() {
         override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
             internalHeight = renderable.height
-            screenDrawing.fillWithBorderRounded(x, y + height / 2 - 8, 16, 16, 5, OptionsMenuSettings.getThemeColor(alpha = 0.15f), OptionsMenuSettings.getThemeColor(alpha = 0.15f))
+            if (isMinecrafty) {
+                SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 0f, 0f, x, y + height / 2 - 9, 18, 18, 0f, false, mouseX, mouseY)
+            } else {
+                screenDrawing.fillWithBorderRounded(x, y + height / 2 - 8, 16, 16, 5, OptionsMenuSettings.getThemeColor(alpha = 0.15f), OptionsMenuSettings.getThemeColor(alpha = 0.15f))
+            }
+
             renderRenderables(screenDrawing, mouseX, mouseY)
 
             if (HomePlaneSettings.quickSettings.contains("$category/$id")) {
-                screenDrawing.drawTexture(checkTexture, x + 1, y + height / 2 - 7, 14, 14, OptionsMenuSettings.getThemeColor())
+                screenDrawing.drawTexture(checkTexture, x + if(isMinecrafty) 2 else 1, y + height / 2 - 7, 14, 14, if (isMinecrafty) Color.WHITE else OptionsMenuSettings.getThemeColor())
             }
         }
 

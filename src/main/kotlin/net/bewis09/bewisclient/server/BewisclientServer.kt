@@ -21,8 +21,8 @@ object BewisclientServer: ModInitializer, ServerInterface {
 
     fun registerPayloads() {
         // @[1.21.11] playS2C @[] clientboundPlay
-        PayloadTypeRegistry./*[@]*/clientboundPlay/*[!@]*/().register(ClientboundCosmeticPayload.TYPE, ClientboundCosmeticPayload.CODEC)
+        PayloadTypeRegistry./*[@]*/playS2C/*[!@]*/().register(ClientboundCosmeticPayload.TYPE, ClientboundCosmeticPayload.CODEC)
         // @[1.21.11] playC2S @[] serverboundPlay
-        PayloadTypeRegistry./*[@]*/serverboundPlay/*[!@]*/().register(ServerboundCosmeticPayload.TYPE, ServerboundCosmeticPayload.CODEC)
+        PayloadTypeRegistry./*[@]*/playC2S/*[!@]*/().register(ServerboundCosmeticPayload.TYPE, ServerboundCosmeticPayload.CODEC)
     }
 }

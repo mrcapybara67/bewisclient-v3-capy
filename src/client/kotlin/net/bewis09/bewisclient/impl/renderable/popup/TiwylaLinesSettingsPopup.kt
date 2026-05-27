@@ -12,6 +12,7 @@ import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.impl.widget.TiwylaWidget
 import net.bewis09.bewisclient.settings.types.ListSetting
 import net.bewis09.bewisclient.common.color
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 
 class TiwylaLinesSettingsPopup<T>(
     val setting: ListSetting<TiwylaWidget.Information<T>>, val options: List<TiwylaWidget.Information.Line<T>>, val yIndex: Int, val left: Boolean
@@ -32,7 +33,7 @@ class TiwylaLinesSettingsPopup<T>(
 
                 OptionScreen.currentInstance?.closePopup()
                 OptionScreen.currentInstance?.resize()
-            }.setHeight(14)).also {
+            }.setHeight(SelectiveScreenDrawer.getSideButtonHeight())).also {
                 it += options.map { option ->
                     Button(option.translation()) {
                         if (yIndex >= setting.size) {
@@ -46,7 +47,7 @@ class TiwylaLinesSettingsPopup<T>(
 
                         OptionScreen.currentInstance?.closePopup()
                         OptionScreen.currentInstance?.resize()
-                    }.setHeight(14)
+                    }.setHeight(SelectiveScreenDrawer.getSideButtonHeight())
                 }
             }
         }, 2
@@ -58,7 +59,7 @@ class TiwylaLinesSettingsPopup<T>(
     }
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
-        screenDrawing.fillWithBorderRounded(x, y, width, height, 5, OptionsMenuSettings.getThemeColor() * 0x333333.color alpha 0.9f, OptionsMenuSettings.getThemeColor() * 0xAAAAAA.color alpha 0.5f)
+        SelectiveScreenDrawer.renderPopupBackground(screenDrawing, x, y, width, height, 5, 0.3f)
         renderRenderables(screenDrawing, mouseX, mouseY)
     }
 

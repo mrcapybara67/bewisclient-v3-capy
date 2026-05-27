@@ -23,6 +23,7 @@ import net.bewis09.bewisclient.impl.renderable.TiwylaLinesSettingsRenderable
 import net.bewis09.bewisclient.impl.settings.DefaultWidgetSettings
 import net.bewis09.bewisclient.util.*
 import net.bewis09.bewisclient.common.color
+import net.bewis09.bewisclient.mixin.client.MultiPlayerGameModeMixin
 import net.bewis09.bewisclient.settings.types.BooleanMapSetting
 import net.bewis09.bewisclient.settings.types.ListSetting
 import net.bewis09.bewisclient.widget.logic.SidedPosition
@@ -299,7 +300,7 @@ object TiwylaWidget : ScalableWidget(createIdentifier("bewisclient", "tiwyla_wid
             if (secs > 60) return@Line minutesText((secs / 6 * 10).roundToInt() / 100F)
             return@Line secondsText((secs * 100).roundToInt() / 100F)
         }, "break_time", 0), Information.Line({ _ ->
-            val s = (client.gameMode?.destroyProgress ?: 0f) * 1000
+            val s = ((client.gameMode as? MultiPlayerGameModeMixin)?.getDestroyProgress() ?: 0f) * 1000
             if (s == 0F) {
                 return@Line null
             }

@@ -19,7 +19,8 @@
     "BlurrinessInjectorMixin",
     "OverlayTextureChangerMixin",
     "MouseMixin",
-    "ZoomMixin"
+    "ZoomMixin",
+    "MultiPlayerGameModeMixin"
   ],
   "injectors": {
     "defaultRequire": 1

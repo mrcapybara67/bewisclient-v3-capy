@@ -5,8 +5,33 @@ import net.bewis09.bewisclient.server.BewisclientServer
 import java.io.ByteArrayOutputStream
 import java.net.URI
 import java.net.URL
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
 
 interface WebLogic {
+    fun requestWithOfflineFilePost(url: String, offlinePath: String, postData: ByteArray): ByteArray? {
+        return requestWithOfflineFilePost(URI(url), offlinePath, postData)
+    }
+
+    fun requestWithOfflineFilePost(url: URI, offlinePath: String, postData: ByteArray): ByteArray? {
+        return requestWithOfflineFilePost(url.toURL(), offlinePath, postData)
+    }
+
+    fun requestWithOfflineFilePost(url: URL, offlinePath: String, postData: ByteArray): ByteArray? {
+        return try {
+            HttpClient.newBuilder().build().send(
+                HttpRequest.newBuilder()
+                    .uri(url.toURI())
+                    .POST(HttpRequest.BodyPublishers.ofByteArray(postData))
+                    .build(),
+                HttpResponse.BodyHandlers.ofByteArray()
+            ).body()
+        } catch (_: Exception) {
+            BewisclientServer.readRelativeFileBytes("bewisclient", "server", offlinePath)
+        }
+    }
+
     fun downloadWithOfflineFile(url: String, offlinePath: String): ByteArray? {
         return downloadWithOfflineFile(URI(url), offlinePath)
     }

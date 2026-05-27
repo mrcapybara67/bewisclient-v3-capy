@@ -4,6 +4,7 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.minecraft.network.chat.Component
 
 class SimpleTextNotification(val text: Component, val duration: Long = 5000): Notification() {
@@ -18,15 +19,19 @@ class SimpleTextNotification(val text: Component, val duration: Long = 5000): No
             val lines = screenDrawing.wrapText(text.string, 120)
 
             internalHeight = lines.size * 9 + 8
-            internalWidth = 128
+            internalWidth = 128 + if(isMinecrafty) 2 else 0
 
-            screenDrawing.fill(x, y, width, height, Color.BLACK alpha 0.5f)
-
-            lines.forEachIndexed { index, line ->
-                screenDrawing.drawText(line, x + 4, y + index * 9 + 4, OptionsMenuSettings.getTextThemeColor())
+            if (isMinecrafty) {
+                SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 0f, 0f, x, y, width + 4, height, 0f, false, mouseX, mouseY)
+            } else {
+                screenDrawing.fill(x, y, width, height, Color.BLACK alpha 0.5f)
             }
 
-            screenDrawing.fill(x, y + height - 1, (width * ((System.currentTimeMillis() - start).toFloat() / duration)).toInt(), 1, OptionsMenuSettings.getThemeColor())
+            lines.forEachIndexed { index, line ->
+                screenDrawing.drawText(line, x + if (isMinecrafty) 5 else 4, y + index * 9 + 4, OptionsMenuSettings.getTextThemeColor())
+            }
+
+            screenDrawing.fill(x + if (isMinecrafty) 1 else 0, y + height - 1, (width * ((System.currentTimeMillis() - start).toFloat() / duration)).toInt(), 1, OptionsMenuSettings.getThemeColor())
             screenDrawing.setDefaultFont()
         }
     }

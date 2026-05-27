@@ -9,30 +9,59 @@ import net.bewis09.bewisclient.drawable.renderables.Hoverable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.common.within
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.`snake_toWord With Spaces`
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
+import net.bewis09.bewisclient.drawable.screen_drawing.darken
 import net.bewis09.bewisclient.version.drawCape
 
 class SelectCapeElement(val identifier: CosmeticIdentifier, val cosmetic: Cosmetic) : Hoverable() {
-    val selected = Animator(200, Animator.EASE_IN_OUT, 0f)
+    val selected = Animator({ animationDuration }, Animator.EASE_IN_OUT, 0f)
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)
 
         selected.set(if (CosmeticLoader.selected[CosmeticType.CAPE.id] == identifier.id) 1f else 0f)
 
-        screenDrawing.fillRounded(x, y, width, height, 5, OptionsMenuSettings.getThemeColor(alpha = selected.get() * 0.3f + hoverFactor * 0.15f + 0.1f))
-
-        screenDrawing.drawCape(cosmetic.getIdentifier(), x + 8, y + 8, width - 16, height - 25)
-        screenDrawing.drawCenteredText(`snake_toWord With Spaces`(identifier.id), x + width / 2, y + height - 13, OptionsMenuSettings.getTextThemeColor())
-
-        if (CosmeticLoader.elytraCosmetics.contains(identifier)) {
-            screenDrawing.fillWithBorderRounded(x + width - 20, y, 20, 20, 5, 0.3f within (Color.BLACK to OptionsMenuSettings.getThemeColor()), 0.2f within ((selected.get() within (Color.DARK_GRAY to Color.WHITE)) to OptionsMenuSettings.getThemeColor()), topLeft = false, bottomRight = false)
-            screenDrawing.drawTexture(createIdentifier("textures/item/elytra.png"), x + width - 18, y + 2, 16, 16)
+        if (isMinecrafty) {
+            screenDrawing.darken(0.6f) {
+                screenDrawing.fill(x + 3, y + 3, width - 6, height - 6, (selected.get() / 2f) within (hoverFactor within (0x333333.color to 0x444444.color) to Color.WHITE))
+            }
+        } else {
+            screenDrawing.fillRounded(x, y, width, height, 5, OptionsMenuSettings.getThemeColor(alpha = selected.get() * 0.3f + hoverFactor * 0.15f + 0.1f))
         }
 
-        screenDrawing.drawBorderRounded(x, y, width, height, 5, 0.2f within ((selected.get() within (Color.DARK_GRAY to Color.WHITE)) to OptionsMenuSettings.getThemeColor()))
+        screenDrawing.drawCape(cosmetic.getIdentifier(), x + 8, y + 8, width - 16, height - 25)
+        val text = screenDrawing.wrapText(`snake_toWord With Spaces`(identifier.id), width - 8)
+
+        for (i in text.indices) {
+            screenDrawing.drawCenteredText(
+                text[i], centerX, y + i * 7 + height - 7 - text.size * 7, OptionsMenuSettings.getTextThemeColor()
+            )
+        }
+
+        if (isMinecrafty) {
+            screenDrawing.darken(0.6f + selected.get() * 0.4f) {
+                screenDrawing.drawBorder(x, y, width, height, 0x222222.color)
+                screenDrawing.drawBorder(x + 1, y + 1, width - 2, height - 2, hoverFactor within (0x5B5B5B.color to 0xA1A1A1.color))
+                screenDrawing.drawBorder(x + 2, y + 2, width - 4, height - 4, 0x282828.color)
+            }
+        } else {
+            screenDrawing.drawBorderRounded(x, y, width, height, 5, 0.2f within ((selected.get() within (Color.DARK_GRAY to Color.WHITE)) to OptionsMenuSettings.getThemeColor()))
+        }
+
+        if (CosmeticLoader.elytraCosmetics.contains(identifier)) {
+            if (isMinecrafty) {
+                screenDrawing.drawBorder(x + width - 21, y - 1, 22, 22, Color.BLACK alpha 0.5f)
+                SelectiveScreenDrawer.renderSmallButtonBackground(screenDrawing, 0f, 0f, x + width - 20, y, 20, 20, 1f, false, mouseX, mouseY, false)
+            } else {
+                screenDrawing.fillWithBorderRounded(x + width - 20, y, 20, 20, 5, 0.3f within (Color.BLACK to OptionsMenuSettings.getThemeColor()), 0.2f within ((selected.get() within (Color.DARK_GRAY to Color.WHITE)) to OptionsMenuSettings.getThemeColor()), topLeft = false, bottomRight = false)
+            }
+
+            screenDrawing.drawTexture(createIdentifier("textures/item/elytra.png"), x + width - 18, y + 2, 16, 16)
+        }
     }
 
     override fun init() {

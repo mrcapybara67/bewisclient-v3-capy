@@ -29,6 +29,9 @@ import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.then
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.Util
+import net.bewis09.bewisclient.common.alpha
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
+import net.bewis09.bewisclient.drawable.screen_drawing.scale
 import net.bewis09.bewisclient.version.registerTexture
 import net.minecraft.client.Minecraft
 import java.io.ByteArrayInputStream
@@ -121,9 +124,9 @@ object ScreenshotElement : Renderable() {
                     listOf(
                         object : Renderable() {
                             override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
-                                screenDrawing.fillWithBorder(x, y, width, height, OptionsMenuSettings.getThemeColor(alpha = 0.7f, black = 0.2f), OptionsMenuSettings.getThemeColor(alpha = 0.5f))
+                                screenDrawing.fillWithBorder(x, y, width, height, if(isMinecrafty) 0x333333 alpha 0.7f else OptionsMenuSettings.getThemeColor(alpha = 0.7f, black = 0.2f), if(isMinecrafty) Color.WHITE alpha 0.5f else OptionsMenuSettings.getThemeColor(alpha = 0.5f))
                                 val lines = screenDrawing.wrapText(noScreenshotsYet().string, width - 8)
-                                screenDrawing.drawCenteredWrappedText(lines, x + width / 2, y + height / 2 - lines.size * screenDrawing.getTextHeight() / 2, OptionsMenuSettings.getThemeColor(white = 0.3f, alpha = 0.7f))
+                                screenDrawing.drawCenteredWrappedText(lines, x + width / 2, y + height / 2 - lines.size * screenDrawing.getTextHeight() / 2, if(isMinecrafty) Color.WHITE alpha 0.7f else OptionsMenuSettings.getThemeColor(white = 0.3f, alpha = 0.7f))
                             }
                         }.setHeight((width - 2) * 9 / 16 + 2)
                     )
@@ -158,8 +161,13 @@ class ScreenshotViewElement(val file: File) : Hoverable(100) {
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)
 
-        screenDrawing.transform(x + width / 2f, y + height / 2f, 1f - hoverFactor * 0.1f) {
-            screenDrawing.fillWithBorder(-width / 2, -height / 2, width, height, OptionsMenuSettings.getThemeColor(alpha = 0.7f, black = 0.2f), OptionsMenuSettings.getThemeColor(white = 1f - hoverFactor * .5f, alpha = 0.5f + hoverFactor * .5f))
+        screenDrawing.transform(x + width / 2f, y + height / 2f, if (isMinecrafty) 1f else 1f - hoverFactor * 0.1f) {
+            if (isMinecrafty) {
+                SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverFactor, 1f, -width / 2, -height / 2, width, height, 1f, false, mouseX, mouseY)
+            } else {
+                screenDrawing.fillWithBorder(-width / 2, -height / 2, width, height, OptionsMenuSettings.getThemeColor(alpha = 0.7f, black = 0.2f), OptionsMenuSettings.getThemeColor(white = 1f - hoverFactor * .5f, alpha = 0.5f + hoverFactor * .5f))
+            }
+
             val data = contents.getOrDefault(file, null) ?: return
 
             data.identifier?.also {
@@ -171,8 +179,13 @@ class ScreenshotViewElement(val file: File) : Hoverable(100) {
                 val imgWidth = (imgHeight * aspectRatio).toInt()
 
                 val value = 1f - hoverFactor * 0.4f
-                screenDrawing.pushColor(value, value, value, value) {
-                    screenDrawing.drawTexture(it, -imgWidth / 2, -imgHeight.toInt() / 2, imgWidth, imgHeight.toInt())
+                screenDrawing.pushColor(if (isMinecrafty) 1f else value, if (isMinecrafty) 1f else value, if (isMinecrafty) 1f else value, if (isMinecrafty) 1f else value) {
+                    screenDrawing.scale(if (isMinecrafty) (1 - 4f / imgHeight) else 1f, if (isMinecrafty) (1 - 4f / imgHeight) else 1f) {
+                        screenDrawing.drawTexture(it, -imgWidth / 2, -imgHeight.toInt() / 2, imgWidth, imgHeight.toInt())
+                        if (isMinecrafty) {
+                            screenDrawing.fill(-imgWidth / 2, -imgHeight.toInt() / 2, imgWidth, imgHeight.toInt(), Color.WHITE alpha (0.2f * hoverFactor))
+                        }
+                    }
                 }
             } ?: run {
                 screenDrawing.drawCenteredText((data.failed then { loadingFailed() }) ?: loading(), 0, -5, Color.WHITE)
@@ -247,7 +260,11 @@ fun loadTexture(file: File, nativeImage: NativeImage) {
 
 class BigScreenshotViewElement(val file: File) : Renderable() {
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
-        screenDrawing.fillWithBorder(x, y, width, height - 19, OptionsMenuSettings.getThemeColor(black = 0.2f, alpha = 0.7f), OptionsMenuSettings.getThemeColor(alpha = 0.5f))
+        if (isMinecrafty) {
+            SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 0f, 0f, x, y, width, height - SelectiveScreenDrawer.getSideButtonHeight() - 5, 1f, false, mouseX, mouseY)
+        } else {
+            screenDrawing.fillWithBorder(x, y, width, height - SelectiveScreenDrawer.getSideButtonHeight() - 5, if (isMinecrafty) Color.BLACK alpha 0.7f else OptionsMenuSettings.getThemeColor(black = 0.2f, alpha = 0.7f), if (isMinecrafty) Color.WHITE alpha 0.5f else OptionsMenuSettings.getThemeColor(alpha = 0.5f))
+        }
 
         val data = contents.getOrDefault(file, null) ?: return
 
@@ -256,10 +273,10 @@ class BigScreenshotViewElement(val file: File) : Renderable() {
 
             val aspectRatio = nativeImage.width.toFloat() / nativeImage.height.toFloat()
 
-            val imgHeight = ((width - 2) * (1 / aspectRatio)).coerceAtMost(height - 21f)
+            val imgHeight = ((width - if (isMinecrafty) 6 else 2) * (1 / aspectRatio)).coerceAtMost(height - if (isMinecrafty) 29f else 21f)
             val imgWidth = (imgHeight * aspectRatio).toInt()
 
-            screenDrawing.drawTexture(it, (x + width / 2 - imgWidth / 2), (y + (height - 19) / 2 - imgHeight.toInt() / 2), imgWidth, imgHeight.toInt())
+            screenDrawing.drawTexture(it, (x + width / 2 - imgWidth / 2), (y + (height - SelectiveScreenDrawer.getSideButtonHeight() - 5) / 2 - imgHeight.toInt() / 2), imgWidth, imgHeight.toInt())
         } ?: run {
             screenDrawing.drawCenteredText((data.failed then { loadingFailed() }) ?: loading(), x + width / 2, y + (height - 19) / 2 - 5, Color.WHITE)
             if (!data.failed && (data.nativeImage != null)) {
@@ -271,14 +288,14 @@ class BigScreenshotViewElement(val file: File) : Renderable() {
     }
 
     override fun init() {
-        internalHeight = (width - 2) * 9 / 16 + 21
+        internalHeight = (width - 2) * 9 / 16 + SelectiveScreenDrawer.getSideButtonHeight() + 7
 
         addRenderable(Button(Translations.OPEN()) {
             Util.getPlatform().openFile(file)
-        }(x, y + height - 14, (width - 15) / 4, 14))
+        }(x, y + height - SelectiveScreenDrawer.getSideButtonHeight(), (width - 15) / 4, SelectiveScreenDrawer.getSideButtonHeight()))
         addRenderable(Button(Translations.OPEN_FOLDER()) {
             Util.getPlatform().openFile(file.parentFile)
-        }(x + (width - 15) / 4 + 5, y + height - 14, (width - 15) / 4, 14))
+        }(x + (width - 15) / 4 + 5, y + height - SelectiveScreenDrawer.getSideButtonHeight(), (width - 15) / 4, SelectiveScreenDrawer.getSideButtonHeight()))
         addRenderable(Button(Translations.COPY()) { button ->
             button.text = Translations.COPYING()
             ProcessCreator.create(CopyImage::class.java, file.path) {
@@ -287,11 +304,11 @@ class BigScreenshotViewElement(val file: File) : Renderable() {
                     NotificationManager.addNotification(SimpleTextNotification(Translations.COPY_FAILED(it)))
                     button.text = Translations.COPY()
                 } else {
-                    NotificationManager.addNotification(SimpleTextNotification(Translations.COPY_SUCCESS()))
+                    NotificationManager.addNotification(SimpleTextNotification(Translations.COPY_SCREENSHOT_SUCCESS()))
                     button.text = Translations.COPY()
                 }
             }
-        }(x + width - 2 * (width - 15) / 4 - 5, y + height - 14, (width - 15) / 4, 14))
+        }(x + width - 2 * (width - 15) / 4 - 5, y + height - SelectiveScreenDrawer.getSideButtonHeight(), (width - 15) / 4, SelectiveScreenDrawer.getSideButtonHeight()))
         addRenderable(Button(Translations.DELETE()) {
             OptionScreen.currentInstance?.openPopup(ConfirmPopup(Translations.CONFIRM_DELETE(), {
                 if (catch { file.delete() } == true) {
@@ -301,6 +318,6 @@ class BigScreenshotViewElement(val file: File) : Renderable() {
                 }
                 OptionScreen.currentInstance?.goBack()
             }))
-        }(x + width - (width - 15) / 4, y + height - 14, (width - 15) / 4, 14))
+        }(x + width - (width - 15) / 4, y + height - SelectiveScreenDrawer.getSideButtonHeight(), (width - 15) / 4, SelectiveScreenDrawer.getSideButtonHeight()))
     }
 }

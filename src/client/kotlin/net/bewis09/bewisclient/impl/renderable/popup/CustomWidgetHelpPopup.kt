@@ -9,6 +9,7 @@ import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.impl.widget.CustomWidget
 import net.bewis09.bewisclient.common.setColor
 import net.bewis09.bewisclient.common.toText
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 
 class CustomWidgetHelpPopup(val screen: PopupScreen) : Renderable() {
     init {
@@ -29,7 +30,8 @@ class CustomWidgetHelpPopup(val screen: PopupScreen) : Renderable() {
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         internalWidth = 200
         internalHeight = screenHeight - 100
-        screenDrawing.fillWithBorderRounded(x, y, width, height, 10, OptionsMenuSettings.getBackgroundColor() alpha 0.9f, OptionsMenuSettings.getThemeColor(alpha = 0.15f))
+        SelectiveScreenDrawer.renderPopupBackground(screenDrawing, x, y, width, height, 10, 0.15f)
+//        screenDrawing.fillWithBorderRounded(x, y, width, height, 10, OptionsMenuSettings.getBackgroundColor() alpha 0.9f, OptionsMenuSettings.getThemeColor(alpha = 0.15f))
         renderRenderables(screenDrawing, mouseX, mouseY)
     }
 

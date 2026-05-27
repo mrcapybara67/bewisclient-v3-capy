@@ -3,9 +3,16 @@ package net.bewis09.bewisclient.impl.settings
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.common.within
-import net.bewis09.bewisclient.util.color.*
+import net.bewis09.bewisclient.drawable.SettingStructure
+import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
+import net.bewis09.bewisclient.screen.RenderableScreen
+import net.bewis09.bewisclient.settings.types.BooleanSetting
 import net.bewis09.bewisclient.settings.types.ColorSetting
 import net.bewis09.bewisclient.settings.types.ObjectSetting
+import net.bewis09.bewisclient.util.color.StaticColorSaver
+import net.bewis09.bewisclient.util.color.ThemeColorSaver
+import net.bewis09.bewisclient.version.getScreen
+import net.bewis09.bewisclient.version.setScreen
 
 object OptionsMenuSettings : ObjectSetting() {
     val animationTime = int("animation_time", 200, 0, 500)
@@ -15,9 +22,14 @@ object OptionsMenuSettings : ObjectSetting() {
     val themeColor = color("theme_color", StaticColorSaver(0xFFFFFF.color), ColorSetting.STATIC)
     val backgroundColor = color("background_color", ThemeColorSaver(0.2f), ColorSetting.STATIC, ColorSetting.THEME)
     val backgroundOpacity = float("background_opacity", 0.8f, 0f, 1f, 0.01f, 2)
+    val minecraftyOptionsMenu: BooleanSetting = boolean("minecrafty_options_menu", false) { _, _ ->
+        if ((getScreen() as? RenderableScreen)?.renderable !is OptionScreen) return@boolean
+
+        setScreen(RenderableScreen(OptionScreen(1f, 1f).apply { changeCategory(SettingStructure.settingsCategory, true) }))
+    }
 
     fun getBackgroundColor(): Color = 0.3f within (Color.BLACK to backgroundColor.get().getColor()) alpha backgroundOpacity.get()
 
-    fun getThemeColor(white: Float = 1f, alpha: Float = 1f, black: Float = 1f) = (black within (Color.BLACK to (white within (Color.WHITE to themeColor.get().getColor())))) alpha alpha
-    fun getTextThemeColor() = (0.5f within (Color.WHITE to themeColor.get().getColor()))
+    fun getThemeColor(white: Float = 1f, alpha: Float = 1f, black: Float = 1f) = (black within (Color.BLACK to if (isMinecrafty) Color.WHITE else (white within (Color.WHITE to themeColor.get().getColor())))) alpha alpha
+    fun getTextThemeColor() = if (!minecraftyOptionsMenu) (0.5f within (Color.WHITE to themeColor.get().getColor())) else Color.WHITE
 }

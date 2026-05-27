@@ -4,6 +4,8 @@ import net.bewis09.bewisclient.drawable.Animator
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
+import net.bewis09.bewisclient.drawable.screen_drawing.pushAlpha
 import net.bewis09.bewisclient.version.translateToTopOptional
 import net.minecraft.network.chat.Component
 
@@ -63,7 +65,13 @@ open class TooltipHoverable(
 
                 screenDrawing.push()
                 screenDrawing.guiGraphics.translateToTopOptional()
-                screenDrawing.fillRounded(mouseX, mouseY - tooltipHeight, width, tooltipHeight, 5, Color.BLACK alpha tooltipAnimation.get() * 0.8f)
+                if (isMinecrafty) {
+                    screenDrawing.pushAlpha(tooltipAnimation.get() * 0.9f) {
+                        SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 1f, 0f, mouseX, mouseY - tooltipHeight, width, tooltipHeight, 1f, false, mouseX, mouseY, true)
+                    }
+                } else {
+                    screenDrawing.fillRounded(mouseX, mouseY - tooltipHeight, width, tooltipHeight, 5, Color.BLACK alpha tooltipAnimation.get() * 0.8f)
+                }
                 screenDrawing.drawWrappedText(wrappedText, mouseX + 5, mouseY - tooltipHeight + 5, Color.WHITE alpha tooltipAnimation.get())
                 screenDrawing.pop()
             })

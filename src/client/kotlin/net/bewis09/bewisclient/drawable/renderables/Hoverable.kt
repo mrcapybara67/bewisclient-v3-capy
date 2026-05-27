@@ -11,7 +11,7 @@ open class Hoverable(
     widthProvider: (Renderable.() -> Int)? = null,
     heightProvider: (Renderable.() -> Int)? = null
 ) : Renderable(minWidth, minHeight, widthProvider, heightProvider) {
-    val hoverAnimation = Animator(200, LINEAR, 0f)
+    val hoverAnimation = Animator({ animationDuration }, LINEAR, 0f)
 
     val hoverFactor
         get() = hoverAnimation.get()

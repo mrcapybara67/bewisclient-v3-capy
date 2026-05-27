@@ -2,6 +2,7 @@ package net.bewis09.bewisclient.drawable.renderables.options_structure
 
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.drawable.Renderable
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.renderables.Plane
 import net.bewis09.bewisclient.drawable.renderables.TextElement
 import net.bewis09.bewisclient.drawable.renderables.ThemeButton
@@ -17,7 +18,7 @@ open class SidebarCategory(val id: Identifier, val name: Translation, val render
     operator fun invoke(): ThemeButton {
         return ThemeButton(name(), { OptionScreen.currentInstance?.category?.value == id.toString() }, {
             OptionScreen.currentInstance?.changeCategory(this)
-        }).setHeight(14) as ThemeButton
+        }).setHeight(SelectiveScreenDrawer.getSideButtonHeight()) as ThemeButton
     }
 
     fun getHeader(): Renderable {

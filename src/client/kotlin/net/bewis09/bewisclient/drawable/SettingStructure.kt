@@ -14,6 +14,7 @@ import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.widget.WidgetLoader
 
@@ -31,7 +32,8 @@ object SettingStructure : ClientInterface {
             OptionsMenuSettings.buttonInTitleScreen.createRenderable("menu.settings.button_in_title_screen", "Button in Title Screen", "Whether to show the Bewisclient button in the title screen").addToQuickSettings("menu.category.settings", "title"),
             OptionsMenuSettings.buttonInGameScreen.createRenderable("menu.settings.button_in_game_screen", "Button in Game Screen", "Whether to show the Bewisclient button in the in-game pause menu").addToQuickSettings("menu.category.settings", "in-game"),
             OptionsMenuSettings.themeColor.createRenderable("menu.settings.theme_color", "Theme Color", "The theme color used throughout the client").addToQuickSettings("menu.category.settings", "theme_color"),
-            OptionsMenuSettings.backgroundColor.createRenderableWithFader("menu.settings.background_color", "Background Color", "The background color used for menus. Reset to use the theme color.", OptionsMenuSettings.backgroundOpacity).addToQuickSettings("menu.category.settings", "background")
+            OptionsMenuSettings.backgroundColor.createRenderableWithFader("menu.settings.background_color", "Background Color", "The background color used for menus. Reset to use the theme color.", OptionsMenuSettings.backgroundOpacity).addToQuickSettings("menu.category.settings", "background"),
+            OptionsMenuSettings.minecraftyOptionsMenu.createRenderable("menu.settings.minecrafty_options_menu", "Minecrafty Options Menu", "Whether to use a Minecrafty style options menu instead of the default flat design")
         ), 1
     )
 
@@ -56,11 +58,11 @@ object SettingStructure : ClientInterface {
                 OptionScreen.currentInstance?.openPage(
                     TextElement(Translation("menu.widgets.general_setting", "General Widget Settings")(), centered = true).setHeight(12), VerticalAlignScrollPlane({ generalWidgetSettings }, 1)
                 )
-            }(x, y, width, 14),
+            }(x, y, width, SelectiveScreenDrawer.getSideButtonHeight()),
 //            Button(Translation("menu.widgets.presets", "Presets")()) {
 //
 //            }(x + width - 55, 37, 55, 14),
-            VerticalScrollGrid({ widgets.map { a -> a.setHeight(90) } }, 5, 80).invoke(x, y + 19, width, height - 19)
+            VerticalScrollGrid({ widgets.map { a -> a.setHeight(90) } }, 5, 80).invoke(x, y + SelectiveScreenDrawer.getSideButtonHeight() + 5, width, height - SelectiveScreenDrawer.getSideButtonHeight() - 5)
         )
     }
 

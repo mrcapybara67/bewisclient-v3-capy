@@ -1,6 +1,7 @@
 package net.bewis09.bewisclient.drawable.renderables.popup
 
 import net.bewis09.bewisclient.drawable.Renderable
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.renderables.Button
 import net.bewis09.bewisclient.drawable.renderables.Input
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
@@ -34,7 +35,7 @@ class InputTextPopup(val text: Component, val onConfirm: (text: String) -> Unit,
         cancelButton.setPosition(x + 6, y + height - 20)
         confirmButton.setPosition(x + width - confirmButton.width - 6, y + height - 20)
 
-        screenDrawing.fillWithBorderRounded(x, y, width, height, 5, OptionsMenuSettings.getBackgroundColor(), OptionsMenuSettings.getThemeColor(alpha = 0.3f))
+        SelectiveScreenDrawer.renderPopupBackground(screenDrawing, x, y, width, height, 5, 0.3f)
 
         lines.forEachIndexed { index, line ->
             screenDrawing.drawCenteredText(line, x + width / 2, y + 10 + index * 9, OptionsMenuSettings.getTextThemeColor())

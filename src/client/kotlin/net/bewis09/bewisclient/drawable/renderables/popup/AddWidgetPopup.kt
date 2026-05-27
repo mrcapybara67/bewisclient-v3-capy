@@ -1,6 +1,7 @@
 package net.bewis09.bewisclient.drawable.renderables.popup
 
 import net.bewis09.bewisclient.drawable.Renderable
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.renderables.*
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.Translation
@@ -22,7 +23,7 @@ class AddWidgetPopup : Renderable(
     }, 5, 80)
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
-        screenDrawing.fillWithBorderRounded(x, y, width, height, 10, OptionsMenuSettings.getBackgroundColor(), OptionsMenuSettings.getThemeColor(alpha = 0.15f))
+        SelectiveScreenDrawer.renderPopupBackground(screenDrawing, x, y, width, height, 10, 0.15f)
         renderRenderables(screenDrawing, mouseX, mouseY)
     }
 
@@ -51,7 +52,8 @@ class AddWidgetPopup : Renderable(
             val textHeight = (screenDrawing.wrapText(title.string, width - 10).size - 1) * screenDrawing.getTextHeight()
             val descriptionHeight = (screenDrawing.wrapText(description.string, width - 10).size - 1) * screenDrawing.getTextHeight()
 
-            screenDrawing.fillWithBorderRounded(x, y, width, height, 5, OptionsMenuSettings.getThemeColor(alpha = hoverFactor * 0.15f + 0.15f), OptionsMenuSettings.getThemeColor(alpha = hoverFactor * 0.15f + 0.15f))
+            SelectiveScreenDrawer.renderSettingsCategoryBackground(screenDrawing, x, y, width, height, 1f, hoverFactor, mouseX, mouseY)
+
             screenDrawing.drawCenteredWrappedText(title, centerX, y + 14 - textHeight / 2, width - 10, OptionsMenuSettings.getThemeColor())
             screenDrawing.drawCenteredWrappedText(description, centerX, y2 - 38 - descriptionHeight / 2, width - 10, OptionsMenuSettings.getThemeColor() * 0xAAAAAA alpha 0.65f)
 

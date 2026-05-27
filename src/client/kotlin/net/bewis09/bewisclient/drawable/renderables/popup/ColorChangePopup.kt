@@ -1,6 +1,8 @@
 package net.bewis09.bewisclient.drawable.renderables.popup
 
+import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.drawable.Renderable
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.renderables.Rectangle
 import net.bewis09.bewisclient.drawable.renderables.ThemeButton
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
@@ -24,7 +26,7 @@ class ColorChangePopup(val state: Gettable<ColorSaver>, val onChange: (ColorSave
     }
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
-        screenDrawing.fillWithBorderRounded(x, y, width, height, 5, OptionsMenuSettings.getBackgroundColor(), OptionsMenuSettings.getThemeColor(alpha = 0.3f))
+        SelectiveScreenDrawer.renderPopupBackground(screenDrawing, x, y, width, height, 5, 0.3f)
         renderRenderables(screenDrawing, mouseX, mouseY)
     }
 

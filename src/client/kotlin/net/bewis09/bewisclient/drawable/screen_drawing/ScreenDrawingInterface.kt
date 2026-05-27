@@ -3,6 +3,7 @@ package net.bewis09.bewisclient.drawable.screen_drawing
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.version.*
 import net.minecraft.client.gui.Font
@@ -34,6 +35,8 @@ interface ScreenDrawingInterface : ClientInterface {
     fun pushAlpha(alpha: Float) = colorStack.add(Color(1f, 1f, 1f, alpha))
 
     fun pushColor(r: Float, g: Float, b: Float, a: Float) = colorStack.add(Color(r, g, b, a))
+
+    fun darken(brightness: Float) = pushColor(brightness, brightness, brightness, 1f)
 
     fun popColor(): Color = if (colorStack.isNotEmpty()) {
         colorStack.removeLast()
@@ -77,6 +80,11 @@ interface ScreenDrawingInterface : ClientInterface {
     fun disableScissors() = guiGraphics.disableScissor()
 
     fun scissorContains(x: Int, y: Int) = guiGraphics.containsPointInScissor(x, y)
+
+    fun pointerIfWithin(x: Int, y: Int, width: Int, height: Int, mouseX: Int, mouseY: Int) {
+        if (isMouseOver(x.toFloat(), y.toFloat(), width, height, mouseX, mouseY))
+            setCursorPointer()
+    }
 }
 
 inline fun ScreenDrawingInterface.onNewLayer(apply: () -> Unit, transform: () -> Unit) {
@@ -104,3 +112,5 @@ inline fun ScreenDrawingInterface.pushColor(r: Float, g: Float, b: Float, a: Flo
 }
 
 inline fun ScreenDrawingInterface.pushAlpha(a: Float, func: () -> Unit) = pushColor(1f, 1f, 1f, a, func)
+
+inline fun ScreenDrawingInterface.darken(brightness: Float, func: () -> Unit) = pushColor(brightness, brightness, brightness, 1f, func)

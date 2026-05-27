@@ -193,7 +193,7 @@ abstract class Renderable(
     open fun onCharTyped(character: Char, modifiers: Int): Boolean = false
 
     fun isMouseOver(mouseX: Double, mouseY: Double): Boolean {
-        return mouseX >= this.x && mouseX <= this.x2 && mouseY >= this.y && mouseY <= this.y2
+        return mouseX.toInt() >= this.x && mouseX.toInt() <= this.x2 && mouseY.toInt() >= this.y && mouseY.toInt() <= this.y2
     }
 
     operator fun invoke(x: Int, y: Int, width: Int, height: Int): Renderable {

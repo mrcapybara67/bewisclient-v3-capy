@@ -150,7 +150,7 @@ class PackListScreen(val type: Modrinth.Type, val parent: Screen, val folder: Pa
             if (isMouseOver(mouseX.toFloat(), mouseY.toFloat(), x + 4, y, 32, 32)) {
                 Modrinth.loadPack(pack.slug) { p ->
                     Modrinth.loadVersions(p) { map ->
-                        map.values.filter { it.loaders.contains(type.loader) && it.game_versions.contains(SharedConstants.getCurrentVersion().name) }.maxByOrNull { it.date_published }?.let { version ->
+                        map.values.filter { it.loaders.contains(type.loader) && it.game_versions.contains(SharedConstants.getCurrentVersion().name.replace(" ", "-").lowercase()) }.maxByOrNull { it.date_published }?.let { version ->
                             version.files.firstOrNull { it.primary }?.also { file ->
                                 val progressNotification = ProgressNotification(Modrinth.downloading(pack.title))
                                 NotificationManager.addNotification(progressNotification)

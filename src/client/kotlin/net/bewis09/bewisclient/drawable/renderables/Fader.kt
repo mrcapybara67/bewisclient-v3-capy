@@ -1,11 +1,7 @@
 package net.bewis09.bewisclient.drawable.renderables
 
-import net.bewis09.bewisclient.common.alpha
-import net.bewis09.bewisclient.common.color
-import net.bewis09.bewisclient.common.within
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.drawable.screen_drawing.transform
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.interfaces.Gettable
 import net.bewis09.bewisclient.util.number.Precision
 
@@ -13,15 +9,7 @@ class Fader(val value: Gettable<Float>, val precision: Precision, val onChange: 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)
         val normalizedValue = precision.normalize(value.get())
-        screenDrawing.fillRounded(
-            x, y + 5, width, 4, 2, 0xAAAAAA alpha hoverFactor * 0.15f + 0.15f
-        )
-
-        screenDrawing.transform(x + normalizedValue * (width - 8) + 4, y + 2f, 0.1f) {
-            screenDrawing.fillRounded(
-                -20, 0, 40, 100, 20, (hoverFactor within (0xCCCCCC.color to 0xFFFFFF.color)) * OptionsMenuSettings.getThemeColor()
-            )
-        }
+        SelectiveScreenDrawer.renderFader(screenDrawing, x, y, width, height, hoverAnimation.get(), normalizedValue, mouseX, mouseY)
     }
 
     override fun onMouseDrag(mouseX: Double, mouseY: Double, startX: Double, startY: Double, button: Int): Boolean {
