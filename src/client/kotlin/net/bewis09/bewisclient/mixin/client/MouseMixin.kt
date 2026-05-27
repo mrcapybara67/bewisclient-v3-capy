@@ -6,7 +6,6 @@ import net.bewis09.bewisclient.impl.functionalities.Zoom.factorAnimation
 import net.bewis09.bewisclient.impl.functionalities.Zoom.isUsed
 import net.bewis09.bewisclient.impl.widget.CPSWidget.leftMouseList
 import net.bewis09.bewisclient.impl.widget.CPSWidget.rightMouseList
-import net.bewis09.bewisclient.util.MathHelper.clamp
 import net.minecraft.client.MouseHandler
 import org.spongepowered.asm.mixin.Mixin
 import org.spongepowered.asm.mixin.injection.At
@@ -31,7 +30,7 @@ class MouseMixin {
     @Inject(method = ["onScroll"], at = [At("HEAD")], cancellable = true)
     private fun bewisclientOnMouseScroll(handle: Long, horizontal: Double, vertical: Double, ci: CallbackInfo) {
         if (isUsed()) {
-            factorAnimation.set(clamp(factorAnimation.getWithoutInterpolation() - vertical.toFloat() * 0.02f, .009f, .4f))
+            factorAnimation.set((factorAnimation.getWithoutInterpolation() - vertical.toFloat() * 0.02f).coerceIn(.009f, .4f))
 
             ci.cancel()
         }

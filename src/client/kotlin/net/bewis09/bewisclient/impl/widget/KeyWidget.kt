@@ -1,7 +1,9 @@
 package net.bewis09.bewisclient.impl.widget
 
 import com.mojang.blaze3d.platform.InputConstants
-import net.bewis09.bewisclient.version.isKeyPressed
+import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.common.staticFun
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.drawable.renderables.screen.HudEditScreen
@@ -9,42 +11,29 @@ import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSett
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.impl.settings.DefaultWidgetSettings
-import net.bewis09.bewisclient.common.Color
-import net.bewis09.bewisclient.util.color.StaticColorSaver
-import net.bewis09.bewisclient.common.createIdentifier
-import net.bewis09.bewisclient.common.staticFun
 import net.bewis09.bewisclient.settings.types.BooleanSetting
 import net.bewis09.bewisclient.settings.types.ColorSetting
+import net.bewis09.bewisclient.util.color.StaticColorSaver
+import net.bewis09.bewisclient.version.isKeyPressed
 import net.bewis09.bewisclient.widget.logic.RelativePosition
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
+import net.bewis09.bewisclient.widget.types.LineWidget
 import net.bewis09.bewisclient.widget.types.ScalableWidget
 import net.minecraft.client.KeyMapping
 import org.lwjgl.glfw.GLFW
 
 object KeyWidget : ScalableWidget(createIdentifier("bewisclient", "key_widget")) {
     val backgroundColor = create("background_color", DefaultWidgetSettings.backgroundColor.cloneWithDefault())
-    val backgroundOpacity = create(
-        "background_opacity", DefaultWidgetSettings.backgroundOpacity.cloneWithDefault()
-    )
+    val backgroundOpacity = create("background_opacity", DefaultWidgetSettings.backgroundOpacity.cloneWithDefault())
     val borderColor = create("border_color", DefaultWidgetSettings.borderColor.cloneWithDefault())
     val borderOpacity = create("border_opacity", DefaultWidgetSettings.borderOpacity.cloneWithDefault())
     val textColor = create("text_color", DefaultWidgetSettings.textColor.cloneWithDefault())
 
-    val pressedBackgroundColor = color(
-        "pressed_background_color", StaticColorSaver(Color.LIGHT_GRAY), ColorSetting.CHANGING, ColorSetting.STATIC, ColorSetting.THEME
-    )
-    val pressedBackgroundOpacity = create(
-        "pressed_background_opacity", DefaultWidgetSettings.backgroundOpacity.cloneWithDefault()
-    )
-    val pressedBorderColor = color(
-        "pressed_border_color", StaticColorSaver(Color.LIGHT_GRAY), ColorSetting.CHANGING, ColorSetting.STATIC, ColorSetting.THEME
-    )
-    val pressedBorderOpacity = create(
-        "pressed_border_opacity", DefaultWidgetSettings.borderOpacity.cloneWithDefault()
-    )
-    val pressedTextColor = color(
-        "pressed_text_color", StaticColorSaver(Color.GRAY), ColorSetting.CHANGING, ColorSetting.STATIC, ColorSetting.THEME
-    )
+    val pressedBackgroundColor = color("pressed_background_color", StaticColorSaver(Color.LIGHT_GRAY), *ColorSetting.ALL)
+    val pressedBackgroundOpacity = create("pressed_background_opacity", DefaultWidgetSettings.backgroundOpacity.cloneWithDefault())
+    val pressedBorderColor = color("pressed_border_color", StaticColorSaver(Color.LIGHT_GRAY), *ColorSetting.ALL)
+    val pressedBorderOpacity = create("pressed_border_opacity", DefaultWidgetSettings.borderOpacity.cloneWithDefault())
+    val pressedTextColor = color("pressed_text_color", StaticColorSaver(Color.GRAY), *ColorSetting.ALL)
 
     val shadow = create("shadow", DefaultWidgetSettings.shadow.cloneWithDefault())
     val paddingSize = int("padding_size", 5, 0, 10)
@@ -100,12 +89,8 @@ object KeyWidget : ScalableWidget(createIdentifier("bewisclient", "key_widget"))
         if (showJumpKey.get()) renderKey(screenDrawing, 0, y, totalWidth, bottomHeight, client.options.keyJump)
     }
 
-    fun renderKey(
-        screenDrawing: ScreenDrawing, x: Int, y: Int, width: Int, height: Int, keyBinding: KeyMapping
-    ) {
-        renderKey(
-            screenDrawing, x, y, width, height, keyBinding.getKeyText(), isPressed(keyBinding)
-        )
+    fun renderKey(screenDrawing: ScreenDrawing, x: Int, y: Int, width: Int, height: Int, keyBinding: KeyMapping) {
+        renderKey(screenDrawing, x, y, width, height, keyBinding.getKeyText(), isPressed(keyBinding))
     }
 
     fun isPressed(keyBinding: KeyMapping): Boolean {
@@ -125,9 +110,7 @@ object KeyWidget : ScalableWidget(createIdentifier("bewisclient", "key_widget"))
         else -> this.translatedKeyMessage.string
     }
 
-    fun renderKey(
-        screenDrawing: ScreenDrawing, x: Int, y: Int, width: Int, height: Int, text: String, pressed: Boolean
-    ) {
+    fun renderKey(screenDrawing: ScreenDrawing, x: Int, y: Int, width: Int, height: Int, text: String, pressed: Boolean) {
         val textColor = (if (pressed) pressedTextColor else textColor).get().getColor()
         val backgroundColor = (if (pressed) pressedBackgroundColor else backgroundColor).get().getColor()
         val backgroundOpacity = (if (pressed) pressedBackgroundOpacity else backgroundOpacity).get()
@@ -178,62 +161,21 @@ object KeyWidget : ScalableWidget(createIdentifier("bewisclient", "key_widget"))
             ).addToQuickSettings("widget.key_widget.name", "shown_keys")
         )
 
-        list.add(
-            showCPS.createRenderable("widget.key_widget.show_cps", "Show CPS", "Shows your clicks per second (CPS) for the attack/use keys").addToQuickSettings("widget.key_widget.name", "show_cps")
-        )
+        list.addRenderable(showCPS, "key_widget.show_cps", "Show CPS", "Shows your clicks per second (CPS) for the attack/use keys", "show_cps")
+        list.addRenderable(backgroundColor, "background", "Background", "Set the color of the widget's background")
 
-        list.add(
-            backgroundColor.createRenderableWithFader(
-                "widget.background", "Background", "Set the color and opacity of the widget", backgroundOpacity
-            )
-        )
-        list.add(
-            borderColor.createRenderableWithFader(
-                "widget.border", "Border", "Set the color and opacity of the widget's border", borderOpacity
-            )
-        )
-        list.add(
-            textColor.createRenderable(
-                "widget.text_color", "Text Color", "Set the color of the text in the widget"
-            )
-        )
+        list.add(LineWidget.backgroundColorRenderable(backgroundColor, backgroundOpacity))
+        list.add(LineWidget.borderColorRenderable(borderColor, borderOpacity))
+        list.add(LineWidget.textColorRenderable(textColor))
 
-        list.add(
-            pressedBackgroundColor.createRenderableWithFader(
-                "widget.pressed_background", "Pressed Background", "Set the color and opacity of the widget when a key is pressed", pressedBackgroundOpacity
-            )
-        )
-        list.add(
-            pressedBorderColor.createRenderableWithFader(
-                "widget.pressed_border", "Pressed Border", "Set the color and opacity of the widget's border when a key is pressed", pressedBorderOpacity
-            )
-        )
-        list.add(
-            pressedTextColor.createRenderable(
-                "widget.pressed_text_color", "Pressed Text Color", "Set the color of the text in the widget when a key is pressed"
-            )
-        )
+        list.addColorRenderable(pressedBackgroundColor, pressedBackgroundOpacity, "pressed_background", "Pressed Background", "Set the color and opacity of the widget when a key is pressed")
+        list.addColorRenderable(pressedBorderColor, pressedBorderOpacity, "pressed_border", "Pressed Border", "Set the color and opacity of the widget's border when a key is pressed")
+        list.addRenderable(pressedTextColor, "pressed_text_color", "Pressed Text Color", "Set the color of the text in the widget when a key is pressed")
 
-        list.add(
-            shadow.createRenderable(
-                "widget.text_shadow", "Text Shadow", "Set whether text in the widget has a shadow"
-            )
-        )
-        list.add(
-            gap.createRenderable(
-                "widget.gap", "Gap", "Set the gap between the keys in the widget"
-            )
-        )
-        list.add(
-            paddingSize.createRenderable(
-                "widget.padding_size", "Padding Size", "Set the padding at the edge of the widget to the text"
-            )
-        )
-        list.add(
-            borderRadius.createRenderable(
-                "widget.border_radius", "Border Radius", "Set the radius of the widget's border corners"
-            )
-        )
+        list.add(LineWidget.shadowRenderable(shadow))
+        list.addRenderable(gap, "gap", "Gap", "Set the gap between the keys in the widget")
+        list.add(LineWidget.paddingSizeRenderable(paddingSize))
+        list.add(LineWidget.borderRadiusRenderable(borderRadius))
 
         super.appendSettingsRenderables(list)
     }

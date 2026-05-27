@@ -1,13 +1,12 @@
 package net.bewis09.bewisclient.drawable.renderables
 
+import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.Identifier
+import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.pushColor
 import net.bewis09.bewisclient.impl.settings.GeneralSettings
-import net.bewis09.bewisclient.util.MathHelper
-import net.bewis09.bewisclient.common.Color
-import net.bewis09.bewisclient.common.createIdentifier
-import net.bewis09.bewisclient.common.Identifier
 
 class ColorPicker(val get: () -> Color, val set: (hue: Float, sat: Float) -> Unit) : Renderable() {
     companion object {
@@ -43,9 +42,7 @@ class ColorPicker(val get: () -> Color, val set: (hue: Float, sat: Float) -> Uni
     }
 
     override fun onMouseDrag(mouseX: Double, mouseY: Double, startX: Double, startY: Double, button: Int): Boolean {
-        set(
-            (MathHelper.clamp((mouseX - x - 1f).toFloat(), 0f, width - 2f) / (width - 2f)), (MathHelper.clamp((mouseY - y - 1f).toFloat(), 0f, (height - 2f)) / (height - 2f))
-        )
+        set((mouseX - x - 1f).toFloat().coerceIn(0f, width - 2f) / (width - 2f), (mouseY - y - 1f).toFloat().coerceIn(0f, height - 2f) / (height - 2f))
 
         return true
     }

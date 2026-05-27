@@ -6,10 +6,11 @@ import net.bewis09.bewisclient.drawable.renderables.settings.FloatSettingRendera
 import net.bewis09.bewisclient.drawable.renderables.settings.IntegerSettingRenderable
 import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.interfaces.SettingInterface
+import net.bewis09.bewisclient.settings.RenderableCreator
 import net.bewis09.bewisclient.util.float
 import net.bewis09.bewisclient.util.number.Precision
 
-class FloatSetting : Setting<Float> {
+class FloatSetting : Setting<Float>, RenderableCreator<FloatSettingRenderable> {
     val precision: Precision
 
     constructor(default: () -> Float, precision: Precision, onChangeListener: (Setting<Float>.(oldValue: Float?, newValue: Float?) -> Unit)? = null) : super(default, onChangeListener) {
@@ -34,8 +35,8 @@ class FloatSetting : Setting<Float> {
 
     override fun convertFromElement(data: JsonElement?): Float? = processChange(data?.float())
 
-    fun createRenderable(
-        id: String, title: String, description: String? = null
+    override fun createRenderable(
+        id: String, title: String, description: String?
     ) = FloatSettingRenderable(
         Translation("menu.$id", title), description?.let { Translation("menu.$id.description", it) }, this, precision
     )

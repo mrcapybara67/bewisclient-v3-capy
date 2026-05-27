@@ -1,5 +1,6 @@
 package net.bewis09.bewisclient.impl.widget
 
+import net.bewis09.bewisclient.common.*
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
@@ -7,13 +8,9 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.impl.settings.DefaultWidgetSettings
 import net.bewis09.bewisclient.impl.widget.InventoryWidget.indicatorText
-import net.bewis09.bewisclient.common.Color
-import net.bewis09.bewisclient.common.createIdentifier
-import net.bewis09.bewisclient.common.name
-import net.bewis09.bewisclient.common.staticFun
-import net.bewis09.bewisclient.common.toText
 import net.bewis09.bewisclient.widget.logic.RelativePosition
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
+import net.bewis09.bewisclient.widget.types.LineWidget
 import net.bewis09.bewisclient.widget.types.ScalableWidget
 import net.minecraft.SharedConstants
 import net.minecraft.core.component.DataComponents
@@ -71,7 +68,7 @@ object ArmorWidget : ScalableWidget(createIdentifier("bewisclient", "armor_widge
     }
 
     fun getSlotForStack(slot: Int): ItemStack? {
-        return client.player?.inventory?.getItem(slot)?.apply { componentsLoaded = true } ?: if(componentsLoaded) getSampleStack(slot) else null
+        return client.player?.inventory?.getItem(slot)?.apply { componentsLoaded = true } ?: if (componentsLoaded) getSampleStack(slot) else null
     }
 
     override fun isEnabledByDefault(): Boolean = false
@@ -91,7 +88,7 @@ object ArmorWidget : ScalableWidget(createIdentifier("bewisclient", "armor_widge
 
             if (stack != null && !stack.isEmpty) {
                 screenDrawing.drawItemStackWithOverlay(stack, paddingSize() + 1, y)
-            } else if(showEmptySlotIcon.get()) {
+            } else if (showEmptySlotIcon.get()) {
                 icons[slot]?.let { screenDrawing.drawTexture(it, paddingSize() + 1, y, 16, 16, textColor().getColor() alpha 0.5f) }
             }
 
@@ -152,58 +149,19 @@ object ArmorWidget : ScalableWidget(createIdentifier("bewisclient", "armor_widge
             )
         )
 
-        list.add(
-            showDurability.createRenderable(
-                "widget.show_durability", "Show Durability", "Toggle whether to show armor durability"
-            ).addToQuickSettings("widget.armor_widget.name", "durability")
-        )
-        list.add(
-            showPercentage.createRenderable(
-                "widget.show_percentage", "Show Percentage", "Toggle whether to show durability as a percentage"
-            ).addToQuickSettings("widget.armor_widget.name", "percentage")
-        )
-        list.add(
-            showEmptySlots.createRenderable(
-                "widget.show_empty_slots", "Show Empty Slots", "Toggle whether to show empty armor slots"
-            ).addToQuickSettings("widget.armor_widget.name", "empty_slots")
-        )
-        list.add(
-            showEmptySlotIcon.createRenderable(
-                "widget.show_empty_slot_icon", "Show Empty Slot Icon", "Toggle whether to show an icon for empty armor slots"
-            ).addToQuickSettings("widget.armor_widget.name", "empty_slot_icon")
-        )
-        list.add(
-            colorCodeText.createRenderable(
-                "widget.color_code_text", "Color Code Text", "Toggle whether to color code the durability text"
-            ).addToQuickSettings("widget.armor_widget.name", "color_code_text")
-        )
+        list.addRenderable(showDurability, "armor_widget.show_durability", "Show Durability", "Toggle whether to show armor durability", "durability")
+        list.addRenderable(showPercentage, "armor_widget.show_percentage", "Show Percentage", "Toggle whether to show durability as a percentage", "percentage")
+        list.addRenderable(showEmptySlots, "armor_widget.show_empty_slots", "Show Empty Slots", "Toggle whether to show empty armor slots", "empty_slots")
+        list.addRenderable(showEmptySlotIcon, "armor_widget.show_empty_slot_icon", "Show Empty Slot Icon", "Toggle whether to show an icon for empty armor slots", "empty_slot_icon")
+        list.addRenderable(colorCodeText, "armor_widget.color_code_text", "Color Code Text", "Toggle whether to color code the durability text", "color_code_text")
 
-        list.add(
-            backgroundColor.createRenderableWithFader(
-                "widget.background", "Background", "Set the color and opacity of the widget", backgroundOpacity
-            )
-        )
-        list.add(borderColor.createRenderableWithFader("widget.border", "Border", "Set the color and opacity of the widget's border", borderOpacity))
-        list.add(
-            paddingSize.createRenderable(
-                "widget.padding_size", "Padding Size", "Set the padding at the edge of the widget to the text"
-            )
-        )
-        list.add(
-            textColor.createRenderable(
-                "widget.text_color", "Text Color", "Set the color of the text in the widget"
-            )
-        )
-        list.add(
-            borderRadius.createRenderable(
-                "widget.border_radius", "Border Radius", "Set the radius of the widget's border corners"
-            )
-        )
-        list.add(
-            shadow.createRenderable(
-                "widget.text_shadow", "Text Shadow", "Set whether text in the widget has a shadow"
-            )
-        )
+        list.add(LineWidget.backgroundColorRenderable(backgroundColor, backgroundOpacity))
+        list.add(LineWidget.borderColorRenderable(borderColor, borderOpacity))
+        list.add(LineWidget.paddingSizeRenderable(paddingSize))
+        list.add(LineWidget.textColorRenderable(textColor))
+        list.add(LineWidget.borderRadiusRenderable(borderRadius))
+        list.add(LineWidget.shadowRenderable(shadow))
+
         super.appendSettingsRenderables(list)
     }
 

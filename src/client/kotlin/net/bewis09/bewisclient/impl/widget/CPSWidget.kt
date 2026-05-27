@@ -41,16 +41,8 @@ object CPSWidget : LineWidget(createIdentifier("bewisclient", "cps_widget")) {
     }
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
-        list.add(
-            leftEnabled.createRenderable(
-                "widget.cps_widget.left_enabled", "Left Mouse Button CPS Shown"
-            ).addToQuickSettings("widget.cps_widget.name", "left_enabled")
-        )
-        list.add(
-            rightEnabled.createRenderable(
-                "widget.cps_widget.right_enabled", "Right Mouse Button CPS Shown"
-            ).addToQuickSettings("widget.cps_widget.name", "right_enabled")
-        )
+        list.addRenderable(leftEnabled, "cps_widget.left_enabled", "Show Left Mouse Button CPS", null, "left_enabled")
+        list.addRenderable(rightEnabled, "cps_widget.right_enabled", "Show Right Mouse Button CPS", null, "right_enabled")
         super.appendSettingsRenderables(list)
     }
 

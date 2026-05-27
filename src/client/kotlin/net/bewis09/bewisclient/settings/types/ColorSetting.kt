@@ -6,6 +6,7 @@ import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.settings.ColorFaderSettingRenderable
 import net.bewis09.bewisclient.drawable.renderables.settings.ColorSettingRenderable
 import net.bewis09.bewisclient.game.Translation
+import net.bewis09.bewisclient.settings.RenderableCreator
 import net.bewis09.bewisclient.util.color.ColorSaver
 
 /**
@@ -13,7 +14,7 @@ import net.bewis09.bewisclient.util.color.ColorSaver
  *
  * @param types the types of colors that can be selected. If not specified, all types are allowed.
  */
-class ColorSetting(default: () -> ColorSaver, vararg val types: String = ALL) : Setting<ColorSaver>(default) {
+class ColorSetting(default: () -> ColorSaver, vararg val types: String = ALL) : Setting<ColorSaver>(default), RenderableCreator<ColorSettingRenderable> {
     constructor(default: ColorSaver) : this({ default }, *ALL)
     constructor(default: ColorSaver, vararg types: String) : this({ default }, *types)
 
@@ -43,7 +44,7 @@ class ColorSetting(default: () -> ColorSaver, vararg val types: String = ALL) : 
 
     override fun convertFromElement(data: JsonElement?): ColorSaver? = ColorSaver.fromJson(data)
 
-    fun createRenderable(id: String, title: String, description: String? = null): ColorSettingRenderable {
+    override fun createRenderable(id: String, title: String, description: String?): ColorSettingRenderable {
         return ColorSettingRenderable(Translation("menu.$id", title), description?.let { Translation("menu.$id.description", it) }, this, types.map { it }.toTypedArray())
     }
 

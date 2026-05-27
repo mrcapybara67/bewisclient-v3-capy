@@ -46,11 +46,7 @@ object DaytimeWidget : LineWidget(createIdentifier("bewisclient", "daytime_widge
     }
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
-        list.add(
-            format12Hours.createRenderable(
-                "widget.daytime_widget.format_12_hours", "Use 12-Hour Format"
-            ).addToQuickSettings("widget.daytime_widget.name", "format_12_hours")
-        )
+        list.addRenderable(format12Hours, "daytime_widget.format_12_hours", "Use 12-Hour Format", null, "format_12_hours")
         super.appendSettingsRenderables(list)
     }
 

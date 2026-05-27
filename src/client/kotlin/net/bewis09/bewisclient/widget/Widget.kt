@@ -8,6 +8,10 @@ import net.bewis09.bewisclient.drawable.screen_drawing.transform
 import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.widget.CustomWidget
 import net.bewis09.bewisclient.common.catch
+import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
+import net.bewis09.bewisclient.settings.RenderableCreator
+import net.bewis09.bewisclient.settings.types.ColorSetting
+import net.bewis09.bewisclient.settings.types.FloatSetting
 import net.bewis09.bewisclient.settings.types.ObjectSetting
 import net.bewis09.bewisclient.settings.types.WidgetPositionSetting
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
@@ -69,4 +73,16 @@ abstract class Widget(val id: Identifier) : ObjectSetting() {
     open fun appendSettingsRenderables(list: ArrayList<Renderable>) {}
 
     fun isInBox(mouseX: Double, mouseY: Double) = getX() < mouseX && getX() + getScaledWidth() > mouseX && getY() < mouseY && getY() + getScaledHeight() > mouseY
+
+    fun ArrayList<Renderable>.addRenderable(setting: RenderableCreator<*>, id: String, title: String, description: String? = null, quickSettingsId: String? = null) {
+        val renderable = setting.createRenderable("widget.$id", title, description)
+        if (quickSettingsId != null) renderable.addToQuickSettings("widget.${id}.name", quickSettingsId)
+        this.add(renderable)
+    }
+
+    fun ArrayList<Renderable>.addColorRenderable(setting: ColorSetting, alpha: FloatSetting, id: String, title: String, description: String? = null, quickSettingsId: String? = null) {
+        val renderable = setting.createRenderableWithFader("widget.$id", title, description, alpha)
+        if (quickSettingsId != null) renderable.addToQuickSettings("widget.${id}.name", quickSettingsId)
+        this.add(renderable)
+    }
 }

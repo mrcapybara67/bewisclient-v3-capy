@@ -28,6 +28,7 @@ import net.bewis09.bewisclient.settings.types.BooleanMapSetting
 import net.bewis09.bewisclient.settings.types.ListSetting
 import net.bewis09.bewisclient.widget.logic.SidedPosition
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
+import net.bewis09.bewisclient.widget.types.LineWidget
 import net.bewis09.bewisclient.widget.types.ScalableWidget
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.BuiltInRegistries
@@ -203,44 +204,18 @@ object TiwylaWidget : ScalableWidget(createIdentifier("bewisclient", "tiwyla_wid
     override val description = "Show information about the block or entity you are looking at."
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
-        list.add(
-            topTextColor.createRenderable(
-                "widget.top_text_color", "Top Text Color", "Set the color of the top text in the widget"
-            )
-        )
-        list.add(
-            bottomTextColor.createRenderable(
-                "widget.bottom_text_color", "Bottom Text Color", "Set the color of the bottom text in the widget"
-            )
-        )
+        list.addRenderable(topTextColor, "top_text_color", "Top Text Color", "Set the color of the top text in the widget")
+        list.addRenderable(bottomTextColor, "bottom_text_color", "Bottom Text Color", "Set the color of the bottom text in the widget")
+
         list.add(TiwylaLinesSettingsRenderable().addToQuickSettings("widget.tiwyla_widget.name", "lines"))
         list.add(InfoTextRenderable(healthInfoText(), 0xAAAAAA.color, true))
-        list.add(
-            backgroundColor.createRenderableWithFader(
-                "widget.background", "Background", "Set the color and opacity of the widget", backgroundOpacity
-            )
-        )
-        list.add(borderColor.createRenderableWithFader("widget.border", "Border", "Set the color and opacity of the widget's border", borderOpacity))
-        list.add(
-            paddingSize.createRenderable(
-                "widget.padding_size", "Padding Size", "Set the padding at the edge of the widget to the text"
-            )
-        )
-        list.add(
-            lineSpacing.createRenderable(
-                "widget.line_spacing", "Line Spacing", "Set the spacing between lines of text in the widget"
-            )
-        )
-        list.add(
-            borderRadius.createRenderable(
-                "widget.border_radius", "Border Radius", "Set the radius of the widget's border corners"
-            )
-        )
-        list.add(
-            shadow.createRenderable(
-                "widget.text_shadow", "Text Shadow", "Set whether text in the widget has a shadow"
-            )
-        )
+
+        list.add(LineWidget.backgroundColorRenderable(backgroundColor, backgroundOpacity))
+        list.add(LineWidget.borderColorRenderable(borderColor, borderOpacity))
+        list.add(LineWidget.paddingSizeRenderable(paddingSize))
+        list.add(LineWidget.lineSpacingRenderable(lineSpacing))
+        list.add(LineWidget.borderRadiusRenderable(borderRadius))
+        list.add(LineWidget.shadowRenderable(shadow))
 
         super.appendSettingsRenderables(list)
 

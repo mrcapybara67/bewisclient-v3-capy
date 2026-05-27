@@ -84,9 +84,7 @@ object BiomeWidget : LineWidget(createIdentifier("bewisclient", "biome_widget"))
     }
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
-        list.add(colorCodeBiome.createRenderable("widget.color_code_biome", "Color Code Biome").addToQuickSettings(
-            "widget.biome_widget.name", "color_code"
-        ))
+        list.addRenderable(colorCodeBiome, "color_code_biome", "Color Code Biome", "Whether to color code the biome name", "color_code")
         super.appendSettingsRenderables(list)
     }
 

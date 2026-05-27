@@ -4,13 +4,12 @@ package net.bewis09.bewisclient.impl
 
 import net.bewis09.bewisclient.impl.settings.functionalities.BetterVisibilitySettings
 import net.bewis09.bewisclient.settings.types.BooleanSetting
-import net.bewis09.bewisclient.util.MathHelper
 
 object BetterVisibilityImpl {
     class FogModifierConfig(val setting: BooleanSetting, val start: (Float) -> Float, val end: (Float) -> Float)
 
     val fogModifiers = mapOf(
-        "atmospheric" to FogModifierConfig(BetterVisibilitySettings.nether, { it * 2 - MathHelper.clamp(it / 10.0f, 4.0f, 64.0f) }, { it * 2 }),
+        "atmospheric" to FogModifierConfig(BetterVisibilitySettings.nether, { it * 2 - (it / 10.0f).coerceIn(4.0f, 64.0f) }, { it * 2 }),
         "water" to FogModifierConfig(BetterVisibilitySettings.water, { -8f }, { it }),
         "lava" to FogModifierConfig(BetterVisibilitySettings.lava, { -8f }, { 16f }),
         "powder_snow" to FogModifierConfig(BetterVisibilitySettings.powder_snow, { -8f }, { 8f })

@@ -2,7 +2,6 @@ package net.bewis09.bewisclient.drawable.renderables
 
 import net.bewis09.bewisclient.drawable.Animator
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.util.MathHelper
 import kotlin.math.abs
 
 abstract class Scrollable(val direction: Direction) : Renderable() {
@@ -16,7 +15,7 @@ abstract class Scrollable(val direction: Direction) : Renderable() {
     var hasScrollStartedHorizontal = false
 
     override fun onMouseScroll(mouseX: Double, mouseY: Double, horizontalAmount: Double, verticalAmount: Double): Boolean {
-        scrollAnimation.set(MathHelper.clamp(scrollAnimation.getWithoutInterpolation() + (verticalAmount.toFloat() * 30f) + (horizontalAmount.toFloat() * 30f), 0f.coerceAtMost((if (direction == Direction.HORIZONTAL) width else height) - innerSize), 0f))
+        scrollAnimation.set(scrollAnimation.getWithoutInterpolation() + (verticalAmount.toFloat() * 30f) + (horizontalAmount.toFloat() * 30f).coerceIn(0f.coerceAtMost((if (direction == Direction.HORIZONTAL) width else height) - innerSize), 0f))
         return true
     }
 
@@ -54,9 +53,9 @@ abstract class Scrollable(val direction: Direction) : Renderable() {
         val deltaY = if(hasScrollStartedVertical) (lastDragY ?: startY) - mouseY else 0.0
 
         if (direction == Direction.VERTICAL) {
-            scrollAnimation.set(MathHelper.clamp(scrollAnimation.getWithoutInterpolation() - deltaY.toFloat(), 0f.coerceAtMost((height - innerSize)), 0f))
+            scrollAnimation.set((scrollAnimation.getWithoutInterpolation() - deltaY.toFloat()).coerceIn(0f.coerceAtMost((height - innerSize)), 0f))
         } else {
-            scrollAnimation.set(MathHelper.clamp(scrollAnimation.getWithoutInterpolation() - deltaX.toFloat(), 0f.coerceAtMost((width - innerSize)), 0f))
+            scrollAnimation.set((scrollAnimation.getWithoutInterpolation() - deltaX.toFloat()).coerceIn(0f.coerceAtMost((width - innerSize)), 0f))
         }
 
         lastDragX = mouseX

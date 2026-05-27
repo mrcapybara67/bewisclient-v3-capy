@@ -5,9 +5,10 @@ import com.google.gson.JsonPrimitive
 import net.bewis09.bewisclient.drawable.renderables.settings.BooleanSettingRenderable
 import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
 import net.bewis09.bewisclient.game.Translation
+import net.bewis09.bewisclient.settings.RenderableCreator
 import net.bewis09.bewisclient.util.boolean
 
-class BooleanSetting : Setting<Boolean> {
+class BooleanSetting : Setting<Boolean>, RenderableCreator<BooleanSettingRenderable> {
     constructor(default: () -> Boolean, onChangeListener: (Setting<Boolean>.(oldValue: Boolean?, newValue: Boolean?) -> Unit)? = null) : super(default, onChangeListener)
 
     constructor(default: () -> Boolean) : super(default)
@@ -26,7 +27,7 @@ class BooleanSetting : Setting<Boolean> {
         set(!get())
     }
 
-    fun createRenderable(id: String, title: String, description: String? = null): BooleanSettingRenderable {
+    override fun createRenderable(id: String, title: String, description: String?): BooleanSettingRenderable {
         return BooleanSettingRenderable(Translation("menu.$id", title), description?.let { Translation("menu.$id.description", it) }, this)
     }
 

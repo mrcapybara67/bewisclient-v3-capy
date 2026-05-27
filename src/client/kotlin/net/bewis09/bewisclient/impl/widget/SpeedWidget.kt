@@ -45,11 +45,7 @@ object SpeedWidget : LineWidget(createIdentifier("bewisclient", "speed_widget"))
     override fun appendSettingsRenderables(
         list: ArrayList<net.bewis09.bewisclient.drawable.Renderable>
     ) {
-        list.add(
-            verticalSpeed.createRenderable(
-                "widget.speed_widget.vertical_speed", "Include Vertical Speed"
-            ).addToQuickSettings("widget.speed_widget.name", "vertical_speed")
-        )
+        list.addRenderable(verticalSpeed, "speed_widget.vertical_speed", "Include Vertical Speed", null, "vertical_speed")
         super.appendSettingsRenderables(list)
     }
 
