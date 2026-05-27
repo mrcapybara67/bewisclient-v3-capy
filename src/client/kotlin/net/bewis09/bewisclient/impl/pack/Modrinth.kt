@@ -9,6 +9,7 @@ import net.bewis09.bewisclient.settings.Settings.Companion.gson
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.common.Identifier
+import net.bewis09.bewisclient.common.getModrinthVersion
 import net.bewis09.bewisclient.common.name
 import net.bewis09.bewisclient.version.registerTexture
 import net.minecraft.SharedConstants
@@ -155,7 +156,7 @@ object Modrinth : ClientInterface {
 
     data class Hashes(
         val sha1: String,
-        val sha256: String
+        val sha512: String
     )
 
     @Suppress("PropertyName")
@@ -193,7 +194,7 @@ object Modrinth : ClientInterface {
 
         typeMaps[type to query]!!.first[page] = null to false
 
-        downloadFile("https://api.modrinth.com/v2/search?query=${URLEncoder.encode(query.replace(Regex("&\\?="), ""), "UTF-8")}&facets=%5B%5B%22project_type:${type.url}%22%5D,%5B%22versions:${SharedConstants.getCurrentVersion().name.replace(" ", "-")}%22%5D%5D&limit=20&offset=${page * 20}", {
+        downloadFile("https://api.modrinth.com/v2/search?query=${URLEncoder.encode(query.replace(Regex("&\\?="), ""), "UTF-8")}&facets=%5B%5B%22project_type:${type.url}%22%5D,%5B%22versions:${getModrinthVersion()}%22%5D%5D&limit=20&offset=${page * 20}", {
             val json = gson.fromJson(String(it), ModrinthSearchResult::class.java)
             if (typeMaps[type to query]!!.second == null) {
                 typeMaps[type to query] = typeMaps[type to query]!!.first to json.total_hits
@@ -212,7 +213,7 @@ object Modrinth : ClientInterface {
 
         versionCache.putIfAbsent(pack.slug, null)
 
-        downloadFile("https://api.modrinth.com/v2/versions?ids=%5B%22${pack.versions.joinToString("%22,%22")}%22%5D") {
+        downloadFile("https://api.modrinth.com/v2/project/${pack.slug}/version",) {
             val json = gson.fromJson(String(it), Array<Version>::class.java)
             versionCache[pack.slug] = json.associateBy { v -> v.id }
             versionCache[pack.slug]?.let { p1 -> onFinish?.invoke(p1) }

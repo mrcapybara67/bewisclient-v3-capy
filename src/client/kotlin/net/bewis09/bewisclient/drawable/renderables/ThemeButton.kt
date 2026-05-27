@@ -5,7 +5,7 @@ import net.bewis09.bewisclient.drawable.Animator
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.transform
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.version.setCursorPointer
 import net.minecraft.network.chat.Component
 
@@ -51,7 +51,7 @@ class ThemeButton : TooltipHoverable {
 
         screenDrawing.transform(x + width / 2f, y + height / 2f, 0.95f + 0.05f * click, 0.95f + 0.05f * click) {
             screenDrawing.translate(0f, -screenDrawing.getTextHeight() / 2f)
-            screenDrawing.drawCenteredText(text, 0, 0, OptionsMenuSettings.getTextThemeColor())
+            screenDrawing.drawCenteredText(text, 0, 0, GeneralSettings.getTextThemeColor())
         }
     }
 

@@ -5,7 +5,7 @@ import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.renderables.Button
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.minecraft.network.chat.CommonComponents
 import net.minecraft.network.chat.Component
 
@@ -32,7 +32,7 @@ class ConfirmPopup(val text: Component, val onConfirm: () -> Unit, confirmText: 
         SelectiveScreenDrawer.renderPopupBackground(screenDrawing, x, y, width, height, 5, 0.3f)
 
         lines.forEachIndexed { index, line ->
-            screenDrawing.drawCenteredText(line, x + width / 2, y + 10 + index * 9, OptionsMenuSettings.getTextThemeColor())
+            screenDrawing.drawCenteredText(line, x + width / 2, y + 10 + index * 9, GeneralSettings.getTextThemeColor())
         }
 
         renderRenderables(screenDrawing, mouseX, mouseY)

@@ -18,13 +18,14 @@ import net.bewis09.bewisclient.settings.SettingsLoader
 import net.bewis09.bewisclient.common.EntityTypes
 import net.bewis09.bewisclient.common.id
 import net.bewis09.bewisclient.drawable.ImageIdentifier
+import net.bewis09.bewisclient.server.AutoUpdater
 import net.bewis09.bewisclient.widget.Widget
 import net.bewis09.bewisclient.widget.WidgetLoader
 import kotlin.jvm.optionals.getOrNull
 
 class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
     override fun getEventEntrypoints(): List<EventEntrypoint> = listOf(
-        WidgetLoader, SettingsLoader, KeybindingImplementer, TranslationLoader, BiomeWidget, SpeedWidget, TiwylaWidget, ShulkerBoxTooltipComponent.Entrypoint, CosmeticLoader, BewisclientCommand, Security, ImageIdentifier, Panorama, Ticker
+        WidgetLoader, SettingsLoader, KeybindingImplementer, TranslationLoader, BiomeWidget, SpeedWidget, TiwylaWidget, ShulkerBoxTooltipComponent.Entrypoint, CosmeticLoader, BewisclientCommand, Security, ImageIdentifier, Panorama, Ticker, AutoUpdater
     )
 
     override fun getSettingsObjects(): List<Settings> = listOf(

@@ -10,7 +10,7 @@ import net.bewis09.bewisclient.drawable.renderables.settings.BooleanSettingRende
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.pushColor
 import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
@@ -21,17 +21,17 @@ open class ImageSettingCategory(val image: Identifier, text: Translation, settin
 
     override fun renderContent(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         val textHeight = (screenDrawing.wrapText(text.getTranslatedString(), width - 10).size - 1) * screenDrawing.getTextHeight()
-        screenDrawing.drawCenteredWrappedText(text.getTranslatedString(), centerX, y2 - 27 - textHeight / 3 * 2, width - 10, if(isMinecrafty) Color.WHITE else OptionsMenuSettings.getThemeColor(white = state.get() / 2))
-        screenDrawing.drawTexture(image, centerX - 20, y + 14, 40, 40, if(isMinecrafty) Color.WHITE else OptionsMenuSettings.getThemeColor(white = state.get()))
+        screenDrawing.drawCenteredWrappedText(text.getTranslatedString(), centerX, y2 - 27 - textHeight / 3 * 2, width - 10, if(isMinecrafty) Color.WHITE else GeneralSettings.getThemeColor(white = state.get() / 2))
+        screenDrawing.drawTexture(image, centerX - 20, y + 14, 40, 40, if(isMinecrafty) Color.WHITE else GeneralSettings.getThemeColor(white = state.get()))
     }
 }
 
 open class DescriptionSettingCategory(text: Translation, val description: Translation, setting: Array<Renderable>, enableSetting: BooleanSetting? = null) : SettingCategory(text, setting, enableSetting) {
     override fun renderContent(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         val textHeight = (screenDrawing.wrapText(text.getTranslatedString(), width - 10).size - 1) * screenDrawing.getTextHeight()
-        screenDrawing.drawCenteredWrappedText(text.getTranslatedString(), centerX, y + 14 - textHeight / 2, width - 10, if(isMinecrafty) Color.WHITE else OptionsMenuSettings.getThemeColor(state.get() / 2))
+        screenDrawing.drawCenteredWrappedText(text.getTranslatedString(), centerX, y + 14 - textHeight / 2, width - 10, if(isMinecrafty) Color.WHITE else GeneralSettings.getThemeColor(state.get() / 2))
         val descriptionHeight = (screenDrawing.wrapText(description.getTranslatedString(), width - 10).size - 1) * screenDrawing.getTextHeight()
-        screenDrawing.drawCenteredWrappedText(description.getTranslatedString(), centerX, y2 - 42 - descriptionHeight / 2, width - 10, if(isMinecrafty) Color.WHITE alpha 0.65f else OptionsMenuSettings.getThemeColor(state.get() / 2, 0.65f))
+        screenDrawing.drawCenteredWrappedText(description.getTranslatedString(), centerX, y2 - 42 - descriptionHeight / 2, width - 10, if(isMinecrafty) Color.WHITE alpha 0.65f else GeneralSettings.getThemeColor(state.get() / 2, 0.65f))
     }
 }
 
@@ -57,7 +57,7 @@ abstract class SettingCategory(val text: Translation, val setting: Array<Rendera
     }
 
     fun getHeader(): Renderable {
-        return Plane { x, y, width, height -> listOf(TextElement(text(), OptionsMenuSettings.getTextThemeColor(), centered = true)(x, y, width, 13)) }.setHeight(14)
+        return Plane { x, y, width, height -> listOf(TextElement(text(), GeneralSettings.getTextThemeColor(), centered = true)(x, y, width, 13)) }.setHeight(14)
     }
 
     open fun getPane(): Renderable {

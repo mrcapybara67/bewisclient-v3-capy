@@ -1,6 +1,6 @@
 package net.bewis09.bewisclient.drawable.draw_methods
 
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings.minecraftyOptionsMenu
+import net.bewis09.bewisclient.impl.settings.GeneralSettings.minecraftyOptionsMenu
 
 val SelectiveScreenDrawer: DrawMethods
     get() = if (minecraftyOptionsMenu.get()) minecraftyMethods else flatMethods

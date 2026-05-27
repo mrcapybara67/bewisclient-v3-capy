@@ -18,7 +18,7 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.BewisclientResourcePack
 import net.bewis09.bewisclient.game.Keybind
 import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.impl.settings.functionalities.PanoramaSettings
 import net.bewis09.bewisclient.impl.settings.functionalities.PanoramaSettings.path
 import net.bewis09.bewisclient.util.EventEntrypoint
@@ -84,9 +84,9 @@ object Panorama : ImageSettingCategory(
 
             super.render(screenDrawing, mouseX, mouseY)
 
-            if (path.get() == file.absolutePath) screenDrawing.fillWithBorderRounded(x, y, width, height, 5, OptionsMenuSettings.getThemeColor(alpha = 0.25f), OptionsMenuSettings.getThemeColor(alpha = 0.5f), topLeft = index == 0, topRight = index == 0, bottomLeft = index == size - 1, bottomRight = index == size - 1)
-            else screenDrawing.fillRounded(x, y, width, height, 5, OptionsMenuSettings.getThemeColor(alpha = hoverFactor * 0.15f + 0.1f), topLeft = index == 0, topRight = index == 0, bottomLeft = index == size - 1, bottomRight = index == size - 1)
-            screenDrawing.drawText(file.name, x + 8, y + 8, OptionsMenuSettings.getTextThemeColor())
+            if (path.get() == file.absolutePath) screenDrawing.fillWithBorderRounded(x, y, width, height, 5, GeneralSettings.getThemeColor(alpha = 0.25f), GeneralSettings.getThemeColor(alpha = 0.5f), topLeft = index == 0, topRight = index == 0, bottomLeft = index == size - 1, bottomRight = index == size - 1)
+            else screenDrawing.fillRounded(x, y, width, height, 5, GeneralSettings.getThemeColor(alpha = hoverFactor * 0.15f + 0.1f), topLeft = index == 0, topRight = index == 0, bottomLeft = index == size - 1, bottomRight = index == size - 1)
+            screenDrawing.drawText(file.name, x + 8, y + 8, GeneralSettings.getTextThemeColor())
 
             images[file]?.identifiers?.forEachIndexed { index, identifier ->
                 if (identifier != null) {

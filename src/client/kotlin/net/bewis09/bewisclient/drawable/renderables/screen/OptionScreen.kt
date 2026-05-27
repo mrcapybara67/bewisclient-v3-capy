@@ -21,7 +21,7 @@ import net.bewis09.bewisclient.drawable.screen_drawing.pushAlpha
 import net.bewis09.bewisclient.drawable.screen_drawing.transform
 import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.generated.BuildInfo
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.interfaces.BackgroundEffectProvider
 import net.bewis09.bewisclient.screen.RenderableScreen
 import net.bewis09.bewisclient.security.Security
@@ -49,22 +49,22 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
                     listOf(
                         ImageButton(backIdentifier) {
                             goBack()
-                        }.setImagePadding(1).setImageColor { OptionsMenuSettings.getTextThemeColor() }(x, y, SelectiveScreenDrawer.getSideButtonHeight(), SelectiveScreenDrawer.getSideButtonHeight()),
+                        }.setImagePadding(1).setImageColor { GeneralSettings.getTextThemeColor() }(x, y, SelectiveScreenDrawer.getSideButtonHeight(), SelectiveScreenDrawer.getSideButtonHeight()),
                         button(x + 19, y, 82, SelectiveScreenDrawer.getSideButtonHeight()),
                         ImageButton(closeIdentifier) {
                             close()
-                        }.setImagePadding(3).setImageColor { OptionsMenuSettings.getTextThemeColor() }(x + 106 - ((isMinecrafty then 4) ?: 0), y, SelectiveScreenDrawer.getSideButtonHeight(), SelectiveScreenDrawer.getSideButtonHeight())
+                        }.setImagePadding(3).setImageColor { GeneralSettings.getTextThemeColor() }(x + 106 - ((isMinecrafty then 4) ?: 0), y, SelectiveScreenDrawer.getSideButtonHeight(), SelectiveScreenDrawer.getSideButtonHeight())
                     )
                 }.setHeight(SelectiveScreenDrawer.getSideButtonHeight())
             })
-            it.add(Rectangle { OptionsMenuSettings.getThemeColor(alpha = 0.3f) }.setHeight(1))
+            it.add(Rectangle { GeneralSettings.getThemeColor(alpha = 0.3f) }.setHeight(1))
             it.addAll(
                 arrayListOf<Renderable>(
                     SettingStructure.widgetsCategory(), SettingStructure.utilitiesCategory(), SettingStructure.settingsCategory(), SettingStructure.cosmeticsCategory(), SettingStructure.extensionsCategory()
                 ).apply {
                     APIEntrypointLoader.mapEntrypoint { a -> a.getSidebarCategories().forEach { b -> add(b()) } }
                 })
-            it.add(Rectangle { OptionsMenuSettings.getThemeColor(alpha = 0.3f) }.setHeight(1))
+            it.add(Rectangle { GeneralSettings.getThemeColor(alpha = 0.3f) }.setHeight(1))
             it.add(ThemeButton("bewisclient:edit_hud", editHudTranslation(), category) {
                 alphaMainAnimation.set(0f) {
                     setScreen(RenderableScreen(HudEditScreen()))
@@ -124,7 +124,7 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
 
     fun renderVersionText(screenDrawing: ScreenDrawing) {
         screenDrawing.transform(width - 5f, height - 11f, 0.7f) {
-            screenDrawing.drawRightAlignedText("Bewisclient ${BuildInfo.VERSION} by Bewis09", 0, 0, if(isMinecrafty) Color.WHITE alpha 0.5f else OptionsMenuSettings.getThemeColor(alpha = 0.5f))
+            screenDrawing.drawRightAlignedText("Bewisclient ${BuildInfo.VERSION} by Bewis09", 0, 0, if(isMinecrafty) Color.WHITE alpha 0.5f else GeneralSettings.getThemeColor(alpha = 0.5f))
         }
     }
 
@@ -152,7 +152,7 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
             }
 
             screenDrawing.transform(width - 5f, height - 11f, 0.7f) {
-                screenDrawing.drawRightAlignedText("Bewisclient ${BuildInfo.VERSION} by Bewis09", 0, 0, OptionsMenuSettings.getThemeColor(alpha = 0.5f))
+                screenDrawing.drawRightAlignedText("Bewisclient ${BuildInfo.VERSION} by Bewis09", 0, 0, GeneralSettings.getThemeColor(alpha = 0.5f))
             }
 
             renderRenderables(screenDrawing, mouseX, mouseY)

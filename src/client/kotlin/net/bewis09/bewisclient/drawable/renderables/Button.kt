@@ -3,7 +3,7 @@ package net.bewis09.bewisclient.drawable.renderables
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.version.setCursorPointer
 import net.minecraft.network.chat.Component
 
@@ -22,7 +22,7 @@ class Button(var text: Component, val onClick: (Button) -> Unit, tooltip: Compon
             screenDrawing.setCursorPointer()
 
         screenDrawing.translate(0f, height / 2f - screenDrawing.getTextHeight() / 2f) {
-            screenDrawing.drawCenteredText(text, centerX, y, OptionsMenuSettings.getTextThemeColor())
+            screenDrawing.drawCenteredText(text, centerX, y, GeneralSettings.getTextThemeColor())
         }
     }
 

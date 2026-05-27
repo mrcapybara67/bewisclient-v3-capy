@@ -8,7 +8,7 @@ import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.*
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.util.float
 import net.bewis09.bewisclient.util.number.Precision
 import net.bewis09.bewisclient.common.then
@@ -25,7 +25,7 @@ class ThemeColorSaver : ColorSaver {
     }
 
     override fun getColor(): Color {
-        return OptionsMenuSettings.themeColor.get().getColor().withBrightness(getBrightness())
+        return GeneralSettings.themeColor.get().getColor().withBrightness(getBrightness())
     }
 
     override fun getType(): String = "theme"
@@ -34,7 +34,7 @@ class ThemeColorSaver : ColorSaver {
         return if (brightness == null) JsonPrimitive(-1) else JsonPrimitive(brightness)
     }
 
-    fun getBrightness() = brightness ?: Precision(0f, 1f, 0.01f, 2).parse(OptionsMenuSettings.themeColor.get().getColor().brightness)
+    fun getBrightness() = brightness ?: Precision(0f, 1f, 0.01f, 2).parse(GeneralSettings.themeColor.get().getColor().brightness)
 
     object Factory : ColorSaverFactory<ThemeColorSaver> {
         private val translation = Translation("color.theme", "Theme Color")

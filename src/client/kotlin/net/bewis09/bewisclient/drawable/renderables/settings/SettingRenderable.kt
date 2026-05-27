@@ -6,7 +6,7 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.pushColor
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 
 abstract class SettingRenderable(tooltip: () -> Translation?, height: Int) : TooltipHoverable({ tooltip()?.invoke() }, minHeight = height) {
     constructor(tooltip: Translation? = null, height: Int) : this({ tooltip }, height)
@@ -20,7 +20,7 @@ abstract class SettingRenderable(tooltip: () -> Translation?, height: Int) : Too
 
     fun drawVerticalCenteredText(screenDrawing: ScreenDrawing, title: Translation) {
         screenDrawing.translate(0f, height / 2f - screenDrawing.getTextHeight() / 2f + 0.5f) {
-            screenDrawing.drawText(title(), x + 8, y, OptionsMenuSettings.getTextThemeColor())
+            screenDrawing.drawText(title(), x + 8, y, GeneralSettings.getTextThemeColor())
         }
     }
 }

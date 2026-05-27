@@ -5,7 +5,7 @@ import net.bewis09.bewisclient.drawable.renderables.*
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.interfaces.SettingInterface
 import net.minecraft.network.chat.Component
 
@@ -14,7 +14,7 @@ class MultipleBooleanSettingsRenderable(
 ) : SettingRenderable(tooltip, 22) {
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)
-        screenDrawing.drawCenteredText(title.getTranslatedString(), centerX, y + 6, OptionsMenuSettings.getTextThemeColor())
+        screenDrawing.drawCenteredText(title.getTranslatedString(), centerX, y + 6, GeneralSettings.getTextThemeColor())
         renderRenderables(screenDrawing, mouseX, mouseY)
     }
 
@@ -47,7 +47,7 @@ class MultipleBooleanSettingsRenderable(
             super.render(screenDrawing, mouseX, mouseY)
             screenDrawing.drawHorizontalLine(x + 5, y - 2, width - 10, 0xAAAAAA alpha 0.2F)
             screenDrawing.translate(0f, height / 2f - screenDrawing.getTextHeight() / 2f) {
-                screenDrawing.drawText(name, x + 8, y, OptionsMenuSettings.getTextThemeColor())
+                screenDrawing.drawText(name, x + 8, y, GeneralSettings.getTextThemeColor())
             }
             renderRenderables(screenDrawing, mouseX, mouseY)
         }

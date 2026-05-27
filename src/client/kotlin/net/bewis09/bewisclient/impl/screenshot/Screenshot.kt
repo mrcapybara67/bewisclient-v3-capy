@@ -18,7 +18,7 @@ import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.screenshot.ScreenshotElement.loading
 import net.bewis09.bewisclient.impl.screenshot.ScreenshotElement.loadingFailed
 import net.bewis09.bewisclient.impl.screenshot.ScreenshotElement.screenshotName
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.impl.settings.functionalities.ScreenshotSettings
 import net.bewis09.bewisclient.process.CopyImage
 import net.bewis09.bewisclient.process.ProcessCreator
@@ -124,9 +124,9 @@ object ScreenshotElement : Renderable() {
                     listOf(
                         object : Renderable() {
                             override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
-                                screenDrawing.fillWithBorder(x, y, width, height, if(isMinecrafty) 0x333333 alpha 0.7f else OptionsMenuSettings.getThemeColor(alpha = 0.7f, black = 0.2f), if(isMinecrafty) Color.WHITE alpha 0.5f else OptionsMenuSettings.getThemeColor(alpha = 0.5f))
+                                screenDrawing.fillWithBorder(x, y, width, height, if(isMinecrafty) 0x333333 alpha 0.7f else GeneralSettings.getThemeColor(alpha = 0.7f, black = 0.2f), if(isMinecrafty) Color.WHITE alpha 0.5f else GeneralSettings.getThemeColor(alpha = 0.5f))
                                 val lines = screenDrawing.wrapText(noScreenshotsYet().string, width - 8)
-                                screenDrawing.drawCenteredWrappedText(lines, x + width / 2, y + height / 2 - lines.size * screenDrawing.getTextHeight() / 2, if(isMinecrafty) Color.WHITE alpha 0.7f else OptionsMenuSettings.getThemeColor(white = 0.3f, alpha = 0.7f))
+                                screenDrawing.drawCenteredWrappedText(lines, x + width / 2, y + height / 2 - lines.size * screenDrawing.getTextHeight() / 2, if(isMinecrafty) Color.WHITE alpha 0.7f else GeneralSettings.getThemeColor(white = 0.3f, alpha = 0.7f))
                             }
                         }.setHeight((width - 2) * 9 / 16 + 2)
                     )
@@ -165,7 +165,7 @@ class ScreenshotViewElement(val file: File) : Hoverable(100) {
             if (isMinecrafty) {
                 SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverFactor, 1f, -width / 2, -height / 2, width, height, 1f, false, mouseX, mouseY)
             } else {
-                screenDrawing.fillWithBorder(-width / 2, -height / 2, width, height, OptionsMenuSettings.getThemeColor(alpha = 0.7f, black = 0.2f), OptionsMenuSettings.getThemeColor(white = 1f - hoverFactor * .5f, alpha = 0.5f + hoverFactor * .5f))
+                screenDrawing.fillWithBorder(-width / 2, -height / 2, width, height, GeneralSettings.getThemeColor(alpha = 0.7f, black = 0.2f), GeneralSettings.getThemeColor(white = 1f - hoverFactor * .5f, alpha = 0.5f + hoverFactor * .5f))
             }
 
             val data = contents.getOrDefault(file, null) ?: return
@@ -223,7 +223,7 @@ fun openBigScreenshotNewScreen(file: File) {
         changeCategory(Screenshot, instant = true)
 
         openPage(
-            Plane { x, y, width, _ -> listOf(TextElement(screenshotName(file.name), OptionsMenuSettings.getTextThemeColor(), centered = true)(x, y, width, 13)) }.setHeight(14), VerticalAlignScrollPlane({ w ->
+            Plane { x, y, width, _ -> listOf(TextElement(screenshotName(file.name), GeneralSettings.getTextThemeColor(), centered = true)(x, y, width, 13)) }.setHeight(14), VerticalAlignScrollPlane({ w ->
                 listOf(
                     BigScreenshotViewElement(file).setWidth(w)
                 )
@@ -237,7 +237,7 @@ fun openBigScreenshotNewScreen(file: File) {
 
 fun openBigScreenshot(file: File) {
     OptionScreen.currentInstance?.openPage(
-        Plane { x, y, width, _ -> listOf(TextElement(screenshotName(file.name), OptionsMenuSettings.getTextThemeColor(), centered = true)(x, y, width, 13)) }.setHeight(14),
+        Plane { x, y, width, _ -> listOf(TextElement(screenshotName(file.name), GeneralSettings.getTextThemeColor(), centered = true)(x, y, width, 13)) }.setHeight(14),
         VerticalAlignScrollPlane({ w ->
             listOf(
                 BigScreenshotViewElement(file).setWidth(w)
@@ -263,7 +263,7 @@ class BigScreenshotViewElement(val file: File) : Renderable() {
         if (isMinecrafty) {
             SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 0f, 0f, x, y, width, height - SelectiveScreenDrawer.getSideButtonHeight() - 5, 1f, false, mouseX, mouseY)
         } else {
-            screenDrawing.fillWithBorder(x, y, width, height - SelectiveScreenDrawer.getSideButtonHeight() - 5, if (isMinecrafty) Color.BLACK alpha 0.7f else OptionsMenuSettings.getThemeColor(black = 0.2f, alpha = 0.7f), if (isMinecrafty) Color.WHITE alpha 0.5f else OptionsMenuSettings.getThemeColor(alpha = 0.5f))
+            screenDrawing.fillWithBorder(x, y, width, height - SelectiveScreenDrawer.getSideButtonHeight() - 5, if (isMinecrafty) Color.BLACK alpha 0.7f else GeneralSettings.getThemeColor(black = 0.2f, alpha = 0.7f), if (isMinecrafty) Color.WHITE alpha 0.5f else GeneralSettings.getThemeColor(alpha = 0.5f))
         }
 
         val data = contents.getOrDefault(file, null) ?: return

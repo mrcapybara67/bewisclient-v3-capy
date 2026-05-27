@@ -14,7 +14,7 @@ import net.bewis09.bewisclient.util.color.ThemeColorSaver
 import net.bewis09.bewisclient.version.getScreen
 import net.bewis09.bewisclient.version.setScreen
 
-object OptionsMenuSettings : ObjectSetting() {
+object GeneralSettings : ObjectSetting() {
     val animationTime = int("animation_time", 200, 0, 500)
     val blurBackground = boolean("blur_background", true)
     val buttonInTitleScreen = boolean("button_in_title_screen", true)
@@ -27,6 +27,7 @@ object OptionsMenuSettings : ObjectSetting() {
 
         setScreen(RenderableScreen(OptionScreen(1f, 1f).apply { changeCategory(SettingStructure.settingsCategory, true) }))
     }
+    val autoUpdate = boolean("auto_update", true)
 
     fun getBackgroundColor(): Color = 0.3f within (Color.BLACK to backgroundColor.get().getColor()) alpha backgroundOpacity.get()
 

@@ -6,7 +6,7 @@ import net.bewis09.bewisclient.settings.types.ObjectSetting
 
 object BewisclientSettingsObject : ObjectSetting() {
     init {
-        create("options_menu", OptionsMenuSettings)
+        create("options_menu", GeneralSettings)
         create("widgets", WidgetSettings)
         create("fullbright", FullbrightSettings)
         create("block_highlight", BlockHighlightSettings)

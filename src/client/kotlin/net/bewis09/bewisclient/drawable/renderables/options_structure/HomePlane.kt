@@ -8,7 +8,7 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.settings.DefaultWidgetSettings
 import net.bewis09.bewisclient.impl.settings.HomePlaneSettings
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.util.color.ThemeColorSaver
 import net.bewis09.bewisclient.common.createIdentifier
@@ -41,12 +41,12 @@ object HomePlane : Renderable() {
     override fun init() {
         val button = Button(editQuickSettings()) {
             OptionScreen.currentInstance?.openPage(
-                Plane { x, y, width, _ -> listOf(TextElement(editQuickSettings(), OptionsMenuSettings.getTextThemeColor(), centered = true)(x, y, width, 13)) }.setHeight(14),
+                Plane { x, y, width, _ -> listOf(TextElement(editQuickSettings(), GeneralSettings.getTextThemeColor(), centered = true)(x, y, width, 13)) }.setHeight(14),
                 VerticalAlignScrollPlane ({ width ->
                     quickSettingsOptions.map {
                         listOf(
                             EmptyRenderable().setHeight(5),
-                            InfoTextRenderable(Component.translatable("bewisclient." + it.key), centered = true, color = OptionsMenuSettings.getTextThemeColor(), padding = 0),
+                            InfoTextRenderable(Component.translatable("bewisclient." + it.key), centered = true, color = GeneralSettings.getTextThemeColor(), padding = 0),
                             EmptyRenderable().setHeight(3),
                         ) + it.value.map { a -> ConfigureRenderableVisibilityPlane(it.key, a.key, a.value).setWidth(width) }
                     }.flatten()
@@ -57,7 +57,7 @@ object HomePlane : Renderable() {
         if (HomePlaneSettings.quickSettings.isEmpty()) {
             addRenderable(Plane { x, y, width, height ->
                 listOf(
-                    InfoTextRenderable(no_quick_settings(), OptionsMenuSettings.getTextThemeColor() alpha 0.66f, centered = true)(x + width / 2 - 100, y + height / 4, 200, 0),
+                    InfoTextRenderable(no_quick_settings(), GeneralSettings.getTextThemeColor() alpha 0.66f, centered = true)(x + width / 2 - 100, y + height / 4, 200, 0),
                     button(x + width / 2 - 50, y + height / 2, 100, SelectiveScreenDrawer.getSideButtonHeight())
                 )
             }(x, y, width, height))
@@ -70,7 +70,7 @@ object HomePlane : Renderable() {
                     VerticalAlignPlane(HomePlaneSettings.quickSettings.toSortedSet().filter { it.split("/").size >= 2 }.groupBy { it.split("/")[0] }.mapNotNull {
                         listOf(
                             EmptyRenderable().setHeight(5),
-                            InfoTextRenderable(Component.translatable("bewisclient." + it.key), centered = true, color = OptionsMenuSettings.getTextThemeColor(), padding = 0).setHeight(14),
+                            InfoTextRenderable(Component.translatable("bewisclient." + it.key), centered = true, color = GeneralSettings.getTextThemeColor(), padding = 0).setHeight(14),
                             EmptyRenderable().setHeight(3),
                         ) + it.value.mapNotNull { a ->
                             quickSettingsOptions[it.key]?.get(a.split("/")[1])
@@ -92,13 +92,13 @@ object HomePlane : Renderable() {
             if (isMinecrafty) {
                 SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 0f, 0f, x, y + height / 2 - 9, 18, 18, 0f, false, mouseX, mouseY)
             } else {
-                screenDrawing.fillWithBorderRounded(x, y + height / 2 - 8, 16, 16, 5, OptionsMenuSettings.getThemeColor(alpha = 0.15f), OptionsMenuSettings.getThemeColor(alpha = 0.15f))
+                screenDrawing.fillWithBorderRounded(x, y + height / 2 - 8, 16, 16, 5, GeneralSettings.getThemeColor(alpha = 0.15f), GeneralSettings.getThemeColor(alpha = 0.15f))
             }
 
             renderRenderables(screenDrawing, mouseX, mouseY)
 
             if (HomePlaneSettings.quickSettings.contains("$category/$id")) {
-                screenDrawing.drawTexture(checkTexture, x + if(isMinecrafty) 2 else 1, y + height / 2 - 7, 14, 14, if (isMinecrafty) Color.WHITE else OptionsMenuSettings.getThemeColor())
+                screenDrawing.drawTexture(checkTexture, x + if(isMinecrafty) 2 else 1, y + height / 2 - 7, 14, 14, if (isMinecrafty) Color.WHITE else GeneralSettings.getThemeColor())
             }
         }
 
@@ -122,7 +122,7 @@ object HomePlane : Renderable() {
 
     val widgetPresetElement = VerticalAlignPlane(
         listOf(
-            InfoTextRenderable(widgetPresets(), centered = true, color = OptionsMenuSettings.getTextThemeColor(), padding = 0),
+            InfoTextRenderable(widgetPresets(), centered = true, color = GeneralSettings.getTextThemeColor(), padding = 0),
             WidgetPresetList,
             BorderRadiusFader.setHeight(14),
             InfoTextRenderable(moreWidgetOptions(), centered = true, padding = 0)
@@ -134,7 +134,7 @@ object HomePlane : Renderable() {
 
         override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
             val textWidth = screenDrawing.getTextWidth(Component.translatable("bewisclient.menu.widget.border_radius"))
-            screenDrawing.drawText(Component.translatable("bewisclient.menu.widget.border_radius"), x, y + 3, OptionsMenuSettings.getTextThemeColor())
+            screenDrawing.drawText(Component.translatable("bewisclient.menu.widget.border_radius"), x, y + 3, GeneralSettings.getTextThemeColor())
             fader(x + textWidth + 5, y, width - textWidth - 5, 14)
             renderRenderables(screenDrawing, mouseX, mouseY)
         }
@@ -157,7 +157,7 @@ object HomePlane : Renderable() {
                 offsetY += it.height + 5
             }
             internalHeight = offsetY
-            screenDrawing.drawBorder(x, y, width, height, OptionsMenuSettings.getThemeColor(black = 0.5f, alpha = 0.5f))
+            screenDrawing.drawBorder(x, y, width, height, GeneralSettings.getThemeColor(black = 0.5f, alpha = 0.5f))
         }
 
         override fun init() {

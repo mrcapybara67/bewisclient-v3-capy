@@ -5,7 +5,7 @@ import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuick
 import net.bewis09.bewisclient.drawable.renderables.settings.InfoTextRenderable
 import net.bewis09.bewisclient.game.Keybind
 import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.impl.settings.functionalities.FullbrightSettings
 import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.common.within
@@ -23,7 +23,7 @@ object Fullbright : ImageSettingCategory(
         InfoTextRenderable(
             Translation(
                 "fullbright.night_vision.error_text", "When night vision is applied via Bewisclient, the effect will not be the same as if you got it via a potion, because Bewisclient preserves the old way in which night vision works, which illuminates the world completely, whilst with the status effect it is always rendered as if the brightness is set all the way down to moody."
-            )(), 0xAAAAAA.color * OptionsMenuSettings.getThemeColor(), true
+            )(), 0xAAAAAA.color * GeneralSettings.getThemeColor(), true
         ),
     ), FullbrightSettings.enabled
 ) {

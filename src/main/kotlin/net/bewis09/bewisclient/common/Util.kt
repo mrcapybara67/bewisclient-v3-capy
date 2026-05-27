@@ -1,5 +1,6 @@
 package net.bewis09.bewisclient.common
 
+import net.minecraft.SharedConstants
 import net.minecraft.core.DefaultedRegistry
 import net.minecraft.network.chat.Component
 
@@ -44,3 +45,5 @@ fun snake_toCamelCase(str: String): String {
         it.replaceFirstChar(Char::uppercaseChar)
     }
 }
+
+fun getModrinthVersion() = SharedConstants.getCurrentVersion().name().replace(" ", "-").lowercase()

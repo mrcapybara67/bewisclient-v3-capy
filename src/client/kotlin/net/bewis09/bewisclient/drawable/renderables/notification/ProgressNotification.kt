@@ -2,7 +2,7 @@ package net.bewis09.bewisclient.drawable.renderables.notification
 
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.minecraft.network.chat.Component
@@ -38,10 +38,10 @@ class ProgressNotification(val text: Component): Notification() {
             }
 
             lines.forEachIndexed { index, line ->
-                screenDrawing.drawText(line, x + if (isMinecrafty) 5 else 4, y + index * 9 + 4, OptionsMenuSettings.getTextThemeColor())
+                screenDrawing.drawText(line, x + if (isMinecrafty) 5 else 4, y + index * 9 + 4, GeneralSettings.getTextThemeColor())
             }
 
-            screenDrawing.fill(x + if (isMinecrafty) 1 else 0, y + height - 1, (width * (if (progress == -1f) 1f else progress)).toInt(), 1, OptionsMenuSettings.getThemeColor())
+            screenDrawing.fill(x + if (isMinecrafty) 1 else 0, y + height - 1, (width * (if (progress == -1f) 1f else progress)).toInt(), 1, GeneralSettings.getThemeColor())
             screenDrawing.setDefaultFont()
         }
     }

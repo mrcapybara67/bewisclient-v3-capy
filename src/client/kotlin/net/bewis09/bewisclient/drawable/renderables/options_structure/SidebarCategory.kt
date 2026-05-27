@@ -9,7 +9,7 @@ import net.bewis09.bewisclient.drawable.renderables.ThemeButton
 import net.bewis09.bewisclient.drawable.renderables.VerticalScrollGrid
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 
 open class SidebarCategory(val id: Identifier, val name: Translation, val renderable: Renderable) {
     constructor(id: Identifier, name: String, renderable: Renderable) : this(id, Translation(id.namespace, "menu.category."+id.path, name), renderable)
@@ -22,6 +22,6 @@ open class SidebarCategory(val id: Identifier, val name: Translation, val render
     }
 
     fun getHeader(): Renderable {
-        return Plane { x, y, width, _ -> listOf(TextElement(name(), { OptionsMenuSettings.getTextThemeColor() }, centered = true)(x, y, width, 13)) }.setHeight(14)
+        return Plane { x, y, width, _ -> listOf(TextElement(name(), { GeneralSettings.getTextThemeColor() }, centered = true)(x, y, width, 13)) }.setHeight(14)
     }
 }

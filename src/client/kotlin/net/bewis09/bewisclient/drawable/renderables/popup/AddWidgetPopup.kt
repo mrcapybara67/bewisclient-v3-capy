@@ -5,7 +5,7 @@ import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.renderables.*
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.widget.Widget
 import net.bewis09.bewisclient.widget.WidgetLoader
 
@@ -17,7 +17,7 @@ class AddWidgetPopup : Renderable(
         val addText = Translation("popup.add_widget.title", "Add Widget")
     }
 
-    val text = TextElement({ addText() }, OptionsMenuSettings.getTextThemeColor(), centered = true)
+    val text = TextElement({ addText() }, GeneralSettings.getTextThemeColor(), centered = true)
     var grid = VerticalScrollGrid({
         WidgetLoader.widgets.filter { !it.isEnabled() }.map { widget -> WidgetElement(widget).setHeight(90) }
     }, 5, 80)
@@ -54,8 +54,8 @@ class AddWidgetPopup : Renderable(
 
             SelectiveScreenDrawer.renderSettingsCategoryBackground(screenDrawing, x, y, width, height, 1f, hoverFactor, mouseX, mouseY)
 
-            screenDrawing.drawCenteredWrappedText(title, centerX, y + 14 - textHeight / 2, width - 10, OptionsMenuSettings.getThemeColor())
-            screenDrawing.drawCenteredWrappedText(description, centerX, y2 - 38 - descriptionHeight / 2, width - 10, OptionsMenuSettings.getThemeColor() * 0xAAAAAA alpha 0.65f)
+            screenDrawing.drawCenteredWrappedText(title, centerX, y + 14 - textHeight / 2, width - 10, GeneralSettings.getThemeColor())
+            screenDrawing.drawCenteredWrappedText(description, centerX, y2 - 38 - descriptionHeight / 2, width - 10, GeneralSettings.getThemeColor() * 0xAAAAAA alpha 0.65f)
 
             renderRenderables(screenDrawing, mouseX, mouseY)
         }

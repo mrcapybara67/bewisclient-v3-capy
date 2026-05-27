@@ -4,7 +4,7 @@ import net.bewis09.bewisclient.drawable.renderables.*
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.util.color.*
 import net.bewis09.bewisclient.settings.types.FloatSetting
 import net.bewis09.bewisclient.settings.types.Setting
@@ -29,7 +29,7 @@ class ColorFaderSettingRenderable(val title: Translation, val description: Trans
         super.render(screenDrawing, mouseX, mouseY)
         drawVerticalCenteredText(screenDrawing, title)
         screenDrawing.translate(0f, y + 22.5f) {
-            screenDrawing.drawRightAlignedText(title2.getTranslatedString() + ": " + setting2.get(), x2 - fader.width - 12 - resetButton.width, 0, OptionsMenuSettings.getTextThemeColor())
+            screenDrawing.drawRightAlignedText(title2.getTranslatedString() + ": " + setting2.get(), x2 - fader.width - 12 - resetButton.width, 0, GeneralSettings.getTextThemeColor())
         }
         renderRenderables(screenDrawing, mouseX, mouseY)
     }

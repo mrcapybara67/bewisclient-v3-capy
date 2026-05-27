@@ -4,7 +4,7 @@ import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.version.setCursorPointer
 import net.minecraft.network.chat.Component
 
@@ -26,7 +26,7 @@ open class ImageButton(val image: Identifier, val onClick: (ImageButton) -> Unit
             SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverFactor, 0f, x, y, width, height, 1f, false, mouseX, mouseY)
         }
 
-        screenDrawing.drawTexture(image, x + imagePadding, y + imagePadding, width - imagePadding * 2, height - imagePadding * 2, OptionsMenuSettings.getTextThemeColor())
+        screenDrawing.drawTexture(image, x + imagePadding, y + imagePadding, width - imagePadding * 2, height - imagePadding * 2, GeneralSettings.getTextThemeColor())
     }
 
     override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean = onClick(this).let { true }

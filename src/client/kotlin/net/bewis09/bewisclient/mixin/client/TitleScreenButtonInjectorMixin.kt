@@ -2,7 +2,7 @@ package net.bewis09.bewisclient.mixin.client
 
 import net.bewis09.bewisclient.drawable.TexturedButtonWidget
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings.buttonInTitleScreen
+import net.bewis09.bewisclient.impl.settings.GeneralSettings.buttonInTitleScreen
 import net.bewis09.bewisclient.screen.RenderableScreen
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.version.setScreen

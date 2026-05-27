@@ -1,6 +1,6 @@
 package net.bewis09.bewisclient.mixin.client
 
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings.blurBackground
+import net.bewis09.bewisclient.impl.settings.GeneralSettings.blurBackground
 import net.bewis09.bewisclient.interfaces.BackgroundEffectProvider
 import net.bewis09.bewisclient.screen.RenderableScreen
 import net.bewis09.bewisclient.version.getScreen

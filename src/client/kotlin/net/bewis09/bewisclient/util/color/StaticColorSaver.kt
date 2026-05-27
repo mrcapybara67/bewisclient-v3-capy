@@ -9,7 +9,7 @@ import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.*
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.util.number.Precision
 import net.bewis09.bewisclient.util.string
 import net.bewis09.bewisclient.common.toText
@@ -108,9 +108,9 @@ open class StaticColorSaver : ColorSaver {
                     x + height + 6, y + 11, width - height - 6, 14
                 )
             )
-            addRenderable(Rectangle{if (isMinecrafty) Color.WHITE alpha 0.3f else OptionsMenuSettings.getThemeColor(alpha = 0.3f)}(x + height + 5, y + 30, width - height - 5, 1))
+            addRenderable(Rectangle{if (isMinecrafty) Color.WHITE alpha 0.3f else GeneralSettings.getThemeColor(alpha = 0.3f)}(x + height + 5, y + 30, width - height - 5, 1))
             addRenderable(ColorButton(x + height + 5, y + 36, 27, 27, { get().getColor() }, String.format("#%06X", get().getColor().argb).toText()))
-            addRenderable(Rectangle{if (isMinecrafty) Color.WHITE alpha 0.3f else OptionsMenuSettings.getThemeColor(alpha = 0.3f)}(x + height + 37, y + 36, 1, 27))
+            addRenderable(Rectangle{if (isMinecrafty) Color.WHITE alpha 0.3f else GeneralSettings.getThemeColor(alpha = 0.3f)}(x + height + 37, y + 36, 1, 27))
 
             addRenderable(
                 HorizontalScrollGrid({
@@ -135,7 +135,7 @@ open class StaticColorSaver : ColorSaver {
 
             override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
                 super.render(screenDrawing, mouseX, mouseY)
-                screenDrawing.fillWithBorderRounded(x, y, width, height, if (isMinecrafty) 0 else 3, color(), if (isMinecrafty) Color.WHITE alpha 0.3f else OptionsMenuSettings.getThemeColor(alpha = 0.3f))
+                screenDrawing.fillWithBorderRounded(x, y, width, height, if (isMinecrafty) 0 else 3, color(), if (isMinecrafty) Color.WHITE alpha 0.3f else GeneralSettings.getThemeColor(alpha = 0.3f))
             }
 
             override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean {

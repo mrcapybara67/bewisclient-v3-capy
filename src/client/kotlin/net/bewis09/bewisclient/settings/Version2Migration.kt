@@ -3,7 +3,7 @@ package net.bewis09.bewisclient.settings
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import net.bewis09.bewisclient.common.catchAndPrint
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.impl.settings.functionalities.*
 import net.bewis09.bewisclient.impl.widget.*
 import net.bewis09.bewisclient.settings.types.Setting
@@ -27,8 +27,8 @@ object Version2Migration : ClientInterface {
         }
 
         updateFromFile("design.json") {
-            mapBoolean("options_menu", "show_game_menu", setting = OptionsMenuSettings.buttonInGameScreen)
-            mapBoolean("options_menu", "show_title_menu", setting = OptionsMenuSettings.buttonInTitleScreen)
+            mapBoolean("options_menu", "show_game_menu", setting = GeneralSettings.buttonInGameScreen)
+            mapBoolean("options_menu", "show_title_menu", setting = GeneralSettings.buttonInTitleScreen)
             mapFloat("fire_height", setting = FireHeightSettings.height) { (it - 0.6f) * 2.5f }
             enableOnNotDefault(FireHeightSettings.enabled, FireHeightSettings.height)
             mapBoolean("fullbright", "enabled", setting = FullbrightSettings.enabled)

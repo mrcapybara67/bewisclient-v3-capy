@@ -12,7 +12,7 @@ import net.bewis09.bewisclient.drawable.renderables.TextElement
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.util.Bewisclient
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.util.int
@@ -111,7 +111,7 @@ class ChangingColorSaver : ColorSaver {
                 )
             )
             addRenderable(
-                Rectangle { OptionsMenuSettings.getThemeColor(alpha = 0.3f) }(
+                Rectangle { GeneralSettings.getThemeColor(alpha = 0.3f) }(
                     x, y + 29, width, 1
                 )
             )
@@ -121,7 +121,7 @@ class ChangingColorSaver : ColorSaver {
                 )
             )
             addRenderable(
-                Rectangle { OptionsMenuSettings.getThemeColor(alpha = 0.3f) }(
+                Rectangle { GeneralSettings.getThemeColor(alpha = 0.3f) }(
                     x, y + 49, width, 1
                 )
             )
