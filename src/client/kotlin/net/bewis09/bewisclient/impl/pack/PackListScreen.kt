@@ -1,5 +1,6 @@
 package net.bewis09.bewisclient.impl.pack
 
+import net.bewis09.bewisclient.common.*
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.Input
@@ -13,14 +14,7 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawingInterface
 import net.bewis09.bewisclient.impl.pack.Modrinth.downloadFailed
 import net.bewis09.bewisclient.impl.pack.Modrinth.downloadFailedReason
-import net.bewis09.bewisclient.common.Color
-import net.bewis09.bewisclient.common.color
-import net.bewis09.bewisclient.common.createIdentifier
-import net.bewis09.bewisclient.common.getModrinthVersion
-import net.bewis09.bewisclient.common.name
-import net.bewis09.bewisclient.common.toText
 import net.bewis09.bewisclient.version.setScreen
-import net.minecraft.SharedConstants
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.CommonComponents
 import net.minecraft.network.chat.Component

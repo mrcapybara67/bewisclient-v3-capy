@@ -4,7 +4,6 @@ import com.google.gson.Gson
 import net.bewis09.bewisclient.common.Util
 import net.bewis09.bewisclient.impl.pack.Modrinth
 import net.bewis09.bewisclient.impl.settings.GeneralSettings
-import net.bewis09.bewisclient.process.Updater
 import net.bewis09.bewisclient.security.Security
 import net.bewis09.bewisclient.util.EventEntrypoint
 import java.util.jar.JarFile
