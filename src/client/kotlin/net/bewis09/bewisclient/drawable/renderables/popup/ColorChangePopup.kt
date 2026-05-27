@@ -1,6 +1,5 @@
 package net.bewis09.bewisclient.drawable.renderables.popup
 
-import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.renderables.Rectangle

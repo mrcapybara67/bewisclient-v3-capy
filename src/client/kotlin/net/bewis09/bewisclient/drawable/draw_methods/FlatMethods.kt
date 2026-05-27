@@ -1,13 +1,11 @@
 package net.bewis09.bewisclient.drawable.draw_methods
 
-import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.alpha
 import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.common.within
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.transform
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
-import net.bewis09.bewisclient.util.number.Precision
 import kotlin.math.abs
 
 object FlatMethods : DrawMethods {

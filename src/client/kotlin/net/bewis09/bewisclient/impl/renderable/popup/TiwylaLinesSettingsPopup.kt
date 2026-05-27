@@ -1,6 +1,7 @@
 package net.bewis09.bewisclient.impl.renderable.popup
 
 import net.bewis09.bewisclient.drawable.Renderable
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.renderables.Button
 import net.bewis09.bewisclient.drawable.renderables.TextElement
 import net.bewis09.bewisclient.drawable.renderables.VerticalAlignScrollPlane
@@ -8,11 +9,8 @@ import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.renderable.TiwylaLinesSettingsRenderable
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.impl.widget.TiwylaWidget
 import net.bewis09.bewisclient.settings.types.ListSetting
-import net.bewis09.bewisclient.common.color
-import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 
 class TiwylaLinesSettingsPopup<T>(
     val setting: ListSetting<TiwylaWidget.Information<T>>, val options: List<TiwylaWidget.Information.Line<T>>, val yIndex: Int, val left: Boolean

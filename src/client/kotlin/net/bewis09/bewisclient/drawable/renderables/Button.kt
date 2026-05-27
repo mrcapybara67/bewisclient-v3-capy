@@ -2,13 +2,10 @@ package net.bewis09.bewisclient.drawable.renderables
 
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.drawable.screen_drawing.transform
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.version.setCursorPointer
-import net.minecraft.client.KeyMapping.click
 import net.minecraft.network.chat.Component
-import net.minecraft.world.level.block.entity.SkullBlockEntity.animation
 
 class Button(var text: Component, val onClick: (Button) -> Unit, tooltip: Component? = null, val selected: (() -> Boolean)? = null, var dark: Boolean = false, val small: Boolean = false) : TooltipHoverable(tooltip) {
     constructor(text: Component, onClick: (Button) -> Unit) : this(text, onClick, null)

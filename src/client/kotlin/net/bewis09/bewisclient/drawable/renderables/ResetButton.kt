@@ -5,7 +5,6 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.interfaces.Settable
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
-import net.bewis09.bewisclient.drawable.screen_drawing.pushColor
 import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.version.setCursorPointer
 

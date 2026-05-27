@@ -3,7 +3,6 @@ package net.bewis09.bewisclient.drawable.screen_drawing
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.createIdentifier
-import net.bewis09.bewisclient.impl.settings.OptionsMenuSettings
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.version.*
 import net.minecraft.client.gui.Font

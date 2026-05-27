@@ -8,7 +8,6 @@ import net.bewis09.bewisclient.cosmetics.ServerboundCosmeticPayload
 import net.bewis09.bewisclient.cosmetics.CommonCosmeticLoader
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 
 object BewisclientServer: ModInitializer, ServerInterface {
     override fun onInitialize() {
