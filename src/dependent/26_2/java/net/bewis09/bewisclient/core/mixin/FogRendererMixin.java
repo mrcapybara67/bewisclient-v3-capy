@@ -1,7 +1,7 @@
 package net.bewis09.bewisclient.core.mixin;
 
 import net.bewis09.bewisclient.impl.BetterVisibilityImpl;
-import net.bewis09.bewisclient.impl.settings.functionalities.BetterVisibilitySettings;
+import net.bewis09.bewisclient.impl.functionalities.BetterVisibility;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -23,7 +23,7 @@ public abstract class FogRendererMixin {
 
     @Inject(method = "setupFog", at = @At("RETURN"))
     private void bewisclient$applyFog(Camera camera, int renderDistanceInChunks, DeltaTracker deltaTracker, float darkenWorldAmount, ClientLevel level, CallbackInfoReturnable<FogData> cir) {
-        if(!BetterVisibilitySettings.INSTANCE.getEnabled().get()) return;
+        if(!BetterVisibility.INSTANCE.getEnabled().get()) return;
 
         FogType cameraSubmersionType = camera.getFluidInCamera();
         FogData fogData = cir.getReturnValue();

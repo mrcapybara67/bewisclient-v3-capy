@@ -10,21 +10,19 @@ import net.bewis09.bewisclient.impl.widget.CustomWidget
 import net.bewis09.bewisclient.common.catch
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.settings.RenderableCreator
+import net.bewis09.bewisclient.settings.structure.DescriptionFeature
 import net.bewis09.bewisclient.settings.types.ColorSetting
 import net.bewis09.bewisclient.settings.types.FloatSetting
-import net.bewis09.bewisclient.settings.types.ObjectSetting
 import net.bewis09.bewisclient.settings.types.WidgetPositionSetting
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
 
-abstract class Widget(val id: Identifier) : ObjectSetting() {
+abstract class Widget(val id: Identifier, title: String, description: String) : DescriptionFeature(
+    Translation(id.namespace, "widget.${id.path}.name", title), Translation(id.namespace, "widget.${id.path}.description", description)
+) {
     var position: WidgetPositionSetting = create("position", WidgetPositionSetting(defaultPosition()))
-    var enabled = boolean("enabled", isEnabledByDefault())
 
-    protected abstract val title: String
-    protected abstract val description: String
-
-    val widgetTitle by lazy { createTranslation("name", title) }
-    val widgetDescription by lazy { createTranslation("description", description) }
+    override val settingRenderables: Array<Renderable>
+        get() = arrayListOf<Renderable>().also(::appendSettingsRenderables).toTypedArray()
 
     fun createTranslation(key: String, @Suppress("LocalVariableName") en_us: String) = Translation(id.namespace, "widget.${id.path}.$key", en_us)
 
@@ -35,8 +33,6 @@ abstract class Widget(val id: Identifier) : ObjectSetting() {
     fun isShowing(): Boolean {
         return isEnabled() && (!isHidden() || (util.getCurrentRenderableScreen()?.renderable is HudEditScreen))
     }
-
-    fun isEnabled(): Boolean = enabled.get()
 
     abstract fun defaultPosition(): WidgetPosition
 

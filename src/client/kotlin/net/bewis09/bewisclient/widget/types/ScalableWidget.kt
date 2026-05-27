@@ -6,7 +6,7 @@ import net.bewis09.bewisclient.impl.settings.DefaultWidgetSettings
 import net.bewis09.bewisclient.settings.types.FloatSetting
 import net.bewis09.bewisclient.widget.Widget
 
-abstract class ScalableWidget(id: Identifier) : Widget(id) {
+abstract class ScalableWidget(id: Identifier, title: String, description: String) : Widget(id, title, description) {
     var scale = create("scale", FloatSetting({ getDefaultScale() }, DefaultWidgetSettings.scale.precision))
 
     open fun getDefaultScale(): Float = DefaultWidgetSettings.scale.get()

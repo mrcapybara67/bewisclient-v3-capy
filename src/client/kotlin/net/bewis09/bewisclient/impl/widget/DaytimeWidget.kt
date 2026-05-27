@@ -13,11 +13,12 @@ import java.text.DateFormat
 import java.time.Instant
 import java.util.*
 
-object DaytimeWidget : LineWidget(createIdentifier("bewisclient", "daytime_widget")) {
+object DaytimeWidget : LineWidget(
+    createIdentifier("bewisclient", "daytime_widget"),
+    "Daytime Widget",
+    "Displays the current in-game time in hours and minutes."
+) {
     var format12Hours = boolean("format_12_hours", isSystem12HourFormat())
-
-    override val title = "Daytime Widget"
-    override val description = "Displays the current in-game time in hours and minutes."
 
     override fun getLine() = getText(format12Hours.get())
 

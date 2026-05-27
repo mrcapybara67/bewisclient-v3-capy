@@ -6,10 +6,11 @@ import net.bewis09.bewisclient.widget.logic.RelativePosition
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
 import net.bewis09.bewisclient.widget.types.LineWidget
 
-object FPSWidget : LineWidget(createIdentifier("bewisclient", "fps_widget")) {
-    override val title = "FPS Widget"
-    override val description = "Displays your current frames per second (FPS)."
-
+object FPSWidget : LineWidget(
+    createIdentifier("bewisclient", "fps_widget"),
+    "FPS Widget",
+    "Displays your current frames per second (FPS)."
+) {
     val fpsText = createTranslation("fps", "%s FPS")
 
     override fun getLine() = fpsText(client.fps.toString())

@@ -19,6 +19,7 @@ import net.bewis09.bewisclient.common.EntityTypes
 import net.bewis09.bewisclient.common.id
 import net.bewis09.bewisclient.drawable.ImageIdentifier
 import net.bewis09.bewisclient.server.AutoUpdater
+import net.bewis09.bewisclient.settings.structure.Feature
 import net.bewis09.bewisclient.widget.Widget
 import net.bewis09.bewisclient.widget.WidgetLoader
 import kotlin.jvm.optionals.getOrNull
@@ -40,7 +41,7 @@ class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
         FPSWidget, BiomeWidget, DayWidget, CoordinatesWidget, DaytimeWidget, PingWidget, CPSWidget, KeyWidget, InventoryWidget, SpeedWidget, TiwylaWidget, CustomWidget, ServerWidget, ArmorWidget
     )
 
-    override fun getUtilities(): List<Renderable> = listOf(
+    override fun getUtilities(): List<Feature> = listOf(
         Fullbright, BlockHighlight, EntityHighlight, HeldItemTooltip, Zoom, PumpkinOverlay,
         // Crosshair,
         BetterVisibility, Scoreboard, ShulkerBoxTooltip, Perspective, FireHeight, Panorama, PackAdder

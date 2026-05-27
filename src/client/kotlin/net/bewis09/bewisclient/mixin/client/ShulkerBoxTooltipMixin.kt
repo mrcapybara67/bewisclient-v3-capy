@@ -3,7 +3,7 @@
 package net.bewis09.bewisclient.mixin.client
 
 import net.bewis09.bewisclient.game.ShulkerBoxTooltipComponent
-import net.bewis09.bewisclient.impl.settings.functionalities.ShulkerBoxTooltipSettings
+import net.bewis09.bewisclient.impl.functionalities.ShulkerBoxTooltip
 import net.minecraft.core.component.DataComponents
 import net.minecraft.world.inventory.tooltip.TooltipComponent
 import net.minecraft.world.item.BlockItem
@@ -19,12 +19,12 @@ class ShulkerBoxTooltipMixin(settings: Properties) : Item(settings) {
     override fun getTooltipImage(stack: ItemStack): Optional<TooltipComponent> {
         val blockItem: BlockItem = stack.item as? BlockItem ?: return super.getTooltipImage(stack)
         val block: ShulkerBoxBlock = blockItem.block as? ShulkerBoxBlock ?: return super.getTooltipImage(stack)
-        if (!ShulkerBoxTooltipSettings.isEnabled()) return super.getTooltipImage(stack)
+        if (!ShulkerBoxTooltip.isEnabled()) return super.getTooltipImage(stack)
 
         val component: ItemContainerContents = stack.get<ItemContainerContents>(DataComponents.CONTAINER) ?: return super.getTooltipImage(stack)
 
         // @[1.21.11] stream @[] allItemsCopyStream
-        val array = component./*[@]*/stream/*[!@]*/().toArray { arrayOfNulls<ItemStack>(it) }.mapNotNull { it }.toTypedArray()
+        val array = component./*[@]*/allItemsCopyStream/*[!@]*/().toArray { arrayOfNulls<ItemStack>(it) }.mapNotNull { it }.toTypedArray()
 
         val color = block.color ?: return Optional.ofNullable<TooltipComponent?>(ShulkerBoxTooltipComponent.of(null, array))
 

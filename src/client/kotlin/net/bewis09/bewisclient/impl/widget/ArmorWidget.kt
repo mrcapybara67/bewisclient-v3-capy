@@ -18,10 +18,11 @@ import net.minecraft.network.chat.Component
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 
-object ArmorWidget : ScalableWidget(createIdentifier("bewisclient", "armor_widget")) {
-    override val title = "Armor Widget"
-    override val description = "Displays your armor durability."
-
+object ArmorWidget : ScalableWidget(
+    createIdentifier("bewisclient", "armor_widget"),
+    "Armor Widget",
+    "Displays your armor durability."
+) {
     val showDurability = boolean("show_durability", true)
     val showPercentage = boolean("show_percentage", false)
     val showEmptySlots = boolean("show_empty_slots", true)
@@ -146,7 +147,7 @@ object ArmorWidget : ScalableWidget(createIdentifier("bewisclient", "armor_widge
                     showFeet.createRenderablePart("widget.armor_widget.show_feet", "Show Feet"),
                     showOffHand.createRenderablePart("widget.armor_widget.show_off_hand", "Show Off-Hand")
                 ).staticFun()
-            )
+            ).addToQuickSettings("widget.armor_widget.name", "armor_slots")
         )
 
         list.addRenderable(showDurability, "armor_widget.show_durability", "Show Durability", "Toggle whether to show armor durability", "durability")

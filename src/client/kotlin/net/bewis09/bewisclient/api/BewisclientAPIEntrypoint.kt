@@ -3,13 +3,13 @@ package net.bewis09.bewisclient.api
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.renderables.options_structure.SettingCategory
 import net.bewis09.bewisclient.drawable.renderables.options_structure.SidebarCategory
 import net.bewis09.bewisclient.game.Keybind
 import net.bewis09.bewisclient.impl.widget.TiwylaWidget
 import net.bewis09.bewisclient.game.BewisclientResourcePack
 import net.bewis09.bewisclient.util.*
 import net.bewis09.bewisclient.settings.Settings
+import net.bewis09.bewisclient.settings.structure.Feature
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.widget.Widget
 import net.fabricmc.loader.api.ModContainer
@@ -62,10 +62,9 @@ open class BewisclientAPIEntrypoint : ClientInterface {
     }
 
     /**
-     * Should return a list of [Renderable]s that are displayed in the Bewisclient utilities tab.
-     * Those should preferably be a subclass of [SettingCategory]
+     * Should return a list of [Feature]s that are displayed in the Bewisclient utilities tab.
      */
-    open fun getUtilities(): List<Renderable> {
+    open fun getUtilities(): List<Feature> {
         return emptyList()
     }
 

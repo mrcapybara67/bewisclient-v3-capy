@@ -30,12 +30,12 @@ open class IndependentScreen(title: Component): Screen(title) {
     open fun onCharTyped(chr: Char, modifiers: Int): Boolean = false
 
     // @[1.21.11] render @[] extractRenderState
-    override fun /*[@]*/render/*[!@]*/(graphics: GuiGraphics, mouseX: Int, mouseY: Int, deltaTicks: Float) = this.render(graphics, mouseX, mouseY)
+    override fun /*[@]*/extractRenderState/*[!@]*/(graphics: GuiGraphics, mouseX: Int, mouseY: Int, deltaTicks: Float) = this.render(graphics, mouseX, mouseY)
 
     open fun render(context: GuiGraphics, mouseX: Int, mouseY: Int) = Unit
 
     // @[1.21.11] renderMenuBackground @[] extractMenuBackground
-    open fun renderBackground(guiGraphics: GuiGraphics, x: Int, y: Int, width: Int, height: Int) = super./*[@]*/renderMenuBackground/*[!@]*/(guiGraphics, x, y, width, height)
+    open fun renderBackground(guiGraphics: GuiGraphics, x: Int, y: Int, width: Int, height: Int) = super./*[@]*/extractMenuBackground/*[!@]*/(guiGraphics, x, y, width, height)
 
     @Suppress("unused")
     // @[1.21.5] = super.renderBackground(context, mouseX, mouseY, deltaTicks) @[] {}

@@ -1,4 +1,4 @@
-package net.bewis09.bewisclient.impl.settings.functionalities
+package net.bewis09.bewisclient.impl.screenshot
 
 import net.bewis09.bewisclient.settings.types.ObjectSetting
 

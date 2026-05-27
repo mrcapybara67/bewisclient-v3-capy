@@ -2,7 +2,6 @@ package net.bewis09.bewisclient.impl.widget
 
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.toText
-import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.util.*
 import net.bewis09.bewisclient.widget.logic.RelativePosition
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
@@ -10,7 +9,11 @@ import net.bewis09.bewisclient.widget.types.LineWidget
 import net.minecraft.world.phys.Vec3
 import java.util.*
 
-object SpeedWidget : LineWidget(createIdentifier("bewisclient", "speed_widget")), EventEntrypoint {
+object SpeedWidget : LineWidget(
+    createIdentifier("bewisclient", "speed_widget"),
+    "Speed Widget",
+    "Displays your current speed in blocks per second."
+), EventEntrypoint {
     val verticalSpeed = boolean("vertical_speed", false)
 
     var oldPos: Vec3 = Vec3.ZERO
@@ -22,9 +25,6 @@ object SpeedWidget : LineWidget(createIdentifier("bewisclient", "speed_widget"))
     override fun defaultPosition(): WidgetPosition = RelativePosition("bewisclient:ping_widget", "bottom")
 
     override fun getMinimumWidth(): Int = 80
-
-    override val title = "Speed Widget"
-    override val description = "Displays your current speed in blocks per second."
 
     override fun isEnabledByDefault(): Boolean = false
 

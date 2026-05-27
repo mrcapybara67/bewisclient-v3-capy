@@ -10,7 +10,9 @@
     "PackScreenMixin",
     "SkinTexturesMixin",
     "TooltipDisplayComponentMixin",
-    "WorldRendererMixin"
+    "WorldRendererMixin",
+    "NewPauseScreenButtonInjectorMixin",
+    "NewTitleScreenButtonInjector"
   ],
   "injectors": {
     "defaultRequire": 1

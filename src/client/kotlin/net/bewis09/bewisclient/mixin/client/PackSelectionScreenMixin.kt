@@ -5,10 +5,10 @@ import net.bewis09.bewisclient.drawable.Translations.ADD_DATA_PACK
 import net.bewis09.bewisclient.drawable.Translations.ADD_RESOURCE_PACK
 import net.bewis09.bewisclient.impl.pack.Modrinth
 import net.bewis09.bewisclient.impl.pack.PackListScreen
-import net.bewis09.bewisclient.impl.settings.functionalities.PackAdderSettings
 import net.bewis09.bewisclient.screen.RenderableScreen
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.Identifier
+import net.bewis09.bewisclient.impl.functionalities.PackAdder
 import net.bewis09.bewisclient.version.setScreen
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.screens.Screen
@@ -38,7 +38,7 @@ class PackSelectionScreenMixin(title: Component) : Screen(title) {
 
     @Inject(method = ["init"], at = [At("RETURN")])
     fun bewisclientInit(ci: CallbackInfo) {
-        if (!PackAdderSettings.isEnabled()) return
+        if (!PackAdder.isEnabled()) return
 
         addResourcePackButton = addRenderableWidget(TexturedButtonWidget(width / 2 - 215, height - 49, 200, 18, buttonTexture, buttonTexture, { b: Button? ->
             setScreen(
@@ -59,6 +59,6 @@ class PackSelectionScreenMixin(title: Component) : Screen(title) {
 
     @ModifyArg(method = ["init"], at = At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/packs/TransferableSelectionList;<init>(Lnet/minecraft/client/Minecraft;Lnet/minecraft/client/gui/screens/packs/PackSelectionScreen;IILnet/minecraft/network/chat/Component;)V", ordinal = 0), index = 3)
     fun bewisclientModifyPackListWidgetTitle(par3: Int): Int {
-        return if (!PackAdderSettings.isEnabled()) par3 else par3 - 20
+        return if (!PackAdder.isEnabled()) par3 else par3 - 20
     }
 }

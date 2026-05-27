@@ -6,7 +6,6 @@ import net.bewis09.bewisclient.cosmetics.CosmeticType
 import net.bewis09.bewisclient.cosmetics.drawable.SelectCapeElement
 import net.bewis09.bewisclient.drawable.renderables.*
 import net.bewis09.bewisclient.drawable.renderables.elements.ExtensionListRenderable
-import net.bewis09.bewisclient.drawable.renderables.options_structure.DescriptionSettingCategory
 import net.bewis09.bewisclient.drawable.renderables.options_structure.HomePlane
 import net.bewis09.bewisclient.drawable.renderables.options_structure.SidebarCategory
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
@@ -15,15 +14,14 @@ import net.bewis09.bewisclient.game.Translation
 import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
+import net.bewis09.bewisclient.settings.structure.Feature
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.widget.WidgetLoader
 
 object SettingStructure : ClientInterface {
-    val widgets = WidgetLoader.widgets.map {
-        DescriptionSettingCategory(it.widgetTitle, it.widgetDescription, arrayListOf<Renderable>().also { list -> it.appendSettingsRenderables(list) }.toTypedArray(), it.enabled)
-    }
+    val widgetRenderables = WidgetLoader.widgets.map(Feature::createRenderable)
 
-    val utilities = APIEntrypointLoader.mapEntrypoint { it.getUtilities() }.flatten()
+    val utilities = APIEntrypointLoader.mapEntrypoint { it.getUtilities() }.flatten().map(Feature::createRenderable)
 
     val settings = VerticalAlignScrollPlane(
         listOf(
@@ -34,7 +32,7 @@ object SettingStructure : ClientInterface {
             GeneralSettings.themeColor.createRenderable("menu.settings.theme_color", "Theme Color", "The theme color used throughout the client").addToQuickSettings("menu.category.settings", "theme_color"),
             GeneralSettings.backgroundColor.createRenderableWithFader("menu.settings.background_color", "Background Color", "The background color used for menus. Reset to use the theme color.", GeneralSettings.backgroundOpacity).addToQuickSettings("menu.category.settings", "background"),
             GeneralSettings.minecraftyOptionsMenu.createRenderable("menu.settings.minecrafty_options_menu", "Minecrafty Options Menu", "Whether to use a Minecrafty style options menu instead of the default flat design"),
-            GeneralSettings.autoUpdate.createRenderable("menu.settings.auto_update", "Automatic Update", "Whether to automatically check for updates and update the client when an update is found")
+            GeneralSettings.autoUpdate.createRenderable("menu.settings.auto_update", "Automatic Updates", "Whether to automatically check for updates and update the client when an update is found")
         ), 1
     )
 
@@ -63,7 +61,7 @@ object SettingStructure : ClientInterface {
 //            Button(Translation("menu.widgets.presets", "Presets")()) {
 //
 //            }(x + width - 55, 37, 55, 14),
-            VerticalScrollGrid({ widgets.map { a -> a.setHeight(90) } }, 5, 80).invoke(x, y + SelectiveScreenDrawer.getSideButtonHeight() + 5, width, height - SelectiveScreenDrawer.getSideButtonHeight() - 5)
+            VerticalScrollGrid({ widgetRenderables.map { a -> a.setHeight(90) } }, 5, 80).invoke(x, y + SelectiveScreenDrawer.getSideButtonHeight() + 5, width, height - SelectiveScreenDrawer.getSideButtonHeight() - 5)
         )
     }
 

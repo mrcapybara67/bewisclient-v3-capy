@@ -15,7 +15,6 @@ import net.bewis09.bewisclient.util.number.Precision
 import net.bewis09.bewisclient.screen.RenderableScreen
 import net.bewis09.bewisclient.widget.Widget
 import net.bewis09.bewisclient.widget.WidgetLoader
-import net.bewis09.bewisclient.widget.WidgetLoader.widgets
 import net.bewis09.bewisclient.widget.logic.RelativePosition
 import net.bewis09.bewisclient.widget.logic.SidedPosition
 import net.bewis09.bewisclient.widget.types.ScalableWidget
@@ -23,6 +22,7 @@ import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.version.isKeyPressed
 import net.bewis09.bewisclient.version.setScreen
 import net.bewis09.bewisclient.version.translateToTopOptional
+import net.bewis09.bewisclient.widget.WidgetLoader.widgets
 import org.lwjgl.glfw.GLFW
 import kotlin.math.abs
 
@@ -56,7 +56,7 @@ class HudEditScreen : PopupScreen(), BackgroundEffectProvider {
 
                 if (button == 1) {
                     setScreen(RenderableScreen(OptionScreen().apply {
-                        val widgetsCategory = SettingStructure.widgets.firstOrNull { b -> b.enableSetting == it.enabled } ?: return@apply
+                        val widgetsCategory = widgets.firstOrNull { b -> b.enabled == it.enabled } ?: return@apply
 
                         changeCategory(SettingStructure.widgetsCategory, instant = true)
 
@@ -107,7 +107,7 @@ class HudEditScreen : PopupScreen(), BackgroundEffectProvider {
                 screenDrawing.setBewisclientFont()
 
                 val lines = mutableListOf<String>()
-                lines.add(it.widgetTitle.getTranslatedString())
+                lines.add(it.title.getTranslatedString())
                 lines.add("")
                 if (it is ScalableWidget) {
                     lines.add(scrollToZoom(Precision(0.5f, 2f, 0.01f, 2).roundToString(it.scale.get())).string)

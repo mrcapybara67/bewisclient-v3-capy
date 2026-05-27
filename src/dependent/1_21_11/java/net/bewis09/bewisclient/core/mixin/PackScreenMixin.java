@@ -1,6 +1,6 @@
 package net.bewis09.bewisclient.core.mixin;
 
-import net.bewis09.bewisclient.impl.settings.functionalities.PackAdderSettings;
+import net.bewis09.bewisclient.impl.functionalities.PackAdder;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
 import net.minecraft.network.chat.Component;
@@ -16,6 +16,6 @@ public class PackScreenMixin extends Screen {
 
     @ModifyArg(method = "repositionElements", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/packs/TransferableSelectionList;updateSizeAndPosition(IIII)V", ordinal = 0), index = 1)
     public int bewisclient$modifyPackListWidgetPosition(int par1) {
-        return !PackAdderSettings.INSTANCE.isEnabled() ? par1 : par1 - 20;
+        return !PackAdder.INSTANCE.isEnabled() ? par1 : par1 - 20;
     }
 }

@@ -1,6 +1,6 @@
 package net.bewis09.bewisclient.core.mixin;
 
-import net.bewis09.bewisclient.impl.settings.functionalities.PumpkinOverlaySettings;
+import net.bewis09.bewisclient.impl.functionalities.PumpkinOverlay;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.equipment.Equippable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,7 +14,7 @@ import java.util.Optional;
 public class EquippableComponentMixin {
     @Inject(method = "cameraOverlay", at = @At("RETURN"), cancellable = true)
     private void bewisclient$cameraOverlay(CallbackInfoReturnable<Optional<Identifier>> cir) {
-        if (!PumpkinOverlaySettings.INSTANCE.isEnabled()) return;
+        if (!PumpkinOverlay.INSTANCE.isEnabled()) return;
 
         if (cir.getReturnValue().isEmpty()) return;
 

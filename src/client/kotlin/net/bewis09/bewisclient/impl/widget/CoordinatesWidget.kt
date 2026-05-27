@@ -1,7 +1,6 @@
 package net.bewis09.bewisclient.impl.widget
 
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.toText
@@ -10,14 +9,15 @@ import net.bewis09.bewisclient.widget.logic.WidgetPosition
 import net.bewis09.bewisclient.widget.types.LineWidget
 import net.minecraft.network.chat.Component
 
-object CoordinatesWidget : LineWidget(createIdentifier("bewisclient", "coordinates_widget")) {
+object CoordinatesWidget : LineWidget(
+    createIdentifier("bewisclient", "coordinates_widget"),
+    "Coordinates Widget",
+    "Displays your current coordinates in the world"
+) {
     val colorCodeBiome = boolean("color_code_biome", true)
     val showBiome = boolean("show_biome", true)
     val showDirection = boolean("show_direction", false)
     val showCoordinateChange = boolean("show_coordinate_change", false)
-
-    override val title = "Coordinates Widget"
-    override val description = "Displays your current coordinates in the world"
 
     override fun getLines(): List<Component> = listOfNotNull(
         "X: ${client.cameraEntity?.onPos?.x ?: 137} ${getAdditionString(0)}".toText(),

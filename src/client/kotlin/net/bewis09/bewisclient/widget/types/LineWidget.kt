@@ -15,7 +15,7 @@ import net.bewis09.bewisclient.settings.types.FloatSetting
 import net.bewis09.bewisclient.settings.types.IntegerSetting
 import net.minecraft.network.chat.Component
 
-abstract class LineWidget(id: Identifier) : ScalableWidget(id) {
+abstract class LineWidget(id: Identifier, title: String, description: String) : ScalableWidget(id, title, description) {
     private var lineWidth = 0
 
     companion object {

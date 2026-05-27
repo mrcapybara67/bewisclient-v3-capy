@@ -7,7 +7,11 @@ import net.bewis09.bewisclient.widget.logic.WidgetPosition
 import net.bewis09.bewisclient.widget.types.LineWidget
 import net.minecraft.network.chat.Component
 
-object ServerWidget : LineWidget(createIdentifier("bewisclient", "server_widget")) {
+object ServerWidget : LineWidget(
+    createIdentifier("bewisclient", "server_widget"),
+    "Server Widget",
+    "Displays your current server IP address."
+) {
     override fun getLine(): Component = (client.currentServer?.ip ?: "example.com").toText()
 
     override fun defaultPosition(): WidgetPosition = SidedPosition(5,5, SidedPosition.END, SidedPosition.END)
@@ -17,10 +21,6 @@ object ServerWidget : LineWidget(createIdentifier("bewisclient", "server_widget"
     override fun getMaximumWidth(): Int = 200
 
     override fun isEnabledByDefault(): Boolean = false
-
-    override val title = "Server Widget"
-
-    override val description = "Displays your current server IP address."
 
     override fun isHidden(): Boolean = client.currentServer == null
 

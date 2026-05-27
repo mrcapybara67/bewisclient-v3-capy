@@ -33,8 +33,8 @@ class AddWidgetPopup : Renderable(
     }
 
     inner class WidgetElement(val widget: Widget) : Hoverable() {
-        val title = widget.widgetTitle()
-        val description = widget.widgetDescription()
+        val title = widget.title()
+        val description = widget.description()
 
         override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean {
             widget.enabled.set(true)

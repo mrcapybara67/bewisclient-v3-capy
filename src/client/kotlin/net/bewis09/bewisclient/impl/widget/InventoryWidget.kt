@@ -14,7 +14,11 @@ import net.minecraft.network.chat.Component
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 
-object InventoryWidget : ScalableWidget(createIdentifier("bewisclient", "inventory_widget")) {
+object InventoryWidget : ScalableWidget(
+    createIdentifier("bewisclient", "inventory_widget"),
+    "Inventory Widget",
+    "Displays your inventory on the screen."
+) {
     val indicatorText: Component = Component.literal("The way I would have to add Enchantments to the ItemStack is too complicated, so I am doing it via a mixin instead.")
 
     val exampleMap by lazy {
@@ -71,9 +75,6 @@ object InventoryWidget : ScalableWidget(createIdentifier("bewisclient", "invento
     override fun getWidth(): Int = 180
 
     override fun getHeight(): Int = 60
-
-    override val title = "Inventory Widget"
-    override val description = "Displays your inventory on the screen."
 
     override fun isEnabledByDefault(): Boolean = false
 

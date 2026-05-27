@@ -2,7 +2,7 @@ package net.bewis09.bewisclient.core.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.bewis09.bewisclient.impl.settings.functionalities.BlockHighlightSettings;
+import net.bewis09.bewisclient.impl.functionalities.BlockHighlight;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.ShapeRenderer;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -16,8 +16,8 @@ public class WorldRendererMixin {
     private void drawOutline(PoseStack matrixStack, VertexConsumer vertexConsumer, VoxelShape voxelShape, double x, double y, double z, int c, float lineWidth) {
         var color = c;
 
-        if (BlockHighlightSettings.INSTANCE.isEnabled()) {
-            color = (BlockHighlightSettings.INSTANCE.getColor().get().getColorInt() & 0x00FFFFFF) | ((int) (BlockHighlightSettings.INSTANCE.getThickness().get() * 255f) << 24);
+        if (BlockHighlight.INSTANCE.isEnabled()) {
+            color = (BlockHighlight.INSTANCE.getColor().get().getColorInt() & 0x00FFFFFF) | ((int) (BlockHighlight.INSTANCE.getThickness().get() * 255f) << 24);
         }
 
         ShapeRenderer.renderShape(matrixStack, vertexConsumer, voxelShape, x, y, z, color, lineWidth);

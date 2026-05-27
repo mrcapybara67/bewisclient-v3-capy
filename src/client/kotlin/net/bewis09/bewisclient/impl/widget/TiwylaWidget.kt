@@ -47,7 +47,11 @@ import net.minecraft.world.phys.EntityHitResult
 import kotlin.collections.forEachIndexed
 import kotlin.math.*
 
-object TiwylaWidget : ScalableWidget(createIdentifier("bewisclient", "tiwyla_widget")), EventEntrypoint {
+object TiwylaWidget : ScalableWidget(
+    createIdentifier("bewisclient", "tiwyla_widget"),
+    "Tiwyla Widget",
+    "Show information about the block or entity you are looking at."
+), EventEntrypoint {
     private var lineWidth = 0
 
     var heartStyle: Identifier = createIdentifier("bewisclient", "extra")
@@ -199,9 +203,6 @@ object TiwylaWidget : ScalableWidget(createIdentifier("bewisclient", "tiwyla_wid
     override fun getWidth(): Int = 150.coerceAtLeast(lineWidth).coerceAtMost(250)
 
     override fun getHeight(): Int = 9 + getSublines().size * 6 + lineSpacing.get() * (getSublines().size) + 2 * paddingSize.get()
-
-    override val title = "Tiwyla Widget"
-    override val description = "Show information about the block or entity you are looking at."
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
         list.addRenderable(topTextColor, "top_text_color", "Top Text Color", "Set the color of the top text in the widget")

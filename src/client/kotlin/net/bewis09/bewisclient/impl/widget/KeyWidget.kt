@@ -22,7 +22,11 @@ import net.bewis09.bewisclient.widget.types.ScalableWidget
 import net.minecraft.client.KeyMapping
 import org.lwjgl.glfw.GLFW
 
-object KeyWidget : ScalableWidget(createIdentifier("bewisclient", "key_widget")) {
+object KeyWidget : ScalableWidget(
+    createIdentifier("bewisclient", "key_widget"),
+    "Key Widget",
+    "Displays your movement and attack/use keys."
+) {
     val backgroundColor = create("background_color", DefaultWidgetSettings.backgroundColor.cloneWithDefault())
     val backgroundOpacity = create("background_opacity", DefaultWidgetSettings.backgroundOpacity.cloneWithDefault())
     val borderColor = create("border_color", DefaultWidgetSettings.borderColor.cloneWithDefault())
@@ -148,9 +152,6 @@ object KeyWidget : ScalableWidget(createIdentifier("bewisclient", "key_widget"))
 
         return y
     }
-
-    override val title = "Key Widget"
-    override val description = "Displays your movement and jump keys."
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
         list.add(

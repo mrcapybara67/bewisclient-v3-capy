@@ -1,7 +1,6 @@
 package net.bewis09.bewisclient.core.mixin;
 
 import net.bewis09.bewisclient.impl.functionalities.HeldItemTooltip;
-import net.bewis09.bewisclient.impl.settings.functionalities.HeldItemTooltipSettings;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.component.TooltipDisplay;
@@ -25,6 +24,6 @@ public class TooltipDisplayComponentMixin {
 
         var id = BuiltInRegistries.DATA_COMPONENT_TYPE.getKey(componentType);
         if (id == null) return;
-        cir.setReturnValue(HeldItemTooltipSettings.INSTANCE.getShowMap().get(id.toString(), Arrays.stream(HeldItemTooltip.INSTANCE.getDefaultOff()).noneMatch(a -> a == componentType)));
+        cir.setReturnValue(HeldItemTooltip.INSTANCE.getShowMap().get(id.toString(), Arrays.stream(HeldItemTooltip.INSTANCE.getDefaultOff()).noneMatch(a -> a == componentType)));
     }
 }

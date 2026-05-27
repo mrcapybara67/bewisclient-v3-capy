@@ -1,17 +1,18 @@
 package net.bewis09.bewisclient.impl.functionalities
 
-import net.bewis09.bewisclient.version.appendTooltip
+import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.setColor
+import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.Translations
-import net.bewis09.bewisclient.drawable.renderables.options_structure.ImageSettingCategory
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.functionalities.HeldItemTooltipSettings
 import net.bewis09.bewisclient.interfaces.SettingInterface
-import net.bewis09.bewisclient.common.Color
-import net.bewis09.bewisclient.common.setColor
+import net.bewis09.bewisclient.settings.structure.ImageFeature
+import net.bewis09.bewisclient.settings.types.BooleanMapSetting
 import net.bewis09.bewisclient.version.Profiler
+import net.bewis09.bewisclient.version.appendTooltip
 import net.bewis09.bewisclient.version.getItemFormattedName
 import net.minecraft.core.component.DataComponents
 import net.minecraft.core.registries.BuiltInRegistries
@@ -19,12 +20,15 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.world.item.ItemStack
 
-object HeldItemTooltip : ImageSettingCategory(
-    "held_item_tooltip", Translation("menu.category.held_item_tooltip", "Held Item Info"), arrayOf(
-        HeldItemTooltipSettings.maxShownLines.createRenderable("held_item_tooltip.max_shown_lines", "Max Shown Lines", "Maximum number of lines to show in the held item tooltip").addToQuickSettings("menu.category.held_item_tooltip", "max_lines"), MultipleBooleanSettingsRenderable.create(
+object HeldItemTooltip : ImageFeature("held_item_tooltip", Translation("menu.category.held_item_tooltip", "Held Item Info")) {
+    val maxShownLines = int("max_shown_lines", 5, 1, 10)
+    val showMap = create("show_map", BooleanMapSetting())
+
+    override val settingRenderables: Array<Renderable> = arrayOf(
+        maxShownLines.createRenderable("held_item_tooltip.max_shown_lines", "Max Shown Lines", "Maximum number of lines to show in the held item tooltip").addToQuickSettings("menu.category.held_item_tooltip", "max_lines"), MultipleBooleanSettingsRenderable.create(
             "held_item_tooltip.multiple_boolean_settings", "Data Component Tooltips:", "Select which information to show in the held item tooltip"
-        ) { HeldItemTooltip.componentRenderableParts }), HeldItemTooltipSettings.enabled
-) {
+        ) { componentRenderableParts })
+
     fun lookup() {
         isLookup = true
 
@@ -62,11 +66,11 @@ object HeldItemTooltip : ImageSettingCategory(
                 MultipleBooleanSettingsRenderable.Part(
                     Component.literal(toReadableString(id)), null, object : SettingInterface<Boolean> {
                         override fun get(): Boolean {
-                            return HeldItemTooltipSettings.showMap[id, !defaultOff.contains(componentType)]
+                            return showMap[id, !defaultOff.contains(componentType)]
                         }
 
                         override fun set(value: Boolean?) {
-                            HeldItemTooltipSettings.showMap[id] = value
+                            showMap[id] = value
                         }
                     })
             )
@@ -85,7 +89,7 @@ object HeldItemTooltip : ImageSettingCategory(
 
             var texts: MutableList<Component> = mutableListOf(mutableText)
 
-            if (stack.has(DataComponents.DAMAGE) && HeldItemTooltipSettings.showMap["minecraft:damage", false]) {
+            if (stack.has(DataComponents.DAMAGE) && showMap["minecraft:damage", false]) {
                 texts.add(Component.translatable("item.durability", stack.maxDamage - stack.damageValue, stack.maxDamage))
             }
 
@@ -99,9 +103,9 @@ object HeldItemTooltip : ImageSettingCategory(
                 }
             }
 
-            if (texts.size > HeldItemTooltipSettings.maxShownLines.get() + 1) {
+            if (texts.size > maxShownLines.get() + 1) {
                 val beforeSize = texts.size
-                texts = texts.subList(0, HeldItemTooltipSettings.maxShownLines.get())
+                texts = texts.subList(0, maxShownLines.get())
                 texts.add(Translations.MORE_LINES(beforeSize - texts.size))
             }
 

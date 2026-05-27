@@ -19,7 +19,7 @@ import net.bewis09.bewisclient.impl.screenshot.ScreenshotElement.loading
 import net.bewis09.bewisclient.impl.screenshot.ScreenshotElement.loadingFailed
 import net.bewis09.bewisclient.impl.screenshot.ScreenshotElement.screenshotName
 import net.bewis09.bewisclient.impl.settings.GeneralSettings
-import net.bewis09.bewisclient.impl.settings.functionalities.ScreenshotSettings
+import net.bewis09.bewisclient.impl.screenshot.ScreenshotSettings
 import net.bewis09.bewisclient.process.CopyImage
 import net.bewis09.bewisclient.process.ProcessCreator
 import net.bewis09.bewisclient.screen.RenderableScreen

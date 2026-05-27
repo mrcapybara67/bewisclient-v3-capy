@@ -6,9 +6,7 @@ import net.bewis09.bewisclient.version.GuiGraphics
 import net.bewis09.bewisclient.version.Hud
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.impl.functionalities.HeldItemTooltip
-import net.bewis09.bewisclient.impl.settings.functionalities.HeldItemTooltipSettings
-import net.bewis09.bewisclient.impl.settings.functionalities.ScoreboardSettings
-import net.bewis09.bewisclient.impl.settings.functionalities.ScoreboardSettings.scale
+import net.bewis09.bewisclient.impl.functionalities.Scoreboard
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.minecraft.client.gui.Font
 import net.minecraft.world.item.ItemStack
@@ -31,9 +29,9 @@ abstract class HudMixin: ClientInterface {
     private val lastToolHighlight: ItemStack? = null
 
     // @[1.21.11] "renderSelectedItemName" @[] "extractSelectedItemName"
-    @Inject(method = [/*[@]*/"renderSelectedItemName"/*[!@]*/], at = [At("HEAD")], cancellable = true)
+    @Inject(method = [/*[@]*/"extractSelectedItemName"/*[!@]*/], at = [At("HEAD")], cancellable = true)
     private fun bewisclientRenderHeldItemTooltip(drawContext: GuiGraphics, ci: CallbackInfo) {
-        if (HeldItemTooltipSettings.isEnabled()) {
+        if (HeldItemTooltip.isEnabled()) {
             HeldItemTooltip.render(ScreenDrawing(drawContext, getFont()!!), toolHighlightTimer, lastToolHighlight!!)
             ci.cancel()
         }
@@ -41,7 +39,7 @@ abstract class HudMixin: ClientInterface {
 
     @Inject(method = ["displayScoreboardSidebar"], at = [At("HEAD")])
     private fun bewisclientRenderScoreboardSidebar(guiGraphics: GuiGraphics, objective: Objective?, ci: CallbackInfo?) {
-        val scale = if (ScoreboardSettings.isEnabled()) scale.get() else 1.0f
+        val scale = if (Scoreboard.isEnabled()) Scoreboard.scale.get() else 1.0f
 
         val screenDrawing = ScreenDrawing(guiGraphics, getFont()!!)
 

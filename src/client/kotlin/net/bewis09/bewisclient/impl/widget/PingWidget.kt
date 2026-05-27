@@ -7,15 +7,16 @@ import net.bewis09.bewisclient.widget.logic.WidgetPosition
 import net.bewis09.bewisclient.widget.types.LineWidget
 import net.minecraft.network.chat.Component
 
-object PingWidget : LineWidget(createIdentifier("bewisclient", "ping_widget")) {
+object PingWidget : LineWidget(
+    createIdentifier("bewisclient", "ping_widget"),
+    "Ping Widget",
+    "Displays your current ping in milliseconds (ms)."
+) {
     var lastLatency = 0
     var lastRequest = System.currentTimeMillis()
 
     val pingText = createTranslation("ping", "Ping: %s")
     val loadingText = createTranslation("loading", "Loading...")
-
-    override val title = "Ping Widget"
-    override val description = "Displays your current ping in milliseconds (ms)."
 
     override fun getLine(): Component {
         if ((isHidden() || !util.isInWorld()) && util.getCurrentRenderableScreen() != null) return pingText(99.toString())

@@ -2,21 +2,21 @@
 
 package net.bewis09.bewisclient.impl
 
-import net.bewis09.bewisclient.impl.settings.functionalities.BetterVisibilitySettings
+import net.bewis09.bewisclient.impl.functionalities.BetterVisibility
 import net.bewis09.bewisclient.settings.types.BooleanSetting
 
 object BetterVisibilityImpl {
     class FogModifierConfig(val setting: BooleanSetting, val start: (Float) -> Float, val end: (Float) -> Float)
 
     val fogModifiers = mapOf(
-        "atmospheric" to FogModifierConfig(BetterVisibilitySettings.nether, { it * 2 - (it / 10.0f).coerceIn(4.0f, 64.0f) }, { it * 2 }),
-        "water" to FogModifierConfig(BetterVisibilitySettings.water, { -8f }, { it }),
-        "lava" to FogModifierConfig(BetterVisibilitySettings.lava, { -8f }, { 16f }),
-        "powder_snow" to FogModifierConfig(BetterVisibilitySettings.powder_snow, { -8f }, { 8f })
+        "atmospheric" to FogModifierConfig(BetterVisibility.nether, { it * 2 - (it / 10.0f).coerceIn(4.0f, 64.0f) }, { it * 2 }),
+        "water" to FogModifierConfig(BetterVisibility.water, { -8f }, { it }),
+        "lava" to FogModifierConfig(BetterVisibility.lava, { -8f }, { 16f }),
+        "powder_snow" to FogModifierConfig(BetterVisibility.powder_snow, { -8f }, { 8f })
     )
 
     fun applyFogModifier(instance: String, fogData: FogData, viewDistance: Float) {
-        if (BetterVisibilitySettings.isEnabled()) fogModifiers[instance]?.let {
+        if (BetterVisibility.isEnabled()) fogModifiers[instance]?.let {
             if (!it.setting.get()) return
 
             val start = it.start(viewDistance)

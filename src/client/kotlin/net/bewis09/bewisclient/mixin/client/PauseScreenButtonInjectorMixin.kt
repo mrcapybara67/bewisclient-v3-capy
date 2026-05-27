@@ -5,6 +5,7 @@ import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.impl.settings.GeneralSettings.buttonInGameScreen
 import net.bewis09.bewisclient.screen.RenderableScreen
 import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.common.getModrinthVersion
 import net.bewis09.bewisclient.version.setScreen
 import net.minecraft.client.gui.screens.PauseScreen
 import net.minecraft.client.gui.screens.Screen
@@ -18,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 class PauseScreenButtonInjectorMixin(title: Component) : Screen(title) {
     @Inject(method = ["init"], at = [At("HEAD")])
     private fun bewisclientInit(ci: CallbackInfo?) {
-        if (buttonInGameScreen.get()) addRenderableWidget(
+        if (buttonInGameScreen.get() && getModrinthVersion() < "26.2") addRenderableWidget(
             TexturedButtonWidget(
                 this.width / 2 + 106,
                 this.height / 4 + 56,

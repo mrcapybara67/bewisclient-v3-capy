@@ -10,11 +10,12 @@ import java.text.DateFormat
 import java.time.Instant
 import java.util.*
 
-object DayWidget : LineWidget(createIdentifier("bewisclient", "day_widget")) {
+object DayWidget : LineWidget(
+    createIdentifier("bewisclient", "day_widget"),
+    "Day Widget",
+    "Displays the current in-game day."
+) {
     val dayText = createTranslation("day", "Day %s")
-
-    override val title = "Day Widget"
-    override val description = "Displays the current in-game day."
 
     override fun getLine() = dayText(getText())
 

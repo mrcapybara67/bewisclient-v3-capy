@@ -3,8 +3,7 @@ package net.bewis09.bewisclient.settings
 import com.google.gson.Gson
 import com.google.gson.JsonElement
 import net.bewis09.bewisclient.common.catchAndPrint
-import net.bewis09.bewisclient.impl.settings.GeneralSettings
-import net.bewis09.bewisclient.impl.settings.functionalities.*
+import net.bewis09.bewisclient.impl.functionalities.*
 import net.bewis09.bewisclient.impl.widget.*
 import net.bewis09.bewisclient.settings.types.Setting
 import net.bewis09.bewisclient.util.*
@@ -12,6 +11,9 @@ import net.bewis09.bewisclient.util.color.ChangingColorSaver
 import net.bewis09.bewisclient.util.color.ColorSaver
 import net.bewis09.bewisclient.util.color.StaticColorSaver
 import net.bewis09.bewisclient.common.color
+import net.bewis09.bewisclient.impl.screenshot.Screenshot
+import net.bewis09.bewisclient.impl.screenshot.ScreenshotSettings
+import net.bewis09.bewisclient.impl.settings.GeneralSettings
 import net.bewis09.bewisclient.util.logic.ClientInterface
 
 object Version2Migration : ClientInterface {
@@ -20,37 +22,37 @@ object Version2Migration : ClientInterface {
 
         updateFromFile("general.json") {
             mapBoolean("screenshot_folder_open", setting = ScreenshotSettings.redirect, default = false)
-            mapBoolean("instant_zoom", setting = ZoomSettings.instant)
-            mapBoolean("hard_zoom", setting = ZoomSettings.smooth) { it.not() }
-            mapBoolean("zoom_enabled", setting = ZoomSettings.enabled)
-            mapBoolean("perspective", setting = PerspectiveSettings.enabled)
+            mapBoolean("instant_zoom", setting = Zoom.instant)
+            mapBoolean("hard_zoom", setting = Zoom.smooth) { it.not() }
+            mapBoolean("zoom_enabled", setting = Zoom.enabled)
+            mapBoolean("perspective", setting = Perspective.enabled)
         }
 
         updateFromFile("design.json") {
             mapBoolean("options_menu", "show_game_menu", setting = GeneralSettings.buttonInGameScreen)
             mapBoolean("options_menu", "show_title_menu", setting = GeneralSettings.buttonInTitleScreen)
-            mapFloat("fire_height", setting = FireHeightSettings.height) { (it - 0.6f) * 2.5f }
-            enableOnNotDefault(FireHeightSettings.enabled, FireHeightSettings.height)
-            mapBoolean("fullbright", "enabled", setting = FullbrightSettings.enabled)
-            mapBoolean("fullbright", "night_vision", setting = FullbrightSettings.nightVision)
-            mapFloat("fullbright", "value", setting = FullbrightSettings.brightness, default = 1f)
-            mapBoolean("better_visibility", "lava", setting = BetterVisibilitySettings.lava)
-            mapBoolean("better_visibility", "water", setting = BetterVisibilitySettings.water)
-            mapBoolean("better_visibility", "nether", setting = BetterVisibilitySettings.nether)
-            mapBoolean("better_visibility", "powder_snow", setting = BetterVisibilitySettings.powder_snow)
-            enableOnNotDefault(BetterVisibilitySettings.enabled, BetterVisibilitySettings.lava, BetterVisibilitySettings.water, BetterVisibilitySettings.nether, BetterVisibilitySettings.powder_snow)
-            mapBoolean("blockhit", "enabled", setting = BlockHighlightSettings.enabled)
-            mapFloat("blockhit", "alpha", setting = BlockHighlightSettings.thickness)
-            mapColorSaver("blockhit", "color", setting = BlockHighlightSettings.color)
-            mapBoolean("blockhit", "hit_overlay", "enabled", setting = EntityHighlightSettings.enabled)
-            mapColorSaver("blockhit", "hit_overlay", "color", setting = EntityHighlightSettings.color)
-            mapFloat("blockhit", "hit_overlay", "alpha", setting = EntityHighlightSettings.alpha)
-            mapBoolean("disable_pumpkin_overlay", setting = PumpkinOverlaySettings.enabled)
-            mapBoolean("held_item_info", "held_item_info", setting = HeldItemTooltipSettings.enabled)
-            mapInt("held_item_info", "maxinfolength", setting = HeldItemTooltipSettings.maxShownLines)
-            mapBoolean("shulker_box_tooltip", setting = ShulkerBoxTooltipSettings.enabled)
-            mapFloat("scoreboard", "scale", setting = ScoreboardSettings.scale)
-            enableOnNotDefault(ScoreboardSettings.enabled, ScoreboardSettings.scale)
+            mapFloat("fire_height", setting = FireHeight.height) { (it - 0.6f) * 2.5f }
+            enableOnNotDefault(FireHeight.enabled, FireHeight.height)
+            mapBoolean("fullbright", "enabled", setting = Fullbright.enabled)
+            mapBoolean("fullbright", "night_vision", setting = Fullbright.nightVision)
+            mapFloat("fullbright", "value", setting = Fullbright.brightness, default = 1f)
+            mapBoolean("better_visibility", "lava", setting = BetterVisibility.lava)
+            mapBoolean("better_visibility", "water", setting = BetterVisibility.water)
+            mapBoolean("better_visibility", "nether", setting = BetterVisibility.nether)
+            mapBoolean("better_visibility", "powder_snow", setting = BetterVisibility.powder_snow)
+            enableOnNotDefault(BetterVisibility.enabled, BetterVisibility.lava, BetterVisibility.water, BetterVisibility.nether, BetterVisibility.powder_snow)
+            mapBoolean("blockhit", "enabled", setting = BlockHighlight.enabled)
+            mapFloat("blockhit", "alpha", setting = BlockHighlight.thickness)
+            mapColorSaver("blockhit", "color", setting = BlockHighlight.color)
+            mapBoolean("blockhit", "hit_overlay", "enabled", setting = EntityHighlight.enabled)
+            mapColorSaver("blockhit", "hit_overlay", "color", setting = EntityHighlight.color)
+            mapFloat("blockhit", "hit_overlay", "alpha", setting = EntityHighlight.alpha)
+            mapBoolean("disable_pumpkin_overlay", setting = PumpkinOverlay.enabled)
+            mapBoolean("held_item_info", "held_item_info", setting = HeldItemTooltip.enabled)
+            mapInt("held_item_info", "maxinfolength", setting = HeldItemTooltip.maxShownLines)
+            mapBoolean("shulker_box_tooltip", setting = ShulkerBoxTooltip.enabled)
+            mapFloat("scoreboard", "scale", setting = Scoreboard.scale)
+            enableOnNotDefault(Scoreboard.enabled, Scoreboard.scale)
         }
 
         updateFromFile("widgets.json") {

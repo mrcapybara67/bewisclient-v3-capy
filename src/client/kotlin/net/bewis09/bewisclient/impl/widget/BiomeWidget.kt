@@ -6,7 +6,6 @@ import net.bewis09.bewisclient.common.setColor
 import net.bewis09.bewisclient.common.toText
 import net.bewis09.bewisclient.common.id
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.util.*
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.catch
@@ -20,12 +19,13 @@ import net.minecraft.network.chat.TextColor
 import net.minecraft.server.packs.resources.Resource
 import java.util.*
 
-object BiomeWidget : LineWidget(createIdentifier("bewisclient", "biome_widget")), EventEntrypoint {
+object BiomeWidget : LineWidget(
+    createIdentifier("bewisclient", "biome_widget"),
+    "Biome Widget",
+    "Displays the current biome at your position."
+), EventEntrypoint {
     val biomeCodes = hashMapOf<Identifier, String>()
     var colorCodeBiome = boolean("color_code_biome", true)
-
-    override val title = "Biome Widget"
-    override val description = "Displays the current biome at your position."
 
     override fun onResourcesReloaded() {
         biomeCodes.clear()

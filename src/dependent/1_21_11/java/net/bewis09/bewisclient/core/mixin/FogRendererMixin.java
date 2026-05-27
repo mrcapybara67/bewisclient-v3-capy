@@ -1,7 +1,7 @@
 package net.bewis09.bewisclient.core.mixin;
 
 import net.bewis09.bewisclient.impl.BetterVisibilityImpl;
-import net.bewis09.bewisclient.impl.settings.functionalities.BetterVisibilitySettings;
+import net.bewis09.bewisclient.impl.functionalities.BetterVisibility;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.fog.FogData;
@@ -22,7 +22,7 @@ public abstract class FogRendererMixin {
 
     @Redirect(method = "setupFog", at = @At(value = "FIELD", target = "Lnet/minecraft/client/renderer/fog/FogData;environmentalStart:F", opcode = Opcodes.GETFIELD))
     private float bewisclient$applyFog(FogData fogData) {
-        if(!BetterVisibilitySettings.INSTANCE.getEnabled().get()) return fogData.environmentalStart;
+        if(!BetterVisibility.INSTANCE.getEnabled().get()) return fogData.environmentalStart;
 
         Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
         FogType cameraSubmersionType = camera.getFluidInCamera();

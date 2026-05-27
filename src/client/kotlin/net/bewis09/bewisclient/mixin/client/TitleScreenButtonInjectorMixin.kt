@@ -5,6 +5,7 @@ import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.impl.settings.GeneralSettings.buttonInTitleScreen
 import net.bewis09.bewisclient.screen.RenderableScreen
 import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.common.getModrinthVersion
 import net.bewis09.bewisclient.version.setScreen
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.Button.OnPress
@@ -19,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.Redirect
 class TitleScreenButtonInjectorMixin(title: Component) : Screen(title) {
     @Redirect(method = ["createNormalMenuOptions"], at = At(value = "INVOKE", target = $$"Lnet/minecraft/client/gui/components/Button$Builder;bounds(IIII)Lnet/minecraft/client/gui/components/Button$Builder;", ordinal = 1))
     private fun bewisclientInit(instance: Button.Builder, x: Int, y: Int, width: Int, height: Int): Button.Builder {
-        if (buttonInTitleScreen.get()) this.addRenderableWidget(TexturedButtonWidget(x + width + 4, y, 20, 20, createIdentifier("bewisclient", "textures/gui/sprites/options_button.png"), createIdentifier("bewisclient", "textures/gui/sprites/options_button_pressed.png"), OnPress { b: Button? -> setScreen(RenderableScreen(OptionScreen())) }))
+        if (buttonInTitleScreen.get() && getModrinthVersion() < "26.2") this.addRenderableWidget(TexturedButtonWidget(x + width + 4, y, 20, 20, createIdentifier("bewisclient", "textures/gui/sprites/options_button.png"), createIdentifier("bewisclient", "textures/gui/sprites/options_button_pressed.png"), OnPress { b: Button? -> setScreen(RenderableScreen(OptionScreen())) }))
         return instance.bounds(x, y, width, height)
     }
 }

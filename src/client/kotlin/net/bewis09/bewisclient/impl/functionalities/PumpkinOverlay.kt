@@ -1,9 +1,6 @@
 package net.bewis09.bewisclient.impl.functionalities
 
-import net.bewis09.bewisclient.drawable.renderables.options_structure.ImageSettingCategory
 import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.functionalities.PumpkinOverlaySettings
+import net.bewis09.bewisclient.settings.structure.ImageFeature
 
-object PumpkinOverlay : ImageSettingCategory(
-    "pumpkin_overlay", Translation("menu.category.pumpkin_overlay", "Disable Pumpkin Overlay"), arrayOf(), PumpkinOverlaySettings.enabled
-)
+object PumpkinOverlay : ImageFeature("pumpkin_overlay", Translation("menu.category.pumpkin_overlay", "Disable Pumpkin Overlay"))

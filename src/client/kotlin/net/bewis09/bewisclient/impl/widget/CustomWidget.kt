@@ -15,7 +15,11 @@ import net.bewis09.bewisclient.widget.logic.WidgetPosition
 import net.bewis09.bewisclient.widget.types.LineWidget
 import net.minecraft.network.chat.Component
 
-object CustomWidget : LineWidget(createIdentifier("bewisclient", "custom_widget")) {
+object CustomWidget : LineWidget(
+    createIdentifier("bewisclient", "custom_widget"),
+    "Custom Widget",
+    "A widget which you can customize in any way you want"
+) {
     val customWidgetParamInfo = createTranslation("param_info", "You can include live information in the Custom Widget using curly brackets, e.g. {biome_id}. Some data points can take parameters, which can be specified after a | character. For example, {real_time|seconds} will show the real time including seconds.")
 
     class WidgetStringData(val id: String, val name: Translation, val description: Translation, val func: (param: String?) -> Component, val param: Translation? = null) {
@@ -56,9 +60,6 @@ object CustomWidget : LineWidget(createIdentifier("bewisclient", "custom_widget"
     override fun getMaximumWidth(): Int = maximumWidth.get().toInt()
 
     override fun defaultPosition(): WidgetPosition = SidedPosition(5, 5, SidedPosition.START, SidedPosition.START)
-
-    override val title = "Custom Widget"
-    override val description = "A widget which you can customize in any way you want"
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
         list.add(minimumWidth.createIntRenderable("widget.minimum_width", "Minimum Width", "The minimum width of the widget"))
