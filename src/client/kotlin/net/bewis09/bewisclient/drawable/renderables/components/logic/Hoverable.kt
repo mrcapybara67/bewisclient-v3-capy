@@ -1,4 +1,4 @@
-package net.bewis09.bewisclient.drawable.renderables.components
+package net.bewis09.bewisclient.drawable.renderables.components.logic
 
 import net.bewis09.bewisclient.drawable.Animator
 import net.bewis09.bewisclient.drawable.Animator.Companion.LINEAR

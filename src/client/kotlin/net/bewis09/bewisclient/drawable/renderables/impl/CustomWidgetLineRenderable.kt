@@ -3,7 +3,13 @@ package net.bewis09.bewisclient.drawable.renderables.impl
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.renderables.components.*
+import net.bewis09.bewisclient.drawable.renderables.components.button.Button
+import net.bewis09.bewisclient.drawable.renderables.components.button.ImageButton
+import net.bewis09.bewisclient.drawable.renderables.components.element.Rectangle
+import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
+import net.bewis09.bewisclient.drawable.renderables.components.logic.Scrollable
+import net.bewis09.bewisclient.drawable.renderables.components.setting.Input
+import net.bewis09.bewisclient.drawable.renderables.components.structure.ScrollPlane
 import net.bewis09.bewisclient.drawable.renderables.popup.CustomWidgetHelpPopup
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing

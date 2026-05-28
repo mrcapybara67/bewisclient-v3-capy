@@ -1,6 +1,7 @@
-package net.bewis09.bewisclient.drawable.renderables.components
+package net.bewis09.bewisclient.drawable.renderables.components.structure
 
 import net.bewis09.bewisclient.drawable.Renderable
+import net.bewis09.bewisclient.drawable.renderables.components.logic.Scrollable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 
 class VerticalAlignScrollPlane(val init: (Int) -> List<Renderable>, val gap: Int) : Scrollable(Direction.VERTICAL) {

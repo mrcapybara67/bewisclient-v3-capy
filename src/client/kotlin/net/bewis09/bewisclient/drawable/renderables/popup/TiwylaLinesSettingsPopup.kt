@@ -2,9 +2,9 @@ package net.bewis09.bewisclient.drawable.renderables.popup
 
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
-import net.bewis09.bewisclient.drawable.renderables.components.Button
-import net.bewis09.bewisclient.drawable.renderables.components.TextElement
-import net.bewis09.bewisclient.drawable.renderables.components.VerticalAlignScrollPlane
+import net.bewis09.bewisclient.drawable.renderables.components.button.Button
+import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
+import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalAlignScrollPlane
 import net.bewis09.bewisclient.drawable.renderables.impl.TiwylaLinesSettingsRenderable
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing

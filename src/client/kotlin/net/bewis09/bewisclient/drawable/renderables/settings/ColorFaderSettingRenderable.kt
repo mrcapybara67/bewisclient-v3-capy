@@ -1,8 +1,8 @@
 package net.bewis09.bewisclient.drawable.renderables.settings
 
-import net.bewis09.bewisclient.drawable.renderables.components.ColorInfoButton
-import net.bewis09.bewisclient.drawable.renderables.components.Fader
-import net.bewis09.bewisclient.drawable.renderables.components.ResetButton
+import net.bewis09.bewisclient.drawable.renderables.components.button.ColorInfoButton
+import net.bewis09.bewisclient.drawable.renderables.components.setting.Fader
+import net.bewis09.bewisclient.drawable.renderables.components.button.ResetButton
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.game.translations.Translation

@@ -11,7 +11,14 @@ import net.bewis09.bewisclient.drawable.*
 import net.bewis09.bewisclient.drawable.ImageIdentifier.iconIdentifier
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.minecraft.RenderableScreen
-import net.bewis09.bewisclient.drawable.renderables.components.*
+import net.bewis09.bewisclient.drawable.renderables.components.button.ImageButton
+import net.bewis09.bewisclient.drawable.renderables.components.button.MinecraftButton
+import net.bewis09.bewisclient.drawable.renderables.components.button.ThemeButton
+import net.bewis09.bewisclient.drawable.renderables.components.element.RainbowImage
+import net.bewis09.bewisclient.drawable.renderables.components.element.Rectangle
+import net.bewis09.bewisclient.drawable.renderables.components.setting.Switch
+import net.bewis09.bewisclient.drawable.renderables.components.structure.Plane
+import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalAlignScrollPlane
 import net.bewis09.bewisclient.drawable.renderables.options_structure.SidebarCategory
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawingInterface.Companion.DEFAULT_FONT

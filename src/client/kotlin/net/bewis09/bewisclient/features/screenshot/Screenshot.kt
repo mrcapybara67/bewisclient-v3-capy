@@ -6,7 +6,12 @@ import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.minecraft.RenderableScreen
-import net.bewis09.bewisclient.drawable.renderables.components.*
+import net.bewis09.bewisclient.drawable.renderables.components.button.Button
+import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
+import net.bewis09.bewisclient.drawable.renderables.components.logic.Hoverable
+import net.bewis09.bewisclient.drawable.renderables.components.structure.Plane
+import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalAlignScrollPlane
+import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalScrollGrid
 import net.bewis09.bewisclient.drawable.renderables.notification.NotificationManager
 import net.bewis09.bewisclient.drawable.renderables.notification.SimpleTextNotification
 import net.bewis09.bewisclient.drawable.renderables.options_structure.SidebarCategory

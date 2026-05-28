@@ -3,10 +3,10 @@ package net.bewis09.bewisclient.drawable.renderables.options_structure
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
-import net.bewis09.bewisclient.drawable.renderables.components.Plane
-import net.bewis09.bewisclient.drawable.renderables.components.TextElement
-import net.bewis09.bewisclient.drawable.renderables.components.ThemeButton
-import net.bewis09.bewisclient.drawable.renderables.components.VerticalScrollGrid
+import net.bewis09.bewisclient.drawable.renderables.components.structure.Plane
+import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
+import net.bewis09.bewisclient.drawable.renderables.components.button.ThemeButton
+import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalScrollGrid
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.impl.GeneralSettings

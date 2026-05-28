@@ -2,9 +2,9 @@ package net.bewis09.bewisclient.drawable.renderables.impl
 
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.renderables.components.Button
-import net.bewis09.bewisclient.drawable.renderables.components.Rectangle
-import net.bewis09.bewisclient.drawable.renderables.components.TextElement
+import net.bewis09.bewisclient.drawable.renderables.components.button.Button
+import net.bewis09.bewisclient.drawable.renderables.components.element.Rectangle
+import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
 import net.bewis09.bewisclient.drawable.renderables.popup.TiwylaLinesSettingsPopup
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing

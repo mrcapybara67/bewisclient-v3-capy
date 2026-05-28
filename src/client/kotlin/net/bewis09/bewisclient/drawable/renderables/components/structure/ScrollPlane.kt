@@ -1,7 +1,8 @@
-package net.bewis09.bewisclient.drawable.renderables.components
+package net.bewis09.bewisclient.drawable.renderables.components.structure
 
 import net.bewis09.bewisclient.common.then
 import net.bewis09.bewisclient.drawable.Renderable
+import net.bewis09.bewisclient.drawable.renderables.components.logic.Scrollable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 
 class ScrollPlane(direction: Direction, val init: (x: Int, y: Int, width: Int, height: Int, scroll: Float) -> List<Renderable>) : Scrollable(direction) {

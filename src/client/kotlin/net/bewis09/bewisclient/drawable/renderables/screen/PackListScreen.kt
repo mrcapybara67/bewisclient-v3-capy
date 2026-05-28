@@ -3,10 +3,10 @@ package net.bewis09.bewisclient.drawable.renderables.screen
 import net.bewis09.bewisclient.common.*
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.Translations
-import net.bewis09.bewisclient.drawable.renderables.components.Input
-import net.bewis09.bewisclient.drawable.renderables.components.MinecraftButton
-import net.bewis09.bewisclient.drawable.renderables.components.Plane
-import net.bewis09.bewisclient.drawable.renderables.components.VerticalAlignScrollPlane
+import net.bewis09.bewisclient.drawable.renderables.components.setting.Input
+import net.bewis09.bewisclient.drawable.renderables.components.button.MinecraftButton
+import net.bewis09.bewisclient.drawable.renderables.components.structure.Plane
+import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalAlignScrollPlane
 import net.bewis09.bewisclient.drawable.renderables.notification.NotificationManager
 import net.bewis09.bewisclient.drawable.renderables.notification.ProgressNotification
 import net.bewis09.bewisclient.drawable.renderables.notification.SimpleTextNotification

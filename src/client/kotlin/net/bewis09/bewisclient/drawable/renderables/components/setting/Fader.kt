@@ -1,6 +1,7 @@
-package net.bewis09.bewisclient.drawable.renderables.components
+package net.bewis09.bewisclient.drawable.renderables.components.setting
 
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
+import net.bewis09.bewisclient.drawable.renderables.components.logic.Hoverable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.util.interfaces.Gettable
 import net.bewis09.bewisclient.util.number.Precision

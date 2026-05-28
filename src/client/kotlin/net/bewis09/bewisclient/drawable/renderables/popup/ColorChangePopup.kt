@@ -2,8 +2,8 @@ package net.bewis09.bewisclient.drawable.renderables.popup
 
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
-import net.bewis09.bewisclient.drawable.renderables.components.Rectangle
-import net.bewis09.bewisclient.drawable.renderables.components.ThemeButton
+import net.bewis09.bewisclient.drawable.renderables.components.element.Rectangle
+import net.bewis09.bewisclient.drawable.renderables.components.button.ThemeButton
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.util.color.ColorSaver

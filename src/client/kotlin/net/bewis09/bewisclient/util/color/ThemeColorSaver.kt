@@ -6,9 +6,9 @@ import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.then
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.Translations
-import net.bewis09.bewisclient.drawable.renderables.components.Fader
-import net.bewis09.bewisclient.drawable.renderables.components.ResetButton
-import net.bewis09.bewisclient.drawable.renderables.components.TextElement
+import net.bewis09.bewisclient.drawable.renderables.components.setting.Fader
+import net.bewis09.bewisclient.drawable.renderables.components.button.ResetButton
+import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.impl.GeneralSettings

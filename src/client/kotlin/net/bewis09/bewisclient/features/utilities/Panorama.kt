@@ -5,9 +5,9 @@ import net.bewis09.bewisclient.common.*
 import net.bewis09.bewisclient.core.*
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.Translations
-import net.bewis09.bewisclient.drawable.renderables.components.Hoverable
-import net.bewis09.bewisclient.drawable.renderables.components.ImageButton
-import net.bewis09.bewisclient.drawable.renderables.components.VerticalAlignScrollPlane
+import net.bewis09.bewisclient.drawable.renderables.components.logic.Hoverable
+import net.bewis09.bewisclient.drawable.renderables.components.button.ImageButton
+import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalAlignScrollPlane
 import net.bewis09.bewisclient.drawable.renderables.notification.NotificationManager
 import net.bewis09.bewisclient.drawable.renderables.notification.SimpleTextNotification
 import net.bewis09.bewisclient.drawable.renderables.popup.ConfirmPopup

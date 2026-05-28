@@ -1,4 +1,4 @@
-package net.bewis09.bewisclient.drawable.renderables.components
+package net.bewis09.bewisclient.drawable.renderables.components.setting
 
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.Identifier

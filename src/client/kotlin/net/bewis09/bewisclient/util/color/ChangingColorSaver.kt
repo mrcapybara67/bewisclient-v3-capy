@@ -6,10 +6,10 @@ import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.Translations
-import net.bewis09.bewisclient.drawable.renderables.components.Fader
-import net.bewis09.bewisclient.drawable.renderables.components.ImageButton
-import net.bewis09.bewisclient.drawable.renderables.components.Rectangle
-import net.bewis09.bewisclient.drawable.renderables.components.TextElement
+import net.bewis09.bewisclient.drawable.renderables.components.setting.Fader
+import net.bewis09.bewisclient.drawable.renderables.components.button.ImageButton
+import net.bewis09.bewisclient.drawable.renderables.components.element.Rectangle
+import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.game.translations.Translation
