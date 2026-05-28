@@ -5,7 +5,6 @@ import net.bewis09.bewisclient.common.*
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
-import net.bewis09.bewisclient.drawable.minecraft.RenderableScreen
 import net.bewis09.bewisclient.drawable.renderables.components.button.Button
 import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
 import net.bewis09.bewisclient.drawable.renderables.components.logic.Hoverable
@@ -30,7 +29,6 @@ import net.bewis09.bewisclient.process.CopyImage
 import net.bewis09.bewisclient.process.ProcessCreator
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.version.registerTexture
-import net.bewis09.bewisclient.version.setScreen
 import net.minecraft.client.Minecraft
 import java.io.ByteArrayInputStream
 import java.io.File
@@ -229,7 +227,7 @@ fun openBigScreenshotNewScreen(file: File) {
             instant = true
         )
 
-        setScreen(RenderableScreen(this))
+        setRenderableScreen(this)
     }
 }
 

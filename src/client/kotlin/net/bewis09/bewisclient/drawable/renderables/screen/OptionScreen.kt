@@ -10,7 +10,6 @@ import net.bewis09.bewisclient.data.Constants
 import net.bewis09.bewisclient.drawable.*
 import net.bewis09.bewisclient.drawable.ImageIdentifier.iconIdentifier
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
-import net.bewis09.bewisclient.drawable.minecraft.RenderableScreen
 import net.bewis09.bewisclient.drawable.renderables.components.button.ImageButton
 import net.bewis09.bewisclient.drawable.renderables.components.button.MinecraftButton
 import net.bewis09.bewisclient.drawable.renderables.components.button.ThemeButton
@@ -70,7 +69,7 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
             it.add(Rectangle { GeneralSettings.getThemeColor(alpha = 0.3f) }.setHeight(1))
             it.add(ThemeButton("bewisclient:edit_hud", editHudTranslation(), category) {
                 alphaMainAnimation.set(0f) {
-                    setScreen(RenderableScreen(HudEditScreen()))
+                    setRenderableScreen(HudEditScreen())
                 }
             }.setHeight(SelectiveScreenDrawer.getSideButtonHeight()))
         }, (isMinecrafty then 2) ?: 5
@@ -142,7 +141,7 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
     }
 
     fun checkValidVersion() {
-        if (!Security.verificationState.allowed) setScreen(RenderableScreen(VersionInvalidScreen))
+        if (!Security.verificationState.allowed) setRenderableScreen(VersionInvalidScreen)
     }
 
     object VersionInvalidScreen : Renderable() {

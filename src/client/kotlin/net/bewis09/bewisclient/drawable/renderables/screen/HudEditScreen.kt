@@ -6,7 +6,6 @@ import net.bewis09.bewisclient.common.alpha
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.BackgroundEffectProvider
 import net.bewis09.bewisclient.drawable.SettingStructure
-import net.bewis09.bewisclient.drawable.minecraft.RenderableScreen
 import net.bewis09.bewisclient.drawable.renderables.components.button.ImageButton
 import net.bewis09.bewisclient.drawable.renderables.popup.AddWidgetPopup
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
@@ -15,7 +14,6 @@ import net.bewis09.bewisclient.settings.impl.DefaultWidgetSettings
 import net.bewis09.bewisclient.util.logic.hoverSeparate
 import net.bewis09.bewisclient.util.number.Precision
 import net.bewis09.bewisclient.version.isKeyPressed
-import net.bewis09.bewisclient.version.setScreen
 import net.bewis09.bewisclient.version.translateToTopOptional
 import net.bewis09.bewisclient.widget.Widget
 import net.bewis09.bewisclient.widget.WidgetLoader
@@ -55,7 +53,7 @@ class HudEditScreen : PopupScreen(), BackgroundEffectProvider {
                 }
 
                 if (button == 1) {
-                    setScreen(RenderableScreen(OptionScreen().apply {
+                    setRenderableScreen(OptionScreen().apply {
                         val widgetsCategory = widgets.firstOrNull { b -> b.enabled == it.enabled } ?: return@apply
 
                         changeCategory(SettingStructure.widgetsCategory, instant = true)
@@ -66,7 +64,7 @@ class HudEditScreen : PopupScreen(), BackgroundEffectProvider {
                             it.enabled,
                             instant = true
                         )
-                    }))
+                    })
 
                     return true
                 }
@@ -146,9 +144,9 @@ class HudEditScreen : PopupScreen(), BackgroundEffectProvider {
             openPopup(AddWidgetPopup(), Color.BLACK alpha 0.625f)
         }.setImagePadding(0)(width - 16, height - 16, 14, 14))
         addRenderable(ImageButton(createIdentifier("bewisclient", "textures/gui/sprites/settings.png")) {
-            setScreen(RenderableScreen(OptionScreen().apply {
+            setRenderableScreen(OptionScreen().apply {
                 changeCategory(SettingStructure.widgetsCategory, instant = true)
-            }))
+            })
         }.setImagePadding(2)(width - 32, height - 16, 14, 14))
     }
 
@@ -270,7 +268,7 @@ class HudEditScreen : PopupScreen(), BackgroundEffectProvider {
 
     override fun onKeyPress(key: Int, scanCode: Int, modifiers: Int): Boolean {
         if (key == GLFW.GLFW_KEY_ESCAPE) {
-            setScreen(RenderableScreen(OptionScreen()))
+            setRenderableScreen(OptionScreen())
             return true
         }
         return super.onKeyPress(key, scanCode, modifiers)

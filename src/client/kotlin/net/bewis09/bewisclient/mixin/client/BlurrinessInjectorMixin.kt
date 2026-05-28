@@ -1,9 +1,8 @@
 package net.bewis09.bewisclient.mixin.client
 
 import net.bewis09.bewisclient.drawable.BackgroundEffectProvider
-import net.bewis09.bewisclient.drawable.minecraft.RenderableScreen
 import net.bewis09.bewisclient.settings.impl.GeneralSettings.blurBackground
-import net.bewis09.bewisclient.version.getScreen
+import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.minecraft.client.Options
 import org.spongepowered.asm.mixin.Mixin
 import org.spongepowered.asm.mixin.injection.At
@@ -11,10 +10,10 @@ import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
 
 @Mixin(Options::class)
-class BlurrinessInjectorMixin {
+class BlurrinessInjectorMixin : ClientInterface {
     @Inject(method = ["getMenuBackgroundBlurriness"], at = [At("RETURN")], cancellable = true)
     private fun bewisclientGetMenuBackgroundBlurrinessValue(cir: CallbackInfoReturnable<Int>) {
-        val renderableScreen = getScreen() as? RenderableScreen ?: return
+        val renderableScreen = getCurrentRenderableScreen() ?: return
 
         if (!blurBackground.get()) cir.returnValue = 0
 

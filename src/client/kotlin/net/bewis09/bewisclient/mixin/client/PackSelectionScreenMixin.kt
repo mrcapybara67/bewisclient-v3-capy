@@ -4,12 +4,11 @@ import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.Translations.ADD_DATA_PACK
 import net.bewis09.bewisclient.drawable.Translations.ADD_RESOURCE_PACK
-import net.bewis09.bewisclient.drawable.minecraft.RenderableScreen
 import net.bewis09.bewisclient.drawable.minecraft.TexturedButtonWidget
 import net.bewis09.bewisclient.drawable.renderables.screen.PackListScreen
 import net.bewis09.bewisclient.features.utilities.PackAdder
 import net.bewis09.bewisclient.server.Modrinth
-import net.bewis09.bewisclient.version.setScreen
+import net.bewis09.bewisclient.util.Bewisclient
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.gui.screens.packs.PackSelectionScreen
@@ -41,11 +40,9 @@ class PackSelectionScreenMixin(title: Component) : Screen(title) {
         if (!PackAdder.isEnabled()) return
 
         addResourcePackButton = addRenderableWidget(TexturedButtonWidget(width / 2 - 215, height - 49, 200, 18, buttonTexture, buttonTexture, { b: Button? ->
-            setScreen(
-                RenderableScreen(
-                    PackListScreen(
-                        if (packDir.endsWith(Path.of("resourcepacks"))) Modrinth.Type.RESOURCE_PACK else Modrinth.Type.DATA_PACK, this, this.packDir
-                    )
+            Bewisclient.setRenderableScreen(
+                PackListScreen(
+                    if (packDir.endsWith(Path.of("resourcepacks"))) Modrinth.Type.RESOURCE_PACK else Modrinth.Type.DATA_PACK, this, this.packDir
                 )
             )
         }, (if (packDir!!.endsWith(Path.of("resourcepacks"))) ADD_RESOURCE_PACK.getTranslatedText() else ADD_DATA_PACK.getTranslatedText()).append("...")))

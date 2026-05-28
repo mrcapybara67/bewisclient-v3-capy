@@ -96,7 +96,7 @@ object KeyWidget : ScalableWidget(
     }
 
     fun isPressed(keyBinding: KeyMapping): Boolean {
-        val c = util.getCurrentRenderableScreen() ?: return keyBinding.isDown
+        val c = getCurrentRenderableScreen() ?: return keyBinding.isDown
         val d = c.renderable as? HudEditScreen ?: return keyBinding.isDown
 
         val key = keyBinding.key

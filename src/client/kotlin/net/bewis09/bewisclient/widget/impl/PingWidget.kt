@@ -19,7 +19,7 @@ object PingWidget : LineWidget(
     val loadingText = createTranslation("loading", "Loading...")
 
     override fun getLine(): Component {
-        if ((isHidden() || !util.isInWorld()) && util.getCurrentRenderableScreen() != null) return pingText(99.toString())
+        if ((isHidden() || !isInWorld()) && getCurrentRenderableScreen() != null) return pingText(99.toString())
         if (getLatency() < 0) return loadingText()
         return pingText(getLatency().toString())
     }

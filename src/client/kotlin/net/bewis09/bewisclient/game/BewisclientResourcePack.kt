@@ -8,8 +8,10 @@ import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.minecraft.server.packs.PackLocationInfo
 import net.minecraft.server.packs.PackResources
+import net.minecraft.server.packs.PackSelectionConfig
 import net.minecraft.server.packs.PackType
 import net.minecraft.server.packs.repository.Pack
+import net.minecraft.server.packs.repository.Pack.ResourcesSupplier
 import net.minecraft.server.packs.repository.PackCompatibility
 import net.minecraft.server.packs.repository.PackSource
 import net.minecraft.server.packs.resources.IoSupplier
@@ -19,6 +21,7 @@ import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
 object BewisclientResourcePack : PackResources, ClientInterface {
+
     val packInfo = PackLocationInfo(
         "bewisclient_resources",
         Translations.BEWISCLIENT_RESOURCES(),
@@ -31,6 +34,16 @@ object BewisclientResourcePack : PackResources, ClientInterface {
         PackCompatibility.COMPATIBLE,
         FeatureFlagSet.of(),
         mutableListOf()
+    )
+
+    val pack = Pack(
+        packInfo,
+        object : ResourcesSupplier {
+            override fun openPrimary(info: PackLocationInfo): PackResources = BewisclientResourcePack
+            override fun openFull(info: PackLocationInfo, metadata: Pack.Metadata): PackResources = openPrimary(info)
+        },
+        metadata,
+        PackSelectionConfig(true, Pack.Position.TOP, true)
     )
 
     override fun getRootResource(vararg strings: String): IoSupplier<InputStream>? {

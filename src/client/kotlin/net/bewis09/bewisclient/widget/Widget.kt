@@ -31,7 +31,7 @@ abstract class Widget(val id: Identifier, title: String, description: String) : 
     open fun isHidden(): Boolean = false
 
     fun isShowing(): Boolean {
-        return isEnabled() && (!isHidden() || (util.getCurrentRenderableScreen()?.renderable is HudEditScreen))
+        return isEnabled() && (!isHidden() || (getCurrentRenderableScreen()?.renderable is HudEditScreen))
     }
 
     abstract fun defaultPosition(): WidgetPosition

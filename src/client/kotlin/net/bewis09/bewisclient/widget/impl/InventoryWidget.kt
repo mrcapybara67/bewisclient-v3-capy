@@ -61,7 +61,7 @@ object InventoryWidget : ScalableWidget(
 
         for (y in 0 until 3) {
             for (x in 0 until 9) {
-                val itemStack: ItemStack = client.player?.inventory?.getItem(x + y * 9 + 9)?.apply { ArmorWidget.componentsLoaded = true } ?: (util.isInWorld() then { ItemStack.EMPTY }) ?: (if (ArmorWidget.componentsLoaded) getSampleStack(x, y) else ItemStack.EMPTY)
+                val itemStack: ItemStack = client.player?.inventory?.getItem(x + y * 9 + 9)?.apply { ArmorWidget.componentsLoaded = true } ?: (isInWorld() then { ItemStack.EMPTY }) ?: (if (ArmorWidget.componentsLoaded) getSampleStack(x, y) else ItemStack.EMPTY)
                 drawSlot(screenDrawing, x * 20 + 2, y * 20 + 2, itemStack)
             }
         }

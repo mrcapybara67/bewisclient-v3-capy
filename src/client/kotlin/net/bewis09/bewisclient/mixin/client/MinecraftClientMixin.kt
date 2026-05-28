@@ -22,13 +22,11 @@ class MinecraftClientMixin {
 
     @Inject(at = [At("HEAD")], method = ["onGameLoadFinished"])
     private fun onInitFinished(gameLoadCookie: GameLoadCookie?, ci: CallbackInfo?) {
-        onAllEventEntrypoints { e: EventEntrypoint -> e.onMinecraftClientInitFinished() }
+        onAllEventEntrypoints(EventEntrypoint::onMinecraftClientInitFinished)
     }
 
     @Inject(method = ["<init>"], at = [At(value = "INVOKE", target = "Lnet/minecraft/server/packs/resources/ReloadableResourceManager;registerReloadListener(Lnet/minecraft/server/packs/resources/PreparableReloadListener;)V")])
     fun registerResourceReloaders(args: GameConfig?, ci: CallbackInfo?) {
-        (this.resourceManager)!!.registerReloadListener(ResourceManagerReloadListener { _ ->
-            onAllEventEntrypoints(EventEntrypoint::onResourcesReloaded)
-        })
+        this.resourceManager?.registerReloadListener(ResourceManagerReloadListener { onAllEventEntrypoints(EventEntrypoint::onResourcesReloaded) })
     }
 }

@@ -156,7 +156,7 @@ object TiwylaWidget : ScalableWidget(
     override fun isHidden(): Boolean = getTiwylaTitle() == null
 
     fun getTiwylaTitle(): Component? {
-        if (!util.isInWorld()) return Blocks.GRASS_BLOCK.name
+        if (!isInWorld()) return Blocks.GRASS_BLOCK.name
 
         return onHitResult({ data ->
             data.state.block.name
@@ -176,7 +176,7 @@ object TiwylaWidget : ScalableWidget(
     }
 
     fun getSublines(): List<Component> {
-        if (!util.isInWorld()) return getBlockSublines(BlockData(Blocks.GRASS_BLOCK.defaultBlockState(), BlockPos.ZERO))
+        if (!isInWorld()) return getBlockSublines(BlockData(Blocks.GRASS_BLOCK.defaultBlockState(), BlockPos.ZERO))
 
         return onHitResult(::getBlockSublines, ::getEntitySublines) ?: listOf()
     }
@@ -254,7 +254,7 @@ object TiwylaWidget : ScalableWidget(
             if (data.state.requiresCorrectToolForDrops()) return@Line miningLevel(woodLevelText.getTranslatedString())
             return@Line miningLevel(noneLevelText.getTranslatedString())
         }, "mining_level", 0), Information.Line({ data ->
-            if (!util.isInWorld()) return@Line secondsText(4.5)
+            if (!isInWorld()) return@Line secondsText(4.5)
 
             val delta = client.player?.let { client.level?.let { blockGetter -> data.state.getDestroyProgress(it, blockGetter, data.blockPos) } } ?: return@Line null
 
@@ -337,7 +337,7 @@ object TiwylaWidget : ScalableWidget(
     override fun onResourcesReloaded() {
         blockStateInfoMap.clear()
 
-        val resources = util.findAllResources(
+        val resources = findAllResources(
             "bewisclient/block_information"
         ) { it.path.endsWith(".json") }
 

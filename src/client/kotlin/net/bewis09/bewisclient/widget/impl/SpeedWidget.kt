@@ -21,7 +21,7 @@ object SpeedWidget : LineWidget(
     var horizontalSpeed = 0f
     var totalSpeed = 0f
 
-    override fun getLine() = String.format("%.2f m/s", if (!util.isInWorld()) if (verticalSpeed.get()) 6.9f else 4.2f else if (verticalSpeed.get()) totalSpeed else horizontalSpeed).toText()
+    override fun getLine() = String.format("%.2f m/s", if (!isInWorld()) if (verticalSpeed.get()) 6.9f else 4.2f else if (verticalSpeed.get()) totalSpeed else horizontalSpeed).toText()
 
     override fun defaultPosition(): WidgetPosition = RelativePosition("bewisclient:ping_widget", "bottom")
 
@@ -51,7 +51,7 @@ object SpeedWidget : LineWidget(
     }
 
     override fun getCustomWidgetDataPoints(): List<CustomWidget.WidgetStringData> = listOf(
-        CustomWidget.WidgetStringData("horizontal_speed", "Horizontal Speed", "Your current horizontal speed in blocks per second", { String.format("%.2f", if (!util.isInWorld()) 4.2f else horizontalSpeed).toText() }),
-        CustomWidget.WidgetStringData("total_speed", "Total Speed", "Your current total speed in blocks per second", { String.format("%.2f", if (!util.isInWorld()) 6.9f else totalSpeed).toText() }),
+        CustomWidget.WidgetStringData("horizontal_speed", "Horizontal Speed", "Your current horizontal speed in blocks per second", { String.format("%.2f", if (!isInWorld()) 4.2f else horizontalSpeed).toText() }),
+        CustomWidget.WidgetStringData("total_speed", "Total Speed", "Your current total speed in blocks per second", { String.format("%.2f", if (!isInWorld()) 6.9f else totalSpeed).toText() }),
     )
 }

@@ -24,7 +24,7 @@ object WidgetLoader : EventEntrypoint {
                 it.id
             ) { context ->
                 Profiler.push("widget_" + it.id.toString().replace(":", "_"))
-                if (it.isShowing() && util.getCurrentRenderableScreen()?.renderable !is HudEditScreen) {
+                if (it.isShowing() && getCurrentRenderableScreen()?.renderable !is HudEditScreen) {
                     it.renderScaled(ScreenDrawing(context, client.font))
                 }
                 Profiler.pop()

@@ -4,15 +4,13 @@ import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.common.within
 import net.bewis09.bewisclient.drawable.SettingStructure
-import net.bewis09.bewisclient.drawable.minecraft.RenderableScreen
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.settings.types.BooleanSetting
 import net.bewis09.bewisclient.settings.types.ColorSetting
 import net.bewis09.bewisclient.settings.types.ObjectSetting
+import net.bewis09.bewisclient.util.Bewisclient
 import net.bewis09.bewisclient.util.color.StaticColorSaver
 import net.bewis09.bewisclient.util.color.ThemeColorSaver
-import net.bewis09.bewisclient.version.getScreen
-import net.bewis09.bewisclient.version.setScreen
 
 object GeneralSettings : ObjectSetting() {
     val animationTime = int("animation_time", 200, 0, 500)
@@ -23,9 +21,9 @@ object GeneralSettings : ObjectSetting() {
     val backgroundColor = color("background_color", ThemeColorSaver(0.2f), ColorSetting.STATIC, ColorSetting.THEME)
     val backgroundOpacity = float("background_opacity", 0.8f, 0f, 1f, 0.01f, 2)
     val minecraftyOptionsMenu: BooleanSetting = boolean("minecrafty_options_menu", false) { _, _ ->
-        if ((getScreen() as? RenderableScreen)?.renderable !is OptionScreen) return@boolean
+        if (Bewisclient.getCurrentRenderableScreen()?.renderable !is OptionScreen) return@boolean
 
-        setScreen(RenderableScreen(OptionScreen(1f, 1f).apply { changeCategory(SettingStructure.settingsCategory, true) }))
+        setRenderableScreen(OptionScreen(1f, 1f).apply { changeCategory(SettingStructure.settingsCategory, true) })
     }
     val autoUpdate = boolean("auto_update", true)
 

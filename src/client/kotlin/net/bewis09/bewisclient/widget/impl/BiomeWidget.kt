@@ -25,7 +25,7 @@ object BiomeWidget : LineWidget(
     override fun onResourcesReloaded() {
         biomeCodes.clear()
 
-        val resources = util.findAllResources(
+        val resources = findAllResources(
             "bewisclient/biome_codes"
         ) { it.path.endsWith(".json") }
 
@@ -69,7 +69,7 @@ object BiomeWidget : LineWidget(
     }
 
     fun getBiomeID(): Identifier {
-        return if (util.isInWorld()) createIdentifier(getBiomeString() ?: "minecraft:plains") else getBiomeByMonth()
+        return if (isInWorld()) createIdentifier(getBiomeString() ?: "minecraft:plains") else getBiomeByMonth()
     }
 
     fun getBiomeString(): String? {

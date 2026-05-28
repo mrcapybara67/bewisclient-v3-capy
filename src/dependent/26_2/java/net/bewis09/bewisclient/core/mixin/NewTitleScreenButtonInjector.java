@@ -4,8 +4,7 @@ import net.bewis09.bewisclient.common.UtilKt;
 import net.bewis09.bewisclient.drawable.minecraft.TexturedButtonWidget;
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen;
 import net.bewis09.bewisclient.settings.impl.GeneralSettings;
-import net.bewis09.bewisclient.drawable.minecraft.RenderableScreen;
-import net.bewis09.bewisclient.version.VersionCoreKt;
+import net.bewis09.bewisclient.util.Bewisclient;
 import net.minecraft.client.gui.components.SpriteIconButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
@@ -41,7 +40,7 @@ public abstract class NewTitleScreenButtonInjector extends Screen {
                     20,
                     UtilKt.createIdentifier("bewisclient", "textures/gui/sprites/options_button.png"),
                     UtilKt.createIdentifier("bewisclient", "textures/gui/sprites/options_button_pressed.png"),
-                    (b) -> VersionCoreKt.setScreen(new RenderableScreen(new OptionScreen(1f, 0f)))
+                    (b) -> Bewisclient.INSTANCE.setRenderableScreen(new OptionScreen(1f, 0f))
             ));
 
             button.setTooltip(Tooltip.create(Component.literal("Bewisclient")));
