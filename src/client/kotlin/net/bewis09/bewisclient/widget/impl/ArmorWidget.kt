@@ -111,6 +111,8 @@ object ArmorWidget : ScalableWidget(
     }
 
     fun getTextForArmor(slot: Int): Component {
+        if (!showDurability.get()) return Component.empty()
+
         val armorStack = getSlotForStack(slot)
 
         if (armorStack == null || armorStack.isEmpty || armorStack.maxDamage == 0) {
@@ -125,11 +127,7 @@ object ArmorWidget : ScalableWidget(
             "$durability"
         }
 
-        return if (showDurability.get()) {
-            durabilityText.toText().apply { if (colorCodeText.get()) withColor(getColorForDurability(durability, armorStack.maxDamage)) }
-        } else {
-            Component.empty()
-        }
+        return durabilityText.toText().apply { if (colorCodeText.get()) withColor(getColorForDurability(durability, armorStack.maxDamage)) }
     }
 
     fun getColorForDurability(durability: Int, maxDurability: Int): Int {

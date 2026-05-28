@@ -74,18 +74,15 @@ interface TextDrawing : RectDrawing {
         drawCenteredText(text.toText(), centerX, y, color, font)
     }
 
-    fun drawCenteredText(text: Component, centerX: Number, y: Number, color: Color, font: Identifier? = this.overwrittenFont) {
+    fun drawCenteredText(text: Component, centerX: Number, y: Number, color: Color, font: Identifier? = this.overwrittenFont, shadow: Boolean = false) {
         val textWidth = getTextWidth(text, font)
         translate(-textWidth / 2f + if ((font == ScreenDrawingInterface.BEWISCLIENT_FONT || (font == null && this.overwrittenFont == ScreenDrawingInterface.BEWISCLIENT_FONT)) && isMinecrafty) 1f else 0f, 0f) {
-            drawText(text.copy(), centerX, y, color, font)
+            drawText(text.copy(), centerX, y, color, font, shadow)
         }
     }
 
     fun drawCenteredTextWithShadow(text: Component, centerX: Number, y: Number, color: Color, font: Identifier? = this.overwrittenFont) {
-        val textWidth = getTextWidth(text.copy(), font)
-        translate(-textWidth / 2f + if ((font == ScreenDrawingInterface.BEWISCLIENT_FONT || (font == null && this.overwrittenFont == ScreenDrawingInterface.BEWISCLIENT_FONT)) && isMinecrafty) 1f else 0f, 0f) {
-            drawTextWithShadow(text.copy(), centerX, y, color, font)
-        }
+        drawCenteredText(text, centerX, y, color, font, true)
     }
 
     fun drawCenteredTextWithShadow(text: String, centerX: Number, y: Number, color: Color, font: Identifier? = this.overwrittenFont) {

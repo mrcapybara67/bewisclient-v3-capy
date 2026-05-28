@@ -23,15 +23,11 @@ class SidedPosition(val x: Int, val y: Int, val xTransformer: TransformerType, v
         return yTransformer.transformer(y, screenHeight, widget.getScaledHeight())
     }
 
-    override fun saveToJson(): JsonElement {
-        val jsonObject = JsonObject()
-
-        jsonObject.addProperty("x", x)
-        jsonObject.addProperty("y", y)
-        jsonObject.addProperty("x_transformer", xTransformer.id)
-        jsonObject.addProperty("y_transformer", yTransformer.id)
-
-        return jsonObject
+    override fun saveToJson(): JsonElement = JsonObject().apply {
+        addProperty("x", x)
+        addProperty("y", y)
+        addProperty("x_transformer", xTransformer.id)
+        addProperty("y_transformer", yTransformer.id)
     }
 
     override fun getType(): String = "sided"

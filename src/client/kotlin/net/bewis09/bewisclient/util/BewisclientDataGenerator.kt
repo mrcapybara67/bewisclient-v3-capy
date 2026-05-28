@@ -17,36 +17,16 @@ object BewisclientDataGenerator : DataGeneratorEntrypoint {
     val datagenEnabled = System.getProperty("fabric-api.datagen") != null
 
     override fun onInitializeDataGenerator(fabricDataGenerator: FabricDataGenerator) {
-        EventEntrypoint.onAllEventEntrypoints { it.onDatagen() }
+        EventEntrypoint.onAllEventEntrypoints(EventEntrypoint::onDatagen)
 
-        val pack: FabricDataGenerator.Pack = fabricDataGenerator.createPack()
-
-        pack.addProvider(::BewisclientEnglishLangProvider)
+        fabricDataGenerator.createPack().apply {
+            addProvider(::BewisclientEnglishLangProvider)
+        }
     }
 
     class BewisclientEnglishLangProvider(dataOutput: FabricDataOutput, registryLookup: CompletableFuture<HolderLookup.Provider>) : FabricLanguageProvider(dataOutput, "en_us", registryLookup) {
         override fun generateTranslations(wrapperLookup: HolderLookup.Provider, translationBuilder: TranslationBuilder) {
-            translations.forEach { (key, value) ->
-                translationBuilder.add(key, value)
-            }
+            translations.forEach(translationBuilder::add)
         }
     }
-}
-
-fun addTranslation(namespace: String, key: String, @Suppress("LocalVariableName") en_us: String) {
-    if (!BewisclientDataGenerator.datagenEnabled) return
-
-    if (namespace.isEmpty()) {
-        throw IllegalArgumentException("Translation namespace cannot be empty")
-    }
-
-    if (key.isEmpty()) {
-        throw IllegalArgumentException("Translation key cannot be empty")
-    }
-
-    if (en_us.isEmpty()) {
-        throw IllegalArgumentException("Translation value cannot be empty")
-    }
-
-    BewisclientDataGenerator.translations["$namespace.$key"] = en_us
 }

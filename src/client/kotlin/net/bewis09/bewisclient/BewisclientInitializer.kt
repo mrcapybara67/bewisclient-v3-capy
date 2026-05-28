@@ -7,6 +7,6 @@ import net.fabricmc.api.ClientModInitializer
 object BewisclientInitializer : ClientInterface, ClientModInitializer {
     override fun onInitializeClient() {
         EventEntrypoint.registerEntrypoints()
-        EventEntrypoint.onAllEventEntrypoints { e: EventEntrypoint -> e.onInitializeClient() }
+        EventEntrypoint.onAllEventEntrypoints(EventEntrypoint::onInitializeClient)
     }
 }

@@ -7,8 +7,10 @@ import net.bewis09.bewisclient.drawable.renderables.screen.HudEditScreen
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.features.utilities.Fullbright
 import net.bewis09.bewisclient.server.Modrinth
+import net.bewis09.bewisclient.settings.structure.Feature
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.util.color.colors
+import net.bewis09.bewisclient.widget.WidgetLoader
 
 @Suppress("unusedExpression")
 object TranslationLoader : EventEntrypoint {
@@ -21,5 +23,6 @@ object TranslationLoader : EventEntrypoint {
         HudEditScreen
         TiwylaLinesSettingsPopup
         Modrinth
+        WidgetLoader.widgets.map(Feature::settingRenderables)
     }
 }

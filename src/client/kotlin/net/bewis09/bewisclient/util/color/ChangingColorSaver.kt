@@ -37,15 +37,11 @@ class ChangingColorSaver : ColorSaver {
         return (((System.currentTimeMillis() - startTime) % changingSpeed) / changingSpeed.toFloat() + startHue) % 1f
     }
 
-    override fun getColor(): Color {
-        return Color(getHue(), 1f, 1f)
-    }
+    override fun getColor(): Color = Color(getHue(), 1f, 1f)
 
     override fun getType(): String = "changing"
 
-    override fun saveToJson(): JsonElement {
-        return JsonPrimitive(changingSpeed)
-    }
+    override fun saveToJson(): JsonElement = JsonPrimitive(changingSpeed)
 
     object Factory : ColorSaverFactory<ChangingColorSaver> {
         private val translation = Translation("color.changing", "Changing")
@@ -70,9 +66,7 @@ class ChangingColorSaver : ColorSaver {
 
     class SettingRenderable(val get: () -> ChangingColorSaver, val set: (ColorSaver) -> Unit) : Renderable() {
         val fader = Fader({ get().changingSpeed.toFloat() }, Precision(1000f, 20000f, 100f, -2)) { speed ->
-            set(
-                ChangingColorSaver(speed.toInt(), System.currentTimeMillis(), get().getHue())
-            )
+            set(ChangingColorSaver(speed.toInt(), System.currentTimeMillis(), get().getHue()))
         }
         val text = TextElement({ Translations.CHANGE_DURATION(get().changingSpeed / 1000f) }, centered = true)
         val spectrumButton = ImageButton(texture) {}.setImagePadding(0)
@@ -97,39 +91,12 @@ class ChangingColorSaver : ColorSaver {
         }
 
         override fun init() {
-            addRenderable(
-                text(
-                    x,
-                    y + 2,
-                    width,
-                    9,
-                )
-            )
-            addRenderable(
-                fader(
-                    x, y + 11, width, 14
-                )
-            )
-            addRenderable(
-                Rectangle { GeneralSettings.getThemeColor(alpha = 0.3f) }(
-                    x, y + 29, width, 1
-                )
-            )
-            addRenderable(
-                spectrumButton(
-                    x, y + 36, width, 8
-                )
-            )
-            addRenderable(
-                Rectangle { GeneralSettings.getThemeColor(alpha = 0.3f) }(
-                    x, y + 49, width, 1
-                )
-            )
-            addRenderable(
-                actionButton(
-                    x, y + 55, width, 8
-                )
-            )
+            addRenderable(text(x, y + 2, width, 9))
+            addRenderable(fader(x, y + 11, width, 14))
+            addRenderable(Rectangle { GeneralSettings.getThemeColor(alpha = 0.3f) }(x, y + 29, width, 1))
+            addRenderable(spectrumButton(x, y + 36, width, 8))
+            addRenderable(Rectangle { GeneralSettings.getThemeColor(alpha = 0.3f) }(x, y + 49, width, 1))
+            addRenderable(actionButton(x, y + 55, width, 8))
         }
     }
 }

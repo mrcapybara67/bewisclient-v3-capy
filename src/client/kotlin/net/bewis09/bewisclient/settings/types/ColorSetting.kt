@@ -15,9 +15,6 @@ import net.bewis09.bewisclient.util.color.ColorSaver
  * @param types the types of colors that can be selected. If not specified, all types are allowed.
  */
 class ColorSetting(default: () -> ColorSaver, vararg val types: String = ALL) : Setting<ColorSaver>(default), RenderableCreator<ColorSettingRenderable> {
-    constructor(default: ColorSaver) : this({ default }, *ALL)
-    constructor(default: ColorSaver, vararg types: String) : this({ default }, *types)
-
     companion object {
         val ALL = ColorSaver.types.map { it.getType() }.toTypedArray()
         const val STATIC = "static"
@@ -30,16 +27,12 @@ class ColorSetting(default: () -> ColorSaver, vararg val types: String = ALL) : 
     }
 
     override fun convertToElement(): JsonElement? {
-        if (getWithoutDefault() == null) {
-            return null
+        if (getWithoutDefault() == null) return null
+
+        return JsonObject().apply {
+            addProperty("type", get().getType())
+            add("data", get().saveToJson())
         }
-
-        val jsonObject = JsonObject()
-
-        jsonObject.addProperty("type", get().getType())
-        jsonObject.add("data", get().saveToJson())
-
-        return jsonObject
     }
 
     override fun convertFromElement(data: JsonElement?): ColorSaver? = ColorSaver.fromJson(data)
@@ -56,7 +49,5 @@ class ColorSetting(default: () -> ColorSaver, vararg val types: String = ALL) : 
         return if (value?.getType() in types) value else null
     }
 
-    fun cloneWithDefault(): ColorSetting {
-        return ColorSetting({ get() }, *types)
-    }
+    fun cloneWithDefault(): ColorSetting = ColorSetting(::get, *types)
 }

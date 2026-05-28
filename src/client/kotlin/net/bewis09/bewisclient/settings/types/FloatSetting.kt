@@ -10,25 +10,7 @@ import net.bewis09.bewisclient.settings.logic.SettingInterface
 import net.bewis09.bewisclient.util.float
 import net.bewis09.bewisclient.util.number.Precision
 
-class FloatSetting : Setting<Float>, RenderableCreator<FloatSettingRenderable> {
-    val precision: Precision
-
-    constructor(default: () -> Float, precision: Precision, onChangeListener: (Setting<Float>.(oldValue: Float?, newValue: Float?) -> Unit)? = null) : super(default, onChangeListener) {
-        this.precision = precision
-    }
-
-    constructor(default: () -> Float, precision: Precision) : super(default) {
-        this.precision = precision
-    }
-
-    constructor(default: Float, precision: Precision, onChangeListener: (Setting<Float>.(oldValue: Float?, newValue: Float?) -> Unit)? = null) : super({ default }, onChangeListener) {
-        this.precision = precision
-    }
-
-    constructor(default: Float, precision: Precision) : super({ default }) {
-        this.precision = precision
-    }
-
+class FloatSetting(default: () -> Float, val precision: Precision) : Setting<Float>(default), RenderableCreator<FloatSettingRenderable> {
     override fun convertToElement(): JsonElement? {
         return getWithoutDefault()?.let { JsonPrimitive(it) }
     }
@@ -59,7 +41,5 @@ class FloatSetting : Setting<Float>, RenderableCreator<FloatSettingRenderable> {
         precision.parse(it)
     }
 
-    fun cloneWithDefault(): FloatSetting {
-        return FloatSetting({ get() }, precision)
-    }
+    fun cloneWithDefault(): FloatSetting = FloatSetting(::get, precision)
 }

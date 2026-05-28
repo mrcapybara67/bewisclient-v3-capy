@@ -134,52 +134,37 @@ object TiwylaWidget : ScalableWidget(
 
         lineWidth = screenDrawing.getTextWidth(title) + 2 * paddingSize()
 
-        val lines = getSublines()
-
         screenDrawing.fillWithBorderRounded(
             0, 0, getWidth(), getHeight(), borderRadius(), backgroundColor().getColor() alpha backgroundOpacity(), borderColor().getColor() alpha borderOpacity()
         )
 
         screenDrawing.drawCenteredText(title, getWidth() / 2, paddingSize(), topTextColor().getColor(), shadow())
 
-        lines.forEachIndexed { i, line ->
+        getSublines().forEachIndexed { i, line ->
             screenDrawing.transform(getWidth() / 2f, paddingSize() + 9f + lineSpacing() + (i * (6 + lineSpacing())), 0.77f) {
-                if (!shadow()) {
-                    screenDrawing.drawCenteredText(line, 0, 0, bottomTextColor().getColor())
-                } else {
-                    screenDrawing.drawCenteredTextWithShadow(line, 0, 0, bottomTextColor().getColor())
-                }
+                screenDrawing.drawCenteredText(line, 0, 0, bottomTextColor().getColor(), shadow())
             }
         }
     }
 
     override fun isHidden(): Boolean = getTiwylaTitle() == null
 
-    fun getTiwylaTitle(): Component? {
-        if (!isInWorld()) return Blocks.GRASS_BLOCK.name
-
-        return onHitResult({ data ->
-            data.state.block.name
-        }, { entity ->
-            entity.name
-        })
-    }
+    fun getTiwylaTitle(): Component? = onHitResult({ it.state.block.name }, Entity::getName)
 
     fun <T> onHitResult(block: (hitResult: BlockData) -> T, entity: (hitResult: Entity) -> T): T? {
         val world = client.level ?: return null
 
         return when (val hitResult = client.hitResult) {
-            is BlockHitResult -> if (world.getBlockState(hitResult.blockPos).isAir) null else block(BlockData(world.getBlockState(hitResult.blockPos), hitResult.blockPos))
+            is BlockHitResult -> {
+                val state = if (!isInWorld()) Blocks.GRASS_BLOCK.defaultBlockState() else world.getBlockState(hitResult.blockPos)
+                if (state.isAir) null else block(BlockData(state, hitResult.blockPos))
+            }
             is EntityHitResult -> entity(hitResult.entity)
             else -> null
         }
     }
 
-    fun getSublines(): List<Component> {
-        if (!isInWorld()) return getBlockSublines(BlockData(Blocks.GRASS_BLOCK.defaultBlockState(), BlockPos.ZERO))
-
-        return onHitResult(::getBlockSublines, ::getEntitySublines) ?: listOf()
-    }
+    fun getSublines(): List<Component> = onHitResult(::getBlockSublines, ::getEntitySublines) ?: listOf()
 
     fun getBlockSublines(data: BlockData): List<Component> {
         return blockLines.mapNotNull {
@@ -302,14 +287,14 @@ object TiwylaWidget : ScalableWidget(
         var maxHealth = mH
         var absorption = a
         try {
-            maxHealth = roundUpAndHalf(maxHealth)
+            maxHealth = ceil(maxHealth) / 2.0
             health = ((health * 10).toInt().toDouble()) / 10f
             absorption = ((absorption * 10).toInt().toDouble()) / 10f
             if (maxHealth > 13.0) {
                 return (health.toString() + " / " + maxHealth * 2 + " HP").toText()
             }
-            health = roundUpAndHalf(health)
-            absorption = roundUpAndHalf(absorption)
+            health = ceil(health) / 2.0
+            absorption = ceil(absorption) / 2.0
             val isHalf = health != health.toInt().toDouble()
             val isAbsorptionHalf = absorption != absorption.toInt().toDouble()
             val isMaxHalf = maxHealth != (((maxHealth * 2).toInt().toDouble()) / 2).toInt().toDouble()
@@ -325,10 +310,6 @@ object TiwylaWidget : ScalableWidget(
         }
     }
 
-    fun roundUpAndHalf(i: Double): Double {
-        return ceil(i) / 2.0
-    }
-
     fun <T : Entity> provideEntityInfo(entity: T): String? {
         @Suppress("UNCHECKED_CAST") val provider = entityInfoProviders.firstOrNull { entity.type == it.second.entityType }?.second as? EntityInfoProvider<T> ?: return null
         return provider.fn(entity)
@@ -337,9 +318,7 @@ object TiwylaWidget : ScalableWidget(
     override fun onResourcesReloaded() {
         blockStateInfoMap.clear()
 
-        val resources = findAllResources(
-            "bewisclient/block_information"
-        ) { it.path.endsWith(".json") }
+        val resources = findAllResources("bewisclient/block_information") { it.path.endsWith(".json") }
 
         resources.entries.forEach {
             it.value.forEach { resource: Resource ->

@@ -21,7 +21,6 @@ import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
 object BewisclientResourcePack : PackResources, ClientInterface {
-
     val packInfo = PackLocationInfo(
         "bewisclient_resources",
         Translations.BEWISCLIENT_RESOURCES(),
@@ -65,15 +64,11 @@ object BewisclientResourcePack : PackResources, ClientInterface {
         return null
     }
 
-    override fun <T : Any> getMetadataSection(metadataSectionType: IndependentResourceMetadataSerializer<T>): T? {
-        return null
-    }
+    override fun <T : Any> getMetadataSection(metadataSectionType: IndependentResourceMetadataSerializer<T>): T? = null
 
     override fun location(): PackLocationInfo = packInfo
 
-    override fun getNamespaces(type: PackType): Set<String> {
-        return setOf("bewisclient", "minecraft")
-    }
+    override fun getNamespaces(type: PackType): Set<String> = setOf("bewisclient", "minecraft")
 
     override fun close() {}
 

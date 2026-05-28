@@ -7,9 +7,7 @@ import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.logic.RenderableCreator
 import net.bewis09.bewisclient.util.int
 
-class IntegerSetting(default: () -> Int, val min: Int, val max: Int, onChangeListener: (Setting<Int>.(oldValue: Int?, newValue: Int?) -> Unit)? = null) : Setting<Int>(default, onChangeListener), RenderableCreator<IntegerSettingRenderable> {
-    constructor(default: Int, min: Int, max: Int, onChangeListener: (Setting<Int>.(oldValue: Int?, newValue: Int?) -> Unit)? = null) : this({ default }, min, max, onChangeListener)
-
+class IntegerSetting(default: () -> Int, val min: Int, val max: Int) : Setting<Int>(default), RenderableCreator<IntegerSettingRenderable> {
     override fun convertToElement(): JsonElement? {
         return getWithoutDefault()?.let { JsonPrimitive(it) }
     }
@@ -20,7 +18,5 @@ class IntegerSetting(default: () -> Int, val min: Int, val max: Int, onChangeLis
         Translation("menu.$id", title), description?.let { Translation("menu.$id.description", it) }, this, min, max
     )
 
-    fun cloneWithDefault(): IntegerSetting {
-        return IntegerSetting({ get() }, min, max)
-    }
+    fun cloneWithDefault(): IntegerSetting = IntegerSetting(::get, min, max)
 }

@@ -56,22 +56,22 @@ open class ObjectSetting() : Setting<JsonObject>(JsonObject()) {
     override fun convertFromElement(data: JsonElement?): JsonObject? = data?.jsonObject()
 
     fun boolean(key: String, default: Boolean, onChangeListener: (Setting<Boolean>.(oldValue: Boolean?, newValue: Boolean?) -> Unit)? = null): BooleanSetting {
-        return create(key, BooleanSetting(default, onChangeListener))
+        return create(key, BooleanSetting { default }.withOnChangeListener(onChangeListener))
     }
 
     fun float(key: String, default: Float, min: Float, max: Float, step: Float, precision: Int): FloatSetting {
-        return create(key, FloatSetting(default, Precision(min, max, step, precision)))
+        return create(key, FloatSetting({ default }, Precision(min, max, step, precision)))
     }
 
     fun int(key: String, default: Int, min: Int, max: Int): IntegerSetting {
-        return create(key, IntegerSetting(default, min, max))
+        return create(key, IntegerSetting({ default }, min, max))
     }
 
     fun color(key: String, default: ColorSaver, vararg types: String): ColorSetting {
-        return create(key, ColorSetting(default, *types))
+        return create(key, ColorSetting({ default }, *types))
     }
 
     fun string(key: String, default: String): StringSetting {
-        return create(key, StringSetting(default))
+        return create(key, StringSetting { default })
     }
 }

@@ -8,24 +8,14 @@ import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.logic.RenderableCreator
 import net.bewis09.bewisclient.util.boolean
 
-class BooleanSetting : Setting<Boolean>, RenderableCreator<BooleanSettingRenderable> {
-    constructor(default: () -> Boolean, onChangeListener: (Setting<Boolean>.(oldValue: Boolean?, newValue: Boolean?) -> Unit)? = null) : super(default, onChangeListener)
-
-    constructor(default: () -> Boolean) : super(default)
-
-    constructor(default: Boolean, onChangeListener: (Setting<Boolean>.(oldValue: Boolean?, newValue: Boolean?) -> Unit)? = null) : super({ default }, onChangeListener)
-
-    constructor(default: Boolean) : super({ default })
-
+class BooleanSetting(default: () -> Boolean) : Setting<Boolean>(default), RenderableCreator<BooleanSettingRenderable> {
     override fun convertToElement(): JsonElement? {
         return getWithoutDefault()?.let { JsonPrimitive(it) }
     }
 
     override fun convertFromElement(data: JsonElement?): Boolean? = data?.boolean()
 
-    fun toggle() {
-        set(!get())
-    }
+    fun toggle() = set(not())
 
     override fun createRenderable(id: String, title: String, description: String?): BooleanSettingRenderable {
         return BooleanSettingRenderable(Translation("menu.$id", title), description?.let { Translation("menu.$id.description", it) }, this)
@@ -35,9 +25,7 @@ class BooleanSetting : Setting<Boolean>, RenderableCreator<BooleanSettingRendera
         return MultipleBooleanSettingsRenderable.Part(Translation("menu.$id", title).invoke(), description?.let { Translation("menu.$id.description", it) }(), this)
     }
 
-    fun cloneWithDefault(): BooleanSetting {
-        return BooleanSetting { get() }
-    }
+    fun cloneWithDefault(): BooleanSetting = BooleanSetting(::get)
 
     operator fun not(): Boolean = !get()
 }

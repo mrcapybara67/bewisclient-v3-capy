@@ -1,6 +1,6 @@
 package net.bewis09.bewisclient.game.translations
 
-import net.bewis09.bewisclient.util.addTranslation
+import net.bewis09.bewisclient.util.BewisclientDataGenerator
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 
@@ -8,7 +8,12 @@ class Translation(private val namespace: String, private val key: String, @Suppr
     constructor(key: String, @Suppress("LocalVariableName") en_us: String) : this("bewisclient", key, en_us)
 
     init {
-        if (!key.isEmpty()) addTranslation(namespace, key, en_us)
+        if (BewisclientDataGenerator.datagenEnabled) {
+            if (namespace.isEmpty()) throw IllegalArgumentException("Translation namespace cannot be empty")
+            if (key.isEmpty()) throw IllegalArgumentException("Translation key cannot be empty")
+
+            BewisclientDataGenerator.translations["$namespace.$key"] = en_us
+        }
     }
 
     fun getTranslatedText(): MutableComponent = Component.translatable("$namespace.$key")

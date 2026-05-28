@@ -14,12 +14,8 @@ import net.bewis09.bewisclient.util.logic.ClientInterface
  * @param default The default value of the setting.
  * @param onChangeListener An optional listener that is called when the setting value changes.
  */
-abstract class Setting<T>(val default: () -> T, val onChangeListener: (Setting<T>.(oldValue: T?, newValue: T?) -> Unit)?) : ClientInterface, SettingInterface<T> {
-    constructor(default: () -> T) : this(default, null)
-
-    constructor(default: T, onChangeListener: (Setting<T>.(oldValue: T?, newValue: T?) -> Unit)? = null) : this({ default }, onChangeListener)
-
-    constructor(default: T) : this({ default }, null)
+abstract class Setting<T>(val default: () -> T) : ClientInterface, SettingInterface<T> {
+    constructor(default: T) : this({ default })
 
     /**
      * The current value of the setting.
@@ -27,6 +23,13 @@ abstract class Setting<T>(val default: () -> T, val onChangeListener: (Setting<T
      * The default value is returned when `get` is called and the current value is null.
      */
     private var value: T? = null
+
+    var onChangeListener: (Setting<T>.(oldValue: T?, newValue: T?) -> Unit)? = null
+
+    fun <T: Setting<A>, A> T.withOnChangeListener(listener: (Setting<A>.(oldValue: A?, newValue: A?) -> Unit)?): T {
+        this.onChangeListener = listener
+        return this
+    }
 
     override fun get(): T {
         return value ?: default()

@@ -13,6 +13,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TextColor
 import net.minecraft.server.packs.resources.Resource
 import java.util.*
+import kotlin.jvm.optionals.getOrNull
 
 object BiomeWidget : LineWidget(
     createIdentifier("bewisclient", "biome_widget"),
@@ -21,6 +22,11 @@ object BiomeWidget : LineWidget(
 ), EventEntrypoint {
     val biomeCodes = hashMapOf<Identifier, String>()
     var colorCodeBiome = boolean("color_code_biome", true)
+    val altBiome = catch {
+        val resource = client.resourceManager.getResource(createIdentifier("bewisclient", "bewisclient/widget_alt_data/biomes.json")).getOrNull() ?: return@catch null
+        val month = Calendar.getInstance().get(Calendar.MONTH)
+        return@catch createIdentifier(Gson().fromJson(resource.openAsReader(), JsonElement::class.java).asJsonObject.get("monthly").asJsonArray[month].asString)
+    } ?: createIdentifier("minecraft:plains")
 
     override fun onResourcesReloaded() {
         biomeCodes.clear()
@@ -69,7 +75,7 @@ object BiomeWidget : LineWidget(
     }
 
     fun getBiomeID(): Identifier {
-        return if (isInWorld()) createIdentifier(getBiomeString() ?: "minecraft:plains") else getBiomeByMonth()
+        return if (isInWorld()) createIdentifier(getBiomeString() ?: "minecraft:plains") else altBiome
     }
 
     fun getBiomeString(): String? {
@@ -84,24 +90,6 @@ object BiomeWidget : LineWidget(
     }
 
     override fun isEnabledByDefault(): Boolean = false
-
-    fun getBiomeByMonth(): Identifier {
-        return when (Calendar.getInstance().get(Calendar.MONTH)) {
-            0 -> createIdentifier("minecraft:snowy_plains")
-            1 -> createIdentifier("minecraft:ice_spikes")
-            2 -> createIdentifier("minecraft:swamp")
-            3 -> createIdentifier("minecraft:flower_forest")
-            4 -> createIdentifier("minecraft:forest")
-            5 -> createIdentifier("minecraft:plains")
-            6 -> createIdentifier("minecraft:sunflower_plains")
-            7 -> createIdentifier("minecraft:beach")
-            8 -> createIdentifier("minecraft:wooded_badlands")
-            9 -> createIdentifier("minecraft:dark_forest")
-            10 -> createIdentifier("minecraft:old_growth_spruce_taiga")
-            11 -> createIdentifier("minecraft:taiga")
-            else -> createIdentifier("minecraft:plains")
-        }
-    }
 
     override fun getCustomWidgetDataPoints(): List<CustomWidget.WidgetStringData> = listOf(
         CustomWidget.WidgetStringData("biome_name", "Biome Name", "The name of the biome you are currently in", { color -> getText(color == "colored") }, "\"colored\" to color code the biome name"),

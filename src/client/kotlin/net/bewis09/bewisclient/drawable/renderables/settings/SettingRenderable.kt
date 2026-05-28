@@ -18,6 +18,6 @@ abstract class SettingRenderable(tooltip: () -> Translation?, height: Int) : Too
     }
 
     fun drawVerticalCenteredText(screenDrawing: ScreenDrawing, title: Translation) {
-        screenDrawing.drawText(title(), x + 8, fontYCenter + 0.5f, GeneralSettings.getTextThemeColor())
+        screenDrawing.drawText(title(), x + 8, fontYCenter + if(isMinecrafty) 0f else 0.5f, GeneralSettings.getTextThemeColor())
     }
 }

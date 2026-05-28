@@ -60,7 +60,6 @@ abstract class LineWidget(id: Identifier, title: String, description: String) : 
     val textColor = create("text_color", DefaultWidgetSettings.textColor.cloneWithDefault())
     val borderRadius = create("border_radius", DefaultWidgetSettings.borderRadius.cloneWithDefault())
 
-
     open fun hasMultipleLines(): Boolean = getLine() === EMPTY
 
     open fun getLines() = listOf(getLine())
