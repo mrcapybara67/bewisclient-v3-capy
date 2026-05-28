@@ -33,7 +33,7 @@ abstract class Feature(val title: Translation) : ObjectSetting() {
     abstract fun createRenderable(): SettingCategory
 
     fun getHeader(): Renderable {
-        return Plane { x, y, width, height -> listOf(TextElement(title(), GeneralSettings.getTextThemeColor(), centered = true)(x, y, width, 13)) }.setHeight(14)
+        return Plane { x, y, width, _ -> listOf(TextElement(title(), GeneralSettings.getTextThemeColor(), centered = true)(x, y, width, 13)) }.setHeight(14)
     }
 
     open fun getPane(): Renderable {

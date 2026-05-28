@@ -38,8 +38,8 @@ class ThemeButton : TooltipHoverable {
         this.onClick = onClick
     }
 
-    val clickAnimation: Animator = Animator({ animationDuration }, Animator.Companion.EASE_IN_OUT, 1f)
-    val colorAnimation: Animator = Animator({ animationDuration }, Animator.Companion.EASE_IN_OUT, 0f)
+    val clickAnimation: Animator = Animator({ animationDuration }, Animator.EASE_IN_OUT, 1f)
+    val colorAnimation: Animator = Animator({ animationDuration }, Animator.EASE_IN_OUT, 0f)
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)
