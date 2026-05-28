@@ -126,13 +126,13 @@ class PackListScreen(val type: Modrinth.Type, val parent: Screen, val folder: Pa
 
             Modrinth.getImageByURL(URI(pack.icon_url))?.let {
                 screenDrawing.drawTexture(it, x + 4, y, 32, 32)
-                if (isMouseOver(mouseX.toDouble(), mouseY.toDouble()) && isMouseOver(mouseX.toFloat(), mouseY.toFloat(), centerX - 150, 49, 300, screenHeight - 49 - 33)) {
+                if (isMouseOver(mouseX, mouseY) && isMouseOver(mouseX, mouseY, centerX - 150, 49, 300, screenHeight - 49 - 33)) {
                     screenDrawing.fill(x + 4, y, 32, 32, 0xA0909090.color)
                 }
             }
 
-            if (isMouseOver(mouseX.toDouble(), mouseY.toDouble()) && isMouseOver(mouseX.toFloat(), mouseY.toFloat(), centerX - 150, 49, 300, screenHeight - 49 - 33)) {
-                if (screenDrawing.isMouseOver(mouseX.toFloat(), mouseY.toFloat(), x + 4, y, 32, 32)) {
+            if (isMouseOver(mouseX, mouseY) && isMouseOver(mouseX, mouseY, centerX - 150, 49, 300, screenHeight - 49 - 33)) {
+                if (screenDrawing.isMouseOver(mouseX, mouseY, x + 4, y, 32, 32)) {
                     screenDrawing.drawTexture(createIdentifier("bewisclient", "textures/gui/sprites/download_highlighted.png"), x + 4, y, 32, 32)
                 } else {
                     screenDrawing.drawTexture(createIdentifier("bewisclient", "textures/gui/sprites/download.png"), x + 4, y, 32, 32)
@@ -141,7 +141,7 @@ class PackListScreen(val type: Modrinth.Type, val parent: Screen, val folder: Pa
         }
 
         override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean {
-            if (isMouseOver(mouseX.toFloat(), mouseY.toFloat(), x + 4, y, 32, 32)) {
+            if (isMouseOver(mouseX, mouseY, x + 4, y, 32, 32)) {
                 Modrinth.loadPack(pack.slug) { p ->
                     Modrinth.loadVersions(p) { map ->
                         map.values.filter { it.loaders.contains(type.loader) && it.game_versions.contains(getModrinthVersion()) }.maxByOrNull { it.date_published }?.let { version ->

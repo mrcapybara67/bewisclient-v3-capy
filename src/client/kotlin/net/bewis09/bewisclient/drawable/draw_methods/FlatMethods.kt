@@ -14,15 +14,11 @@ object FlatMethods : DrawMethods {
         screenDrawing.fillWithBorderRounded(169, 30, screenWidth - 199, screenHeight - 60, 5, GeneralSettings.getBackgroundColor(), GeneralSettings.getThemeColor(alpha = 0.3f))
     }
 
-    override fun renderButtonBackground(screenDrawing: ScreenDrawing, hover: Float, animation: Float, x: Int, y: Int, width: Int, height: Int, click: Float, selected: Boolean, mouseX: Int, mouseY: Int, dark: Boolean) {
+    override fun renderButtonBackground(screenDrawing: ScreenDrawing, hover: Float, animation: Float, x: Int, y: Int, width: Int, height: Int, click: Float, mouseX: Int, mouseY: Int, dark: Boolean, small: Boolean) {
         screenDrawing.transform(x + width / 2f, y + height / 2f, 0.9f + 0.1f * click, 0.9f + 0.1f * click) {
             screenDrawing.translate(-width / 2f, -height / 2f)
             screenDrawing.fillWithBorderRounded(0, 0, width, height, 5, GeneralSettings.getThemeColor(alpha = (hover.coerceAtLeast(animation) + 1) * (if (dark) 0.05f else 0.15f)), GeneralSettings.getThemeColor(alpha = animation * 0.5f))
         }
-    }
-
-    override fun renderSmallButtonBackground(screenDrawing: ScreenDrawing, hover: Float, animation: Float, x: Int, y: Int, width: Int, height: Int, click: Float, selected: Boolean, mouseX: Int, mouseY: Int, dark: Boolean) {
-        renderButtonBackground(screenDrawing, hover, animation, x, y, width, height, click, selected, mouseX, mouseY, dark)
     }
 
     override fun getSideButtonHeight(): Int = 14

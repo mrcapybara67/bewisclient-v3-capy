@@ -7,7 +7,6 @@ import net.bewis09.bewisclient.drawable.renderables.components.logic.TooltipHove
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.util.interfaces.Settable
-import net.bewis09.bewisclient.version.setCursorPointer
 
 class ResetButton<T>(val setting: Settable<T?>) : TooltipHoverable(Translations.RESET()) {
     init {
@@ -18,11 +17,10 @@ class ResetButton<T>(val setting: Settable<T?>) : TooltipHoverable(Translations.
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)
 
-        if (isMouseOver(mouseX.toDouble(), mouseY.toDouble()))
-            screenDrawing.setCursorPointer()
+        usePointer(screenDrawing, mouseX, mouseY)
 
         screenDrawing.pushColor(0.8f, 0.8f, 0.8f, 1f)
-        SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverFactor, 0f, x, y, width, height, 1f, false, mouseX, mouseY)
+        SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverFactor, 0f, x, y, width, height, 1f, mouseX, mouseY)
         screenDrawing.popColor()
 
         val imagePadding = if (isMinecrafty) 3 else 2

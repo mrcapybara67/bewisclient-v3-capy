@@ -20,9 +20,7 @@ import net.bewis09.bewisclient.util.number.Precision
 import net.bewis09.bewisclient.util.string
 import net.minecraft.network.chat.Component
 
-open class StaticColorSaver : ColorSaver {
-    private val color: Color
-
+open class StaticColorSaver(private val color: Color) : ColorSaver {
     companion object {
         val infoTranslation = Translation("color.static.info", "Static Color (Color: %s)")
 
@@ -34,27 +32,13 @@ open class StaticColorSaver : ColorSaver {
         }
     }
 
-    constructor(color: Color) {
-        this.color = color.withAlpha(255)
-    }
+    constructor(r: Float, g: Float, b: Float) : this(Color((r * 255).toInt(), (g * 255).toInt(), (b * 255).toInt()))
 
-    constructor(r: Float, g: Float, b: Float) {
-        this.color = Color((r * 255).toInt(), (g * 255).toInt(), (b * 255).toInt())
-    }
-
-    constructor(r: Int, g: Int, b: Int) {
-        this.color = Color(r, g, b)
-    }
-
-    override fun getColor(): Color {
-        return color
-    }
+    override fun getColor(): Color = color
 
     override fun getType(): String = "static"
 
-    override fun saveToJson(): JsonElement {
-        return JsonPrimitive(getColorString())
-    }
+    override fun saveToJson(): JsonElement = JsonPrimitive(getColorString())
 
     fun getColorString(): String {
         return String.format("#%06X", color.argb and 0xFFFFFF)
@@ -95,24 +79,9 @@ open class StaticColorSaver : ColorSaver {
         }
 
         override fun init() {
-            addRenderable(
-                colorPicker(
-                    x, y, height, height
-                )
-            )
-            addRenderable(
-                text(
-                    x + height + 6,
-                    y + 2,
-                    width - height - 5,
-                    9,
-                )
-            )
-            addRenderable(
-                fader(
-                    x + height + 6, y + 11, width - height - 6, 14
-                )
-            )
+            addRenderable(colorPicker(x, y, height, height))
+            addRenderable(text(x + height + 6, y + 2, width - height - 5, 9))
+            addRenderable(fader(x + height + 6, y + 11, width - height - 6, 14))
             addRenderable(Rectangle { if (isMinecrafty) Color.WHITE alpha 0.3f else GeneralSettings.getThemeColor(alpha = 0.3f) }(x + height + 5, y + 30, width - height - 5, 1))
             addRenderable(ColorButton(x + height + 5, y + 36, 27, 27, { get().getColor() }, String.format("#%06X", get().getColor().argb).toText()))
             addRenderable(Rectangle { if (isMinecrafty) Color.WHITE alpha 0.3f else GeneralSettings.getThemeColor(alpha = 0.3f) }(x + height + 37, y + 36, 1, 27))
@@ -124,9 +93,7 @@ open class StaticColorSaver : ColorSaver {
                             set(StaticColorSaver(newColor))
                         })
                     }
-                }, 3, 12)(
-                    x + height + 43, y + 36, width - height - 43, 27
-                )
+                }, 3, 12)(x + height + 43, y + 36, width - height - 43, 27)
             )
         }
 

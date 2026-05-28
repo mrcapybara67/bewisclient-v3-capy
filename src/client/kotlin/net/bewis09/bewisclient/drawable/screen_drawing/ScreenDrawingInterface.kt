@@ -81,7 +81,7 @@ interface ScreenDrawingInterface : ClientInterface {
     fun scissorContains(x: Int, y: Int) = guiGraphics.containsPointInScissor(x, y)
 
     fun pointerIfWithin(x: Int, y: Int, width: Int, height: Int, mouseX: Int, mouseY: Int) {
-        if (isMouseOver(x.toFloat(), y.toFloat(), width, height, mouseX, mouseY))
+        if (isMouseOver(x, y, width, height, mouseX, mouseY))
             setCursorPointer()
     }
 }

@@ -17,7 +17,7 @@ open class Hoverable(
         get() = hoverAnimation.get()
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
-        hoverAnimation.set(if (isMouseOver(mouseX.toDouble(), mouseY.toDouble()) && screenDrawing.scissorContains(mouseX, mouseY)) 1f else 0f)
+        hoverAnimation.set(if (isMouseOver(mouseX, mouseY) && screenDrawing.scissorContains(mouseX, mouseY)) 1f else 0f)
     }
 
     override fun init() {

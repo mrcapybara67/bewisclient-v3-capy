@@ -8,7 +8,7 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.darken
 import net.bewis09.bewisclient.drawable.screen_drawing.transform
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
-import net.bewis09.bewisclient.version.setCursorPointer
+import net.bewis09.bewisclient.features.cosmetics.CosmeticLoader.selected
 
 object MinecraftyMethods : DrawMethods {
     override fun renderMenuBackground(screenDrawing: ScreenDrawing, screenWidth: Int, screenHeight: Int) {
@@ -35,22 +35,13 @@ object MinecraftyMethods : DrawMethods {
         )
     }
 
-    override fun renderButtonBackground(screenDrawing: ScreenDrawing, hover: Float, animation: Float, x: Int, y: Int, width: Int, height: Int, click: Float, selected: Boolean, mouseX: Int, mouseY: Int, dark: Boolean) {
+    override fun renderButtonBackground(screenDrawing: ScreenDrawing, hover: Float, animation: Float, x: Int, y: Int, width: Int, height: Int, click: Float, mouseX: Int, mouseY: Int, dark: Boolean, small: Boolean) {
         renderWithBorders(
             screenDrawing, x, y, width, height, hover within (0x333333.color to 0x444444.color), arrayOf(
-                0x222222.color,
+                if (small) null else 0x222222.color,
                 hover within (0x5B5B5B.color to 0xA1A1A1.color),
                 0x282828.color
-            ), (if (dark) 0.6f else 1f) * (1f - 0.4f * animation)
-        )
-    }
-
-    override fun renderSmallButtonBackground(screenDrawing: ScreenDrawing, hover: Float, animation: Float, x: Int, y: Int, width: Int, height: Int, click: Float, selected: Boolean, mouseX: Int, mouseY: Int, dark: Boolean) {
-        renderWithBorders(
-            screenDrawing, x, y, width, height, hover within (0x333333.color to 0x444444.color), arrayOf(
-                hover within (0x5B5B5B.color to 0xA1A1A1.color),
-                0x282828.color
-            ), if (selected || dark) 0.6f else 1f
+            ).filterNotNull().toTypedArray(), (if (dark) 0.6f else 1f) * (1f - 0.4f * animation)
         )
     }
 
@@ -76,8 +67,7 @@ object MinecraftyMethods : DrawMethods {
     }
 
     override fun renderFader(screenDrawing: ScreenDrawing, x: Int, y: Int, width: Int, height: Int, hover: Float, normalizedValue: Float, mouseX: Int, mouseY: Int) {
-        if (screenDrawing.isMouseOver(mouseX.toFloat(), mouseY.toFloat(), x, y, width, height))
-            screenDrawing.setCursorPointer()
+        screenDrawing.pointerIfWithin(x, y, width, height, mouseX, mouseY)
         screenDrawing.translate(0f, 0.5f) {
             renderWithBorders(
                 screenDrawing, x, y + 4, width, 5, 0x333333.color, arrayOf(
@@ -109,7 +99,7 @@ object MinecraftyMethods : DrawMethods {
 
     override fun renderPopupBackground(screenDrawing: ScreenDrawing, x: Int, y: Int, width: Int, height: Int, borderRadius: Int, borderAlpha: Float) {
         renderButtonBackground(
-            screenDrawing, 0f, 0f, x, y, width, height, 0f, selected = false, mouseX = -1, mouseY = -1, dark = true
+            screenDrawing, 0f, 0f, x, y, width, height, 0f, mouseX = -1, mouseY = -1, dark = true
         )
     }
 }

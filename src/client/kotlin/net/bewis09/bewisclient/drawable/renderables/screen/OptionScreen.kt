@@ -1,11 +1,7 @@
 package net.bewis09.bewisclient.drawable.renderables.screen
 
-import kotlinx.atomicfu.atomic
 import net.bewis09.bewisclient.api.APIEntrypointLoader
-import net.bewis09.bewisclient.common.Color
-import net.bewis09.bewisclient.common.Util
-import net.bewis09.bewisclient.common.createIdentifier
-import net.bewis09.bewisclient.common.then
+import net.bewis09.bewisclient.common.*
 import net.bewis09.bewisclient.data.Constants
 import net.bewis09.bewisclient.drawable.*
 import net.bewis09.bewisclient.drawable.ImageIdentifier.iconIdentifier
@@ -35,7 +31,7 @@ import org.lwjgl.glfw.GLFW
 class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(), BackgroundEffectProvider {
     val editHudTranslation = Translation("options.edit_hud", "Edit HUD")
 
-    val category = atomic("bewisclient:home")
+    var category = "bewisclient:home"
 
     val alphaMainAnimation = Animator({ animationDuration }, Animator.EASE_IN_OUT, startAlpha)
     val insideMainAnimation = Animator({ animationDuration }, Animator.EASE_IN_OUT, 1f)
@@ -49,13 +45,9 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
             it.add(SettingStructure.homeCategory().let { button ->
                 Plane { x, y, _, _ ->
                     listOf(
-                        ImageButton(backIdentifier) {
-                            goBack()
-                        }.setImagePadding(1).setImageColor { GeneralSettings.getTextThemeColor() }(x, y, SelectiveScreenDrawer.getSideButtonHeight(), SelectiveScreenDrawer.getSideButtonHeight()),
+                        createTopButton(backIdentifier, 1, x, y, ::goBack),
                         button(x + 19, y, 82, SelectiveScreenDrawer.getSideButtonHeight()),
-                        ImageButton(closeIdentifier) {
-                            close()
-                        }.setImagePadding(3).setImageColor { GeneralSettings.getTextThemeColor() }(x + 106 - ((isMinecrafty then 4) ?: 0), y, SelectiveScreenDrawer.getSideButtonHeight(), SelectiveScreenDrawer.getSideButtonHeight())
+                        createTopButton(closeIdentifier, 3, x + 106 - ((isMinecrafty then 4) ?: 0), y, ::close)
                     )
                 }.setHeight(SelectiveScreenDrawer.getSideButtonHeight())
             })
@@ -67,13 +59,17 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
                     APIEntrypointLoader.mapEntrypoint { a -> a.getSidebarCategories().forEach { b -> add(b()) } }
                 })
             it.add(Rectangle { GeneralSettings.getThemeColor(alpha = 0.3f) }.setHeight(1))
-            it.add(ThemeButton("bewisclient:edit_hud", editHudTranslation(), category) {
+            it.add(ThemeButton(editHudTranslation()) {
                 alphaMainAnimation.set(0f) {
                     setRenderableScreen(HudEditScreen())
                 }
             }.setHeight(SelectiveScreenDrawer.getSideButtonHeight()))
         }, (isMinecrafty then 2) ?: 5
     )
+
+    fun createTopButton(identifier: Identifier, padding: Int, x: Int, y: Int, onClick: () -> Unit): Renderable = ImageButton(identifier) {
+        onClick()
+    }.setImagePadding(padding).setImageColor { GeneralSettings.getTextThemeColor() }(x, y, SelectiveScreenDrawer.getSideButtonHeight(), SelectiveScreenDrawer.getSideButtonHeight())
 
     companion object {
         var currentInstance: OptionScreen? = null
@@ -190,7 +186,7 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
     }
 
     fun changeCategory(category: SidebarCategory, instant: Boolean = false) {
-        this.category.value = category.id.toString()
+        this.category = category.id.toString()
 
         if (instant) {
             pageStack.removeAll { pageStack[0] != it }
@@ -221,7 +217,7 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
 
     fun goBack(instant: Boolean = false) {
         if (pageStack.size == 1) return close()
-        if (pageStack.size == 2) category.value = "bewisclient:home"
+        if (pageStack.size == 2) category = "bewisclient:home"
 
         if (instant) {
             pageStack.removeLast()

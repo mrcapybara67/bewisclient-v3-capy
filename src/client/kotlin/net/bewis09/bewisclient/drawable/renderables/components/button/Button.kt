@@ -5,7 +5,6 @@ import net.bewis09.bewisclient.drawable.renderables.components.logic.TooltipHove
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
-import net.bewis09.bewisclient.version.setCursorPointer
 import net.minecraft.network.chat.Component
 
 class Button(var text: Component, val onClick: (Button) -> Unit, tooltip: Component? = null, val selected: (() -> Boolean)? = null, var dark: Boolean = false, val small: Boolean = false) : TooltipHoverable(tooltip) {
@@ -13,15 +12,8 @@ class Button(var text: Component, val onClick: (Button) -> Unit, tooltip: Compon
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)
-        if (small) {
-            SelectiveScreenDrawer.renderSmallButtonBackground(screenDrawing, hoverAnimation.get(), 0f, x, y, width, height, 1f, selected?.invoke() == true, mouseX, mouseY, dark)
-        } else {
-            SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverAnimation.get(), 0f, x, y, width, height, 1f, selected?.invoke() == true, mouseX, mouseY, dark)
-        }
-
-        if (isMouseOver(mouseX.toDouble(), mouseY.toDouble()))
-            screenDrawing.setCursorPointer()
-
+        SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverAnimation.get(), if (selected?.invoke() == true) 1f else 0f, x, y, width, height, 1f, mouseX, mouseY, dark, small)
+        usePointer(screenDrawing, mouseX, mouseY)
         screenDrawing.translate(0f, height / 2f - screenDrawing.getTextHeight() / 2f) {
             screenDrawing.drawCenteredText(text, centerX, y, GeneralSettings.getTextThemeColor())
         }

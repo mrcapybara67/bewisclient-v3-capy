@@ -67,7 +67,7 @@ open class TooltipHoverable(
                 screenDrawing.guiGraphics.translateToTopOptional()
                 if (isMinecrafty) {
                     screenDrawing.pushAlpha(tooltipAnimation.get() * 0.9f) {
-                        SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 1f, 0f, mouseX, mouseY - tooltipHeight, width, tooltipHeight, 1f, false, mouseX, mouseY, true)
+                        SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 1f, 0f, mouseX, mouseY - tooltipHeight, width, tooltipHeight, 1f, mouseX, mouseY, true)
                     }
                 } else {
                     screenDrawing.fillRounded(mouseX, mouseY - tooltipHeight, width, tooltipHeight, 5, Color.BLACK alpha tooltipAnimation.get() * 0.8f)

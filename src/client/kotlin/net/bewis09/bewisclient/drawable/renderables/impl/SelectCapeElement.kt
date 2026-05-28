@@ -51,7 +51,7 @@ class SelectCapeElement(val identifier: CosmeticIdentifier, val cosmetic: Cosmet
         if (CosmeticLoader.elytraCosmetics.contains(identifier)) {
             if (isMinecrafty) {
                 screenDrawing.drawBorder(x + width - 21, y - 1, 22, 22, Color.BLACK alpha 0.5f)
-                SelectiveScreenDrawer.renderSmallButtonBackground(screenDrawing, 0f, 0f, x + width - 20, y, 20, 20, 1f, false, mouseX, mouseY, false)
+                SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 0f, 0f, x + width - 20, y, 20, 20, 1f, mouseX, mouseY, small = true)
             } else {
                 screenDrawing.fillWithBorderRounded(x + width - 20, y, 20, 20, 5, 0.3f within (Color.BLACK to GeneralSettings.getThemeColor()), 0.2f within ((selected.get() within (Color.DARK_GRAY to Color.WHITE)) to GeneralSettings.getThemeColor()), topLeft = false, bottomRight = false)
             }

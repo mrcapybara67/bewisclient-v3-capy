@@ -43,13 +43,9 @@ interface ColorSaver {
         }
     }
 
-    fun convertToElement(): JsonElement? {
-        val jsonObject = JsonObject()
-
-        jsonObject.addProperty("type", getType())
-        jsonObject.add("data", saveToJson())
-
-        return jsonObject
+    fun convertToElement(): JsonElement? = JsonObject().apply {
+        addProperty("type", getType())
+        add("data", saveToJson())
     }
 
     fun toInfoString(): String

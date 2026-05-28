@@ -22,7 +22,7 @@ class SimpleTextNotification(val text: Component, val duration: Long = 5000) : N
             internalWidth = 128 + if (isMinecrafty) 2 else 0
 
             if (isMinecrafty) {
-                SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 0f, 0f, x, y, width + 4, height, 0f, false, mouseX, mouseY)
+                SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 0f, 0f, x, y, width + 4, height, 0f, mouseX, mouseY)
             } else {
                 screenDrawing.fill(x, y, width, height, Color.BLACK alpha 0.5f)
             }

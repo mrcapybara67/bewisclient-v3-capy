@@ -159,7 +159,7 @@ class ScreenshotViewElement(val file: File) : Hoverable(100) {
 
         screenDrawing.transform(x + width / 2f, y + height / 2f, if (isMinecrafty) 1f else 1f - hoverFactor * 0.1f) {
             if (isMinecrafty) {
-                SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverFactor, 1f, -width / 2, -height / 2, width, height, 1f, false, mouseX, mouseY)
+                SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverFactor, 1f, -width / 2, -height / 2, width, height, 1f, mouseX, mouseY)
             } else {
                 screenDrawing.fillWithBorder(-width / 2, -height / 2, width, height, GeneralSettings.getThemeColor(alpha = 0.7f, black = 0.2f), GeneralSettings.getThemeColor(white = 1f - hoverFactor * .5f, alpha = 0.5f + hoverFactor * .5f))
             }
@@ -257,7 +257,7 @@ fun loadTexture(file: File, nativeImage: NativeImage) {
 class BigScreenshotViewElement(val file: File) : Renderable() {
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         if (isMinecrafty) {
-            SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 0f, 0f, x, y, width, height - SelectiveScreenDrawer.getSideButtonHeight() - 5, 1f, false, mouseX, mouseY)
+            SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 0f, 0f, x, y, width, height - SelectiveScreenDrawer.getSideButtonHeight() - 5, 1f, mouseX, mouseY)
         } else {
             screenDrawing.fillWithBorder(x, y, width, height - SelectiveScreenDrawer.getSideButtonHeight() - 5, if (isMinecrafty) Color.BLACK alpha 0.7f else GeneralSettings.getThemeColor(black = 0.2f, alpha = 0.7f), if (isMinecrafty) Color.WHITE alpha 0.5f else GeneralSettings.getThemeColor(alpha = 0.5f))
         }

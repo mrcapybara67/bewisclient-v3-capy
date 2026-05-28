@@ -11,7 +11,6 @@ import net.bewis09.bewisclient.drawable.renderables.popup.AddWidgetPopup
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.impl.DefaultWidgetSettings
-import net.bewis09.bewisclient.util.logic.hoverSeparate
 import net.bewis09.bewisclient.util.number.Precision
 import net.bewis09.bewisclient.version.isKeyPressed
 import net.bewis09.bewisclient.version.translateToTopOptional
@@ -44,7 +43,7 @@ class HudEditScreen : PopupScreen(), BackgroundEffectProvider {
 
         WidgetLoader.getEnabledWidgets().forEach {
             if (it.isInBox(mouseX, mouseY)) {
-                hoverSeparate(mouseX.toFloat(), mouseY.toFloat(), (it.getX() + it.getScaledWidth() - 8).toInt(), (it.getY()).toInt(), 8, 8, {}) {
+                if (isMouseOver(mouseX.toFloat(), mouseY.toFloat(), (it.getX() + it.getScaledWidth() - 8).toInt(), (it.getY()).toInt(), 8, 8)) {
                     if (button == 0) {
                         it.enabled.set(false)
 
@@ -84,10 +83,10 @@ class HudEditScreen : PopupScreen(), BackgroundEffectProvider {
             if (it.isEnabled()) {
                 it.renderScaled(screenDrawing.copy())
 
-                hoverSeparate(mouseX.toFloat(), mouseY.toFloat(), (it.getX() + it.getScaledWidth() - 8).toInt(), (it.getY()).toInt(), 8, 8, {
-                    screenDrawing.pushColor(1f, 1f, 1f, 1f)
-                }) {
+                if (isMouseOver(mouseX.toFloat(), mouseY.toFloat(), (it.getX() + it.getScaledWidth() - 8).toInt(), (it.getY()).toInt(), 8, 8)) {
                     screenDrawing.pushColor(1f, 0f, 0f, 1f)
+                } else {
+                    screenDrawing.pushColor(1f, 1f, 1f, 1f)
                 }
 
                 screenDrawing.drawTexture(removeTexture, (it.getX() + it.getScaledWidth() - 8).toInt(), (it.getY()).toInt(), 8, 8)

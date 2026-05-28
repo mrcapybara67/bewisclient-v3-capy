@@ -1,13 +1,11 @@
 package net.bewis09.bewisclient.drawable.renderables.components.button
 
-import kotlinx.atomicfu.AtomicRef
 import net.bewis09.bewisclient.drawable.Animator
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.renderables.components.logic.TooltipHoverable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.transform
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
-import net.bewis09.bewisclient.version.setCursorPointer
 import net.minecraft.network.chat.Component
 
 class ThemeButton : TooltipHoverable {
@@ -20,17 +18,6 @@ class ThemeButton : TooltipHoverable {
         this.selected = selected
         this.onClick = onClick
     }
-
-    constructor(id: String, text: Component, selectedButtonRef: AtomicRef<String>, onClick: (ThemeButton) -> Unit, tooltip: Component? = null) : super(tooltip) {
-        this.text = text
-        this.selected = { selectedButtonRef.value == id }
-        this.onClick = {
-            selectedButtonRef.value = id
-            onClick(it)
-        }
-    }
-
-    constructor(id: String, text: Component, clickButton: AtomicRef<String>, onClick: (ThemeButton) -> Unit) : this(id, text, clickButton, onClick, null)
 
     constructor(text: Component, onClick: (ThemeButton) -> Unit) {
         this.text = text
@@ -45,10 +32,9 @@ class ThemeButton : TooltipHoverable {
         super.render(screenDrawing, mouseX, mouseY)
         colorAnimation.set(if (selected()) 1f else 0f)
         val click = if (isMinecrafty) 1f else clickAnimation.get()
-        SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverFactor, colorAnimation.get(), x, y, width, height, click, selected(), mouseX, mouseY)
+        SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverFactor, colorAnimation.get(), x, y, width, height, click, mouseX, mouseY)
 
-        if (isMouseOver(mouseX.toDouble(), mouseY.toDouble()))
-            screenDrawing.setCursorPointer()
+        usePointer(screenDrawing, mouseX, mouseY)
 
         screenDrawing.transform(x + width / 2f, y + height / 2f, 0.95f + 0.05f * click, 0.95f + 0.05f * click) {
             screenDrawing.translate(0f, -screenDrawing.getTextHeight() / 2f)

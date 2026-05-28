@@ -97,7 +97,7 @@ object HomePlane : Renderable() {
         override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
             internalHeight = renderable.height
             if (isMinecrafty) {
-                SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 0f, 0f, x, y + height / 2 - 9, 18, 18, 0f, false, mouseX, mouseY)
+                SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 0f, 0f, x, y + height / 2 - 9, 18, 18, 0f, mouseX, mouseY)
             } else {
                 screenDrawing.fillWithBorderRounded(x, y + height / 2 - 8, 16, 16, 5, GeneralSettings.getThemeColor(alpha = 0.15f), GeneralSettings.getThemeColor(alpha = 0.15f))
             }

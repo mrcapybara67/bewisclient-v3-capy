@@ -5,9 +5,7 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 interface DrawMethods {
     fun renderMenuBackground(screenDrawing: ScreenDrawing, screenWidth: Int, screenHeight: Int)
 
-    fun renderButtonBackground(screenDrawing: ScreenDrawing, hover: Float, animation: Float, x: Int, y: Int, width: Int, height: Int, click: Float, selected: Boolean, mouseX: Int, mouseY: Int, dark: Boolean = false)
-
-    fun renderSmallButtonBackground(screenDrawing: ScreenDrawing, hover: Float, animation: Float, x: Int, y: Int, width: Int, height: Int, click: Float, selected: Boolean, mouseX: Int, mouseY: Int, dark: Boolean = false)
+    fun renderButtonBackground(screenDrawing: ScreenDrawing, hover: Float, animation: Float, x: Int, y: Int, width: Int, height: Int, click: Float, mouseX: Int, mouseY: Int, dark: Boolean = false, small: Boolean = false)
 
     fun getSideButtonHeight(): Int
 
