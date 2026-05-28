@@ -1,11 +1,11 @@
 package net.bewis09.bewisclient.drawable.renderables.components
 
-import net.bewis09.bewisclient.drawable.Translations
-import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.util.interfaces.Settable
 import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
+import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.util.interfaces.Settable
 import net.bewis09.bewisclient.version.setCursorPointer
 
 class ResetButton<T>(val setting: Settable<T?>) : TooltipHoverable(Translations.RESET()) {

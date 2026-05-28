@@ -2,12 +2,12 @@
 
 package net.bewis09.bewisclient.drawable.minecraft
 
-import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.alpha
+import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.version.GuiGraphics
-import net.bewis09.bewisclient.common.Identifier
 import net.minecraft.client.gui.components.Button
 import net.minecraft.network.chat.CommonComponents
 import net.minecraft.network.chat.Component
@@ -21,7 +21,7 @@ open class TexturedButtonWidget(x: Int, y: Int, width: Int, height: Int, val nor
 
     // @[1.21.10] renderWidget @[1.21.11] renderContents @[] extractContents
     override fun /*[@]*/extractContents/*[!@]*/(context: GuiGraphics, mouseX: Int, mouseY: Int, deltaTicks: Float) {
-        ScreenDrawing(context, client.font).drawTexture(if(this.isHovered) selectedTexture else normalTexture, this.x, this.y, 0f, 0f, this.width, this.height, this.width, this.height, (0xFFFFFF alpha this.alpha))
+        ScreenDrawing(context, client.font).drawTexture(if (this.isHovered) selectedTexture else normalTexture, this.x, this.y, 0f, 0f, this.width, this.height, this.width, this.height, (0xFFFFFF alpha this.alpha))
         text?.let { ScreenDrawing(context, client.font).drawCenteredText(text, this.x + this.width / 2, this.y + 5, Color.WHITE) }
     }
 }

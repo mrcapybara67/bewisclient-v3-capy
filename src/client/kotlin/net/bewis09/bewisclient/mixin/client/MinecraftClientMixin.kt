@@ -1,8 +1,8 @@
 package net.bewis09.bewisclient.mixin.client
 
-import net.bewis09.bewisclient.version.GameLoadCookie
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.util.EventEntrypoint.Companion.onAllEventEntrypoints
+import net.bewis09.bewisclient.version.GameLoadCookie
 import net.minecraft.client.Minecraft
 import net.minecraft.client.main.GameConfig
 import net.minecraft.server.packs.resources.ReloadableResourceManager

@@ -2,8 +2,8 @@
 
 package net.bewis09.bewisclient.mixin.client
 
-import net.bewis09.bewisclient.game.ShulkerBoxTooltipComponent
 import net.bewis09.bewisclient.features.utilities.ShulkerBoxTooltip
+import net.bewis09.bewisclient.game.ShulkerBoxTooltipComponent
 import net.minecraft.core.component.DataComponents
 import net.minecraft.world.inventory.tooltip.TooltipComponent
 import net.minecraft.world.item.BlockItem

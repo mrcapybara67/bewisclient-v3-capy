@@ -1,9 +1,9 @@
 package net.bewis09.bewisclient.drawable.renderables.components
 
 import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.common.within
-import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 
 class RainbowImage(val image: Identifier, val alpha: Float) : Hoverable() {

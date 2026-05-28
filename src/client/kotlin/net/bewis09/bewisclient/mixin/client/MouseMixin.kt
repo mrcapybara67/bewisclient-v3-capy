@@ -21,7 +21,7 @@ class MouseMixin {
         if (action != 1) return
 
         // @[1.21.8] button @[] rawButtonInfo.button()
-        when(/*[@]*/rawButtonInfo.button()/*[!@]*/) {
+        when (/*[@]*/rawButtonInfo.button()/*[!@]*/) {
             0 -> leftMouseList.add(System.currentTimeMillis())
             1 -> rightMouseList.add(System.currentTimeMillis())
         }

@@ -6,7 +6,7 @@ import net.bewis09.bewisclient.version.GuiGraphics
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 
-open class IndependentScreen(title: Component): Screen(title) {
+open class IndependentScreen(title: Component) : Screen(title) {
     // @[1.21.8] (mouseX: Double, mouseY: Double, button: Int): Boolean = onMouseClick(mouseX, mouseY, button) @[] (click: net.minecraft.client.input.MouseButtonEvent, doubled: Boolean): Boolean = onMouseClick(click.x, click.y, click.button())
     override fun mouseClicked/*[@]*/(click: net.minecraft.client.input.MouseButtonEvent, doubled: Boolean): Boolean = onMouseClick(click.x, click.y, click.button())/*[!@]*/
     // @[1.21.8] (mouseX: Double, mouseY: Double, button: Int): Boolean = onMouseRelease(mouseX, mouseY, button) @[] (click: net.minecraft.client.input.MouseButtonEvent): Boolean = onMouseRelease(click.x, click.y, click.button())

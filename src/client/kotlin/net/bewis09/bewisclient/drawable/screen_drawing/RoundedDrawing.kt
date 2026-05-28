@@ -1,9 +1,9 @@
 package net.bewis09.bewisclient.drawable.screen_drawing
 
-import net.bewis09.bewisclient.util.logic.UtilLogic.scaleFactor
 import net.bewis09.bewisclient.common.Color
-import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.Identifier
+import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.util.logic.UtilLogic.scaleFactor
 import kotlin.math.*
 
 interface RoundedDrawing : RectDrawing, TextureDrawing {

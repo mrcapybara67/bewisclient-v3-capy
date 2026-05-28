@@ -1,9 +1,9 @@
 package net.bewis09.bewisclient.drawable.screen_drawing
 
-import net.bewis09.bewisclient.version.GuiGraphics
 import net.bewis09.bewisclient.common.Color
-import net.minecraft.client.gui.Font
 import net.bewis09.bewisclient.common.Identifier
+import net.bewis09.bewisclient.version.GuiGraphics
+import net.minecraft.client.gui.Font
 
 /**
  * A class representing a screen drawing context in Bewisclient. This class is used to encapsulate

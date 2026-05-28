@@ -14,7 +14,7 @@ import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.version.drawCape
 
 class SelectCapeElement(val identifier: CosmeticIdentifier, val cosmetic: Cosmetic) : Hoverable() {
-    val selected = Animator({ animationDuration }, Animator.Companion.EASE_IN_OUT, 0f)
+    val selected = Animator({ animationDuration }, Animator.EASE_IN_OUT, 0f)
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)
@@ -23,7 +23,7 @@ class SelectCapeElement(val identifier: CosmeticIdentifier, val cosmetic: Cosmet
 
         if (isMinecrafty) {
             screenDrawing.darken(0.6f) {
-                screenDrawing.fill(x + 3, y + 3, width - 6, height - 6, (selected.get() / 2f) within (hoverFactor within (0x333333.color to 0x444444.color) to Color.Companion.WHITE))
+                screenDrawing.fill(x + 3, y + 3, width - 6, height - 6, (selected.get() / 2f) within (hoverFactor within (0x333333.color to 0x444444.color) to Color.WHITE))
             }
         } else {
             screenDrawing.fillRounded(x, y, width, height, 5, GeneralSettings.getThemeColor(alpha = selected.get() * 0.3f + hoverFactor * 0.15f + 0.1f))
@@ -45,15 +45,15 @@ class SelectCapeElement(val identifier: CosmeticIdentifier, val cosmetic: Cosmet
                 screenDrawing.drawBorder(x + 2, y + 2, width - 4, height - 4, 0x282828.color)
             }
         } else {
-            screenDrawing.drawBorderRounded(x, y, width, height, 5, 0.2f within ((selected.get() within (Color.Companion.DARK_GRAY to Color.Companion.WHITE)) to GeneralSettings.getThemeColor()))
+            screenDrawing.drawBorderRounded(x, y, width, height, 5, 0.2f within ((selected.get() within (Color.DARK_GRAY to Color.WHITE)) to GeneralSettings.getThemeColor()))
         }
 
         if (CosmeticLoader.elytraCosmetics.contains(identifier)) {
             if (isMinecrafty) {
-                screenDrawing.drawBorder(x + width - 21, y - 1, 22, 22, Color.Companion.BLACK alpha 0.5f)
+                screenDrawing.drawBorder(x + width - 21, y - 1, 22, 22, Color.BLACK alpha 0.5f)
                 SelectiveScreenDrawer.renderSmallButtonBackground(screenDrawing, 0f, 0f, x + width - 20, y, 20, 20, 1f, false, mouseX, mouseY, false)
             } else {
-                screenDrawing.fillWithBorderRounded(x + width - 20, y, 20, 20, 5, 0.3f within (Color.Companion.BLACK to GeneralSettings.getThemeColor()), 0.2f within ((selected.get() within (Color.Companion.DARK_GRAY to Color.Companion.WHITE)) to GeneralSettings.getThemeColor()), topLeft = false, bottomRight = false)
+                screenDrawing.fillWithBorderRounded(x + width - 20, y, 20, 20, 5, 0.3f within (Color.BLACK to GeneralSettings.getThemeColor()), 0.2f within ((selected.get() within (Color.DARK_GRAY to Color.WHITE)) to GeneralSettings.getThemeColor()), topLeft = false, bottomRight = false)
             }
 
             screenDrawing.drawTexture(createIdentifier("textures/item/elytra.png"), x + width - 18, y + 2, 16, 16)

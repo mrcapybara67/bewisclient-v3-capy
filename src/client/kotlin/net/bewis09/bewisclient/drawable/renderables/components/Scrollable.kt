@@ -49,8 +49,8 @@ abstract class Scrollable(val direction: Direction) : Renderable() {
         if (abs(startX - mouseX) > 5 && direction == Direction.HORIZONTAL) hasScrollStartedHorizontal = true
         if (abs(startY - mouseY) > 5 && direction == Direction.VERTICAL) hasScrollStartedVertical = true
 
-        val deltaX = if(hasScrollStartedHorizontal) (lastDragX ?: startX) - mouseX else 0.0
-        val deltaY = if(hasScrollStartedVertical) (lastDragY ?: startY) - mouseY else 0.0
+        val deltaX = if (hasScrollStartedHorizontal) (lastDragX ?: startX) - mouseX else 0.0
+        val deltaY = if (hasScrollStartedVertical) (lastDragY ?: startY) - mouseY else 0.0
 
         if (direction == Direction.VERTICAL) {
             scrollAnimation.set((scrollAnimation.getWithoutInterpolation() - deltaY.toFloat()).coerceIn(0f.coerceAtMost((height - innerSize)), 0f))

@@ -27,35 +27,35 @@ class PackListScreen(val type: Modrinth.Type, val parent: Screen, val folder: Pa
     var hasLoaded = false
     var lastTyped = Long.MAX_VALUE
 
-    val search = Input(font = ScreenDrawingInterface.Companion.DEFAULT_FONT, maxWidth = 200, onChange = {
+    val search = Input(font = ScreenDrawingInterface.DEFAULT_FONT, maxWidth = 200, onChange = {
         lastTyped = System.currentTimeMillis()
     })
 
     var query: String = search.text
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
-        screenDrawing.drawHorizontalLine(centerX - 150, 47, 300, Color.Companion.WHITE alpha (51 / 255f))
-        screenDrawing.drawHorizontalLine(centerX - 150, y2 - 32, 300, Color.Companion.WHITE alpha (51 / 255f))
-        screenDrawing.drawHorizontalLine(centerX - 150, 48, 300, Color.Companion.BLACK alpha (191 / 255f))
-        screenDrawing.drawHorizontalLine(centerX - 150, y2 - 33, 300, Color.Companion.BLACK alpha (191 / 255f))
-        screenDrawing.fill(centerX - 150, 49, 300, height - 49 - 33, Color.Companion.BLACK alpha (112 / 255f))
+        screenDrawing.drawHorizontalLine(centerX - 150, 47, 300, Color.WHITE alpha (51 / 255f))
+        screenDrawing.drawHorizontalLine(centerX - 150, y2 - 32, 300, Color.WHITE alpha (51 / 255f))
+        screenDrawing.drawHorizontalLine(centerX - 150, 48, 300, Color.BLACK alpha (191 / 255f))
+        screenDrawing.drawHorizontalLine(centerX - 150, y2 - 33, 300, Color.BLACK alpha (191 / 255f))
+        screenDrawing.fill(centerX - 150, 49, 300, height - 49 - 33, Color.BLACK alpha (112 / 255f))
 
-        screenDrawing.drawCenteredTextWithShadow(type.text, centerX, 4, Color.Companion.WHITE)
-        screenDrawing.drawCenteredTextWithShadow(Translations.DOWNLOAD_FROM_MODRINTH(), centerX, 17, Color.Companion.LIGHT_GRAY)
+        screenDrawing.drawCenteredTextWithShadow(type.text, centerX, 4, Color.WHITE)
+        screenDrawing.drawCenteredTextWithShadow(Translations.DOWNLOAD_FROM_MODRINTH(), centerX, 17, Color.LIGHT_GRAY)
 
-        screenDrawing.fillWithBorder(centerX - 63, 30, 126, 15, Color.Companion.BLACK, if (this.selectedElement != search) Color.Companion.LIGHT_GRAY else Color.Companion.WHITE)
+        screenDrawing.fillWithBorder(centerX - 63, 30, 126, 15, Color.BLACK, if (this.selectedElement != search) Color.LIGHT_GRAY else Color.WHITE)
 
         renderRenderables(screenDrawing, mouseX, mouseY)
 
         if (!hasLoaded) {
-            screenDrawing.drawCenteredText("Loading...", width / 2, height / 2, Color.Companion.WHITE)
+            screenDrawing.drawCenteredText("Loading...", width / 2, height / 2, Color.WHITE)
             if (Modrinth.getPageOfType(type, index, query) != null) {
                 hasLoaded = true
                 resize()
             }
         }
 
-        screenDrawing.drawCenteredTextWithShadow(Component.literal("${index + 1}/${Modrinth.typeMaps[type to query]?.second?.div(20)?.plus(1)?.toString() ?: "..."}"), centerX + 108, 34, Color.Companion.WHITE)
+        screenDrawing.drawCenteredTextWithShadow(Component.literal("${index + 1}/${Modrinth.typeMaps[type to query]?.second?.div(20)?.plus(1)?.toString() ?: "..."}"), centerX + 108, 34, Color.WHITE)
 
         if (System.currentTimeMillis() - lastTyped > 500) {
             hasLoaded = false
@@ -114,14 +114,14 @@ class PackListScreen(val type: Modrinth.Type, val parent: Screen, val folder: Pa
         }
 
         override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
-            screenDrawing.drawText(pack.title.toText(), x + 38, y + 1, Color.Companion.WHITE)
+            screenDrawing.drawText(pack.title.toText(), x + 38, y + 1, Color.WHITE)
             val lists = screenDrawing.wrapText(pack.description, width - 40)
             for (i in 0 until minOf(2, lists.size)) {
                 if (i == 1 && lists.size > 2) {
-                    screenDrawing.drawTextWithShadow(screenDrawing.wrapText(lists[i], width - 50)[0] + "...", x + 38, y + 12 + i * (screenDrawing.getTextHeight() + 1), Color.Companion.LIGHT_GRAY)
+                    screenDrawing.drawTextWithShadow(screenDrawing.wrapText(lists[i], width - 50)[0] + "...", x + 38, y + 12 + i * (screenDrawing.getTextHeight() + 1), Color.LIGHT_GRAY)
                     break
                 }
-                screenDrawing.drawTextWithShadow(lists[i], x + 38, y + 12 + i * (screenDrawing.getTextHeight() + 1), Color.Companion.LIGHT_GRAY)
+                screenDrawing.drawTextWithShadow(lists[i], x + 38, y + 12 + i * (screenDrawing.getTextHeight() + 1), Color.LIGHT_GRAY)
             }
 
             Modrinth.getImageByURL(URI(pack.icon_url))?.let {

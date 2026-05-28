@@ -1,9 +1,9 @@
 package net.bewis09.bewisclient.drawable.renderables.components
 
-import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.within
+import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
+import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.minecraft.network.chat.Component
 
 class TooltipHoverableText(val text: Component, val color: Color, val hoverColor: Color = color, tooltip: Component? = null, val centered: Boolean = false, val onClick: (() -> Unit)? = null) : TooltipHoverable(tooltip) {

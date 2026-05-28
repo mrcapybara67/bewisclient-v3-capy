@@ -43,7 +43,7 @@ class ThemeButton : TooltipHoverable {
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)
         colorAnimation.set(if (selected()) 1f else 0f)
-        val click = if(isMinecrafty) 1f else clickAnimation.get()
+        val click = if (isMinecrafty) 1f else clickAnimation.get()
         SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverFactor, colorAnimation.get(), x, y, width, height, click, selected(), mouseX, mouseY)
 
         if (isMouseOver(mouseX.toDouble(), mouseY.toDouble()))

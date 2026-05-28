@@ -3,7 +3,7 @@ package net.bewis09.bewisclient.drawable.renderables.components
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 
-class VerticalAlignPlane(val elements: List<Renderable>, val gap: Int = 5): Renderable() {
+class VerticalAlignPlane(val elements: List<Renderable>, val gap: Int = 5) : Renderable() {
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         var currentY = y
         for (it in renderables) {
