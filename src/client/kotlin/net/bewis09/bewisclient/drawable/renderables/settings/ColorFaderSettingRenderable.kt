@@ -1,10 +1,9 @@
 package net.bewis09.bewisclient.drawable.renderables.settings
 
 import net.bewis09.bewisclient.drawable.renderables.components.button.ColorInfoButton
-import net.bewis09.bewisclient.drawable.renderables.components.setting.Fader
 import net.bewis09.bewisclient.drawable.renderables.components.button.ResetButton
+import net.bewis09.bewisclient.drawable.renderables.components.setting.Fader
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.settings.types.FloatSetting
@@ -30,9 +29,7 @@ class ColorFaderSettingRenderable(val title: Translation, val description: Trans
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)
         drawVerticalCenteredText(screenDrawing, title)
-        screenDrawing.translate(0f, y + 22.5f) {
-            screenDrawing.drawRightAlignedText(title2.getTranslatedString() + ": " + setting2.get(), x2 - fader.width - 12 - resetButton.width, 0, GeneralSettings.getTextThemeColor())
-        }
+        screenDrawing.drawRightAlignedText(title2.getTranslatedString() + ": " + setting2.get(), x2 - fader.width - 12 - resetButton.width, y + 22.5f, GeneralSettings.getTextThemeColor())
         renderRenderables(screenDrawing, mouseX, mouseY)
     }
 

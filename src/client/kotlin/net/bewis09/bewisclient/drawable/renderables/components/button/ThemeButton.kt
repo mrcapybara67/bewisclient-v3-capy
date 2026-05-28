@@ -36,9 +36,8 @@ class ThemeButton : TooltipHoverable {
 
         usePointer(screenDrawing, mouseX, mouseY)
 
-        screenDrawing.transform(x + width / 2f, y + height / 2f, 0.95f + 0.05f * click, 0.95f + 0.05f * click) {
-            screenDrawing.translate(0f, -screenDrawing.getTextHeight() / 2f)
-            screenDrawing.drawCenteredText(text, 0, 0, GeneralSettings.getTextThemeColor())
+        screenDrawing.transform(exactCenterX, exactCenterY, 0.95f + 0.05f * click, 0.95f + 0.05f * click) {
+            screenDrawing.drawCenteredText(text, 0, screenDrawing.getTextHeight() / -2f, GeneralSettings.getTextThemeColor())
         }
     }
 

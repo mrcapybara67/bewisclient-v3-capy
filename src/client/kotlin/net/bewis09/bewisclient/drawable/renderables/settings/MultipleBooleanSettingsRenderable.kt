@@ -48,9 +48,7 @@ class MultipleBooleanSettingsRenderable(
         override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
             super.render(screenDrawing, mouseX, mouseY)
             screenDrawing.drawHorizontalLine(x + 5, y - 2, width - 10, 0xAAAAAA alpha 0.2F)
-            screenDrawing.translate(0f, height / 2f - screenDrawing.getTextHeight() / 2f) {
-                screenDrawing.drawText(name, x + 8, y, GeneralSettings.getTextThemeColor())
-            }
+            screenDrawing.drawText(name, x + 8, fontYCenter, GeneralSettings.getTextThemeColor())
             renderRenderables(screenDrawing, mouseX, mouseY)
         }
 

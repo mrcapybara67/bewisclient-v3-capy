@@ -34,6 +34,12 @@ abstract class Renderable(
         get() = internalX + width / 2
     val centerY: Int
         get() = internalY + height / 2
+    val exactCenterX: Float
+        get() = internalX + width / 2f
+    val exactCenterY: Float
+        get() = internalY + height / 2f
+    val fontYCenter: Float
+        get() = internalY + height / 2f - client.font.lineHeight / 2f
 
     val renderables = mutableListOf<Renderable>()
 

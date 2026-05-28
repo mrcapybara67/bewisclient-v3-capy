@@ -31,7 +31,6 @@ class CustomWidgetHelpPopup(val screen: PopupScreen) : Renderable() {
         internalWidth = 200
         internalHeight = screenHeight - 100
         SelectiveScreenDrawer.renderPopupBackground(screenDrawing, x, y, width, height, 10, 0.15f)
-//        screenDrawing.fillWithBorderRounded(x, y, width, height, 10, OptionsMenuSettings.getBackgroundColor() alpha 0.9f, OptionsMenuSettings.getThemeColor(alpha = 0.15f))
         renderRenderables(screenDrawing, mouseX, mouseY)
     }
 

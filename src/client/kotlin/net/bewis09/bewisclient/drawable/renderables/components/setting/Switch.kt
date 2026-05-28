@@ -11,9 +11,7 @@ class Switch(var state: Gettable<Boolean>, val onChange: (new: Boolean) -> Unit)
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)
-
         stateAnimation.set(if (state.get()) 1f else 0f)
-
         SelectiveScreenDrawer.renderSwitch(screenDrawing, x, y, width, height, hoverFactor, stateAnimation.get(), mouseX, mouseY)
     }
 

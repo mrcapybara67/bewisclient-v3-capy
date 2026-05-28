@@ -8,7 +8,6 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.darken
 import net.bewis09.bewisclient.drawable.screen_drawing.transform
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
-import net.bewis09.bewisclient.features.cosmetics.CosmeticLoader.selected
 
 object MinecraftyMethods : DrawMethods {
     override fun renderMenuBackground(screenDrawing: ScreenDrawing, screenWidth: Int, screenHeight: Int) {

@@ -13,7 +13,7 @@ class MinecraftButton(var text: Component, val onClick: (MinecraftButton) -> Uni
             if (isMouseOver(mouseX, mouseY)) Identifier.withDefaultNamespace("widget/button_highlighted") else Identifier.withDefaultNamespace("widget/button"),
             x, y, width, height
         )
-        screenDrawing.drawCenteredTextWithShadow(text, centerX, centerY - 4, Color.WHITE)
+        screenDrawing.drawCenteredTextWithShadow(text, exactCenterX, exactCenterY - 4, Color.WHITE)
         usePointer(screenDrawing, mouseX, mouseY)
     }
 
