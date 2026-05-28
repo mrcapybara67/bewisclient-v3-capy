@@ -2,10 +2,10 @@
 
 package net.bewis09.bewisclient.mixin.client
 
-import net.bewis09.bewisclient.impl.functionalities.Zoom.factorAnimation
-import net.bewis09.bewisclient.impl.functionalities.Zoom.isUsed
-import net.bewis09.bewisclient.impl.widget.CPSWidget.leftMouseList
-import net.bewis09.bewisclient.impl.widget.CPSWidget.rightMouseList
+import net.bewis09.bewisclient.features.utilities.Zoom.factorAnimation
+import net.bewis09.bewisclient.features.utilities.Zoom.isUsed
+import net.bewis09.bewisclient.widget.impl.CPSWidget.leftMouseList
+import net.bewis09.bewisclient.widget.impl.CPSWidget.rightMouseList
 import net.minecraft.client.MouseHandler
 import org.spongepowered.asm.mixin.Mixin
 import org.spongepowered.asm.mixin.injection.At

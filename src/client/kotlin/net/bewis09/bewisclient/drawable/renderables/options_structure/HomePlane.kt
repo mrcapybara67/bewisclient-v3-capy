@@ -1,18 +1,18 @@
 package net.bewis09.bewisclient.drawable.renderables.options_structure
 
+import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.renderables.*
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
+import net.bewis09.bewisclient.drawable.renderables.components.*
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.renderables.settings.InfoTextRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.DefaultWidgetSettings
-import net.bewis09.bewisclient.impl.settings.HomePlaneSettings
-import net.bewis09.bewisclient.impl.settings.GeneralSettings
-import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.game.translations.Translation
+import net.bewis09.bewisclient.settings.impl.DefaultWidgetSettings
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.settings.impl.HomePlaneSettings
 import net.bewis09.bewisclient.util.color.ThemeColorSaver
-import net.bewis09.bewisclient.common.createIdentifier
-import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.util.number.Precision
 import net.minecraft.network.chat.Component
 
@@ -42,7 +42,7 @@ object HomePlane : Renderable() {
         val button = Button(editQuickSettings()) {
             OptionScreen.currentInstance?.openPage(
                 Plane { x, y, width, _ -> listOf(TextElement(editQuickSettings(), GeneralSettings.getTextThemeColor(), centered = true)(x, y, width, 13)) }.setHeight(14),
-                VerticalAlignScrollPlane ({ width ->
+                VerticalAlignScrollPlane({ width ->
                     quickSettingsOptions.map {
                         listOf(
                             EmptyRenderable().setHeight(5),
@@ -98,7 +98,7 @@ object HomePlane : Renderable() {
             renderRenderables(screenDrawing, mouseX, mouseY)
 
             if (HomePlaneSettings.quickSettings.contains("$category/$id")) {
-                screenDrawing.drawTexture(checkTexture, x + if(isMinecrafty) 2 else 1, y + height / 2 - 7, 14, 14, if (isMinecrafty) Color.WHITE else GeneralSettings.getThemeColor())
+                screenDrawing.drawTexture(checkTexture, x + if (isMinecrafty) 2 else 1, y + height / 2 - 7, 14, 14, if (isMinecrafty) Color.WHITE else GeneralSettings.getThemeColor())
             }
         }
 

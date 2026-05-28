@@ -2,7 +2,7 @@
 
 package net.bewis09.bewisclient.mixin.client
 
-import net.bewis09.bewisclient.impl.functionalities.Perspective
+import net.bewis09.bewisclient.features.utilities.Perspective
 import net.minecraft.client.Camera
 import org.spongepowered.asm.mixin.Mixin
 import org.spongepowered.asm.mixin.Shadow

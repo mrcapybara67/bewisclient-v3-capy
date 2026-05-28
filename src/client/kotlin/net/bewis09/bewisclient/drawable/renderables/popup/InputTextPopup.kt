@@ -2,11 +2,11 @@ package net.bewis09.bewisclient.drawable.renderables.popup
 
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
-import net.bewis09.bewisclient.drawable.renderables.Button
-import net.bewis09.bewisclient.drawable.renderables.Input
+import net.bewis09.bewisclient.drawable.renderables.components.Button
+import net.bewis09.bewisclient.drawable.renderables.components.Input
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.impl.settings.GeneralSettings
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.minecraft.network.chat.CommonComponents
 import net.minecraft.network.chat.Component
 

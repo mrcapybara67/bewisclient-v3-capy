@@ -1,12 +1,12 @@
 package net.bewis09.bewisclient.drawable.renderables.settings
 
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
-import net.bewis09.bewisclient.drawable.renderables.TooltipHoverable
+import net.bewis09.bewisclient.drawable.renderables.components.TooltipHoverable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.pushColor
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
-import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.GeneralSettings
+import net.bewis09.bewisclient.game.translations.Translation
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
 
 abstract class SettingRenderable(tooltip: () -> Translation?, height: Int) : TooltipHoverable({ tooltip()?.invoke() }, minHeight = height) {
     constructor(tooltip: Translation? = null, height: Int) : this({ tooltip }, height)

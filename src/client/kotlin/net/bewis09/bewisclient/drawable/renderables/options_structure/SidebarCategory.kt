@@ -3,16 +3,16 @@ package net.bewis09.bewisclient.drawable.renderables.options_structure
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
-import net.bewis09.bewisclient.drawable.renderables.Plane
-import net.bewis09.bewisclient.drawable.renderables.TextElement
-import net.bewis09.bewisclient.drawable.renderables.ThemeButton
-import net.bewis09.bewisclient.drawable.renderables.VerticalScrollGrid
+import net.bewis09.bewisclient.drawable.renderables.components.Plane
+import net.bewis09.bewisclient.drawable.renderables.components.TextElement
+import net.bewis09.bewisclient.drawable.renderables.components.ThemeButton
+import net.bewis09.bewisclient.drawable.renderables.components.VerticalScrollGrid
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
-import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.GeneralSettings
+import net.bewis09.bewisclient.game.translations.Translation
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
 
 open class SidebarCategory(val id: Identifier, val name: Translation, val renderable: Renderable) {
-    constructor(id: Identifier, name: String, renderable: Renderable) : this(id, Translation(id.namespace, "menu.category."+id.path, name), renderable)
+    constructor(id: Identifier, name: String, renderable: Renderable) : this(id, Translation(id.namespace, "menu.category." + id.path, name), renderable)
     constructor(id: Identifier, name: String, settings: List<Renderable>) : this(id, name, VerticalScrollGrid({ settings.map { it.setHeight(90) } }, 5, 80))
 
     operator fun invoke(): ThemeButton {

@@ -7,24 +7,20 @@ import net.bewis09.bewisclient.common.Util
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.then
 import net.bewis09.bewisclient.data.Constants
-import net.bewis09.bewisclient.drawable.Animator
+import net.bewis09.bewisclient.drawable.*
 import net.bewis09.bewisclient.drawable.ImageIdentifier.iconIdentifier
-import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.SettingStructure
-import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
-import net.bewis09.bewisclient.drawable.renderables.*
+import net.bewis09.bewisclient.drawable.minecraft.RenderableScreen
+import net.bewis09.bewisclient.drawable.renderables.components.*
 import net.bewis09.bewisclient.drawable.renderables.options_structure.SidebarCategory
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawingInterface.Companion.DEFAULT_FONT
 import net.bewis09.bewisclient.drawable.screen_drawing.pushAlpha
 import net.bewis09.bewisclient.drawable.screen_drawing.transform
-import net.bewis09.bewisclient.game.Translation
+import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.generated.BuildInfo
-import net.bewis09.bewisclient.impl.settings.GeneralSettings
-import net.bewis09.bewisclient.interfaces.BackgroundEffectProvider
-import net.bewis09.bewisclient.screen.RenderableScreen
-import net.bewis09.bewisclient.security.Security
+import net.bewis09.bewisclient.server.Security
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.settings.types.Setting
 import net.bewis09.bewisclient.version.setScreen
 import net.minecraft.network.chat.CommonComponents
@@ -124,7 +120,7 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
 
     fun renderVersionText(screenDrawing: ScreenDrawing) {
         screenDrawing.transform(width - 5f, height - 11f, 0.7f) {
-            screenDrawing.drawRightAlignedText("Bewisclient ${BuildInfo.VERSION} by Bewis09", 0, 0, if(isMinecrafty) Color.WHITE alpha 0.5f else GeneralSettings.getThemeColor(alpha = 0.5f))
+            screenDrawing.drawRightAlignedText("Bewisclient ${BuildInfo.VERSION} by Bewis09", 0, 0, if (isMinecrafty) Color.WHITE alpha 0.5f else GeneralSettings.getThemeColor(alpha = 0.5f))
         }
     }
 

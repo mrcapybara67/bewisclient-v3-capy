@@ -1,6 +1,6 @@
 package net.bewis09.bewisclient.core.mixin;
 
-import net.bewis09.bewisclient.impl.functionalities.BlockHighlight;
+import net.bewis09.bewisclient.features.utilities.BlockHighlight;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.util.ARGB;
 import org.spongepowered.asm.mixin.Mixin;

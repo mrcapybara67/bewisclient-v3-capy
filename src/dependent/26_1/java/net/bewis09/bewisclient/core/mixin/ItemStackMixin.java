@@ -1,7 +1,7 @@
 package net.bewis09.bewisclient.core.mixin;
 
-import net.bewis09.bewisclient.impl.functionalities.HeldItemTooltip;
-import net.bewis09.bewisclient.impl.widget.InventoryWidget;
+import net.bewis09.bewisclient.features.utilities.HeldItemTooltip;
+import net.bewis09.bewisclient.widget.impl.InventoryWidget;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;

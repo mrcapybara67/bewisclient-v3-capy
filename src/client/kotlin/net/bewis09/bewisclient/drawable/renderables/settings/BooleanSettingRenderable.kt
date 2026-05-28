@@ -1,9 +1,9 @@
 package net.bewis09.bewisclient.drawable.renderables.settings
 
-import net.bewis09.bewisclient.drawable.renderables.ResetButton
-import net.bewis09.bewisclient.drawable.renderables.Switch
+import net.bewis09.bewisclient.drawable.renderables.components.ResetButton
+import net.bewis09.bewisclient.drawable.renderables.components.Switch
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.game.Translation
+import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.types.Setting
 
 class BooleanSettingRenderable(val title: Translation, val description: Translation?, val setting: Setting<Boolean>) : SettingRenderable(description, 22) {

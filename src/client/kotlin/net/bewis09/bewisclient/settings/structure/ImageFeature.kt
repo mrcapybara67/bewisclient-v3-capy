@@ -3,8 +3,8 @@ package net.bewis09.bewisclient.settings.structure
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.GeneralSettings
+import net.bewis09.bewisclient.game.translations.Translation
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
 
 abstract class ImageFeature(val image: String, text: Translation) : Feature(text) {
     val identifier = createIdentifier("bewisclient", "textures/gui/functionalities/$image.png")

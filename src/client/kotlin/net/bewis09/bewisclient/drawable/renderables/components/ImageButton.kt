@@ -1,0 +1,37 @@
+package net.bewis09.bewisclient.drawable.renderables.components
+
+import net.bewis09.bewisclient.common.Identifier
+import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
+import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.version.setCursorPointer
+import net.minecraft.network.chat.Component
+
+open class ImageButton(val image: Identifier, val onClick: (ImageButton) -> Unit, tooltip: Component? = null, val small: Boolean = false) : TooltipHoverable(tooltip) {
+    constructor(image: Identifier, onClick: (ImageButton) -> Unit) : this(image, onClick, null, false)
+
+    var imageColor: () -> Color = { Color.WHITE }
+    var imagePadding: Int = 8
+
+    override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
+        super.render(screenDrawing, mouseX, mouseY)
+
+        if (isMouseOver(mouseX.toDouble(), mouseY.toDouble()))
+            screenDrawing.setCursorPointer()
+
+        if (small) {
+            SelectiveScreenDrawer.renderSmallButtonBackground(screenDrawing, hoverFactor, 0f, x, y, width, height, 1f, false, mouseX, mouseY)
+        } else {
+            SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverFactor, 0f, x, y, width, height, 1f, false, mouseX, mouseY)
+        }
+
+        screenDrawing.drawTexture(image, x + imagePadding, y + imagePadding, width - imagePadding * 2, height - imagePadding * 2, GeneralSettings.getTextThemeColor())
+    }
+
+    override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean = onClick(this).let { true }
+
+    fun setImageColor(color: () -> Color): ImageButton = apply { imageColor = color }
+
+    fun setImagePadding(padding: Int): ImageButton = apply { imagePadding = padding }
+}

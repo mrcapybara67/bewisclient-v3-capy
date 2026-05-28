@@ -4,8 +4,8 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
 import net.bewis09.bewisclient.drawable.renderables.settings.BooleanSettingRenderable
 import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
-import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.settings.RenderableCreator
+import net.bewis09.bewisclient.game.translations.Translation
+import net.bewis09.bewisclient.settings.logic.RenderableCreator
 import net.bewis09.bewisclient.util.boolean
 
 class BooleanSetting : Setting<Boolean>, RenderableCreator<BooleanSettingRenderable> {

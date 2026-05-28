@@ -5,8 +5,8 @@ import com.google.gson.JsonObject
 import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.settings.ColorFaderSettingRenderable
 import net.bewis09.bewisclient.drawable.renderables.settings.ColorSettingRenderable
-import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.settings.RenderableCreator
+import net.bewis09.bewisclient.game.translations.Translation
+import net.bewis09.bewisclient.settings.logic.RenderableCreator
 import net.bewis09.bewisclient.util.color.ColorSaver
 
 /**

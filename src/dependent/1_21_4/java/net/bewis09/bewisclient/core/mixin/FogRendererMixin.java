@@ -1,9 +1,8 @@
 package net.bewis09.bewisclient.core.mixin;
 
 import com.mojang.blaze3d.shaders.FogShape;
-import net.bewis09.bewisclient.impl.BetterVisibilityImpl;
-import net.bewis09.bewisclient.impl.FogData;
-import net.bewis09.bewisclient.impl.settings.functionalities.BetterVisibilitySettings;
+import net.bewis09.bewisclient.features.utilities.BetterVisibility;
+import net.bewis09.bewisclient.features.utilities.FogData;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.FogParameters;
 import net.minecraft.client.renderer.FogRenderer;
@@ -27,7 +26,7 @@ public abstract class FogRendererMixin {
 
     @Inject(method = "setupFog", at = @At("RETURN"), cancellable = true)
     private static void bewisclient$applyFog(Camera camera, FogRenderer.FogMode fogMode, Vector4f color, float viewDistance, boolean thickenFog, float tickDelta, CallbackInfoReturnable<FogParameters> cir) {
-        if(!BetterVisibilitySettings.INSTANCE.getEnabled().get()) return;
+        if(!BetterVisibility.INSTANCE.getEnabled().get()) return;
 
         FogParameters original = cir.getReturnValue();
         if (original == null || original == FogParameters.NO_FOG) return;
@@ -36,15 +35,15 @@ public abstract class FogRendererMixin {
         FogData fogData = new FogData(original.start(), original.end());
 
         if (cameraSubmersionType == FogType.LAVA) {
-            BetterVisibilityImpl.INSTANCE.applyFogModifier("lava", fogData, viewDistance);
+            BetterVisibility.INSTANCE.applyFogModifier("lava", fogData, viewDistance);
         } else if (cameraSubmersionType == FogType.POWDER_SNOW) {
-            BetterVisibilityImpl.INSTANCE.applyFogModifier("powder_snow", fogData, viewDistance);
+            BetterVisibility.INSTANCE.applyFogModifier("powder_snow", fogData, viewDistance);
         } else if (getPriorityFogFunction(camera.getEntity(), tickDelta) != null) {
             return;
         } else if (cameraSubmersionType == FogType.WATER) {
-            BetterVisibilityImpl.INSTANCE.applyFogModifier("water", fogData, viewDistance);
+            BetterVisibility.INSTANCE.applyFogModifier("water", fogData, viewDistance);
         } else if (thickenFog) {
-            BetterVisibilityImpl.INSTANCE.applyFogModifier("atmospheric", fogData, viewDistance);
+            BetterVisibility.INSTANCE.applyFogModifier("atmospheric", fogData, viewDistance);
         } else {
             return;
         }

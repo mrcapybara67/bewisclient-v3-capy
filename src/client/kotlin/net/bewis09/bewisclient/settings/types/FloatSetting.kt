@@ -4,9 +4,9 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
 import net.bewis09.bewisclient.drawable.renderables.settings.FloatSettingRenderable
 import net.bewis09.bewisclient.drawable.renderables.settings.IntegerSettingRenderable
-import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.interfaces.SettingInterface
-import net.bewis09.bewisclient.settings.RenderableCreator
+import net.bewis09.bewisclient.game.translations.Translation
+import net.bewis09.bewisclient.settings.logic.RenderableCreator
+import net.bewis09.bewisclient.settings.logic.SettingInterface
 import net.bewis09.bewisclient.util.float
 import net.bewis09.bewisclient.util.number.Precision
 

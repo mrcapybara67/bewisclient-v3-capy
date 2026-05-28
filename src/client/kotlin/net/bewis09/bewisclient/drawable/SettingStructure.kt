@@ -1,19 +1,19 @@
 package net.bewis09.bewisclient.drawable
 
 import net.bewis09.bewisclient.api.APIEntrypointLoader
-import net.bewis09.bewisclient.cosmetics.CosmeticLoader
+import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.cosmetics.CosmeticType
-import net.bewis09.bewisclient.cosmetics.drawable.SelectCapeElement
-import net.bewis09.bewisclient.drawable.renderables.*
-import net.bewis09.bewisclient.drawable.renderables.elements.ExtensionListRenderable
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
+import net.bewis09.bewisclient.drawable.renderables.components.*
+import net.bewis09.bewisclient.drawable.renderables.impl.ExtensionListRenderable
+import net.bewis09.bewisclient.drawable.renderables.impl.SelectCapeElement
 import net.bewis09.bewisclient.drawable.renderables.options_structure.HomePlane
 import net.bewis09.bewisclient.drawable.renderables.options_structure.SidebarCategory
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
-import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.GeneralSettings
-import net.bewis09.bewisclient.common.createIdentifier
-import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
+import net.bewis09.bewisclient.features.cosmetics.CosmeticLoader
+import net.bewis09.bewisclient.game.translations.Translation
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.settings.structure.Feature
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.widget.WidgetLoader

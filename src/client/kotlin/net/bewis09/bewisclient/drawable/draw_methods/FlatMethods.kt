@@ -5,7 +5,7 @@ import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.common.within
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.transform
-import net.bewis09.bewisclient.impl.settings.GeneralSettings
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import kotlin.math.abs
 
 object FlatMethods : DrawMethods {

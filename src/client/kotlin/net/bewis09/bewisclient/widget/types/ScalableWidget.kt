@@ -2,7 +2,7 @@ package net.bewis09.bewisclient.widget.types
 
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.impl.settings.DefaultWidgetSettings
+import net.bewis09.bewisclient.settings.impl.DefaultWidgetSettings
 import net.bewis09.bewisclient.settings.types.FloatSetting
 import net.bewis09.bewisclient.widget.Widget
 

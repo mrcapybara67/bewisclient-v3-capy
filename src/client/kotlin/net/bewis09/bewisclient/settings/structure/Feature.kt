@@ -6,19 +6,15 @@ import net.bewis09.bewisclient.drawable.Animator
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
-import net.bewis09.bewisclient.drawable.renderables.Hoverable
-import net.bewis09.bewisclient.drawable.renderables.Plane
-import net.bewis09.bewisclient.drawable.renderables.TextElement
-import net.bewis09.bewisclient.drawable.renderables.TooltipHoverableText
-import net.bewis09.bewisclient.drawable.renderables.VerticalAlignScrollPlane
+import net.bewis09.bewisclient.drawable.renderables.components.*
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.renderables.settings.BooleanSettingRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.pushColor
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
-import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.GeneralSettings
+import net.bewis09.bewisclient.game.translations.Translation
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.settings.types.ObjectSetting
 
 abstract class Feature(val title: Translation) : ObjectSetting() {

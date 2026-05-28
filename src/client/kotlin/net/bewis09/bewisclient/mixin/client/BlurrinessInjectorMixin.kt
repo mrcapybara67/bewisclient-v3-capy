@@ -1,8 +1,8 @@
 package net.bewis09.bewisclient.mixin.client
 
-import net.bewis09.bewisclient.impl.settings.GeneralSettings.blurBackground
-import net.bewis09.bewisclient.interfaces.BackgroundEffectProvider
-import net.bewis09.bewisclient.screen.RenderableScreen
+import net.bewis09.bewisclient.drawable.BackgroundEffectProvider
+import net.bewis09.bewisclient.drawable.minecraft.RenderableScreen
+import net.bewis09.bewisclient.settings.impl.GeneralSettings.blurBackground
 import net.bewis09.bewisclient.version.getScreen
 import net.minecraft.client.Options
 import org.spongepowered.asm.mixin.Mixin

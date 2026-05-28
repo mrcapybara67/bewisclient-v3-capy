@@ -4,15 +4,15 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.color
+import net.bewis09.bewisclient.common.toText
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.Translations
-import net.bewis09.bewisclient.drawable.renderables.*
+import net.bewis09.bewisclient.drawable.renderables.components.*
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.GeneralSettings
+import net.bewis09.bewisclient.game.translations.Translation
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.util.number.Precision
 import net.bewis09.bewisclient.util.string
-import net.bewis09.bewisclient.common.toText
 import net.minecraft.network.chat.Component
 
 open class StaticColorSaver : ColorSaver {
@@ -108,9 +108,9 @@ open class StaticColorSaver : ColorSaver {
                     x + height + 6, y + 11, width - height - 6, 14
                 )
             )
-            addRenderable(Rectangle{if (isMinecrafty) Color.WHITE alpha 0.3f else GeneralSettings.getThemeColor(alpha = 0.3f)}(x + height + 5, y + 30, width - height - 5, 1))
+            addRenderable(Rectangle { if (isMinecrafty) Color.WHITE alpha 0.3f else GeneralSettings.getThemeColor(alpha = 0.3f) }(x + height + 5, y + 30, width - height - 5, 1))
             addRenderable(ColorButton(x + height + 5, y + 36, 27, 27, { get().getColor() }, String.format("#%06X", get().getColor().argb).toText()))
-            addRenderable(Rectangle{if (isMinecrafty) Color.WHITE alpha 0.3f else GeneralSettings.getThemeColor(alpha = 0.3f)}(x + height + 37, y + 36, 1, 27))
+            addRenderable(Rectangle { if (isMinecrafty) Color.WHITE alpha 0.3f else GeneralSettings.getThemeColor(alpha = 0.3f) }(x + height + 37, y + 36, 1, 27))
 
             addRenderable(
                 HorizontalScrollGrid({

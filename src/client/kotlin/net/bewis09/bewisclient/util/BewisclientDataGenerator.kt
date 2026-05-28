@@ -1,7 +1,8 @@
 package net.bewis09.bewisclient.util
 
 import net.bewis09.bewisclient.common.FabricDataOutput
-import net.fabricmc.fabric.api.datagen.v1.*
+import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider
 import net.minecraft.core.HolderLookup
 import java.util.concurrent.CompletableFuture

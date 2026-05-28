@@ -1,7 +1,6 @@
 package net.bewis09.bewisclient.core.mixin;
 
-import net.bewis09.bewisclient.impl.BetterVisibilityImpl;
-import net.bewis09.bewisclient.impl.functionalities.BetterVisibility;
+import net.bewis09.bewisclient.features.utilities.BetterVisibility;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.fog.FogData;
@@ -30,10 +29,10 @@ public abstract class FogRendererMixin {
         float viewDistance = (float)(Minecraft.getInstance().options.getEffectiveRenderDistance() * 16);
 
         if (cameraSubmersionType == FogType.LAVA) {
-            BetterVisibilityImpl.INSTANCE.applyFogModifier("lava", fogData, viewDistance);
+            BetterVisibility.INSTANCE.applyFogModifier("lava", fogData, viewDistance);
             return fogData.environmentalStart;
         } else if (cameraSubmersionType == FogType.POWDER_SNOW) {
-            BetterVisibilityImpl.INSTANCE.applyFogModifier("powder_snow", fogData, viewDistance);
+            BetterVisibility.INSTANCE.applyFogModifier("powder_snow", fogData, viewDistance);
             return fogData.environmentalStart;
         }
 
@@ -42,9 +41,9 @@ public abstract class FogRendererMixin {
         }
 
         if (cameraSubmersionType == FogType.WATER) {
-            BetterVisibilityImpl.INSTANCE.applyFogModifier("water", fogData, viewDistance);
+            BetterVisibility.INSTANCE.applyFogModifier("water", fogData, viewDistance);
         } else if (getFogType(camera) == FogType.ATMOSPHERIC) {
-            BetterVisibilityImpl.INSTANCE.applyFogModifier("atmospheric", fogData, viewDistance);
+            BetterVisibility.INSTANCE.applyFogModifier("atmospheric", fogData, viewDistance);
         }
         return fogData.environmentalStart;
     }

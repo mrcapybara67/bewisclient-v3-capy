@@ -1,11 +1,11 @@
 package net.bewis09.bewisclient.drawable.renderables.settings
 
-import net.bewis09.bewisclient.drawable.renderables.ColorInfoButton
-import net.bewis09.bewisclient.drawable.renderables.ResetButton
+import net.bewis09.bewisclient.drawable.renderables.components.ColorInfoButton
+import net.bewis09.bewisclient.drawable.renderables.components.ResetButton
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.util.color.ColorSaver
+import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.types.Setting
+import net.bewis09.bewisclient.util.color.ColorSaver
 
 class ColorSettingRenderable(val title: Translation, val description: Translation?, val setting: Setting<ColorSaver>, val types: Array<String>) : SettingRenderable(description, 22) {
     val colorInfoButton = ColorInfoButton(

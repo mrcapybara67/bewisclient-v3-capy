@@ -1,6 +1,6 @@
 package net.bewis09.bewisclient.core.mixin;
 
-import net.bewis09.bewisclient.impl.functionalities.PumpkinOverlay;
+import net.bewis09.bewisclient.features.utilities.PumpkinOverlay;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.equipment.Equippable;
 import org.spongepowered.asm.mixin.Mixin;

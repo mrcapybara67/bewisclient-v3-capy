@@ -1,0 +1,181 @@
+package net.bewis09.bewisclient.widget.impl
+
+import com.mojang.blaze3d.platform.InputConstants
+import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.common.staticFun
+import net.bewis09.bewisclient.drawable.Renderable
+import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
+import net.bewis09.bewisclient.drawable.renderables.screen.HudEditScreen
+import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
+import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
+import net.bewis09.bewisclient.drawable.screen_drawing.translate
+import net.bewis09.bewisclient.settings.impl.DefaultWidgetSettings
+import net.bewis09.bewisclient.settings.types.BooleanSetting
+import net.bewis09.bewisclient.settings.types.ColorSetting
+import net.bewis09.bewisclient.util.color.StaticColorSaver
+import net.bewis09.bewisclient.version.isKeyPressed
+import net.bewis09.bewisclient.widget.logic.RelativePosition
+import net.bewis09.bewisclient.widget.logic.WidgetPosition
+import net.bewis09.bewisclient.widget.types.LineWidget
+import net.bewis09.bewisclient.widget.types.ScalableWidget
+import net.minecraft.client.KeyMapping
+import org.lwjgl.glfw.GLFW
+
+object KeyWidget : ScalableWidget(
+    createIdentifier("bewisclient", "key_widget"), "Key Widget", "Displays your movement and attack/use keys."
+) {
+    val backgroundColor = create("background_color", DefaultWidgetSettings.backgroundColor.cloneWithDefault())
+    val backgroundOpacity = create("background_opacity", DefaultWidgetSettings.backgroundOpacity.cloneWithDefault())
+    val borderColor = create("border_color", DefaultWidgetSettings.borderColor.cloneWithDefault())
+    val borderOpacity = create("border_opacity", DefaultWidgetSettings.borderOpacity.cloneWithDefault())
+    val textColor = create("text_color", DefaultWidgetSettings.textColor.cloneWithDefault())
+
+    val pressedBackgroundColor = color("pressed_background_color", StaticColorSaver(Color.LIGHT_GRAY), *ColorSetting.ALL)
+    val pressedBackgroundOpacity = create("pressed_background_opacity", DefaultWidgetSettings.backgroundOpacity.cloneWithDefault())
+    val pressedBorderColor = color("pressed_border_color", StaticColorSaver(Color.LIGHT_GRAY), *ColorSetting.ALL)
+    val pressedBorderOpacity = create("pressed_border_opacity", DefaultWidgetSettings.borderOpacity.cloneWithDefault())
+    val pressedTextColor = color("pressed_text_color", StaticColorSaver(Color.GRAY), *ColorSetting.ALL)
+
+    val shadow = create("shadow", DefaultWidgetSettings.shadow.cloneWithDefault())
+    val paddingSize = int("padding_size", 5, 0, 10)
+    val borderRadius = create("border_radius", DefaultWidgetSettings.borderRadius.cloneWithDefault())
+    val gap = int("gap", 2, 0, 20)
+
+    val showMovementKeys: BooleanSetting = boolean("show_movement_keys", true) { _, new ->
+        if (!showAttackUseKeys.get() && !showJumpKey.get() && new == false) showAttackUseKeys.set(true)
+    }
+    val showAttackUseKeys: BooleanSetting = boolean("show_attack_use_keys", true) { _, new ->
+        if (!showMovementKeys.get() && !showJumpKey.get() && new == false) showMovementKeys.set(true)
+    }
+    val showJumpKey: BooleanSetting = boolean("show_jump_key", true) { _, new ->
+        if (!showAttackUseKeys.get() && !showMovementKeys.get() && new == false) showMovementKeys.set(true)
+    }
+
+    val showCPS = boolean("show_cps", false)
+
+    override fun defaultPosition(): WidgetPosition = RelativePosition("bewisclient:biome_widget", "top")
+
+    override fun render(screenDrawing: ScreenDrawing) {
+        val paddingSize = paddingSize.get()
+
+        val topSize = 9 + (paddingSize + 2) * 2
+
+        val bottomHeight = 9 + paddingSize * 2
+
+        val totalWidth = topSize * 3 + gap.get() * 2
+        val middleWidth = (totalWidth - gap.get()) / 2
+
+        var y = 0
+
+        if (showMovementKeys.get()) {
+            renderKey(screenDrawing, topSize + gap.get(), 0, topSize, topSize, client.options.keyUp)
+            renderKey(screenDrawing, 0, topSize + gap.get(), topSize, topSize, client.options.keyLeft)
+            renderKey(screenDrawing, topSize + gap.get(), topSize + gap.get(), topSize, topSize, client.options.keyDown)
+            renderKey(screenDrawing, (topSize + gap.get()) * 2, topSize + gap.get(), topSize, topSize, client.options.keyRight)
+            y += (topSize + gap.get()) * 2
+        }
+
+        if (showAttackUseKeys.get()) {
+            if (showCPS.get()) {
+                renderKey(screenDrawing, 0, y, middleWidth, bottomHeight, CPSWidget.getCPSCount(CPSWidget.leftMouseList).toString() + " L", isPressed(client.options.keyAttack))
+                renderKey(screenDrawing, totalWidth - middleWidth, y, middleWidth, bottomHeight, CPSWidget.getCPSCount(CPSWidget.rightMouseList).toString() + " R", isPressed(client.options.keyUse))
+            } else {
+                renderKey(screenDrawing, 0, y, middleWidth, bottomHeight, client.options.keyAttack)
+                renderKey(screenDrawing, totalWidth - middleWidth, y, middleWidth, bottomHeight, client.options.keyUse)
+            }
+
+            y += bottomHeight + gap.get()
+        }
+
+        if (showJumpKey.get()) renderKey(screenDrawing, 0, y, totalWidth, bottomHeight, client.options.keyJump)
+    }
+
+    fun renderKey(screenDrawing: ScreenDrawing, x: Int, y: Int, width: Int, height: Int, keyBinding: KeyMapping) {
+        renderKey(screenDrawing, x, y, width, height, keyBinding.getKeyText(), isPressed(keyBinding))
+    }
+
+    fun isPressed(keyBinding: KeyMapping): Boolean {
+        val c = util.getCurrentRenderableScreen() ?: return keyBinding.isDown
+        val d = c.renderable as? HudEditScreen ?: return keyBinding.isDown
+
+        val key = keyBinding.key
+
+        if (key.type == InputConstants.Type.KEYSYM) return client.isKeyPressed(key.value)
+        if (key.type == InputConstants.Type.MOUSE) return d.mouseMap[key.value] == true
+        return keyBinding.isDown
+    }
+
+    fun KeyMapping.getKeyText(): String = when (this.key.value) {
+        GLFW.GLFW_MOUSE_BUTTON_LEFT -> "LMB"
+        GLFW.GLFW_MOUSE_BUTTON_RIGHT -> "RMB"
+        else -> this.translatedKeyMessage.string
+    }
+
+    fun renderKey(screenDrawing: ScreenDrawing, x: Int, y: Int, width: Int, height: Int, text: String, pressed: Boolean) {
+        val textColor = (if (pressed) pressedTextColor else textColor).get().getColor()
+        val backgroundColor = (if (pressed) pressedBackgroundColor else backgroundColor).get().getColor()
+        val backgroundOpacity = (if (pressed) pressedBackgroundOpacity else backgroundOpacity).get()
+        val borderColor = (if (pressed) pressedBorderColor else borderColor).get().getColor()
+        val borderOpacity = (if (pressed) pressedBorderOpacity else borderOpacity).get()
+        val borderRadius = borderRadius.get()
+
+        screenDrawing.fillWithBorderRounded(
+            x, y, width, height, borderRadius, backgroundColor alpha backgroundOpacity, borderColor alpha borderOpacity
+        )
+
+        screenDrawing.translate(0f, height / 2f - screenDrawing.getTextHeight() / 2f + 1f) {
+            screenDrawing.drawCenteredText(text, x + width / 2 + 1, y, textColor, shadow.get())
+        }
+    }
+
+    override fun getWidth(): Int {
+        val paddingSize = paddingSize.get()
+
+        val elementHeight = 9 + (paddingSize + 2) * 2
+
+        return elementHeight * 3 + gap.get() * 2
+    }
+
+    override fun getHeight(): Int {
+        val paddingSize = paddingSize.get()
+        val topSize = 9 + (paddingSize + 2) * 2
+        val bottomHeight = 9 + paddingSize * 2
+
+        var y = 0
+
+        if (showMovementKeys.get()) y += (topSize + gap.get()) * 2
+        if (showAttackUseKeys.get()) y += bottomHeight + gap.get()
+        if (showJumpKey.get()) y += bottomHeight
+
+        return y
+    }
+
+    override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
+        list.add(
+            MultipleBooleanSettingsRenderable(
+                createTranslation("keys", "Select which keys should be shown"), null, listOf(
+                    showMovementKeys.createRenderablePart("widget.key_widget.show_movement_keys", "Movement Keys"), showAttackUseKeys.createRenderablePart("widget.key_widget.show_attack_use_keys", "Attack/Use Keys"), showJumpKey.createRenderablePart("widget.key_widget.show_jump_key", "Jump Key")
+                ).staticFun()
+            ).addToQuickSettings("widget.key_widget.name", "shown_keys")
+        )
+
+        list.addRenderable(showCPS, "key_widget.show_cps", "Show CPS", "Shows your clicks per second (CPS) for the attack/use keys", "show_cps")
+        list.addRenderable(backgroundColor, "background", "Background", "Set the color of the widget's background")
+
+        list.add(LineWidget.backgroundColorRenderable(backgroundColor, backgroundOpacity))
+        list.add(LineWidget.borderColorRenderable(borderColor, borderOpacity))
+        list.add(LineWidget.textColorRenderable(textColor))
+
+        list.addColorRenderable(pressedBackgroundColor, pressedBackgroundOpacity, "pressed_background", "Pressed Background", "Set the color and opacity of the widget when a key is pressed")
+        list.addColorRenderable(pressedBorderColor, pressedBorderOpacity, "pressed_border", "Pressed Border", "Set the color and opacity of the widget's border when a key is pressed")
+        list.addRenderable(pressedTextColor, "pressed_text_color", "Pressed Text Color", "Set the color of the text in the widget when a key is pressed")
+
+        list.add(LineWidget.shadowRenderable(shadow))
+        list.addRenderable(gap, "gap", "Gap", "Set the gap between the keys in the widget")
+        list.add(LineWidget.paddingSizeRenderable(paddingSize))
+        list.add(LineWidget.borderRadiusRenderable(borderRadius))
+
+        super.appendSettingsRenderables(list)
+    }
+}

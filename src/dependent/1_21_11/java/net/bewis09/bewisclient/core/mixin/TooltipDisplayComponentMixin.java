@@ -1,6 +1,6 @@
 package net.bewis09.bewisclient.core.mixin;
 
-import net.bewis09.bewisclient.impl.functionalities.HeldItemTooltip;
+import net.bewis09.bewisclient.features.utilities.HeldItemTooltip;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.component.TooltipDisplay;

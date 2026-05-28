@@ -8,7 +8,7 @@ import net.bewis09.bewisclient.drawable.renderables.settings.ColorFaderSettingRe
 import net.bewis09.bewisclient.drawable.renderables.settings.ColorSettingRenderable
 import net.bewis09.bewisclient.drawable.renderables.settings.IntegerSettingRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.impl.settings.DefaultWidgetSettings
+import net.bewis09.bewisclient.settings.impl.DefaultWidgetSettings
 import net.bewis09.bewisclient.settings.types.BooleanSetting
 import net.bewis09.bewisclient.settings.types.ColorSetting
 import net.bewis09.bewisclient.settings.types.FloatSetting

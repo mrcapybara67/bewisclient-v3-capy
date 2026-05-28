@@ -1,12 +1,14 @@
 package net.bewis09.bewisclient.drawable.renderables.settings
 
 import net.bewis09.bewisclient.common.alpha
-import net.bewis09.bewisclient.drawable.renderables.*
+import net.bewis09.bewisclient.drawable.renderables.components.ResetButton
+import net.bewis09.bewisclient.drawable.renderables.components.Switch
+import net.bewis09.bewisclient.drawable.renderables.components.TooltipHoverable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
-import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.GeneralSettings
-import net.bewis09.bewisclient.interfaces.SettingInterface
+import net.bewis09.bewisclient.game.translations.Translation
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.settings.logic.SettingInterface
 import net.minecraft.network.chat.Component
 
 class MultipleBooleanSettingsRenderable(

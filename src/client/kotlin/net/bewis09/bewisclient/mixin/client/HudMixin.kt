@@ -5,8 +5,8 @@ package net.bewis09.bewisclient.mixin.client
 import net.bewis09.bewisclient.version.GuiGraphics
 import net.bewis09.bewisclient.version.Hud
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.impl.functionalities.HeldItemTooltip
-import net.bewis09.bewisclient.impl.functionalities.Scoreboard
+import net.bewis09.bewisclient.features.utilities.HeldItemTooltip
+import net.bewis09.bewisclient.features.utilities.Scoreboard
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.minecraft.client.gui.Font
 import net.minecraft.world.item.ItemStack

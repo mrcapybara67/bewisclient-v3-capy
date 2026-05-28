@@ -35,7 +35,7 @@
     ],
     "bewisclient": [
       {
-        "value": "net.bewis09.bewisclient.impl.BewisclientSelfAPIEntrypoint",
+        "value": "net.bewis09.bewisclient.api.impl.BewisclientSelfAPIEntrypoint",
         "adapter": "kotlin"
       }
     ]

@@ -2,7 +2,7 @@
 
 package net.bewis09.bewisclient.mixin.client;
 
-import net.bewis09.bewisclient.impl.screenshot.ScreenshotSettings;
+import net.bewis09.bewisclient.features.screenshot.ScreenshotSettings;
 import net.minecraft.client.Screenshot;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Style;

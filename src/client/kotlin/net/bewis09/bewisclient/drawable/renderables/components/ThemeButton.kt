@@ -1,0 +1,66 @@
+package net.bewis09.bewisclient.drawable.renderables.components
+
+import kotlinx.atomicfu.AtomicRef
+import net.bewis09.bewisclient.drawable.Animator
+import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
+import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
+import net.bewis09.bewisclient.drawable.screen_drawing.transform
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.version.setCursorPointer
+import net.minecraft.network.chat.Component
+
+class ThemeButton : TooltipHoverable {
+    val text: Component
+    val selected: () -> Boolean
+    val onClick: (ThemeButton) -> Unit
+
+    constructor(text: Component, selected: () -> Boolean, onClick: (ThemeButton) -> Unit, tooltip: Component? = null) : super(tooltip) {
+        this.text = text
+        this.selected = selected
+        this.onClick = onClick
+    }
+
+    constructor(id: String, text: Component, selectedButtonRef: AtomicRef<String>, onClick: (ThemeButton) -> Unit, tooltip: Component? = null) : super(tooltip) {
+        this.text = text
+        this.selected = { selectedButtonRef.value == id }
+        this.onClick = {
+            selectedButtonRef.value = id
+            onClick(it)
+        }
+    }
+
+    constructor(id: String, text: Component, clickButton: AtomicRef<String>, onClick: (ThemeButton) -> Unit) : this(id, text, clickButton, onClick, null)
+
+    constructor(text: Component, onClick: (ThemeButton) -> Unit) {
+        this.text = text
+        this.selected = { clickAnimation.get() < 1f && clickAnimation.getWithoutInterpolation() == 0f }
+        this.onClick = onClick
+    }
+
+    val clickAnimation: Animator = Animator({ animationDuration }, Animator.EASE_IN_OUT, 1f)
+    val colorAnimation: Animator = Animator({ animationDuration }, Animator.EASE_IN_OUT, 0f)
+
+    override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
+        super.render(screenDrawing, mouseX, mouseY)
+        colorAnimation.set(if (selected()) 1f else 0f)
+        val click = if(isMinecrafty) 1f else clickAnimation.get()
+        SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverFactor, colorAnimation.get(), x, y, width, height, click, selected(), mouseX, mouseY)
+
+        if (isMouseOver(mouseX.toDouble(), mouseY.toDouble()))
+            screenDrawing.setCursorPointer()
+
+        screenDrawing.transform(x + width / 2f, y + height / 2f, 0.95f + 0.05f * click, 0.95f + 0.05f * click) {
+            screenDrawing.translate(0f, -screenDrawing.getTextHeight() / 2f)
+            screenDrawing.drawCenteredText(text, 0, 0, GeneralSettings.getTextThemeColor())
+        }
+    }
+
+    override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        if (!isMinecrafty)
+            colorAnimation.set(1f)
+        onClick(this)
+        if (!isMinecrafty)
+            clickAnimation.set(0f) { set(1f) }
+        return true
+    }
+}

@@ -2,17 +2,16 @@
 
 package net.bewis09.bewisclient.game
 
-import net.bewis09.bewisclient.version.TooltipComponentCallback
-import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
+import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.version.GuiGraphics
+import net.bewis09.bewisclient.version.TooltipComponentCallback
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent
 import net.minecraft.world.inventory.tooltip.TooltipComponent
 import net.minecraft.world.item.ItemStack
-import kotlin.collections.all
 
 class ShulkerBoxTooltipComponent(val data: Data) : ClientTooltipComponent {
     // @[1.21.1] () @[] (textRenderer: Font)
@@ -53,7 +52,7 @@ class ShulkerBoxTooltipComponent(val data: Data) : ClientTooltipComponent {
 
     companion object {
         fun of(color: Int?, array: Array<ItemStack>): Data? {
-            return Data(Color(color ?: 0x956896, 1f), array.also { if(it.all { a -> a.isEmpty }) return null } )
+            return Data(Color(color ?: 0x956896, 1f), array.also { if (it.all { a -> a.isEmpty }) return null })
         }
     }
 

@@ -1,6 +1,6 @@
 package net.bewis09.bewisclient.mixin.client
 
-import net.bewis09.bewisclient.impl.functionalities.EntityHighlight
+import net.bewis09.bewisclient.features.utilities.EntityHighlight
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.client.renderer.texture.OverlayTexture
 import org.spongepowered.asm.mixin.Mixin

@@ -1,12 +1,12 @@
 package net.bewis09.bewisclient.drawable.screen_drawing
 
-import net.bewis09.bewisclient.version.setFont
 import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.common.toText
-import net.minecraft.network.chat.Component
-import net.bewis09.bewisclient.common.Identifier
+import net.bewis09.bewisclient.version.setFont
 import net.bewis09.bewisclient.version.string
+import net.minecraft.network.chat.Component
 
 interface TextDrawing : RectDrawing {
     fun drawText(text: String, x: Int, y: Int, color: Color, font: Identifier? = this.overwrittenFont) {
@@ -74,14 +74,14 @@ interface TextDrawing : RectDrawing {
 
     fun drawCenteredText(text: Component, centerX: Int, y: Int, color: Color, font: Identifier? = this.overwrittenFont) {
         val textWidth = getTextWidth(text, font)
-        translate(-textWidth / 2f + if((font == ScreenDrawingInterface.BEWISCLIENT_FONT || (font == null && this.overwrittenFont == ScreenDrawingInterface.BEWISCLIENT_FONT)) && isMinecrafty) 1f else 0f, 0f) {
+        translate(-textWidth / 2f + if ((font == ScreenDrawingInterface.BEWISCLIENT_FONT || (font == null && this.overwrittenFont == ScreenDrawingInterface.BEWISCLIENT_FONT)) && isMinecrafty) 1f else 0f, 0f) {
             drawText(text.copy(), centerX, y, color, font)
         }
     }
 
     fun drawCenteredTextWithShadow(text: Component, centerX: Int, y: Int, color: Color, font: Identifier? = this.overwrittenFont) {
         val textWidth = getTextWidth(text.copy(), font)
-        translate(-textWidth / 2f + if((font == ScreenDrawingInterface.BEWISCLIENT_FONT || (font == null && this.overwrittenFont == ScreenDrawingInterface.BEWISCLIENT_FONT)) && isMinecrafty) 1f else 0f, 0f) {
+        translate(-textWidth / 2f + if ((font == ScreenDrawingInterface.BEWISCLIENT_FONT || (font == null && this.overwrittenFont == ScreenDrawingInterface.BEWISCLIENT_FONT)) && isMinecrafty) 1f else 0f, 0f) {
             drawTextWithShadow(text.copy(), centerX, y, color, font)
         }
     }

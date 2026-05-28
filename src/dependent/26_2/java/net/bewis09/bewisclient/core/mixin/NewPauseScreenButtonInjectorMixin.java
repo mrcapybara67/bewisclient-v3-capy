@@ -1,10 +1,10 @@
 package net.bewis09.bewisclient.core.mixin;
 
 import net.bewis09.bewisclient.common.UtilKt;
-import net.bewis09.bewisclient.drawable.TexturedButtonWidget;
+import net.bewis09.bewisclient.drawable.minecraft.TexturedButtonWidget;
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen;
-import net.bewis09.bewisclient.impl.settings.GeneralSettings;
-import net.bewis09.bewisclient.screen.RenderableScreen;
+import net.bewis09.bewisclient.settings.impl.GeneralSettings;
+import net.bewis09.bewisclient.drawable.minecraft.RenderableScreen;
 import net.bewis09.bewisclient.version.VersionCoreKt;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.GridLayout;

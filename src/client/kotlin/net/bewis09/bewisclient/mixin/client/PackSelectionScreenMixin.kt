@@ -1,14 +1,14 @@
 package net.bewis09.bewisclient.mixin.client
 
-import net.bewis09.bewisclient.drawable.TexturedButtonWidget
+import net.bewis09.bewisclient.drawable.minecraft.TexturedButtonWidget
 import net.bewis09.bewisclient.drawable.Translations.ADD_DATA_PACK
 import net.bewis09.bewisclient.drawable.Translations.ADD_RESOURCE_PACK
-import net.bewis09.bewisclient.impl.pack.Modrinth
-import net.bewis09.bewisclient.impl.pack.PackListScreen
-import net.bewis09.bewisclient.screen.RenderableScreen
+import net.bewis09.bewisclient.server.Modrinth
+import net.bewis09.bewisclient.drawable.renderables.screen.PackListScreen
+import net.bewis09.bewisclient.drawable.minecraft.RenderableScreen
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.Identifier
-import net.bewis09.bewisclient.impl.functionalities.PackAdder
+import net.bewis09.bewisclient.features.utilities.PackAdder
 import net.bewis09.bewisclient.version.setScreen
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.screens.Screen

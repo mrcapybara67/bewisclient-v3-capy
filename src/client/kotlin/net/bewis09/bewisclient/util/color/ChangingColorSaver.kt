@@ -3,18 +3,18 @@ package net.bewis09.bewisclient.util.color
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
 import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.Translations
-import net.bewis09.bewisclient.drawable.renderables.Fader
-import net.bewis09.bewisclient.drawable.renderables.ImageButton
-import net.bewis09.bewisclient.drawable.renderables.Rectangle
-import net.bewis09.bewisclient.drawable.renderables.TextElement
+import net.bewis09.bewisclient.drawable.renderables.components.Fader
+import net.bewis09.bewisclient.drawable.renderables.components.ImageButton
+import net.bewis09.bewisclient.drawable.renderables.components.Rectangle
+import net.bewis09.bewisclient.drawable.renderables.components.TextElement
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
-import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.GeneralSettings
+import net.bewis09.bewisclient.game.translations.Translation
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.util.Bewisclient
-import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.util.int
 import net.bewis09.bewisclient.util.number.Precision
 

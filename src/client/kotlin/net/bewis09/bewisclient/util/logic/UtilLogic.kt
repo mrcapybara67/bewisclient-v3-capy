@@ -1,12 +1,12 @@
 package net.bewis09.bewisclient.util.logic
 
-import net.bewis09.bewisclient.version.getScreen
-import net.bewis09.bewisclient.screen.RenderableScreen
 import net.bewis09.bewisclient.common.Identifier
+import net.bewis09.bewisclient.drawable.minecraft.RenderableScreen
+import net.bewis09.bewisclient.version.getScreen
 import net.minecraft.server.packs.resources.Resource
 import java.util.function.Predicate
 
-object UtilLogic: ClientInterface {
+object UtilLogic : ClientInterface {
     val scaleFactor
         get() = client.window.guiScale.toFloat().toInt()
 

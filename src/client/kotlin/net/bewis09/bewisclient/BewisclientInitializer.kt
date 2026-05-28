@@ -1,7 +1,7 @@
 package net.bewis09.bewisclient
 
-import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.util.EventEntrypoint
+import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.fabricmc.api.ClientModInitializer
 
 object BewisclientInitializer : ClientInterface, ClientModInitializer {

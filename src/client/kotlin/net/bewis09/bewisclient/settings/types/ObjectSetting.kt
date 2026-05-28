@@ -2,10 +2,10 @@ package net.bewis09.bewisclient.settings.types
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import net.bewis09.bewisclient.settings.logic.Settings
 import net.bewis09.bewisclient.util.color.ColorSaver
 import net.bewis09.bewisclient.util.jsonObject
 import net.bewis09.bewisclient.util.number.Precision
-import net.bewis09.bewisclient.settings.Settings
 
 open class ObjectSetting() : Setting<JsonObject>(JsonObject()) {
     val map: HashMap<String, Setting<*>> = hashMapOf()

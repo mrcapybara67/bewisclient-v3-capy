@@ -1,12 +1,12 @@
 package net.bewis09.bewisclient.drawable.renderables.settings
 
-import net.bewis09.bewisclient.drawable.renderables.Fader
-import net.bewis09.bewisclient.drawable.renderables.ResetButton
+import net.bewis09.bewisclient.drawable.renderables.components.Fader
+import net.bewis09.bewisclient.drawable.renderables.components.ResetButton
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
-import net.bewis09.bewisclient.game.Translation
-import net.bewis09.bewisclient.impl.settings.GeneralSettings
-import net.bewis09.bewisclient.interfaces.SettingInterface
+import net.bewis09.bewisclient.game.translations.Translation
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.settings.logic.SettingInterface
 import net.bewis09.bewisclient.util.number.Precision
 
 open class FaderSettingRenderable<T : Number>(val title: Translation, val description: Translation?, val setting: SettingInterface<T>, val precision: Precision, val parser: (original: Float) -> T) : SettingRenderable(description, 22) {

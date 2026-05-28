@@ -2,7 +2,7 @@ package net.bewis09.bewisclient.util.color
 
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.color
-import net.bewis09.bewisclient.game.Translation
+import net.bewis09.bewisclient.game.translations.Translation
 
 val colors = listOf(
     TranslatedColor(0xFF0000.color, Translation("color.red", "Red")),

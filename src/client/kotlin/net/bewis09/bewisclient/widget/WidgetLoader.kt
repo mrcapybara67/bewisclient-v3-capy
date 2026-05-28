@@ -1,11 +1,11 @@
 package net.bewis09.bewisclient.widget
 
 import net.bewis09.bewisclient.api.APIEntrypointLoader
-import net.bewis09.bewisclient.version.registerWidget
 import net.bewis09.bewisclient.drawable.renderables.screen.HudEditScreen
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.version.Profiler
+import net.bewis09.bewisclient.version.registerWidget
 
 /**
  * The entrypoint for the Bewisclient widget events.
@@ -23,7 +23,7 @@ object WidgetLoader : EventEntrypoint {
             registerWidget(
                 it.id
             ) { context ->
-                Profiler.push("widget_"+it.id.toString().replace(":", "_"))
+                Profiler.push("widget_" + it.id.toString().replace(":", "_"))
                 if (it.isShowing() && util.getCurrentRenderableScreen()?.renderable !is HudEditScreen) {
                     it.renderScaled(ScreenDrawing(context, client.font))
                 }

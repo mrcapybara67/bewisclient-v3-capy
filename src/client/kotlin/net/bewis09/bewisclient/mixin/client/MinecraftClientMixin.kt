@@ -1,7 +1,6 @@
 package net.bewis09.bewisclient.mixin.client
 
 import net.bewis09.bewisclient.version.GameLoadCookie
-import net.bewis09.bewisclient.mixin.EventEntrypointMixin.onMinecraftClientInitFinished
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.util.EventEntrypoint.Companion.onAllEventEntrypoints
 import net.minecraft.client.Minecraft
@@ -23,7 +22,7 @@ class MinecraftClientMixin {
 
     @Inject(at = [At("HEAD")], method = ["onGameLoadFinished"])
     private fun onInitFinished(gameLoadCookie: GameLoadCookie?, ci: CallbackInfo?) {
-        onMinecraftClientInitFinished()
+        onAllEventEntrypoints { e: EventEntrypoint -> e.onMinecraftClientInitFinished() }
     }
 
     @Inject(method = ["<init>"], at = [At(value = "INVOKE", target = "Lnet/minecraft/server/packs/resources/ReloadableResourceManager;registerReloadListener(Lnet/minecraft/server/packs/resources/PreparableReloadListener;)V")])

@@ -1,7 +1,7 @@
 package net.bewis09.bewisclient.mixin.client
 
-import net.bewis09.bewisclient.impl.functionalities.Fullbright.getNightVisionInstance
-import net.bewis09.bewisclient.impl.functionalities.Fullbright.hasNightVision
+import net.bewis09.bewisclient.features.utilities.Fullbright.getNightVisionInstance
+import net.bewis09.bewisclient.features.utilities.Fullbright.hasNightVision
 import net.minecraft.core.Holder
 import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.effect.MobEffectInstance

@@ -3,7 +3,7 @@
 package net.bewis09.bewisclient.mixin.client
 
 import com.mojang.blaze3d.platform.NativeImage
-import net.bewis09.bewisclient.impl.functionalities.EntityHighlight
+import net.bewis09.bewisclient.features.utilities.EntityHighlight
 import net.minecraft.client.renderer.texture.OverlayTexture
 import org.spongepowered.asm.mixin.Mixin
 import org.spongepowered.asm.mixin.injection.At

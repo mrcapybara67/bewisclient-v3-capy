@@ -2,7 +2,7 @@ package net.bewis09.bewisclient.core.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.bewis09.bewisclient.impl.functionalities.BlockHighlight;
+import net.bewis09.bewisclient.features.utilities.BlockHighlight;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.ShapeRenderer;
 import net.minecraft.world.phys.shapes.VoxelShape;

@@ -4,11 +4,11 @@ import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.options_structure.SidebarCategory
-import net.bewis09.bewisclient.game.Keybind
-import net.bewis09.bewisclient.impl.widget.TiwylaWidget
+import net.bewis09.bewisclient.game.keybinds.Keybind
+import net.bewis09.bewisclient.widget.impl.TiwylaWidget
 import net.bewis09.bewisclient.game.BewisclientResourcePack
 import net.bewis09.bewisclient.util.*
-import net.bewis09.bewisclient.settings.Settings
+import net.bewis09.bewisclient.settings.logic.Settings
 import net.bewis09.bewisclient.settings.structure.Feature
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.widget.Widget

@@ -1,7 +1,6 @@
 package net.bewis09.bewisclient.core.mixin;
 
-import com.mojang.authlib.minecraft.client.MinecraftClient;
-import net.bewis09.bewisclient.impl.settings.functionalities.PackAdderSettings;
+import net.bewis09.bewisclient.features.utilities.PackAdder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
@@ -25,6 +24,6 @@ public abstract class PackListWidgetMixin extends ObjectSelectionList<Transferab
 
     @Override
     public void updateSize(int width, HeaderAndFooterLayout layout) {
-        this.updateSizeAndPosition(width, (!PackAdderSettings.INSTANCE.isEnabled() || !Objects.equals(title.getString(), Component.translatable("pack.available.title").getString())) ? layout.getContentHeight() : layout.getContentHeight() - 20, layout.getHeaderHeight());
+        this.updateSizeAndPosition(width, (!PackAdder.INSTANCE.isEnabled() || !Objects.equals(title.getString(), Component.translatable("pack.available.title").getString())) ? layout.getContentHeight() : layout.getContentHeight() - 20, layout.getHeaderHeight());
     }
 }

@@ -1,8 +1,8 @@
 package net.bewis09.bewisclient.core.mixin;
 
-import net.bewis09.bewisclient.cosmetics.Cosmetic;
-import net.bewis09.bewisclient.cosmetics.CosmeticLoader;
 import net.bewis09.bewisclient.cosmetics.CosmeticType;
+import net.bewis09.bewisclient.features.cosmetics.Cosmetic;
+import net.bewis09.bewisclient.features.cosmetics.CosmeticLoader;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;

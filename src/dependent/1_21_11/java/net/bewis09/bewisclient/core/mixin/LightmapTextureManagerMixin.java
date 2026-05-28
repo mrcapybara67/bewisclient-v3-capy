@@ -1,6 +1,6 @@
 package net.bewis09.bewisclient.core.mixin;
 
-import net.bewis09.bewisclient.impl.functionalities.Fullbright;
+import net.bewis09.bewisclient.features.utilities.Fullbright;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.world.level.dimension.DimensionType;
 import org.spongepowered.asm.mixin.Mixin;

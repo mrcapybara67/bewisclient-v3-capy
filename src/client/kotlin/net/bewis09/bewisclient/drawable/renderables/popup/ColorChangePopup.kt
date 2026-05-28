@@ -2,12 +2,12 @@ package net.bewis09.bewisclient.drawable.renderables.popup
 
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
-import net.bewis09.bewisclient.drawable.renderables.Rectangle
-import net.bewis09.bewisclient.drawable.renderables.ThemeButton
+import net.bewis09.bewisclient.drawable.renderables.components.Rectangle
+import net.bewis09.bewisclient.drawable.renderables.components.ThemeButton
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.impl.settings.GeneralSettings
-import net.bewis09.bewisclient.interfaces.Gettable
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.util.color.ColorSaver
+import net.bewis09.bewisclient.util.interfaces.Gettable
 
 class ColorChangePopup(val state: Gettable<ColorSaver>, val onChange: (ColorSaver) -> Unit, val types: Array<String>) : Renderable(200, 100) {
     val buttons = types.map { type ->
