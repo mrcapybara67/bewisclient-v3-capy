@@ -25,7 +25,7 @@ object GeneralSettings : ObjectSetting() {
 
         setRenderableScreen(OptionScreen(1f, 1f).apply { changeCategory(SettingStructure.settingsCategory, true) })
     }
-    val autoUpdate = boolean("auto_update", true)
+    val autoUpdate = boolean("auto_update", System.getProperty("os.name").lowercase().contains("win"))
 
     fun getBackgroundColor(): Color = 0.3f within (Color.BLACK to backgroundColor.get().getColor()) alpha backgroundOpacity.get()
 

@@ -66,4 +66,11 @@ interface EventEntrypoint : ClientInterface {
     fun onClientTickStart() {
 
     }
+
+    /**
+     * Called when the game ends
+     */
+    fun onDestroy() {
+
+    }
 }

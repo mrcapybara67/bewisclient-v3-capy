@@ -1,3 +1,5 @@
+// @VersionReplacement
+
 package net.bewis09.bewisclient.mixin.client
 
 import net.bewis09.bewisclient.util.EventEntrypoint
@@ -28,5 +30,11 @@ class MinecraftClientMixin {
     @Inject(method = ["<init>"], at = [At(value = "INVOKE", target = "Lnet/minecraft/server/packs/resources/ReloadableResourceManager;registerReloadListener(Lnet/minecraft/server/packs/resources/PreparableReloadListener;)V")])
     fun registerResourceReloaders(args: GameConfig?, ci: CallbackInfo?) {
         this.resourceManager?.registerReloadListener(ResourceManagerReloadListener { onAllEventEntrypoints(EventEntrypoint::onResourcesReloaded) })
+    }
+
+    // @[26.1.2] "destroy" @[] "close"
+    @Inject(method = [/*[@]*/"close"/*[!@]*/], at = [At("HEAD")])
+    fun onDestroy(ci: CallbackInfo?) {
+        onAllEventEntrypoints(EventEntrypoint::onDestroy)
     }
 }

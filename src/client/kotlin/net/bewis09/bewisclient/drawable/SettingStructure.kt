@@ -28,7 +28,7 @@ object SettingStructure : ClientInterface {
     val utilities = APIEntrypointLoader.mapEntrypoint { it.getUtilities() }.flatten().map(Feature::createRenderable)
 
     val settings = VerticalAlignScrollPlane(
-        listOf(
+        listOfNotNull(
 //            OptionsMenuSettings.animationTime.createRenderable("menu.settings.animation_time", "Animation Time", "The time (in milliseconds) it takes for animations to complete"),
             GeneralSettings.blurBackground.createRenderable("menu.settings.blur_background", "Blur Background", "Whether to blur the background when opening menus").addToQuickSettings("menu.category.settings", "blur"),
             GeneralSettings.buttonInTitleScreen.createRenderable("menu.settings.button_in_title_screen", "Button in Title Screen", "Whether to show the Bewisclient button in the title screen").addToQuickSettings("menu.category.settings", "title"),
@@ -36,7 +36,9 @@ object SettingStructure : ClientInterface {
             GeneralSettings.themeColor.createRenderable("menu.settings.theme_color", "Theme Color", "The theme color used throughout the client").addToQuickSettings("menu.category.settings", "theme_color"),
             GeneralSettings.backgroundColor.createRenderableWithFader("menu.settings.background_color", "Background Color", "The background color used for menus. Reset to use the theme color.", GeneralSettings.backgroundOpacity).addToQuickSettings("menu.category.settings", "background"),
             GeneralSettings.minecraftyOptionsMenu.createRenderable("menu.settings.minecrafty_options_menu", "Minecrafty Options Menu", "Whether to use a Minecrafty style options menu instead of the default flat design"),
-            GeneralSettings.autoUpdate.createRenderable("menu.settings.auto_update", "Automatic Updates", "Whether to automatically check for updates and update the client when an update is found")
+            if (System.getProperty("os.name").lowercase().contains("win"))
+                GeneralSettings.autoUpdate.createRenderable("menu.settings.auto_update", "Automatic Updates", "Whether to automatically check for updates and update the client when an update is found")
+            else null
         ), 1
     )
 
