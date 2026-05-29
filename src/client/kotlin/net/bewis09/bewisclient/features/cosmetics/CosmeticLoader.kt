@@ -71,8 +71,8 @@ object CosmeticLoader : ObjectSetting(), EventEntrypoint {
     override fun onInitializeClient() {
         CommonCosmeticLoader.afterLoadData {
             catch {
-                val uuid = "83f0f68f-4756-43e5-ab09-85816e220225" ?: client.gameProfile.id
-                val specials: ByteArray? = requestWithOfflineFilePost(Constants.API_URL + "/startup", "specials.json", """{"uuid":"${uuid}"}""".toByteArray())
+                val uuid = client.gameProfile.id
+                val specials: ByteArray? = requestWithOfflineFilePost(Constants.API_URL + "/startup", "specials.json", """{"uuid":"$uuid"}""".toByteArray())
 
                 val specialData = catch { Gson().fromJson(specials?.decodeToString() ?: "[]", Array<SpecialEntry>::class.java) }
 

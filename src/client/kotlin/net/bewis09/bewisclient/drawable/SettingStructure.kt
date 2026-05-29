@@ -46,9 +46,9 @@ object SettingStructure : ClientInterface {
         listOf(
             CosmeticLoader.elytra.createRenderable("cosmetics.elytra", "Apply cape to elytra", "Some capes include a unique texture for the elytra, which can be disabled here if desired.")(x, y, width, 22),
             VerticalScrollGrid({
-                CosmeticLoader.cosmetics.filter {
-                    it.key.type == CosmeticType.CAPE && CosmeticLoader.allowedCosmetics.contains(it.key)
-                }.map { a -> SelectCapeElement(a.key, a.value) }
+                CosmeticLoader.allowedCosmetics.map { it to CosmeticLoader.cosmetics[it] }.filter {
+                    it.first.type == CosmeticType.CAPE && CosmeticLoader.allowedCosmetics.contains(it.first) && it.second != null
+                }.map { a -> SelectCapeElement(a.first, a.second!!) }
             }, 5, 65)(x, y + 27, width, height - 27)
         )
     }
