@@ -9,7 +9,7 @@ object DefaultWidgetSettings : ObjectSetting() {
     val backgroundOpacity = float("background_opacity", 0.5f, 0f, 1f, 0.01f, 2)
     val borderColor = color("border_color", StaticColorSaver(0f, 0f, 0f), ColorSetting.STATIC, ColorSetting.CHANGING, ColorSetting.THEME)
     val borderOpacity = float("border_opacity", 0f, 0f, 1f, 0.01f, 2)
-    val paddingSize = int("padding_size", 4, 0, 10)
+    val paddingSize = int("padding_size", 5, 0, 10)
     val lineSpacing = int("line_spacing", 2, 0, 20)
     val textColor = color("text_color", StaticColorSaver(1f, 1f, 1f), ColorSetting.STATIC, ColorSetting.CHANGING, ColorSetting.THEME)
     val borderRadius = int("border_radius", 0, 0, 20)

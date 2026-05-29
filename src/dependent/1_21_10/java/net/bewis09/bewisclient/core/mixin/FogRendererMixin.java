@@ -45,7 +45,7 @@ public abstract class FogRendererMixin {
 
         if (cameraSubmersionType == FogType.WATER) {
             BetterVisibility.INSTANCE.applyFogModifier("water", fogData, viewDistance);
-        } else if (getFogType(camera, bl) == FogType.ATMOSPHERIC) {
+        } else if (getFogType(camera, bl) == FogType.DIMENSION_OR_BOSS) {
             BetterVisibility.INSTANCE.applyFogModifier("atmospheric", fogData, viewDistance);
         }
         return fogData.environmentalStart;

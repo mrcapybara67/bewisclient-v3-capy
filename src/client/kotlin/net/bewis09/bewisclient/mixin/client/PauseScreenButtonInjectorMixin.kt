@@ -21,7 +21,7 @@ class PauseScreenButtonInjectorMixin(title: Component) : Screen(title), ClientIn
         if (buttonInGameScreen.get() && getModrinthVersion() < "26.2") addRenderableWidget(
             TexturedButtonWidget(
                 this.width / 2 + 106,
-                this.height / 4 + 56,
+                this.height / 4 + 57,
                 20,
                 20,
                 createIdentifier("bewisclient", "textures/gui/sprites/options_button.png"),

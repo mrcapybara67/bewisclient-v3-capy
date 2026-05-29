@@ -20,7 +20,8 @@ object Zoom : ImageFeature("zoom", Translation("menu.category.zoom", "Zoom")) {
 
     var factorAnimation = Animator({ if (instant.get()) 1 else 100 }, Animator.EASE_OUT, 1f)
 
-    override val enabledByDefault: Boolean = true
+    override val enabledByDefault: Boolean
+        get() = true
 
     override val settingRenderables: Array<Renderable> = arrayOf(
         smooth.createRenderable("zoom.smooth", "Smooth Zoom", "Enable or disable smooth zoom (Works as if smooth camera is enabled)").addToQuickSettings("menu.category.zoom", "smooth"),

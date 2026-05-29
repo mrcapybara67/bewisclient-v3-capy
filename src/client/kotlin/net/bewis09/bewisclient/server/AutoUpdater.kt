@@ -3,6 +3,7 @@ package net.bewis09.bewisclient.server
 import com.google.gson.Gson
 import net.bewis09.bewisclient.common.Util
 import Updater
+import net.bewis09.bewisclient.common.catch
 import net.bewis09.bewisclient.common.getModrinthVersion
 import net.bewis09.bewisclient.generated.BuildInfo
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
@@ -17,8 +18,10 @@ object AutoUpdater : EventEntrypoint {
 
     override fun onInitializeClient() {
         Util.nonCriticalIoPool().execute {
-            if (GeneralSettings.autoUpdate.get()) {
-                checkForUpdates()
+            catch {
+                if (GeneralSettings.autoUpdate.get()) {
+                    checkForUpdates()
+                }
             }
         }
     }

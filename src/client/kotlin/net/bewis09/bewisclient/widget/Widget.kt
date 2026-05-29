@@ -28,6 +28,9 @@ abstract class Widget(val id: Identifier, title: String, description: String) : 
 
     open fun isEnabledByDefault(): Boolean = true
 
+    override val enabledByDefault: Boolean
+        get() = isEnabledByDefault()
+
     open fun isHidden(): Boolean = false
 
     fun isShowing(): Boolean {

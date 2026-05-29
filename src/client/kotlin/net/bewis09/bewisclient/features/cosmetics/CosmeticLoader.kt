@@ -70,15 +70,18 @@ object CosmeticLoader : ObjectSetting(), EventEntrypoint {
 
     override fun onInitializeClient() {
         CommonCosmeticLoader.afterLoadData {
-            val specials: ByteArray? = requestWithOfflineFilePost(Constants.API_URL + "/startup", "specials.json", """{"uuid":"${client.gameProfile.id}"}""".toByteArray())
+            catch {
+                val uuid = "83f0f68f-4756-43e5-ab09-85816e220225" ?: client.gameProfile.id
+                val specials: ByteArray? = requestWithOfflineFilePost(Constants.API_URL + "/startup", "specials.json", """{"uuid":"${uuid}"}""".toByteArray())
 
-            val specialData = catch { Gson().fromJson(specials?.decodeToString() ?: "[]", Array<SpecialEntry>::class.java) }
+                val specialData = catch { Gson().fromJson(specials?.decodeToString() ?: "[]", Array<SpecialEntry>::class.java) }
 
-            cosmeticData?.forEach {
-                val identifier = it.getCosmetic() ?: return@forEach
-                if (it.default || specialData?.any { (id, type) -> id == identifier.id && type == identifier.type.id } == true) allowedCosmetics.add(identifier)
-                if (it.hasElytra) elytraCosmetics.add(identifier)
-                loadCosmetic(identifier, it.frames)
+                cosmeticData?.forEach {
+                    val identifier = it.getCosmetic() ?: return@forEach
+                    if (it.default || specialData?.any { (id, type) -> id == identifier.id && type == identifier.type.id } == true) allowedCosmetics.add(identifier)
+                    if (it.hasElytra) elytraCosmetics.add(identifier)
+                    loadCosmetic(identifier, it.frames)
+                }
             }
         }
     }

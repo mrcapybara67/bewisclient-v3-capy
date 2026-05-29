@@ -53,23 +53,24 @@ object ScreenshotElement : Renderable() {
 
     fun load() {
         Util.ioPool().execute {
-            val screenshotDir = client.gameDirectory.toPath().resolve("screenshots").toFile()
-
-            if (screenshotDir.exists() && screenshotDir.isDirectory) {
-                screenshotDir.listFiles()?.filter { it.isFile && (it.extension == "png") }?.sortedBy { it.name }?.apply {
-                    this.forEach {
-                        if (!contents.containsKey(it))
-                            contents[it] = ScreenshotFileData(null, null, false)
-                    }
-                    resize()
-                }?.forEach(::loadFileData)
-            }
+            val screenshotDir = client.gameDirectory.toPath().resolve("screenshots")
+            val screenshotFile = screenshotDir.toFile()
 
             while (true) {
                 catch {
+                    if (screenshotFile.exists() && screenshotFile.isDirectory) {
+                        screenshotFile.listFiles()?.filter { it.isFile && (it.extension == "png") }?.sortedBy { it.name }?.apply {
+                            this.forEach {
+                                if (!contents.containsKey(it))
+                                    contents[it] = ScreenshotFileData(null, null, false)
+                            }
+                            resize()
+                        }?.forEach(::loadFileData)
+                    }
+
                     val service = FileSystems.getDefault().newWatchService()
 
-                    client.gameDirectory.toPath().resolve("screenshots").register(
+                    screenshotDir.register(
                         service,
                         StandardWatchEventKinds.ENTRY_CREATE,
                         StandardWatchEventKinds.ENTRY_MODIFY,
@@ -83,7 +84,7 @@ object ScreenshotElement : Renderable() {
                         for (event in events) {
                             val kind = event.kind()
                             val fileName = event.context() as? Path ?: continue
-                            val file = screenshotDir.toPath().resolve(fileName).toFile()
+                            val file = screenshotDir.resolve(fileName).toFile()
                             if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
                                 if (file.isFile && (file.extension == "png") && !contents.containsKey(file)) {
                                     contents[file] = ScreenshotFileData(null, null, false)
