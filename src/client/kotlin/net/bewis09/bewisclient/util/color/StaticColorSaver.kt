@@ -6,7 +6,6 @@ import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.common.toText
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.components.element.Rectangle
 import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
 import net.bewis09.bewisclient.drawable.renderables.components.logic.TooltipHoverable
@@ -23,6 +22,7 @@ import net.minecraft.network.chat.Component
 open class StaticColorSaver(private val color: Color) : ColorSaver {
     companion object {
         val infoTranslation = Translation("color.static.info", "Static Color (Color: %s)")
+        val changeBrightnessText = Translation("menu.color.change_brightness", "Change Brightness")
 
         fun fromColorString(colorString: String): StaticColorSaver? {
             if (colorString.startsWith("#")) {
@@ -72,7 +72,7 @@ open class StaticColorSaver(private val color: Color) : ColorSaver {
         val fader = Fader({ get().getColor().brightness }, Precision(0f, 1f, 0.01f, 2)) { bri ->
             set(StaticColorSaver(get().getColor().withBrightness(bri)))
         }
-        val text = TextElement(Translations.CHANGE_BRIGHTNESS(), centered = true)
+        val text = TextElement(changeBrightnessText(), centered = true)
 
         override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
             renderRenderables(screenDrawing, mouseX, mouseY)

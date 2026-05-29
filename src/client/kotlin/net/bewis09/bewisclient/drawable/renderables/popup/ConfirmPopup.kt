@@ -9,7 +9,7 @@ import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.minecraft.network.chat.CommonComponents
 import net.minecraft.network.chat.Component
 
-class ConfirmPopup(val text: Component, val onConfirm: () -> Unit, confirmText: Component = CommonComponents.GUI_CONTINUE, cancelText: Component = CommonComponents.GUI_CANCEL) : Renderable(200, 100) {
+class ConfirmPopup(val text: Component, val onConfirm: () -> Unit, confirmText: Component = CommonComponents.GUI_CONTINUE, cancelText: Component = CommonComponents.GUI_CANCEL) : Renderable(200, 20) {
     val cancelButton = Button(cancelText) {
         OptionScreen.currentInstance?.closePopup()
     }

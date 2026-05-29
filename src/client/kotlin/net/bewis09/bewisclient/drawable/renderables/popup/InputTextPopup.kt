@@ -10,7 +10,7 @@ import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.minecraft.network.chat.CommonComponents
 import net.minecraft.network.chat.Component
 
-class InputTextPopup(val text: Component, val onConfirm: (text: String) -> Unit, val default: String = "", confirmText: Component = CommonComponents.GUI_CONTINUE, cancelText: Component = CommonComponents.GUI_CANCEL) : Renderable(200, 100) {
+class InputTextPopup(val text: Component, val onConfirm: (text: String) -> Unit, val default: String = "", confirmText: Component = CommonComponents.GUI_CONTINUE, cancelText: Component = CommonComponents.GUI_CANCEL) : Renderable(200, 20) {
     val input = Input(text = default)
 
     val cancelButton = Button(cancelText) {

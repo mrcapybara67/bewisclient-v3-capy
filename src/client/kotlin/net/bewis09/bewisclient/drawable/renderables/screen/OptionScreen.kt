@@ -73,6 +73,7 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
 
     companion object {
         var currentInstance: OptionScreen? = null
+        val modrinthButtonText = Translation("menu.pack.modrinth", "Modrinth")
     }
 
     val pageStack = mutableListOf(
@@ -160,7 +161,7 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
             addRenderable(MinecraftButton(CommonComponents.GUI_BACK) {
                 setScreen(null)
             }(width / 2 - 102, height / 2 + 50, 100, 20))
-            addRenderable(MinecraftButton(Translations.MODRINTH()) {
+            addRenderable(MinecraftButton(modrinthButtonText()) {
                 Util.getPlatform().openUri(Constants.MODRINTH_URL)
             }(width / 2 + 2, height / 2 + 50, 100, 20))
         }

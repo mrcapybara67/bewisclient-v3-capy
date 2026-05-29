@@ -5,7 +5,6 @@ import com.google.gson.JsonPrimitive
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.then
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.components.setting.Fader
 import net.bewis09.bewisclient.drawable.renderables.components.button.ResetButton
 import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
@@ -63,7 +62,7 @@ class ThemeColorSaver : ColorSaver {
         val fader = Fader({ get().getBrightness() }, Precision(0f, 1f, 0.01f, 2)) { brightness ->
             set(ThemeColorSaver(brightness))
         }
-        val text = TextElement({ Translations.CHANGE_BRIGHTNESS() }, centered = true)
+        val text = TextElement({ StaticColorSaver.changeBrightnessText() }, centered = true)
 
         override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
             renderRenderables(screenDrawing, mouseX, mouseY)

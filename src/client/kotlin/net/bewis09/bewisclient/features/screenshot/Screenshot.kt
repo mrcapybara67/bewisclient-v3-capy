@@ -3,7 +3,6 @@ package net.bewis09.bewisclient.features.screenshot
 import com.mojang.blaze3d.platform.NativeImage
 import net.bewis09.bewisclient.common.*
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.renderables.components.button.Button
 import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
@@ -256,6 +255,19 @@ fun loadTexture(file: File, nativeImage: NativeImage) {
 }
 
 class BigScreenshotViewElement(val file: File) : Renderable() {
+    companion object {
+        val copyButtonText = Translation("menu.screenshot.copy", "Copy")
+        val copyingButtonText = Translation("menu.screenshot.copying", "Copying...")
+        val copySuccessNotifText = Translation("menu.screenshot.copy_screenshot_success", "Copied screenshot to clipboard")
+        val copyFailedNotifText = Translation("menu.screenshot.copy_failed", "Copying Failed: Exit code %s")
+        val deleteSuccessNotifText = Translation("menu.screenshot.delete_screenshot_success", "Deleted screenshot")
+        val confirmDeletePopupText = Translation("menu.screenshot.confirm_delete", "Are you sure you want to delete this screenshot?")
+        val deleteButtonText = Translation("menu.screenshot.delete", "Delete")
+        val openButtonText = Translation("menu.screenshot.open", "Open")
+        val openFolderButtonText = Translation("menu.screenshot.open_folder", "Open Folder")
+        val deleteFailedNotifText = Translation("menu.screenshot.delete_failed", "Deleting failed")
+    }
+
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         if (isMinecrafty) {
             SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 0f, 0f, x, y, width, height - SelectiveScreenDrawer.getSideButtonHeight() - 5, 1f, mouseX, mouseY)
@@ -287,31 +299,31 @@ class BigScreenshotViewElement(val file: File) : Renderable() {
     override fun init() {
         internalHeight = (width - 2) * 9 / 16 + SelectiveScreenDrawer.getSideButtonHeight() + 7
 
-        addRenderable(Button(Translations.OPEN()) {
+        addRenderable(Button(openButtonText()) {
             Util.getPlatform().openFile(file)
         }(x, y + height - SelectiveScreenDrawer.getSideButtonHeight(), (width - 15) / 4, SelectiveScreenDrawer.getSideButtonHeight()))
-        addRenderable(Button(Translations.OPEN_FOLDER()) {
+        addRenderable(Button(openFolderButtonText()) {
             Util.getPlatform().openFile(file.parentFile)
         }(x + (width - 15) / 4 + 5, y + height - SelectiveScreenDrawer.getSideButtonHeight(), (width - 15) / 4, SelectiveScreenDrawer.getSideButtonHeight()))
-        addRenderable(Button(Translations.COPY()) { button ->
-            button.text = Translations.COPYING()
+        addRenderable(Button(copyButtonText()) { button ->
+            button.text = copyingButtonText()
             ProcessCreator.create(CopyImage::class.java, file.path) {
                 if (it != 0) {
                     println("Failed to copy image to clipboard, exit code: $it")
-                    NotificationManager.addNotification(SimpleTextNotification(Translations.COPY_FAILED(it)))
-                    button.text = Translations.COPY()
+                    NotificationManager.addNotification(SimpleTextNotification(copyFailedNotifText(it)))
+                    button.text = copyButtonText()
                 } else {
-                    NotificationManager.addNotification(SimpleTextNotification(Translations.COPY_SCREENSHOT_SUCCESS()))
-                    button.text = Translations.COPY()
+                    NotificationManager.addNotification(SimpleTextNotification(copySuccessNotifText()))
+                    button.text = copyButtonText()
                 }
             }
         }(x + width - 2 * (width - 15) / 4 - 5, y + height - SelectiveScreenDrawer.getSideButtonHeight(), (width - 15) / 4, SelectiveScreenDrawer.getSideButtonHeight()))
-        addRenderable(Button(Translations.DELETE()) {
-            OptionScreen.currentInstance?.openPopup(ConfirmPopup(Translations.CONFIRM_DELETE(), {
+        addRenderable(Button(deleteButtonText()) {
+            OptionScreen.currentInstance?.openPopup(ConfirmPopup(confirmDeletePopupText(), {
                 if (catch { file.delete() } == true) {
-                    NotificationManager.addNotification(SimpleTextNotification(Translations.DELETE_SCREENSHOT_SUCCESS()))
+                    NotificationManager.addNotification(SimpleTextNotification(deleteSuccessNotifText()))
                 } else {
-                    NotificationManager.addNotification(SimpleTextNotification(Translations.DELETE_FAILED()))
+                    NotificationManager.addNotification(SimpleTextNotification(deleteFailedNotifText()))
                 }
                 OptionScreen.currentInstance?.goBack()
             }))

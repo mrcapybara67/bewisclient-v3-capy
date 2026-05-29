@@ -4,7 +4,7 @@ import net.bewis09.bewisclient.api.APIEntrypointLoader
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.IndependentResourceMetadataSerializer
 import net.bewis09.bewisclient.common.createIdentifier
-import net.bewis09.bewisclient.drawable.Translations
+import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.minecraft.server.packs.PackLocationInfo
 import net.minecraft.server.packs.PackResources
@@ -21,15 +21,18 @@ import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
 object BewisclientResourcePack : PackResources, ClientInterface {
+    val bewisclientResourcesTitle = Translation("menu.resource_pack.bewisclient_resource", "Bewisclient Custom Resources")
+    val bewisclientResourcesDescription = Translation("menu.resource_pack.bewisclient_resource_description", "Features can be enabled in the Bewisclient settings")
+
     val packInfo = PackLocationInfo(
         "bewisclient_resources",
-        Translations.BEWISCLIENT_RESOURCES(),
+        bewisclientResourcesTitle(),
         PackSource.DEFAULT,
         Optional.empty()
     )
 
     val metadata = Pack.Metadata(
-        Translations.BEWISCLIENT_RESOURCES_DESCRIPTION(),
+        bewisclientResourcesDescription(),
         PackCompatibility.COMPATIBLE,
         FeatureFlagSet.of(),
         mutableListOf()

@@ -2,8 +2,6 @@ package net.bewis09.bewisclient.mixin.client
 
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.createIdentifier
-import net.bewis09.bewisclient.drawable.Translations.ADD_DATA_PACK
-import net.bewis09.bewisclient.drawable.Translations.ADD_RESOURCE_PACK
 import net.bewis09.bewisclient.drawable.minecraft.TexturedButtonWidget
 import net.bewis09.bewisclient.drawable.renderables.screen.PackListScreen
 import net.bewis09.bewisclient.features.utilities.PackAdder
@@ -45,7 +43,7 @@ class PackSelectionScreenMixin(title: Component) : Screen(title) {
                     if (packDir.endsWith(Path.of("resourcepacks"))) Modrinth.Type.RESOURCE_PACK else Modrinth.Type.DATA_PACK, this, this.packDir
                 )
             )
-        }, (if (packDir!!.endsWith(Path.of("resourcepacks"))) ADD_RESOURCE_PACK.getTranslatedText() else ADD_DATA_PACK.getTranslatedText()).append("...")))
+        }, (if (packDir!!.endsWith(Path.of("resourcepacks"))) Modrinth.addResourcePackText.getTranslatedText() else Modrinth.addDataPackText.getTranslatedText()).append("...")))
     }
 
     @Inject(method = ["repositionElements"], at = [At("HEAD")])

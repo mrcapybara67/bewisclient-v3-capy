@@ -2,7 +2,6 @@ package net.bewis09.bewisclient.drawable.renderables.screen
 
 import net.bewis09.bewisclient.common.*
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.components.setting.Input
 import net.bewis09.bewisclient.drawable.renderables.components.button.MinecraftButton
 import net.bewis09.bewisclient.drawable.renderables.components.structure.Plane
@@ -12,6 +11,7 @@ import net.bewis09.bewisclient.drawable.renderables.notification.ProgressNotific
 import net.bewis09.bewisclient.drawable.renderables.notification.SimpleTextNotification
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawingInterface
+import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.server.Modrinth
 import net.bewis09.bewisclient.version.setScreen
 import net.minecraft.client.gui.screens.Screen
@@ -33,6 +33,10 @@ class PackListScreen(val type: Modrinth.Type, val parent: Screen, val folder: Pa
 
     var query: String = search.text
 
+    companion object {
+        val downloadFromModrinthText = Translation("menu.pack.download_from_modrinth", "Select and download packs from Modrinth")
+    }
+
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         screenDrawing.drawHorizontalLine(centerX - 150, 47, 300, Color.WHITE alpha (51 / 255f))
         screenDrawing.drawHorizontalLine(centerX - 150, y2 - 32, 300, Color.WHITE alpha (51 / 255f))
@@ -41,7 +45,7 @@ class PackListScreen(val type: Modrinth.Type, val parent: Screen, val folder: Pa
         screenDrawing.fill(centerX - 150, 49, 300, height - 49 - 33, Color.BLACK alpha (112 / 255f))
 
         screenDrawing.drawCenteredTextWithShadow(type.text, centerX, 4, Color.WHITE)
-        screenDrawing.drawCenteredTextWithShadow(Translations.DOWNLOAD_FROM_MODRINTH(), centerX, 17, Color.LIGHT_GRAY)
+        screenDrawing.drawCenteredTextWithShadow(downloadFromModrinthText(), centerX, 17, Color.LIGHT_GRAY)
 
         screenDrawing.fillWithBorder(centerX - 63, 30, 126, 15, Color.BLACK, if (this.selectedElement != search) Color.LIGHT_GRAY else Color.WHITE)
 

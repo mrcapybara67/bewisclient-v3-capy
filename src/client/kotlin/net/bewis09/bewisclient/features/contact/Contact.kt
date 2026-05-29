@@ -6,7 +6,6 @@ import net.bewis09.bewisclient.common.alpha
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.data.Constants
 import net.bewis09.bewisclient.drawable.Animator
-import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.renderables.components.button.ThemeButton
 import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalAlignScrollPlane
@@ -33,8 +32,9 @@ object Contact : SidebarCategory(
 
 class ContactLinkElement(val id: String, val url: String, val title: String, val description: String) : SettingRenderable(null, 22) {
     companion object {
-        val COPY_TO_CLIPBOARD = Translation("contact.copy_to_clipboard", "Copy to clipboard")
-        val OPEN_LINK = Translation("contact.open_link", "Open link in browser")
+        val copyToClipboardText = Translation("contact.copy_to_clipboard", "Copy to clipboard")
+        val openLinkText = Translation("contact.open_link", "Open link in browser")
+        val copyLinkSuccessText = Translation("contact.copy_link_success", "Copied link to clipboard")
     }
 
     val titleTranslation = Translation("contact.$id.title", title)
@@ -62,11 +62,11 @@ class ContactLinkElement(val id: String, val url: String, val title: String, val
 
     override fun init() {
         super.init()
-        addRenderable(ThemeButton(COPY_TO_CLIPBOARD()) {
+        addRenderable(ThemeButton(copyToClipboardText()) {
             client.keyboardHandler.clipboard = this.url
-            NotificationManager.addNotification(SimpleTextNotification(Translations.COPY_LINK_SUCCESS()))
+            NotificationManager.addNotification(SimpleTextNotification(copyLinkSuccessText()))
         }(x + width - 210, y + simpleHeight, 100, SelectiveScreenDrawer.getSideButtonHeight()))
-        addRenderable(ThemeButton(OPEN_LINK()) {
+        addRenderable(ThemeButton(openLinkText()) {
             Util.getPlatform().openUri(url)
         }(x + width - 105, y + simpleHeight, 100, SelectiveScreenDrawer.getSideButtonHeight()))
     }

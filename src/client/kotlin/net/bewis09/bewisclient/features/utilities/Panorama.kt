@@ -4,7 +4,6 @@ import com.mojang.blaze3d.platform.NativeImage
 import net.bewis09.bewisclient.common.*
 import net.bewis09.bewisclient.core.*
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.components.logic.Hoverable
 import net.bewis09.bewisclient.drawable.renderables.components.button.ImageButton
 import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalAlignScrollPlane
@@ -15,6 +14,7 @@ import net.bewis09.bewisclient.drawable.renderables.popup.InputTextPopup
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.renderables.settings.InfoTextRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
+import net.bewis09.bewisclient.features.screenshot.BigScreenshotViewElement
 import net.bewis09.bewisclient.game.BewisclientResourcePack
 import net.bewis09.bewisclient.game.keybinds.Keybind
 import net.bewis09.bewisclient.game.translations.Translation
@@ -38,6 +38,14 @@ import kotlin.io.path.exists
 
 object Panorama : ImageFeature("panorama", Translation("menu.category.panorama", "Panorama")), EventEntrypoint, BewisclientResourcePack.CustomResourceProvider {
     val path = string("path", "")
+
+    val deletedPanormaText = Translation("menu.screenshot.delete_panorama_success", "Deleted panorama")
+    val noEmptyNameText = Translation("menu.screenshot.no_empty_name", "Name cannot be empty")
+    val nameAlreadyExistsText = Translation("menu.screenshot.name_already_exists", "A panorama with this name already exists")
+    val renameSuccessText = Translation("menu.screenshot.rename_success", "Renamed panorama")
+    val renameFailedText = Translation("menu.screenshot.rename_failed", "Renaming failed")
+    val renamePanoramaText = Translation("menu.screenshot.rename_panorama", "Enter name for panorama")
+    val confirmPanoramaDelete = Translation("menu.screenshot.confirm_panorama_delete", "Are you sure you want to delete this panorama?")
 
     override fun enabledListener(oldValue: Boolean?, newValue: Boolean?) {
         if (path.get().isNotEmpty() && !BewisclientSettings.isLoading) {
@@ -111,11 +119,11 @@ object Panorama : ImageFeature("panorama", Translation("menu.category.panorama",
             }.setImagePadding(2)(x + width - 21, y + 7, 14, 14))
             addRenderable(ImageButton(createIdentifier("bewisclient", "textures/gui/sprites/delete.png")) {
                 OptionScreen.currentInstance?.openPopup(
-                    ConfirmPopup(Translations.CONFIRM_PANORAMA_DELETE(), {
+                    ConfirmPopup(confirmPanoramaDelete(), {
                         if (catch { file.deleteRecursively() } == true) {
-                            NotificationManager.addNotification(SimpleTextNotification(Translations.DELETE_PANORAMA_SUCCESS()))
+                            NotificationManager.addNotification(SimpleTextNotification(deletedPanormaText()))
                         } else {
-                            NotificationManager.addNotification(SimpleTextNotification(Translations.DELETE_FAILED()))
+                            NotificationManager.addNotification(SimpleTextNotification(BigScreenshotViewElement.deleteFailedNotifText()))
                         }
                         OptionScreen.currentInstance?.goBack(instant = true)
                         OptionScreen.currentInstance?.openPage(getHeader(), getPane(), enabled, true)
@@ -123,16 +131,16 @@ object Panorama : ImageFeature("panorama", Translation("menu.category.panorama",
                 )
             }.setImagePadding(2)(x + width - 21, y + 25, 14, 14))
             addRenderable(ImageButton(createIdentifier("bewisclient", "textures/gui/sprites/rename.png")) {
-                OptionScreen.currentInstance?.openPopup(InputTextPopup(Translations.RENAME_PANORAMA(), default = file.name, onConfirm = { newName ->
+                OptionScreen.currentInstance?.openPopup(InputTextPopup(renamePanoramaText(), default = file.name, onConfirm = { newName ->
                     if (newName.isBlank()) {
-                        NotificationManager.addNotification(SimpleTextNotification(Translations.NO_EMPTY_NAME()))
+                        NotificationManager.addNotification(SimpleTextNotification(noEmptyNameText()))
                         return@InputTextPopup
                     }
 
                     if (newName == file.name) return@InputTextPopup
 
                     if (FabricLoader.getInstance().gameDir.resolve("screenshots").resolve(newName).exists()) {
-                        NotificationManager.addNotification(SimpleTextNotification(Translations.NAME_ALREADY_EXISTS()))
+                        NotificationManager.addNotification(SimpleTextNotification(nameAlreadyExistsText()))
                         return@InputTextPopup
                     }
 
@@ -143,9 +151,9 @@ object Panorama : ImageFeature("panorama", Translation("menu.category.panorama",
                             path.set(file.parentFile.resolve(newName).absolutePath)
                         }
                         OptionScreen.currentInstance?.resize()
-                        NotificationManager.addNotification(SimpleTextNotification(Translations.RENAME_SUCCESS()))
+                        NotificationManager.addNotification(SimpleTextNotification(renameSuccessText()))
                     } else {
-                        NotificationManager.addNotification(SimpleTextNotification(Translations.RENAME_FAILED()))
+                        NotificationManager.addNotification(SimpleTextNotification(renameFailedText()))
                     }
                 }))
             }.setImagePadding(2)(x + width - 21, y + 43, 14, 14))

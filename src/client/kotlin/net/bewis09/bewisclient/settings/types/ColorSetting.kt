@@ -2,7 +2,6 @@ package net.bewis09.bewisclient.settings.types
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.settings.ColorFaderSettingRenderable
 import net.bewis09.bewisclient.drawable.renderables.settings.ColorSettingRenderable
 import net.bewis09.bewisclient.game.translations.Translation
@@ -20,6 +19,8 @@ class ColorSetting(default: () -> ColorSaver, vararg val types: String = ALL) : 
         const val STATIC = "static"
         const val CHANGING = "changing"
         const val THEME = "theme"
+
+        val opacityTranslation = Translation("menu.color.opacity", "Opacity")
 
         fun without(vararg types: String): Array<String> {
             return ALL.filterNot { it in types }.toTypedArray()
@@ -42,7 +43,7 @@ class ColorSetting(default: () -> ColorSaver, vararg val types: String = ALL) : 
     }
 
     fun createRenderableWithFader(id: String, title: String, description: String? = null, faderSetting: FloatSetting): ColorFaderSettingRenderable {
-        return ColorFaderSettingRenderable(Translation("menu.$id", title), description?.let { Translation("menu.$id.description", it) }, this, types.map { it }.toTypedArray(), faderSetting, Translations.OPACITY)
+        return ColorFaderSettingRenderable(Translation("menu.$id", title), description?.let { Translation("menu.$id.description", it) }, this, types.map { it }.toTypedArray(), faderSetting, opacityTranslation)
     }
 
     override fun processChange(value: ColorSaver?): ColorSaver? {

@@ -3,7 +3,6 @@ package net.bewis09.bewisclient.features.utilities
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.setColor
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
@@ -23,6 +22,8 @@ import net.minecraft.world.item.ItemStack
 object HeldItemTooltip : ImageFeature("held_item_tooltip", Translation("menu.category.held_item_tooltip", "Held Item Info")) {
     val maxShownLines = int("max_shown_lines", 5, 1, 10)
     val showMap = create("show_map", BooleanMapSetting())
+
+    val moreLinesText = Translation("menu.held_item_tooltip.more_lines", "and %s more...")
 
     override val settingRenderables: Array<Renderable> = arrayOf(
         maxShownLines.createRenderable("held_item_tooltip.max_shown_lines", "Max Shown Lines", "Maximum number of lines to show in the held item tooltip").addToQuickSettings("menu.category.held_item_tooltip", "max_lines"), MultipleBooleanSettingsRenderable.create(
@@ -106,7 +107,7 @@ object HeldItemTooltip : ImageFeature("held_item_tooltip", Translation("menu.cat
             if (texts.size > maxShownLines.get() + 1) {
                 val beforeSize = texts.size
                 texts = texts.subList(0, maxShownLines.get())
-                texts.add(Translations.MORE_LINES(beforeSize - texts.size))
+                texts.add(moreLinesText(beforeSize - texts.size))
             }
 
             texts = texts.filter { !it.string.isEmpty() }.toMutableList()

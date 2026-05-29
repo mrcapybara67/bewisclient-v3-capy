@@ -4,7 +4,6 @@ import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.drawable.Animator
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.renderables.components.structure.Plane
 import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
@@ -22,6 +21,13 @@ import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.settings.types.ObjectSetting
 
 abstract class Feature(val title: Translation) : ObjectSetting() {
+    companion object {
+        val clickToEnableText = Translation("menu.general.enable", "Click to Enable")
+        val clickToDisableText = Translation("menu.general.disable", "Click to Disable")
+        val enabledText = Translation("menu.general.enabled", "Enabled")
+        val disabledText = Translation("menu.general.disabled", "Disabled")
+    }
+
     open val enabledByDefault = false
     val enabled = boolean("enabled", enabledByDefault) { oldValue, newValue -> enabledListener(oldValue, newValue) }
     open val settingRenderables = emptyArray<Renderable>()
@@ -44,12 +50,12 @@ abstract class Feature(val title: Translation) : ObjectSetting() {
         val state = Animator({ animationDuration }, Animator.EASE_IN_OUT, if (enabled.get()) 1f else 0f)
 
         init {
-            BooleanSettingRenderable(Translations.ENABLED, null, enabled).addToQuickSettings(title.getKeyWithoutNamespace(), "enabled")
+            BooleanSettingRenderable(enabledText, null, enabled).addToQuickSettings(title.getKeyWithoutNamespace(), "enabled")
         }
 
         override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean {
             if (settingRenderables.isEmpty()) {
-                enabled.toggle()
+                this@Feature.enabled.toggle()
                 resize()
                 return true
             }
@@ -83,7 +89,7 @@ abstract class Feature(val title: Translation) : ObjectSetting() {
             super.init()
             addRenderable(
                 TooltipHoverableText(
-                    if (enabled.get()) Translations.ENABLED() else Translations.DISABLED(), 0xAAAAAA.color, Color.WHITE, if (enabled.get()) Translations.CLICK_TO_DISABLE() else Translations.CLICK_TO_ENABLE(), true
+                    if (enabled.get()) enabledText() else disabledText(), 0xAAAAAA.color, Color.WHITE, if (enabled.get()) clickToDisableText() else clickToEnableText(), true
                 ) { enabled.toggle(); resize() }(
                     x, y2 - 14, width, 14
                 )

@@ -1,17 +1,21 @@
 package net.bewis09.bewisclient.drawable.renderables.components.button
 
 import net.bewis09.bewisclient.common.createIdentifier
-import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.renderables.components.logic.TooltipHoverable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
+import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.util.interfaces.Settable
 
-class ResetButton<T>(val setting: Settable<T?>) : TooltipHoverable(Translations.RESET()) {
+class ResetButton<T>(val setting: Settable<T?>) : TooltipHoverable(resetText()) {
     init {
         internalWidth = 14
         internalHeight = 14
+    }
+
+    companion object {
+        val resetText = Translation("menu.general.reset", "Reset")
     }
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {

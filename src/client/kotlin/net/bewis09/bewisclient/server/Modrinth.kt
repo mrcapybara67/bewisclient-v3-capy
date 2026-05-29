@@ -4,7 +4,6 @@ import com.mojang.blaze3d.platform.NativeImage
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.getModrinthVersion
-import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.notification.NotificationManager
 import net.bewis09.bewisclient.drawable.renderables.notification.SimpleTextNotification
 import net.bewis09.bewisclient.game.translations.Translation
@@ -166,10 +165,13 @@ object Modrinth : ClientInterface {
     )
 
     enum class Type(val url: String, val text: Component, val loader: String) {
-        RESOURCE_PACK("resourcepack", Translations.ADD_RESOURCE_PACK(), "minecraft"),
-        DATA_PACK("datapack", Translations.ADD_DATA_PACK(), "datapack"),
+        RESOURCE_PACK("resourcepack", addResourcePackText(), "minecraft"),
+        DATA_PACK("datapack", addDataPackText(), "datapack"),
 //        SHADER("shader")
     }
+
+    val addResourcePackText = Translation("menu.resource_pack.add", "Add Resource Packs")
+    val addDataPackText = Translation("menu.data_pack.add", "Add Data Packs")
 
     val downloadFailed = Translation("pack.download_failed", "Failed to download pack. Please try again later.")
     val downloadFailedReason = Translation("pack.download_failed_reason", "Failed to download pack. Reason: %reason%")

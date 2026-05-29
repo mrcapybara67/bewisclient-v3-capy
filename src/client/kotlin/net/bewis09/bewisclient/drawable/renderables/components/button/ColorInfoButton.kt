@@ -1,15 +1,19 @@
 package net.bewis09.bewisclient.drawable.renderables.components.button
 
 import net.bewis09.bewisclient.common.Color
-import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.components.logic.TooltipHoverable
 import net.bewis09.bewisclient.drawable.renderables.popup.ColorChangePopup
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
+import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.util.color.ColorSaver
 import net.bewis09.bewisclient.util.interfaces.Gettable
 
-class ColorInfoButton(val state: Gettable<ColorSaver>, val onChange: (ColorSaver) -> Unit, val types: Array<String>) : TooltipHoverable(Translations.CHANGE_COLOR(), 160, 14) {
+class ColorInfoButton(val state: Gettable<ColorSaver>, val onChange: (ColorSaver) -> Unit, val types: Array<String>) : TooltipHoverable(changeColorTranslation(), 160, 14) {
+    companion object {
+        val changeColorTranslation = Translation("menu.color.change_color", "Change Color")
+    }
+
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)
         val colorSaver = state.get()

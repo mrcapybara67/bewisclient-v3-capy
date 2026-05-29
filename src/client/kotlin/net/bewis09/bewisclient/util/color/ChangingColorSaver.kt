@@ -5,7 +5,6 @@ import com.google.gson.JsonPrimitive
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.Translations
 import net.bewis09.bewisclient.drawable.renderables.components.setting.Fader
 import net.bewis09.bewisclient.drawable.renderables.components.button.ImageButton
 import net.bewis09.bewisclient.drawable.renderables.components.element.Rectangle
@@ -25,6 +24,7 @@ class ChangingColorSaver : ColorSaver {
 
     companion object {
         val infoTranslation = Translation("color.changing.info", "Changing Color (Speed: %s ms)")
+        val changeDuration = Translation("menu.color.change_duration", "Change Duration (%s)")
     }
 
     constructor(changingSpeed: Int, startTime: Long = 0, startHue: Float = 0f) {
@@ -68,7 +68,7 @@ class ChangingColorSaver : ColorSaver {
         val fader = Fader({ get().changingSpeed.toFloat() }, Precision(1000f, 20000f, 100f, -2)) { speed ->
             set(ChangingColorSaver(speed.toInt(), System.currentTimeMillis(), get().getHue()))
         }
-        val text = TextElement({ Translations.CHANGE_DURATION(get().changingSpeed / 1000f) }, centered = true)
+        val text = TextElement({ changeDuration(get().changingSpeed / 1000f) }, centered = true)
         val spectrumButton = ImageButton(texture) {}.setImagePadding(0)
         val actionButton = Rectangle { get().getColor() }
 
