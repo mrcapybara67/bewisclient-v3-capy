@@ -7,7 +7,6 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.util.interfaces.Settable
-import net.minecraft.network.chat.Component
 
 class ResetButton<T>(val setting: Settable<T?>, val isDefault: () -> Boolean) : TooltipHoverable({ if (isDefault()) null else resetText() }) {
     init {

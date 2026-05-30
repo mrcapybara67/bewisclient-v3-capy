@@ -7,7 +7,6 @@ import net.bewis09.bewisclient.drawable.renderables.components.logic.TooltipHove
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
-import net.bewis09.bewisclient.settings.logic.SettingInterface
 import net.bewis09.bewisclient.settings.logic.SettingInterfaceWithDefault
 import net.minecraft.network.chat.Component
 

@@ -1,7 +1,6 @@
 package net.bewis09.bewisclient.settings.types
 
 import com.google.gson.JsonElement
-import net.bewis09.bewisclient.settings.logic.SettingInterface
 import net.bewis09.bewisclient.settings.logic.SettingInterfaceWithDefault
 import net.bewis09.bewisclient.settings.logic.Settings
 import net.bewis09.bewisclient.settings.logic.SettingsLoader
