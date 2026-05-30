@@ -7,6 +7,7 @@ import net.bewis09.bewisclient.drawable.renderables.settings.IntegerSettingRende
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.logic.RenderableCreator
 import net.bewis09.bewisclient.settings.logic.SettingInterface
+import net.bewis09.bewisclient.settings.logic.SettingInterfaceWithDefault
 import net.bewis09.bewisclient.util.float
 import net.bewis09.bewisclient.util.number.Precision
 
@@ -26,13 +27,17 @@ class FloatSetting(default: () -> Float, val precision: Precision) : Setting<Flo
     fun createIntRenderable(
         id: String, title: String, description: String? = null
     ): IntegerSettingRenderable = IntegerSettingRenderable(
-        Translation("menu.$id", title), description?.let { Translation("menu.$id.description", it) }, object : SettingInterface<Int> {
+        Translation("menu.$id", title), description?.let { Translation("menu.$id.description", it) }, object : SettingInterfaceWithDefault<Int> {
             override fun set(value: Int?) {
                 this@FloatSetting.set(value?.toFloat())
             }
 
             override fun get(): Int {
                 return this@FloatSetting.get().toInt()
+            }
+
+            override fun getDefault(): Int {
+                return this@FloatSetting.getDefault().toInt()
             }
         }, precision.min.toInt(), precision.max.toInt()
     )

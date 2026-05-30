@@ -8,6 +8,7 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.settings.logic.SettingInterface
+import net.bewis09.bewisclient.settings.logic.SettingInterfaceWithDefault
 import net.minecraft.network.chat.Component
 
 class MultipleBooleanSettingsRenderable(
@@ -31,7 +32,7 @@ class MultipleBooleanSettingsRenderable(
     }
 
     class Part(
-        val name: Component, tooltip: Component? = null, val setting: SettingInterface<Boolean>
+        val name: Component, tooltip: Component? = null, val setting: SettingInterfaceWithDefault<Boolean>
     ) : TooltipHoverable(tooltip) {
         val switch = Switch(
             state = setting::get,
@@ -42,7 +43,7 @@ class MultipleBooleanSettingsRenderable(
             internalHeight = 16
         }
 
-        val resetButton = ResetButton(setting)
+        val resetButton = ResetButton(setting) { setting.get() == setting.getDefault() }
 
         override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
             super.render(screenDrawing, mouseX, mouseY)

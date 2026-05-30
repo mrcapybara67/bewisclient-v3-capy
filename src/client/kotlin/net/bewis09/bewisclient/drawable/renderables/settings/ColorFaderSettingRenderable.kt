@@ -21,9 +21,11 @@ class ColorFaderSettingRenderable(val title: Translation, val description: Trans
         }, precision = setting2.precision
     )
 
-    val resetButton = ResetButton<Nothing> {
+    val resetButton = ResetButton<Nothing> ({
         setting.set(null)
         setting2.set(null)
+    }) {
+        setting.isDefault() && setting2.isDefault()
     }
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {

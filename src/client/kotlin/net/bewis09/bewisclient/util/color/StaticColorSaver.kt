@@ -44,6 +44,16 @@ open class StaticColorSaver(private val color: Color) : ColorSaver {
         return String.format("#%06X", color.argb and 0xFFFFFF)
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is StaticColorSaver) return false
+        return color == other.color
+    }
+
+    override fun hashCode(): Int {
+        return color.hashCode()
+    }
+
     object Factory : ColorSaverFactory<StaticColorSaver> {
         private val translation = Translation("color.static", "Static")
         private val description = Translation("color.static.description", "A static color that does not change.")

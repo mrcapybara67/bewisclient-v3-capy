@@ -12,7 +12,7 @@ class ColorSettingRenderable(val title: Translation, val description: Translatio
         state = setting::get, onChange = setting::set, types = types
     )
 
-    val resetButton = ResetButton(setting)
+    val resetButton = ResetButton(setting, setting::isDefault)
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)

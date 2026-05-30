@@ -8,6 +8,7 @@ import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSett
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.logic.SettingInterface
+import net.bewis09.bewisclient.settings.logic.SettingInterfaceWithDefault
 import net.bewis09.bewisclient.settings.structure.ImageFeature
 import net.bewis09.bewisclient.settings.types.BooleanMapSetting
 import net.bewis09.bewisclient.version.Profiler
@@ -65,7 +66,7 @@ object HeldItemTooltip : ImageFeature("held_item_tooltip", Translation("menu.cat
             val id = BuiltInRegistries.DATA_COMPONENT_TYPE.getKey(componentType).toString()
             parts.add(
                 MultipleBooleanSettingsRenderable.Part(
-                    Component.literal(toReadableString(id)), null, object : SettingInterface<Boolean> {
+                    Component.literal(toReadableString(id)), null, object : SettingInterfaceWithDefault<Boolean> {
                         override fun get(): Boolean {
                             return showMap[id, !defaultOff.contains(componentType)]
                         }
@@ -73,7 +74,12 @@ object HeldItemTooltip : ImageFeature("held_item_tooltip", Translation("menu.cat
                         override fun set(value: Boolean?) {
                             showMap[id] = value
                         }
-                    })
+
+                        override fun getDefault(): Boolean {
+                            return !defaultOff.contains(componentType)
+                        }
+                    }
+                )
             )
         }
         parts

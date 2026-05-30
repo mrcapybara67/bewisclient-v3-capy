@@ -5,9 +5,9 @@ import com.google.gson.JsonPrimitive
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.then
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.renderables.components.setting.Fader
 import net.bewis09.bewisclient.drawable.renderables.components.button.ResetButton
 import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
+import net.bewis09.bewisclient.drawable.renderables.components.setting.Fader
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
@@ -35,7 +35,9 @@ class ThemeColorSaver : ColorSaver {
         return if (brightness == null) JsonPrimitive(-1) else JsonPrimitive(brightness)
     }
 
-    fun getBrightness() = brightness ?: Precision(0f, 1f, 0.01f, 2).parse(GeneralSettings.themeColor.get().getColor().brightness)
+    fun getDefault() = Precision(0f, 1f, 0.01f, 2).parse(GeneralSettings.themeColor.get().getColor().brightness)
+
+    fun getBrightness() = brightness ?: getDefault()
 
     object Factory : ColorSaverFactory<ThemeColorSaver> {
         private val translation = Translation("color.theme", "Theme Color")
@@ -58,6 +60,16 @@ class ThemeColorSaver : ColorSaver {
 
     override fun toInfoString(): String = infoTranslation(getBrightness()).string
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ThemeColorSaver) return false
+        return brightness == other.brightness
+    }
+
+    override fun hashCode(): Int {
+        return brightness.hashCode()
+    }
+
     class SettingRenderable(val get: () -> ThemeColorSaver, val set: (ColorSaver) -> Unit) : Renderable() {
         val fader = Fader({ get().getBrightness() }, Precision(0f, 1f, 0.01f, 2)) { brightness ->
             set(ThemeColorSaver(brightness))
@@ -71,7 +83,7 @@ class ThemeColorSaver : ColorSaver {
         override fun init() {
             addRenderable(text(x, y + 2, width, 9))
             addRenderable(fader(x, y + 11, width - 18, 14))
-            addRenderable(ResetButton<Nothing> { set(ThemeColorSaver()) }.setPosition(x2 - 14, y + 11))
+            addRenderable(ResetButton<Nothing>({ set(ThemeColorSaver()) }) { get().brightness == get().getDefault() }.setPosition(x2 - 14, y + 11))
         }
     }
 }

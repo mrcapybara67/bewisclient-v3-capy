@@ -7,8 +7,9 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.util.interfaces.Settable
+import net.minecraft.network.chat.Component
 
-class ResetButton<T>(val setting: Settable<T?>) : TooltipHoverable(resetText()) {
+class ResetButton<T>(val setting: Settable<T?>, val isDefault: () -> Boolean) : TooltipHoverable({ if (isDefault()) null else resetText() }) {
     init {
         internalWidth = 14
         internalHeight = 14
@@ -23,12 +24,18 @@ class ResetButton<T>(val setting: Settable<T?>) : TooltipHoverable(resetText()) 
 
         usePointer(screenDrawing, mouseX, mouseY)
 
+        if (isDefault())
+            screenDrawing.pushColor(0.5f, 0.5f, 0.5f, 1f)
+
         screenDrawing.pushColor(0.8f, 0.8f, 0.8f, 1f)
-        SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverFactor, 0f, x, y, width, height, 1f, mouseX, mouseY)
+        SelectiveScreenDrawer.renderButtonBackground(screenDrawing, if (isDefault()) 0f else hoverFactor, 0f, x, y, width, height, 1f, mouseX, mouseY)
         screenDrawing.popColor()
 
         val imagePadding = if (isMinecrafty) 3 else 2
         screenDrawing.drawTexture(createIdentifier("bewisclient", "textures/gui/sprites/reset.png"), x + imagePadding, y + imagePadding, width - imagePadding * 2, height - imagePadding * 2, GeneralSettings.getTextThemeColor())
+
+        if (isDefault())
+            screenDrawing.popColor()
     }
 
     override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean = setting.set(null).let { true }

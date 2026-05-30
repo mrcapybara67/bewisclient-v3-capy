@@ -6,7 +6,7 @@ import net.bewis09.bewisclient.drawable.renderables.components.element.Rectangle
 import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.logic.SettingInterface
+import net.bewis09.bewisclient.settings.logic.SettingInterfaceWithDefault
 import net.bewis09.bewisclient.widget.impl.TiwylaWidget
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.chat.Component
@@ -19,13 +19,17 @@ class TiwylaInfoSettingsRenderable : Renderable() {
             MultipleBooleanSettingsRenderable.Part(
                 Component.literal(BuiltInRegistries.BLOCK.getOrNull(createIdentifier(it.key))?.name?.string + " -> " + snake_toCamelCase(it.value.name)),
                 null,
-                object : SettingInterface<Boolean> {
+                object : SettingInterfaceWithDefault<Boolean> {
                     override fun get(): Boolean {
                         return TiwylaWidget.blockSpecialInfoMap[it.key ?: return true] != false
                     }
 
                     override fun set(value: Boolean?) {
                         TiwylaWidget.blockSpecialInfoMap[it.key ?: return] = value
+                    }
+
+                    override fun getDefault(): Boolean {
+                        return true
                     }
                 }
             )
@@ -39,13 +43,17 @@ class TiwylaInfoSettingsRenderable : Renderable() {
             MultipleBooleanSettingsRenderable.Part(
                 Component.literal(it.second.entityType.description.string).append(Component.literal(" " + it.first.namespace).withColor(Color.LIGHT_GRAY.argb)),
                 null,
-                object : SettingInterface<Boolean> {
+                object : SettingInterfaceWithDefault<Boolean> {
                     override fun get(): Boolean {
                         return TiwylaWidget.entitySpecialInfoMap[BuiltInRegistries.ENTITY_TYPE.getKey(it.second.entityType).toString()] != false
                     }
 
                     override fun set(value: Boolean?) {
                         TiwylaWidget.entitySpecialInfoMap[BuiltInRegistries.ENTITY_TYPE.getKey(it.second.entityType).toString()] = value
+                    }
+
+                    override fun getDefault(): Boolean {
+                        return true
                     }
                 }
             )

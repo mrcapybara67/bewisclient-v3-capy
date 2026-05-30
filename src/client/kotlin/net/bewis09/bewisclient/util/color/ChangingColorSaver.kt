@@ -64,6 +64,19 @@ class ChangingColorSaver : ColorSaver {
 
     override fun toInfoString(): String = infoTranslation(changingSpeed.toString()).string
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ChangingColorSaver) return false
+        return changingSpeed == other.changingSpeed && startHue == other.startHue && startTime == other.startTime
+    }
+
+    override fun hashCode(): Int {
+        var result = changingSpeed
+        result = 31 * result + startHue.hashCode()
+        result = 31 * result + startTime.hashCode()
+        return result
+    }
+
     class SettingRenderable(val get: () -> ChangingColorSaver, val set: (ColorSaver) -> Unit) : Renderable() {
         val fader = Fader({ get().changingSpeed.toFloat() }, Precision(1000f, 20000f, 100f, -2)) { speed ->
             set(ChangingColorSaver(speed.toInt(), System.currentTimeMillis(), get().getHue()))

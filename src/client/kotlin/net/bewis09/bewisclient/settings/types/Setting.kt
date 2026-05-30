@@ -2,6 +2,7 @@ package net.bewis09.bewisclient.settings.types
 
 import com.google.gson.JsonElement
 import net.bewis09.bewisclient.settings.logic.SettingInterface
+import net.bewis09.bewisclient.settings.logic.SettingInterfaceWithDefault
 import net.bewis09.bewisclient.settings.logic.Settings
 import net.bewis09.bewisclient.settings.logic.SettingsLoader
 import net.bewis09.bewisclient.util.logic.ClientInterface
@@ -14,7 +15,7 @@ import net.bewis09.bewisclient.util.logic.ClientInterface
  * @param default The default value of the setting.
  * @param onChangeListener An optional listener that is called when the setting value changes.
  */
-abstract class Setting<T>(val default: () -> T) : ClientInterface, SettingInterface<T> {
+abstract class Setting<T>(val default: () -> T) : ClientInterface, SettingInterfaceWithDefault<T> {
     constructor(default: T) : this({ default })
 
     /**
@@ -42,6 +43,10 @@ abstract class Setting<T>(val default: () -> T) : ClientInterface, SettingInterf
     fun getWithoutDefault(): T? {
         return value
     }
+
+    override fun getDefault() = default()
+
+    fun isDefault() = get() == getDefault()
 
     /**
      * Sets the value of the setting and calls the onChange method.

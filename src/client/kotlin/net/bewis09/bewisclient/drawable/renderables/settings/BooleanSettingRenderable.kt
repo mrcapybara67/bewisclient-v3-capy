@@ -12,7 +12,7 @@ class BooleanSettingRenderable(val title: Translation, val description: Translat
         onChange = setting::set,
     )
 
-    val resetButton = ResetButton(setting)
+    val resetButton = ResetButton(setting, setting::isDefault)
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)
