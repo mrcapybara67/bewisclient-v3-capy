@@ -16,6 +16,7 @@ import net.bewis09.bewisclient.drawable.renderables.options_structure.SidebarCat
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.features.cosmetics.CosmeticLoader
+import net.bewis09.bewisclient.features.cosmetics.EnableOnlineModeSettingsRenderable
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.settings.structure.Feature
@@ -30,26 +31,27 @@ object SettingStructure : ClientInterface {
     val settings = VerticalAlignScrollPlane(
         listOfNotNull(
 //            OptionsMenuSettings.animationTime.createRenderable("menu.settings.animation_time", "Animation Time", "The time (in milliseconds) it takes for animations to complete"),
-            GeneralSettings.blurBackground.createRenderable("menu.settings.blur_background", "Blur Background", "Whether to blur the background when opening menus").addToQuickSettings("menu.category.settings", "blur"),
-            GeneralSettings.buttonInTitleScreen.createRenderable("menu.settings.button_in_title_screen", "Button in Title Screen", "Whether to show the Bewisclient button in the title screen").addToQuickSettings("menu.category.settings", "title"),
-            GeneralSettings.buttonInGameScreen.createRenderable("menu.settings.button_in_game_screen", "Button in Game Screen", "Whether to show the Bewisclient button in the in-game pause menu").addToQuickSettings("menu.category.settings", "in-game"),
-            GeneralSettings.themeColor.createRenderable("menu.settings.theme_color", "Theme Color", "The theme color used throughout the client").addToQuickSettings("menu.category.settings", "theme_color"),
-            GeneralSettings.backgroundColor.createRenderableWithFader("menu.settings.background_color", "Background Color", "The background color used for menus. Reset to use the theme color.", GeneralSettings.backgroundOpacity).addToQuickSettings("menu.category.settings", "background"),
-            GeneralSettings.minecraftyOptionsMenu.createRenderable("menu.settings.minecrafty_options_menu", "Minecrafty Options Menu", "Whether to use a Minecrafty style options menu instead of the default flat design"),
+            GeneralSettings.blurBackground.createRenderable("settings.blur_background", "Blur Background", "Whether to blur the background when opening menus").addToQuickSettings("menu.category.settings", "blur"),
+            GeneralSettings.buttonInTitleScreen.createRenderable("settings.button_in_title_screen", "Button in Title Screen", "Whether to show the Bewisclient button in the title screen").addToQuickSettings("menu.category.settings", "title"),
+            GeneralSettings.buttonInGameScreen.createRenderable("settings.button_in_game_screen", "Button in Game Screen", "Whether to show the Bewisclient button in the in-game pause menu").addToQuickSettings("menu.category.settings", "in-game"),
+            GeneralSettings.themeColor.createRenderable("settings.theme_color", "Theme Color", "The theme color used throughout the client").addToQuickSettings("menu.category.settings", "theme_color"),
+            GeneralSettings.backgroundColor.createRenderableWithFader("settings.background_color", "Background Color", "The background color used for menus. Reset to use the theme color.", GeneralSettings.backgroundOpacity).addToQuickSettings("menu.category.settings", "background"),
+            GeneralSettings.minecraftyOptionsMenu.createRenderable("settings.minecrafty_options_menu", "Minecrafty Options Menu", "Whether to use a Minecrafty style options menu instead of the default flat design"),
             if (System.getProperty("os.name").lowercase().contains("win"))
-                GeneralSettings.autoUpdate.createRenderable("menu.settings.auto_update", "Automatic Updates", "Whether to automatically check for updates and update the client when an update is found")
-            else null
+                GeneralSettings.autoUpdate.createRenderable("settings.auto_update", "Automatic Updates", "Whether to automatically check for updates and update the client when an update is found")
+            else null,
+            EnableOnlineModeSettingsRenderable(
+                Translation("menu.settings.online_mode", "Online Mode"),
+                Translation("menu.settings.online_mode.description", "Whether to enable online features such as special cosmetics and cosmetic syncing. Needs to be enabled if you want other players to see your cosmetics or if you want to see other players' cosmetics. Requires restarting the client to take effect."),
+                GeneralSettings.onlineMode
+            ),
         ), 1
     )
 
     val cosmetics = Plane { x, y, width, height ->
         listOf(
             CosmeticLoader.elytra.createRenderable("cosmetics.elytra", "Apply cape to elytra", "Some capes include a unique texture for the elytra, which can be disabled here if desired.")(x, y, width, 22),
-            VerticalScrollGrid({
-                CosmeticLoader.allowedCosmetics.map { it to CosmeticLoader.cosmetics[it] }.filter {
-                    it.first.type == CosmeticType.CAPE && CosmeticLoader.allowedCosmetics.contains(it.first) && it.second != null
-                }.map { a -> SelectCapeElement(a.first, a.second!!) }
-            }, 5, 65)(x, y + 27, width, height - 27)
+            CosmeticLoader.getCosmeticGrid()(x, y + 27, width, height - 27)
         )
     }
 

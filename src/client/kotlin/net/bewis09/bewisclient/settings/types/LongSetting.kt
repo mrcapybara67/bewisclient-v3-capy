@@ -1,0 +1,13 @@
+package net.bewis09.bewisclient.settings.types
+
+import com.google.gson.JsonElement
+import com.google.gson.JsonPrimitive
+import net.bewis09.bewisclient.util.long
+
+class LongSetting(default: () -> Long) : Setting<Long>(default) {
+    override fun convertToElement(): JsonElement? {
+        return getWithoutDefault()?.let { JsonPrimitive(it) }
+    }
+
+    override fun convertFromElement(data: JsonElement?): Long? = data?.long()
+}

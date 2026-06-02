@@ -11,6 +11,7 @@ import java.util.Base64
 
 object CommonCosmeticLoader : ServerInterface {
     var cosmeticData: List<CosmeticEntry>? = null
+    var metadata: Metadata? = null
     var afterLoadFunc: (() -> Unit)? = null
     var publicKey: String? = null
 
@@ -24,14 +25,14 @@ object CommonCosmeticLoader : ServerInterface {
 
     fun loadPublicKey() {
         Util.nonCriticalIoPool().execute {
-            downloadWithOfflineFile(Constants.API_URL + "/public_key", "public_key.pem")?.let { publicKeyBytes ->
+            downloadWithOfflineFile((metadata?.url ?: return@execute) + "public_key", "public_key.pem")?.let { publicKeyBytes ->
                 publicKey = publicKeyBytes.decodeToString()
             }
         }
     }
 
     fun processC2SPayload(payload: ServerboundCosmeticPayload, context: ServerPlayNetworking.Context) {
-        val uuid = "83f0f68f-4756-43e5-ab09-85816e220225"//context.player().uuid.toString()
+        val uuid = context.player().uuid.toString()
 
         payload.cosmetics.forEach {
             val type = it.key
@@ -71,25 +72,61 @@ object CommonCosmeticLoader : ServerInterface {
     fun loadCosmeticData() {
         Util.nonCriticalIoPool().execute {
             val result: ByteArray = downloadWithOfflineFile(Constants.COSMETIC_URL + "/cosmetics.txt", "cosmetics.txt") ?: return@execute
-            cosmeticData = decodeCosmeticResult(result.decodeToString())
+            val data = decodeCosmeticResult(result.decodeToString()) ?: return@execute
+            cosmeticData = data.cosmeticData
+            metadata = data.metadata
             afterLoadFunc?.invoke()
         }
     }
 
-    fun decodeCosmeticResult(result: String): List<CosmeticEntry> {
-        return result.lines().filter { it.isNotBlank() }.mapNotNull { line ->
+    fun decodeCosmeticResult(result: String): DecodedResult? {
+        val lines = result.lines().filter { it.isNotBlank() }
+        val dataParts = mutableMapOf<String, MutableList<String>>()
+
+        var currentPart: String? = null
+        var currentData = mutableListOf<String>()
+        lines.forEach {
+            if (it.startsWith("[") && it.endsWith("]")) {
+                if (currentPart != null) {
+                    dataParts[currentPart] = currentData
+                }
+                currentPart = it.substring(1, it.length - 1)
+                currentData = mutableListOf()
+            } else if (currentPart != null) {
+                currentData.add(it)
+            }
+        }
+
+        dataParts[currentPart ?: return null] = currentData
+
+        val cosmetics = dataParts["Cosmetics"] ?: return null
+        val metadata = dataParts["Metadata"] ?: return null
+
+        return DecodedResult(cosmetics.mapNotNull { line ->
             val path = line.substringBefore(": ").split("/")
             val type = path.firstOrNull() ?: return@mapNotNull null
             val id = path.lastOrNull() ?: return@mapNotNull null
             val params = line.substringAfter(": ").split(" ")
 
             return@mapNotNull CosmeticEntry(
-                id = id, type = type, frames = params.firstOrNull { it.startsWith("frames=") }?.substringAfter("frames=")?.toIntOrNull() ?: 1, default = params.contains("default"), hasElytra = params.contains("elytra")
+                id = id,
+                type = type,
+                frames = params.firstOrNull { it.startsWith("frames=") }?.substringAfter("frames=")?.toIntOrNull() ?: 1,
+                default = params.contains("default"),
+                hasElytra = params.contains("elytra"),
+                category = params.firstOrNull { it.startsWith("category=") }?.substringAfter("category="),
             )
-        }
+        }, Metadata(
+            minimum = metadata.firstOrNull { it.startsWith("minimum=") }?.substringAfter("minimum=") ?: return null,
+            url = metadata.firstOrNull { it.startsWith("url=") }?.substringAfter("url=") ?: return null
+        ))
     }
 
-    data class CosmeticEntry(val id: String, val type: String, val frames: Int, val default: Boolean, val hasElytra: Boolean) {
+    class DecodedResult(val cosmeticData: List<CosmeticEntry>, val metadata: Metadata)
+
+    data class Metadata(val minimum: String, val url: String)
+
+    data class CosmeticEntry(val id: String, val type: String, val frames: Int, val default: Boolean, val hasElytra: Boolean, val category: String?) {
         fun getCosmetic() = CosmeticType.entries.firstOrNull { it.id == type }?.let { CosmeticIdentifier(it, id) }
     }
 }

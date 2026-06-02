@@ -18,6 +18,7 @@ import net.bewis09.bewisclient.game.keybinds.Keybind
 import net.bewis09.bewisclient.game.keybinds.KeybindingImplementer
 import net.bewis09.bewisclient.game.keybinds.OpenOptionScreen
 import net.bewis09.bewisclient.game.translations.TranslationLoader
+import net.bewis09.bewisclient.server.Authorization
 import net.bewis09.bewisclient.server.AutoUpdater
 import net.bewis09.bewisclient.server.Security
 import net.bewis09.bewisclient.settings.impl.BewisclientSettings
@@ -33,7 +34,7 @@ import kotlin.jvm.optionals.getOrNull
 
 class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
     override fun getEventEntrypoints(): List<EventEntrypoint> = listOf(
-        WidgetLoader, SettingsLoader, KeybindingImplementer, TranslationLoader, BiomeWidget, SpeedWidget, TiwylaWidget, ShulkerBoxTooltipComponent.Entrypoint, CosmeticLoader, BewisclientCommand, Security, ImageIdentifier, Panorama, Ticker, AutoUpdater
+        WidgetLoader, SettingsLoader, KeybindingImplementer, TranslationLoader, BiomeWidget, SpeedWidget, TiwylaWidget, ShulkerBoxTooltipComponent.Entrypoint, CosmeticLoader, BewisclientCommand, Security, ImageIdentifier, Panorama, Ticker, AutoUpdater, Authorization
     )
 
     override fun getSettingsObjects(): List<Settings> = listOf(

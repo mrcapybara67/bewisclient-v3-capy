@@ -5,5 +5,4 @@ object Constants {
     const val GITHUB_URL = "https://github.com/bewisclient-team/bewisclient-v3"
     const val DISCORD_URL = "https://discord.gg/invite/kuUyGUeEZS"
     const val COSMETIC_URL = "https://raw.githubusercontent.com/bewisclient-team/BewisclientWebsite/refs/heads/main/cosmetics/"
-    const val API_URL = "https://bewisclient.bewis09minecraft.workers.dev/api"
 }

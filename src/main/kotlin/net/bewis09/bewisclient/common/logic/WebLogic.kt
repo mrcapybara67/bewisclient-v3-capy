@@ -1,6 +1,7 @@
 package net.bewis09.bewisclient.common.logic
 
 import net.bewis09.bewisclient.common.Util
+import net.bewis09.bewisclient.common.catch
 import net.bewis09.bewisclient.server.BewisclientServer
 import java.io.ByteArrayOutputStream
 import java.net.URI
@@ -26,9 +27,28 @@ interface WebLogic {
                     .POST(HttpRequest.BodyPublishers.ofByteArray(postData))
                     .build(),
                 HttpResponse.BodyHandlers.ofByteArray()
-            ).body()
+            ).body().also { BewisclientServer.saveRelativeFile(it, "bewisclient", "server", offlinePath) }
         } catch (_: Exception) {
             BewisclientServer.readRelativeFileBytes("bewisclient", "server", offlinePath)
+        }
+    }
+
+    fun requestPost(url: URL, postData: ByteArray, headers: Map<String, String>? = null): HttpResponse<ByteArray>? {
+        return try {
+            HttpClient.newBuilder().build().send(
+                HttpRequest.newBuilder()
+                    .uri(url.toURI())
+                    .POST(HttpRequest.BodyPublishers.ofByteArray(postData)).apply {
+                        if (headers != null) {
+                            headers(*headers.toList().map { listOf(it.first, it.second) }.flatten().toTypedArray())
+                        }
+                    }
+                    .build(),
+                HttpResponse.BodyHandlers.ofByteArray()
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
         }
     }
 

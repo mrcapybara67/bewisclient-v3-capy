@@ -12,7 +12,7 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry
 object BewisclientServer: ModInitializer, ServerInterface {
     override fun onInitialize() {
 //        registerPayloads()
-        CommonCosmeticLoader.loadPublicKey()
+//        CommonCosmeticLoader.loadPublicKey()
         CommonCosmeticLoader.loadCosmeticData()
 
 //        ServerPlayNetworking.registerGlobalReceiver(ServerboundCosmeticPayload.TYPE, CommonCosmeticLoader::processC2SPayload)

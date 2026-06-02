@@ -68,6 +68,7 @@ class SelectCapeElement(val identifier: CosmeticIdentifier, val cosmetic: Cosmet
     override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean {
         if (button != 0) return false
         CosmeticLoader.selected[CosmeticType.CAPE.id] = if (CosmeticLoader.selected[CosmeticType.CAPE.id] == identifier.id) null else identifier.id
+        CosmeticLoader.timestamp.set(System.currentTimeMillis())
         return true
     }
 }

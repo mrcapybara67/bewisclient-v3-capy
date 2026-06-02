@@ -15,7 +15,7 @@ class TextElement(val text: () -> Component, val color: () -> Color, val centere
         if (centered) {
             screenDrawing.drawCenteredText(text(), exactCenterX, fontYCenter, color(), font)
         } else {
-            screenDrawing.drawText(text(), exactCenterX, fontYCenter, color(), font)
+            screenDrawing.drawText(text(), x, fontYCenter, color(), font)
         }
     }
 }

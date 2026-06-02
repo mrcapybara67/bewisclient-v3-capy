@@ -38,6 +38,7 @@ package net.bewis09.bewisclient.generated
 
 object BuildInfo {
     const val VERSION = "${project.version}"
+    const val BC_VERSION = "${project.mod_version}"
     const val TIMESTAMP = "${System.currentTimeMillis()}"
 }
             """.strip()

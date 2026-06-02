@@ -1,6 +1,7 @@
 package net.bewis09.bewisclient.util
 
 import net.bewis09.bewisclient.api.APIEntrypointLoader
+import net.bewis09.bewisclient.cosmetics.CommonCosmeticLoader
 import net.bewis09.bewisclient.util.logic.ClientInterface
 
 /**
@@ -71,6 +72,13 @@ interface EventEntrypoint : ClientInterface {
      * Called when the game ends
      */
     fun onDestroy() {
+
+    }
+
+    /**
+     * Called when the metadata and cosmetic data is loaded. This is called in a separate thread
+     */
+    fun onMetadataLoaded(metadata: CommonCosmeticLoader.Metadata) {
 
     }
 }

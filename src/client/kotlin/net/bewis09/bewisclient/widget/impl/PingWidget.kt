@@ -2,6 +2,7 @@ package net.bewis09.bewisclient.widget.impl
 
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.toText
+import net.bewis09.bewisclient.mixin.client.ClientPacketListenerAccessor
 import net.bewis09.bewisclient.widget.logic.RelativePosition
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
 import net.bewis09.bewisclient.widget.types.LineWidget
@@ -35,7 +36,7 @@ object PingWidget : LineWidget(
             if (isHidden() || client.connection == null) return -1
 
             if (lastRequest + 100 < System.currentTimeMillis()) {
-                if (!client.debugOverlay.showNetworkCharts()) client.connection?.pingDebugMonitor?.tick()
+                if (!client.debugOverlay.showNetworkCharts()) (client.connection as? ClientPacketListenerAccessor)?.getPingDebugMonitor()?.tick()
 
                 var l = 0
                 var o = 0

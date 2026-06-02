@@ -74,4 +74,8 @@ open class ObjectSetting() : Setting<JsonObject>(JsonObject()) {
     fun string(key: String, default: String): StringSetting {
         return create(key, StringSetting { default })
     }
+
+    fun long(key: String, default: Long): LongSetting {
+        return create(key, LongSetting { default })
+    }
 }

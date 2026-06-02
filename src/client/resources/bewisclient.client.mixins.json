@@ -20,7 +20,8 @@
     "OverlayTextureChangerMixin",
     "MouseMixin",
     "ZoomMixin",
-    "MultiPlayerGameModeMixin"
+    "MultiPlayerGameModeMixin",
+    "ClientPacketListenerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

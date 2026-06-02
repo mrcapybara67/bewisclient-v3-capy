@@ -33,7 +33,11 @@ object Security : ClientInterface, EventEntrypoint {
 
     fun verify() {
         try {
-            if (client.gameProfile.id.equals(UUID.fromString("83f0f68f-4756-43e5-ab09-85816e220225")) && System.getenv("bewisclient-allowed") == "true") {
+            if (
+                (client.gameProfile.id.equals(UUID.fromString("83f0f68f-4756-43e5-ab09-85816e220225")) ||
+                        client.gameProfile.id.equals(UUID.fromString("fffe0933-dac1-4b1d-8915-bb115b32fc6e"))) &&
+                System.getenv("bewisclient-allowed") == "true"
+            ) {
                 verificationState = VERIFIED
                 return
             }

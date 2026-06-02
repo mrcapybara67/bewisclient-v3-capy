@@ -6,6 +6,8 @@ import net.bewis09.bewisclient.drawable.renderables.popup.TiwylaLinesSettingsPop
 import net.bewis09.bewisclient.drawable.renderables.screen.HudEditScreen
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.renderables.screen.PackListScreen
+import net.bewis09.bewisclient.features.cosmetics.AcceptPrivacyPage
+import net.bewis09.bewisclient.features.cosmetics.EnableOnlineModeSettingsRenderable
 import net.bewis09.bewisclient.features.screenshot.BigScreenshotViewElement
 import net.bewis09.bewisclient.features.utilities.Fullbright
 import net.bewis09.bewisclient.game.BewisclientResourcePack
@@ -30,5 +32,7 @@ object TranslationLoader : EventEntrypoint {
         BewisclientResourcePack
         BigScreenshotViewElement.Companion
         PackListScreen.Companion
+        AcceptPrivacyPage
+        EnableOnlineModeSettingsRenderable.Companion
     }
 }
