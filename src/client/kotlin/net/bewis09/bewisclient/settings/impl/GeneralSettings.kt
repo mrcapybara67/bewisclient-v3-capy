@@ -4,11 +4,7 @@ import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.common.within
 import net.bewis09.bewisclient.drawable.SettingStructure
-import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
-import net.bewis09.bewisclient.drawable.renderables.components.structure.Plane
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
-import net.bewis09.bewisclient.features.cosmetics.AcceptPrivacyPage
-import net.bewis09.bewisclient.features.screenshot.ScreenshotElement.screenshotName
 import net.bewis09.bewisclient.settings.types.BooleanSetting
 import net.bewis09.bewisclient.settings.types.ColorSetting
 import net.bewis09.bewisclient.settings.types.ObjectSetting

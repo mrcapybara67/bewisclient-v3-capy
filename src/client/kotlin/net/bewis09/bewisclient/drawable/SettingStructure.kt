@@ -2,7 +2,6 @@ package net.bewis09.bewisclient.drawable
 
 import net.bewis09.bewisclient.api.APIEntrypointLoader
 import net.bewis09.bewisclient.common.createIdentifier
-import net.bewis09.bewisclient.cosmetics.CosmeticType
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.renderables.components.button.Button
 import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
@@ -10,7 +9,6 @@ import net.bewis09.bewisclient.drawable.renderables.components.structure.Plane
 import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalAlignScrollPlane
 import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalScrollGrid
 import net.bewis09.bewisclient.drawable.renderables.impl.ExtensionListRenderable
-import net.bewis09.bewisclient.drawable.renderables.impl.SelectCapeElement
 import net.bewis09.bewisclient.drawable.renderables.options_structure.HomePlane
 import net.bewis09.bewisclient.drawable.renderables.options_structure.SidebarCategory
 import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings

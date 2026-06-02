@@ -1,7 +1,6 @@
 package net.bewis09.bewisclient.common.logic
 
 import net.bewis09.bewisclient.common.Util
-import net.bewis09.bewisclient.common.catch
 import net.bewis09.bewisclient.server.BewisclientServer
 import java.io.ByteArrayOutputStream
 import java.net.URI
@@ -11,28 +10,6 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 interface WebLogic {
-    fun requestWithOfflineFilePost(url: String, offlinePath: String, postData: ByteArray): ByteArray? {
-        return requestWithOfflineFilePost(URI(url), offlinePath, postData)
-    }
-
-    fun requestWithOfflineFilePost(url: URI, offlinePath: String, postData: ByteArray): ByteArray? {
-        return requestWithOfflineFilePost(url.toURL(), offlinePath, postData)
-    }
-
-    fun requestWithOfflineFilePost(url: URL, offlinePath: String, postData: ByteArray): ByteArray? {
-        return try {
-            HttpClient.newBuilder().build().send(
-                HttpRequest.newBuilder()
-                    .uri(url.toURI())
-                    .POST(HttpRequest.BodyPublishers.ofByteArray(postData))
-                    .build(),
-                HttpResponse.BodyHandlers.ofByteArray()
-            ).body().also { BewisclientServer.saveRelativeFile(it, "bewisclient", "server", offlinePath) }
-        } catch (_: Exception) {
-            BewisclientServer.readRelativeFileBytes("bewisclient", "server", offlinePath)
-        }
-    }
-
     fun requestPost(url: URL, postData: ByteArray, headers: Map<String, String>? = null): HttpResponse<ByteArray>? {
         return try {
             HttpClient.newBuilder().build().send(
