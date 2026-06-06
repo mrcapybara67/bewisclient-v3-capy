@@ -5,6 +5,7 @@ import net.bewis09.bewisclient.drawable.renderables.components.button.ResetButto
 import net.bewis09.bewisclient.drawable.renderables.components.setting.Switch
 import net.bewis09.bewisclient.drawable.renderables.components.logic.TooltipHoverable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
+import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
 import net.bewis09.bewisclient.settings.logic.SettingInterfaceWithDefault
@@ -39,7 +40,7 @@ class MultipleBooleanSettingsRenderable(
         )
 
         init {
-            internalHeight = 16
+            internalHeight = 17
         }
 
         val resetButton = ResetButton(setting) { setting.get() == setting.getDefault() }

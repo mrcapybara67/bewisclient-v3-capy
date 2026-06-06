@@ -2,17 +2,18 @@ package net.bewis09.bewisclient.settings.impl
 
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.color
+import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.within
 import net.bewis09.bewisclient.drawable.SettingStructure
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
+import net.bewis09.bewisclient.settings.structure.Feature
 import net.bewis09.bewisclient.settings.types.BooleanSetting
 import net.bewis09.bewisclient.settings.types.ColorSetting
-import net.bewis09.bewisclient.settings.types.ObjectSetting
 import net.bewis09.bewisclient.util.Bewisclient
 import net.bewis09.bewisclient.util.color.StaticColorSaver
 import net.bewis09.bewisclient.util.color.ThemeColorSaver
 
-object GeneralSettings : ObjectSetting() {
+object GeneralSettings : Feature(createIdentifier("bewisclient", "options_menu")) {
     val animationTime = int("animation_time", 200, 0, 500)
     val blurBackground = boolean("blur_background", true)
     val buttonInTitleScreen = boolean("button_in_title_screen", true)

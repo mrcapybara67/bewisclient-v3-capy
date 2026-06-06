@@ -1,3 +1,5 @@
+// @VersionReplacement
+
 package net.bewis09.bewisclient.api.impl
 
 import net.bewis09.bewisclient.api.BewisclientAPIEntrypoint
@@ -9,7 +11,9 @@ import net.bewis09.bewisclient.drawable.renderables.options_structure.SidebarCat
 import net.bewis09.bewisclient.features.contact.Contact
 import net.bewis09.bewisclient.features.cosmetics.CosmeticLoader
 import net.bewis09.bewisclient.features.screenshot.Screenshot
+import net.bewis09.bewisclient.features.screenshot.ScreenshotSettings
 import net.bewis09.bewisclient.features.utilities.*
+import net.bewis09.bewisclient.features.utilities.TntTimer.FuseProvider
 import net.bewis09.bewisclient.game.BewisclientCommand
 import net.bewis09.bewisclient.game.BewisclientResourcePack
 import net.bewis09.bewisclient.game.ShulkerBoxTooltipComponent
@@ -21,10 +25,12 @@ import net.bewis09.bewisclient.game.translations.TranslationLoader
 import net.bewis09.bewisclient.server.Authorization
 import net.bewis09.bewisclient.server.AutoUpdater
 import net.bewis09.bewisclient.server.Security
-import net.bewis09.bewisclient.settings.impl.BewisclientSettings
 import net.bewis09.bewisclient.settings.impl.DefaultWidgetSettings
+import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.settings.impl.HomePlaneSettings
+import net.bewis09.bewisclient.settings.impl.WidgetSettings
 import net.bewis09.bewisclient.settings.logic.Settings
-import net.bewis09.bewisclient.settings.logic.SettingsLoader
+import net.bewis09.bewisclient.settings.structure.CategorizedFeature
 import net.bewis09.bewisclient.settings.structure.Feature
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.widget.Widget
@@ -34,11 +40,7 @@ import kotlin.jvm.optionals.getOrNull
 
 class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
     override fun getEventEntrypoints(): List<EventEntrypoint> = listOf(
-        WidgetLoader, SettingsLoader, KeybindingImplementer, TranslationLoader, BiomeWidget, SpeedWidget, TiwylaWidget, ShulkerBoxTooltipComponent.Entrypoint, CosmeticLoader, BewisclientCommand, Security, ImageIdentifier, Panorama, Ticker, AutoUpdater, Authorization
-    )
-
-    override fun getSettingsObjects(): List<Settings> = listOf(
-        BewisclientSettings
+        WidgetLoader, Settings, KeybindingImplementer, TranslationLoader, BiomeWidget, SpeedWidget, TiwylaWidget, ShulkerBoxTooltipComponent.Entrypoint, CosmeticLoader, BewisclientCommand, Security, ImageIdentifier, Panorama, Ticker, AutoUpdater, Authorization
     )
 
     override fun getKeybinds(): List<Keybind> = listOf(
@@ -49,12 +51,13 @@ class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
         FPSWidget, BiomeWidget, DayWidget, CoordinatesWidget, DaytimeWidget, PingWidget, CPSWidget, KeyWidget, InventoryWidget, SpeedWidget, TiwylaWidget, CustomWidget, ServerWidget, ArmorWidget
     )
 
-    override fun getUtilities(): List<Feature> = listOf(
-        Fullbright, BlockHighlight, EntityHighlight, HeldItemTooltip, Zoom, PumpkinOverlay,
-        // Crosshair,
-        BetterVisibility, Scoreboard, ShulkerBoxTooltip, Perspective, FireHeight, Panorama, PackAdder, TntTimer
-        // Chat Enhancements,
+    override fun getUtilities(): List<CategorizedFeature> = listOf(
+        Fullbright, BlockHighlight, EntityHighlight, HeldItemTooltip, Zoom, PumpkinOverlay, BetterVisibility, Scoreboard, ShulkerBoxTooltip, Perspective, FireHeight, Panorama, TntTimer, PackAdder
     )
+
+    override fun getOtherSettings(): List<Feature> {
+        return listOf(GeneralSettings, HomePlaneSettings, ScreenshotSettings, CosmeticLoader, WidgetSettings)
+    }
 
     override fun getGeneralWidgetSettings(): List<Renderable> = listOf(
         DefaultWidgetSettings.gap.createRenderable("widget.gap", "Gap", "Set the gap between widgets in a row"),
@@ -84,5 +87,12 @@ class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
 
     override fun getCustomResourceProviders(): List<BewisclientResourcePack.CustomResourceProvider> = listOf(
         Panorama
+    )
+
+    override fun getTntTimerEntities() = listOf(
+        FuseProvider(EntityTypes.TNT, true) { entity -> entity.fuse },
+        FuseProvider(EntityTypes.TNT_MINECART, false) { entity -> entity.fuse },
+        // @[26.1] @[] FuseProvider(EntityTypes.SULFUR_CUBE, false) { entity -> entity.fuse }
+        /*[@]*/FuseProvider(EntityTypes.SULFUR_CUBE, false) { entity -> entity.fuse }/*[!@]*/
     )
 }

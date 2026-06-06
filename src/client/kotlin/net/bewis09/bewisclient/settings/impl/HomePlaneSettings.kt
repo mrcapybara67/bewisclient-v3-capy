@@ -1,10 +1,11 @@
 package net.bewis09.bewisclient.settings.impl
 
 import com.google.gson.JsonPrimitive
+import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.settings.structure.Feature
 import net.bewis09.bewisclient.settings.types.ListSetting
-import net.bewis09.bewisclient.settings.types.ObjectSetting
 import net.bewis09.bewisclient.util.string
 
-object HomePlaneSettings : ObjectSetting() {
+object HomePlaneSettings : Feature(createIdentifier("bewisclient", "home")) {
     val quickSettings = create("quick_settings", ListSetting(mutableListOf(), { it.string() }, ::JsonPrimitive))
 }

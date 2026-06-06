@@ -1,9 +1,9 @@
 package net.bewis09.bewisclient.features.utilities
 
 import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.setColor
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
@@ -19,16 +19,18 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.Style
 import net.minecraft.world.item.ItemStack
 
-object HeldItemTooltip : ImageFeature("held_item_tooltip", Translation("menu.category.held_item_tooltip", "Held Item Info")) {
+object HeldItemTooltip : ImageFeature(createIdentifier("bewisclient", "held_item_tooltip"), "Held Item Info") {
     val maxShownLines = int("max_shown_lines", 5, 1, 10)
     val showMap = create("show_map", BooleanMapSetting())
 
     val moreLinesText = Translation("menu.held_item_tooltip.more_lines", "and %s more...")
 
-    override val settingRenderables: Array<Renderable> = arrayOf(
-        maxShownLines.createRenderable("held_item_tooltip.max_shown_lines", "Max Shown Lines", "Maximum number of lines to show in the held item tooltip").addToQuickSettings("menu.category.held_item_tooltip", "max_lines"), MultipleBooleanSettingsRenderable.create(
+    override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
+        list.addRenderable(maxShownLines, "held_item_tooltip.max_shown_lines", "Max Shown Lines", "Maximum number of lines to show in the held item tooltip", "max_lines")
+        list.add(MultipleBooleanSettingsRenderable.create(
             "held_item_tooltip.multiple_boolean_settings", "Data Component Tooltips:", "Select which information to show in the held item tooltip"
         ) { componentRenderableParts })
+    }
 
     fun lookup() {
         isLookup = true

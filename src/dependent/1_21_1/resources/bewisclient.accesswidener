@@ -3,3 +3,5 @@ accessWidener v1 named
 accessible class net/minecraft/client/Minecraft$GameLoadCookie
 accessible class net/minecraft/client/renderer/FogRenderer$MobEffectFogFunction
 accessible field net/minecraft/client/KeyMapping key Lcom/mojang/blaze3d/platform/InputConstants$Key;
+accessible field net/minecraft/client/gui/GuiGraphics scissorStack Lnet/minecraft/client/gui/GuiGraphics$ScissorStack;
+accessible class net/minecraft/client/gui/GuiGraphics$ScissorStack

@@ -1,13 +1,13 @@
 package net.bewis09.bewisclient.settings.structure
 
 import net.bewis09.bewisclient.common.Color
+import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
 
-abstract class ImageFeature(val image: String, text: Translation) : Feature(text) {
-    val identifier = createIdentifier("bewisclient", "textures/gui/features/$image.png")
+abstract class ImageFeature(id: Identifier, text: String) : CategorizedFeature(id, text) {
+    val identifier = createIdentifier(id.namespace, "textures/gui/features/${id.path}.png")
 
     override fun createRenderable(): SettingCategory = object : SettingCategory() {
         override fun renderContent(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {

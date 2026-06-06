@@ -16,13 +16,8 @@ import net.bewis09.bewisclient.settings.types.WidgetPositionSetting
 import net.bewis09.bewisclient.widget.impl.CustomWidget
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
 
-abstract class Widget(val id: Identifier, title: String, description: String) : DescriptionFeature(
-    Translation(id.namespace, "widget.${id.path}.name", title), Translation(id.namespace, "widget.${id.path}.description", description)
-) {
+abstract class Widget(id: Identifier, title: String, description: String) : DescriptionFeature(id, title, description) {
     var position: WidgetPositionSetting = create("position", WidgetPositionSetting(defaultPosition()))
-
-    override val settingRenderables: Array<Renderable>
-        get() = arrayListOf<Renderable>().also(::appendSettingsRenderables).toTypedArray()
 
     fun createTranslation(key: String, @Suppress("LocalVariableName") en_us: String) = Translation(id.namespace, "widget.${id.path}.$key", en_us)
 
@@ -34,7 +29,7 @@ abstract class Widget(val id: Identifier, title: String, description: String) : 
     open fun isHidden(): Boolean = false
 
     fun isShowing(): Boolean {
-        return isEnabled() && (!isHidden() || (getCurrentRenderableScreen()?.renderable is HudEditScreen))
+        return this@Widget.isEnabled() && (!isHidden() || (getCurrentRenderableScreen()?.renderable is HudEditScreen))
     }
 
     abstract fun defaultPosition(): WidgetPosition
@@ -69,19 +64,5 @@ abstract class Widget(val id: Identifier, title: String, description: String) : 
 
     open fun getCustomWidgetDataPoints(): List<CustomWidget.WidgetStringData> = listOf()
 
-    open fun appendSettingsRenderables(list: ArrayList<Renderable>) {}
-
     fun isInBox(mouseX: Double, mouseY: Double) = getX() < mouseX && getX() + getScaledWidth() > mouseX && getY() < mouseY && getY() + getScaledHeight() > mouseY
-
-    fun ArrayList<Renderable>.addRenderable(setting: RenderableCreator<*>, id: String, title: String, description: String? = null, quickSettingsId: String? = null) {
-        val renderable = setting.createRenderable("widget.$id", title, description)
-        if (quickSettingsId != null) renderable.addToQuickSettings("widget.${id}.name", quickSettingsId)
-        this.add(renderable)
-    }
-
-    fun ArrayList<Renderable>.addColorRenderable(setting: ColorSetting, alpha: FloatSetting, id: String, title: String, description: String? = null, quickSettingsId: String? = null) {
-        val renderable = setting.createRenderableWithFader("widget.$id", title, description, alpha)
-        if (quickSettingsId != null) renderable.addToQuickSettings("widget.${id}.name", quickSettingsId)
-        this.add(renderable)
-    }
 }

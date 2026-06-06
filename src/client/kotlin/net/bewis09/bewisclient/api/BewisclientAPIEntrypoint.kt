@@ -4,10 +4,12 @@ import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.options_structure.SidebarCategory
+import net.bewis09.bewisclient.features.utilities.TntTimer
 import net.bewis09.bewisclient.game.BewisclientResourcePack
 import net.bewis09.bewisclient.game.keybinds.Keybind
-import net.bewis09.bewisclient.settings.logic.Settings
+import net.bewis09.bewisclient.settings.structure.CategorizedFeature
 import net.bewis09.bewisclient.settings.structure.Feature
+import net.bewis09.bewisclient.settings.types.Setting
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.widget.Widget
@@ -42,14 +44,6 @@ open class BewisclientAPIEntrypoint : ClientInterface {
     }
 
     /**
-     * Returns a list of [Settings] objects that are registered in the mod.
-     * Each [Settings] object should be a singleton that holds the settings for your mod.
-     */
-    open fun getSettingsObjects(): List<Settings> {
-        return emptyList()
-    }
-
-    /**
      * Returns a list of [Keybind]s that are registered in the mod.
      * This is used to register keybinds for the Bewisclient API.
      */
@@ -62,9 +56,17 @@ open class BewisclientAPIEntrypoint : ClientInterface {
     }
 
     /**
-     * Should return a list of [Feature]s that are displayed in the Bewisclient utilities tab.
+     * Should return a list of [CategorizedFeature]s that are displayed in the Bewisclient utilities tab.
      */
-    open fun getUtilities(): List<Feature> {
+    open fun getUtilities(): List<CategorizedFeature> {
+        return emptyList()
+    }
+
+    /**
+     * Should return a map of other settings that are not part of a utility or a widget.
+     * This should preferably be a very general ObjectSetting, not individual settings
+     */
+    open fun getOtherSettings(): List<Feature> {
         return emptyList()
     }
 
@@ -86,6 +88,13 @@ open class BewisclientAPIEntrypoint : ClientInterface {
      * Should return a list of extra [TiwylaWidget.EntityInfoProvider]s that provide extra information to be displayed in the Tiwyla widget for specific entities.
      */
     open fun getTiwylaEntityExtraInfoProviders(): List<TiwylaWidget.EntityInfoProvider<*>> {
+        return emptyList()
+    }
+
+    /**
+     * Should return a list of [TntTimer.FuseProvider]s that provide entities for the TNT Timer feature.
+     */
+    open fun getTntTimerEntities(): List<TntTimer.FuseProvider<*>> {
         return emptyList()
     }
 

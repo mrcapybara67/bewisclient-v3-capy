@@ -7,7 +7,7 @@ import net.bewis09.bewisclient.common.getModrinthVersion
 import net.bewis09.bewisclient.drawable.renderables.notification.NotificationManager
 import net.bewis09.bewisclient.drawable.renderables.notification.SimpleTextNotification
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.logic.Settings.Companion.gson
+import net.bewis09.bewisclient.settings.logic.Settings.gson
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.version.registerTexture
 import net.minecraft.network.chat.Component

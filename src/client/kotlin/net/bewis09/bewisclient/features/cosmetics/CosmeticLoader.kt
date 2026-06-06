@@ -5,6 +5,7 @@ import com.mojang.authlib.GameProfile
 import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.Util
 import net.bewis09.bewisclient.common.catch
+import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.toText
 import net.bewis09.bewisclient.cosmetics.CommonCosmeticLoader
 import net.bewis09.bewisclient.cosmetics.CommonCosmeticLoader.cosmeticData
@@ -20,6 +21,7 @@ import net.bewis09.bewisclient.drawable.renderables.components.structure.Vertica
 import net.bewis09.bewisclient.drawable.renderables.impl.SelectCapeElement
 import net.bewis09.bewisclient.server.Authorization
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.settings.structure.Feature
 import net.bewis09.bewisclient.settings.types.ObjectSetting
 import net.bewis09.bewisclient.settings.types.StringMapSetting
 import net.bewis09.bewisclient.util.EventEntrypoint
@@ -29,7 +31,7 @@ import java.net.URI
 import java.security.MessageDigest
 import java.util.*
 
-object CosmeticLoader : ObjectSetting(), EventEntrypoint {
+object CosmeticLoader : Feature(createIdentifier("bewisclient", "cosmetics")), EventEntrypoint {
     val allowedCosmetics = mutableListOf<CosmeticIdentifier>()
     val specialCosmetics = mutableListOf<CosmeticIdentifier>()
     val elytraCosmetics = mutableListOf<CosmeticIdentifier>()

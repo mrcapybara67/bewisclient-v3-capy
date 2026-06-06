@@ -17,14 +17,14 @@ import net.bewis09.bewisclient.features.cosmetics.CosmeticLoader
 import net.bewis09.bewisclient.features.cosmetics.EnableOnlineModeSettingsRenderable
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
-import net.bewis09.bewisclient.settings.structure.Feature
+import net.bewis09.bewisclient.settings.structure.CategorizedFeature
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.bewis09.bewisclient.widget.WidgetLoader
 
 object SettingStructure : ClientInterface {
-    val widgetRenderables = WidgetLoader.widgets.map(Feature::createRenderable)
+    val widgetRenderables = WidgetLoader.widgets.map(CategorizedFeature::createRenderable)
 
-    val utilities = APIEntrypointLoader.mapEntrypoint { it.getUtilities() }.flatten().map(Feature::createRenderable)
+    val utilities = APIEntrypointLoader.mapEntrypoint { it.getUtilities() }.flatten().map(CategorizedFeature::createRenderable)
 
     val settings = VerticalAlignScrollPlane(
         listOfNotNull(

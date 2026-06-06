@@ -3,7 +3,6 @@ package net.bewis09.bewisclient.settings.types
 import com.google.gson.JsonElement
 import net.bewis09.bewisclient.settings.logic.SettingInterfaceWithDefault
 import net.bewis09.bewisclient.settings.logic.Settings
-import net.bewis09.bewisclient.settings.logic.SettingsLoader
 import net.bewis09.bewisclient.util.logic.ClientInterface
 
 /**
@@ -75,9 +74,7 @@ abstract class Setting<T>(val default: () -> T) : ClientInterface, SettingInterf
      * Saves the settings to the file.
      * This method should be called after setting a value to ensure that the changes are persisted.
      */
-    fun save() {
-        SettingsLoader.getAllSettings().forEach { it.setDirty() }
-    }
+    fun save() = Settings.setDirty()
 
     /**
      * Sets the value of the setting without saving the settings.

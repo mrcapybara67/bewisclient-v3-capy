@@ -18,8 +18,8 @@ import net.bewis09.bewisclient.features.screenshot.BigScreenshotViewElement
 import net.bewis09.bewisclient.game.BewisclientResourcePack
 import net.bewis09.bewisclient.game.keybinds.Keybind
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.impl.BewisclientSettings
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.settings.logic.Settings
 import net.bewis09.bewisclient.settings.structure.ImageFeature
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.version.registerTexture
@@ -36,7 +36,7 @@ import java.time.format.DateTimeFormatter
 import javax.imageio.ImageIO
 import kotlin.io.path.exists
 
-object Panorama : ImageFeature("panorama", Translation("menu.category.panorama", "Panorama")), EventEntrypoint, BewisclientResourcePack.CustomResourceProvider {
+object Panorama : ImageFeature(createIdentifier("bewisclient","panorama"), "Panorama"), EventEntrypoint, BewisclientResourcePack.CustomResourceProvider {
     val path = string("path", "")
 
     val deletedPanormaText = Translation("menu.screenshot.delete_panorama_success", "Deleted panorama")
@@ -48,7 +48,7 @@ object Panorama : ImageFeature("panorama", Translation("menu.category.panorama",
     val confirmPanoramaDelete = Translation("menu.screenshot.confirm_panorama_delete", "Are you sure you want to delete this panorama?")
 
     override fun enabledListener(oldValue: Boolean?, newValue: Boolean?) {
-        if (path.get().isNotEmpty() && !BewisclientSettings.isLoading) {
+        if (path.get().isNotEmpty() && !Settings.isLoading) {
             client.reloadResourcePacks()
         }
     }
@@ -61,15 +61,15 @@ object Panorama : ImageFeature("panorama", Translation("menu.category.panorama",
 
     val images = mutableMapOf<File, PanoramaScreenshots>()
 
-    override val settingRenderables: Array<Renderable> = arrayOf(
-        InfoTextRenderable(
+    override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
+        list.add(InfoTextRenderable(
             Translation("panorama.info_text", "The panorama functionality allows you to set a custom panorama background for the main menu. You can create the panorama by pressing the \"%s\" button [%s]. After taking the screenshot select the screenshot below.")(Component.translatable("bewisclient.key.screenshot.take_panorama"), Component.keybind("bewisclient.key.screenshot.take_panorama")),
             centered = true
-        ),
-    )
+        ))
+    }
 
     override fun getPane(): Renderable {
-        return VerticalAlignScrollPlane(settingRenderables.toMutableList().apply {
+        return VerticalAlignScrollPlane(getSettingRenderables().toMutableList().apply {
             addAll(FabricLoader.getInstance().gameDir.resolve("screenshots").toFile().listFiles {
                 it.isDirectory && it.resolve("screenshots").exists() && it.resolve("screenshots").listFiles().map { f -> f.name }.let { name ->
                     name.contains("panorama_0.png") && name.contains("panorama_1.png") && name.contains("panorama_2.png") && name.contains("panorama_3.png") && name.contains("panorama_4.png") && name.contains("panorama_5.png")

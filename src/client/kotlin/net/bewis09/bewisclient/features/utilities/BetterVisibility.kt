@@ -2,13 +2,12 @@
 
 package net.bewis09.bewisclient.features.utilities
 
+import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
-import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.structure.ImageFeature
 import net.bewis09.bewisclient.settings.types.BooleanSetting
 
-object BetterVisibility : ImageFeature("better_visibility", Translation("menu.category.better_visibility", "Better Visibility")) {
+object BetterVisibility : ImageFeature(createIdentifier("bewisclient", "better_visibility"), "Better Visibility") {
     val nether = boolean("nether", false)
     val water = boolean("water", false)
     val lava = boolean("lava", false)
@@ -23,12 +22,12 @@ object BetterVisibility : ImageFeature("better_visibility", Translation("menu.ca
         "powder_snow" to FogModifierConfig(powder_snow, { -8f }, { 8f })
     )
 
-    override val settingRenderables: Array<Renderable> = arrayOf(
-        nether.createRenderable("better_visibility.nether", "Nether", "Improve visibility in the Nether dimension").addToQuickSettings("menu.category.better_visibility", "nether"),
-        water.createRenderable("better_visibility.water", "Water", "Enhance visibility underwater").addToQuickSettings("menu.category.better_visibility", "water"),
-        lava.createRenderable("better_visibility.lava", "Lava", "Boost visibility in lava").addToQuickSettings("menu.category.better_visibility", "lava"),
-        powder_snow.createRenderable("better_visibility.powder_snow", "Powder Snow", "Increase visibility in powder snow").addToQuickSettings("menu.category.better_visibility", "snow")
-    )
+    override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
+        list.addRenderable(nether, "better_visibility.nether", "Nether", "Improve visibility in the Nether dimension", "nether")
+        list.addRenderable(water, "better_visibility.water", "Water", "Enhance visibility underwater", "water")
+        list.addRenderable(lava, "better_visibility.lava", "Lava", "Boost visibility in lava", "lava")
+        list.addRenderable(powder_snow, "better_visibility.powder_snow", "Powder Snow", "Increase visibility in powder snow", "snow")
+    }
 
     fun applyFogModifier(instance: String, fogData: FogData, viewDistance: Float) {
         if (isEnabled()) fogModifiers[instance]?.let {

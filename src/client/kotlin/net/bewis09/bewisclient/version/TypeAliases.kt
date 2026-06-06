@@ -11,6 +11,9 @@ typealias Hud = net.minecraft.client.gui./*[@]*/Hud/*[!@]*/
 // @[1.21.11] GuiGraphics @[] GuiGraphicsExtractor
 typealias GuiGraphics = net.minecraft.client.gui./*[@]*/GuiGraphicsExtractor/*[!@]*/
 
+// @[1.21.11] GuiGraphics @[] GuiGraphicsExtractor
+typealias ScissorStack = net.minecraft.client.gui./*[@]*/GuiGraphicsExtractor/*[!@]*/.ScissorStack
+
 // @[1.21.11] ClientCommandManager @[] ClientCommands
 typealias ClientCommandManager = net.fabricmc.fabric.api.client.command.v2./*[@]*/ClientCommands/*[!@]*/
 

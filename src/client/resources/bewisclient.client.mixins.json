@@ -22,7 +22,8 @@
     "ZoomMixin",
     "MultiPlayerGameModeMixin",
     "ClientPacketListenerAccessor",
-    "TntRendererMixin"
+    "TntRendererMixin",
+    "ScissorStackMixin"
   ],
   "injectors": {
     "defaultRequire": 1

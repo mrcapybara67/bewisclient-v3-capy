@@ -3,29 +3,31 @@ package net.bewis09.bewisclient.settings.logic
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
-import net.bewis09.bewisclient.settings.types.Setting
+import net.bewis09.bewisclient.api.APIEntrypointLoader
+import net.bewis09.bewisclient.settings.types.ObjectSetting
+import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.util.logic.ClientInterface
 
-abstract class Settings : ClientInterface {
-    companion object {
-        val gson: Gson = GsonBuilder().setPrettyPrinting().create()
-    }
+object Settings : ObjectSetting(), ClientInterface, EventEntrypoint {
+    val gson: Gson = GsonBuilder().setPrettyPrinting().create()
 
     var isLoading = true
     var dirty: Boolean = false
 
-    /**
-     * Returns the ID of the settings.
-     * It is used to name the settings file.
-     */
-    abstract fun getId(): String
+    init {
+        for (feature in APIEntrypointLoader.mapEntrypoint { it.getOtherSettings() + it.getUtilities() }.flatten()) {
+            create(if (feature.id.namespace == "bewisclient") feature.id.path else feature.id.toString(), feature)
+        }
+    }
 
-    abstract fun getMainSetting(): Setting<*>?
+    fun load() {
+        if (Version2Migration.update()) {
+            saveAll()
+        }
 
-    open fun load() {
         isLoading = true
-        val data = readRelativeFile("bewisclient", getId() + ".json")
-        getMainSetting()?.setFromElement(gson.fromJson(data, JsonElement::class.java))
+        val data = readRelativeFile("bewisclient", "bewisclient.json")
+        setFromElement(gson.fromJson(data, JsonElement::class.java))
         isLoading = false
     }
 
@@ -33,13 +35,16 @@ abstract class Settings : ClientInterface {
         dirty = true
     }
 
-    fun save() {
+    fun saveAll() {
         if (dirty && !isLoading) {
-            val mainSetting = getMainSetting() ?: return
-            val jsonElement = mainSetting.convertToElement()
+            val jsonElement = convertToElement()
             val jsonString = gson.toJson(jsonElement)
-            saveRelativeFile(jsonString, "bewisclient", getId() + ".json")
+            saveRelativeFile(jsonString, "bewisclient", "bewisclient.json")
             dirty = false
         }
     }
+
+    override fun onInitializeClient() = load()
+
+    override fun onClientTickStart() = saveAll()
 }

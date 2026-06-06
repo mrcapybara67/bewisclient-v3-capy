@@ -21,7 +21,8 @@ class ResetButton<T>(val setting: Settable<T?>, val isDefault: () -> Boolean) : 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)
 
-        usePointer(screenDrawing, mouseX, mouseY)
+        if (!isDefault())
+            usePointer(screenDrawing, mouseX, mouseY)
 
         if (isDefault())
             screenDrawing.pushColor(0.5f, 0.5f, 0.5f, 1f)
