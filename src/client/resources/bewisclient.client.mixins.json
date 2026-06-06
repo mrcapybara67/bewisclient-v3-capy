@@ -21,7 +21,8 @@
     "MouseMixin",
     "ZoomMixin",
     "MultiPlayerGameModeMixin",
-    "ClientPacketListenerAccessor"
+    "ClientPacketListenerAccessor",
+    "TntRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

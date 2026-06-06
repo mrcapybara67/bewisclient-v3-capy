@@ -52,7 +52,7 @@ class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
     override fun getUtilities(): List<Feature> = listOf(
         Fullbright, BlockHighlight, EntityHighlight, HeldItemTooltip, Zoom, PumpkinOverlay,
         // Crosshair,
-        BetterVisibility, Scoreboard, ShulkerBoxTooltip, Perspective, FireHeight, Panorama, PackAdder
+        BetterVisibility, Scoreboard, ShulkerBoxTooltip, Perspective, FireHeight, Panorama, PackAdder, TntTimer
         // Chat Enhancements,
     )
 

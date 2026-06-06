@@ -20,7 +20,7 @@ import net.minecraft.network.chat.Component
 object AcceptPrivacyPage : Renderable() {
     val headerText = Translation("privacy.header", "Read and accept privacy notice to continue")
     val decline = Translation("privacy.reject", "Reject privacy notice")
-    val accept = Translation("privacy.accept", "I have read the privacy notice and accept it.")
+    val accept = Translation("privacy.accept", "Accept privacy notice and enable online mode")
 
     val notice = """
         By enabling the online mode of Bewisclient some of your data is sent to the Bewisclient servers in the following manner:

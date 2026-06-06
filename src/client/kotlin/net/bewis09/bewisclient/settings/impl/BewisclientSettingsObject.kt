@@ -25,5 +25,6 @@ object BewisclientSettingsObject : ObjectSetting() {
         create("pack_adder", PackAdder)
         create("panorama", Panorama)
         create("home", HomePlaneSettings)
+        create("tnt_timer", TntTimer)
     }
 }

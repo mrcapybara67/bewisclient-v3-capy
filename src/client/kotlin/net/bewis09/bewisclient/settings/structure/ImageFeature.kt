@@ -7,7 +7,7 @@ import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.impl.GeneralSettings
 
 abstract class ImageFeature(val image: String, text: Translation) : Feature(text) {
-    val identifier = createIdentifier("bewisclient", "textures/gui/functionalities/$image.png")
+    val identifier = createIdentifier("bewisclient", "textures/gui/features/$image.png")
 
     override fun createRenderable(): SettingCategory = object : SettingCategory() {
         override fun renderContent(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
