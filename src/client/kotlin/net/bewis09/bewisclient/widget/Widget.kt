@@ -2,16 +2,11 @@ package net.bewis09.bewisclient.widget
 
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.catch
-import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.drawable.renderables.screen.HudEditScreen
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.transform
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.logic.RenderableCreator
 import net.bewis09.bewisclient.settings.structure.DescriptionFeature
-import net.bewis09.bewisclient.settings.types.ColorSetting
-import net.bewis09.bewisclient.settings.types.FloatSetting
 import net.bewis09.bewisclient.settings.types.WidgetPositionSetting
 import net.bewis09.bewisclient.widget.impl.CustomWidget
 import net.bewis09.bewisclient.widget.logic.WidgetPosition

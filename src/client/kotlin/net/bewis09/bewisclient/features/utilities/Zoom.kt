@@ -3,7 +3,6 @@ package net.bewis09.bewisclient.features.utilities
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.Animator
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.game.keybinds.Keybind
 import net.bewis09.bewisclient.settings.structure.ImageFeature
 import org.lwjgl.glfw.GLFW
