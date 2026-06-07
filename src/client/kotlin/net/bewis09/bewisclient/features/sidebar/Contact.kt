@@ -77,8 +77,8 @@ object Contact : SidebarFeature(
 
         override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean {
             menuAnimation.set(1f)
-            Contact.hoveredElement?.menuAnimation?.set(0f)
-            Contact.hoveredElement = if (Contact.hoveredElement != this) this else null
+            hoveredElement?.menuAnimation?.set(0f)
+            hoveredElement = if (hoveredElement != this) this else null
             return true
         }
     }

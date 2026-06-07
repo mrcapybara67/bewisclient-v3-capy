@@ -67,7 +67,7 @@ object Home : SidebarFeature(createIdentifier("bewisclient", "home"), "Bewisclie
                 )
             }
 
-            if (Home.quickSettings.isEmpty()) {
+            if (quickSettings.isEmpty()) {
                 addRenderable(Plane { x, y, width, height ->
                     listOf(
                         InfoTextRenderable(no_quick_settings(), General.getTextThemeColor() alpha 0.66f, centered = true)(x + width / 2 - 100, y + height / 4, 200, 0),
@@ -80,7 +80,7 @@ object Home : SidebarFeature(createIdentifier("bewisclient", "home"), "Bewisclie
             addRenderable(
                 VerticalAlignScrollPlane(
                     mutableListOf(
-                        VerticalAlignPlane(Home.quickSettings.toSortedSet().filter { it.split("/").size >= 2 }.groupBy { it.split("/")[0] }.mapNotNull {
+                        VerticalAlignPlane(quickSettings.toSortedSet().filter { it.split("/").size >= 2 }.groupBy { it.split("/")[0] }.mapNotNull {
                             listOf(
                                 EmptyRenderable().setHeight(5),
                                 InfoTextRenderable(Component.translatable("bewisclient." + it.key), centered = true, color = General.getTextThemeColor(), padding = 0).setHeight(14),
@@ -110,7 +110,7 @@ object Home : SidebarFeature(createIdentifier("bewisclient", "home"), "Bewisclie
 
                 renderRenderables(screenDrawing, mouseX, mouseY)
 
-                if (Home.quickSettings.contains("$category/$id")) {
+                if (quickSettings.contains("$category/$id")) {
                     screenDrawing.drawTexture(checkTexture, x + if (isMinecrafty) 2 else 1, y + height / 2 - 7, 14, 14, if (isMinecrafty) Color.WHITE else General.getThemeColor())
                 }
             }
@@ -124,8 +124,8 @@ object Home : SidebarFeature(createIdentifier("bewisclient", "home"), "Bewisclie
             override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean {
                 if (mouseX >= x && mouseX <= x + 16 && mouseY >= y + height / 2 - 8 && mouseY <= y + height / 2 + 8) {
                     val key = "$category/$id"
-                    if (!Home.quickSettings.remove(key)) {
-                        Home.quickSettings.add(key)
+                    if (!quickSettings.remove(key)) {
+                        quickSettings.add(key)
                     }
                     return true
                 }

@@ -56,7 +56,7 @@ class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
     )
 
     override fun getOtherSettings(): List<Feature> {
-        return listOf( Home, Widgets)
+        return listOf(Home)
     }
 
     override fun getGeneralWidgetSettings(): List<Renderable> = listOf(
