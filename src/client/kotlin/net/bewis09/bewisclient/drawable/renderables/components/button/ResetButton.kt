@@ -5,7 +5,7 @@ import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.renderables.components.logic.TooltipHoverable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.util.interfaces.Settable
 
 class ResetButton<T>(val setting: Settable<T?>, val isDefault: () -> Boolean) : TooltipHoverable({ if (isDefault()) null else resetText() }) {
@@ -32,7 +32,7 @@ class ResetButton<T>(val setting: Settable<T?>, val isDefault: () -> Boolean) : 
         screenDrawing.popColor()
 
         val imagePadding = if (isMinecrafty) 3 else 2
-        screenDrawing.drawTexture(createIdentifier("bewisclient", "textures/gui/sprites/reset.png"), x + imagePadding, y + imagePadding, width - imagePadding * 2, height - imagePadding * 2, GeneralSettings.getTextThemeColor())
+        screenDrawing.drawTexture(createIdentifier("bewisclient", "textures/gui/sprites/reset.png"), x + imagePadding, y + imagePadding, width - imagePadding * 2, height - imagePadding * 2, General.getTextThemeColor())
 
         if (isDefault())
             screenDrawing.popColor()

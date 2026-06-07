@@ -4,7 +4,7 @@ import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.getModrinthVersion
 import net.bewis09.bewisclient.drawable.minecraft.TexturedButtonWidget
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
-import net.bewis09.bewisclient.settings.impl.GeneralSettings.buttonInTitleScreen
+import net.bewis09.bewisclient.features.sidebar.General.buttonInTitleScreen
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.screens.Screen

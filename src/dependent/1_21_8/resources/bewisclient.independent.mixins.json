@@ -8,7 +8,6 @@
     "ItemStackMixin",
     "LightmapTextureManagerMixin",
     "PackListWidgetMixin",
-    "ScreenshotRecorderMixin",
     "SkinTexturesMixin",
     "TooltipDisplayComponentMixin",
     "WorldRendererMixin"

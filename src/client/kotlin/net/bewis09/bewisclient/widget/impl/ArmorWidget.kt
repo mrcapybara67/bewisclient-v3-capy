@@ -2,11 +2,11 @@ package net.bewis09.bewisclient.widget.impl
 
 import net.bewis09.bewisclient.common.*
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
-import net.bewis09.bewisclient.settings.impl.DefaultWidgetSettings
+import net.bewis09.bewisclient.features.sidebar.Home.addToQuickSettings
+import net.bewis09.bewisclient.features.sidebar.Widgets
 import net.bewis09.bewisclient.widget.impl.InventoryWidget.indicatorText
 import net.bewis09.bewisclient.widget.logic.RelativePosition
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
@@ -35,14 +35,14 @@ object ArmorWidget : ScalableWidget(
     val showFeet = boolean("show_feet", true)
     val showOffHand = boolean("show_off_hand", false)
 
-    val backgroundColor = create("background_color", DefaultWidgetSettings.backgroundColor.cloneWithDefault())
-    val backgroundOpacity = create("background_opacity", DefaultWidgetSettings.backgroundOpacity.cloneWithDefault())
-    val borderColor = create("border_color", DefaultWidgetSettings.borderColor.cloneWithDefault())
-    val borderOpacity = create("border_opacity", DefaultWidgetSettings.borderOpacity.cloneWithDefault())
-    val paddingSize = create("padding_size", DefaultWidgetSettings.paddingSize.cloneWithDefault())
-    val shadow = create("shadow", DefaultWidgetSettings.shadow.cloneWithDefault())
-    val textColor = create("text_color", DefaultWidgetSettings.textColor.cloneWithDefault())
-    val borderRadius = create("border_radius", DefaultWidgetSettings.borderRadius.cloneWithDefault())
+    val backgroundColor = create("background_color", Widgets.Default.backgroundColor.cloneWithDefault())
+    val backgroundOpacity = create("background_opacity", Widgets.Default.backgroundOpacity.cloneWithDefault())
+    val borderColor = create("border_color", Widgets.Default.borderColor.cloneWithDefault())
+    val borderOpacity = create("border_opacity", Widgets.Default.borderOpacity.cloneWithDefault())
+    val paddingSize = create("padding_size", Widgets.Default.paddingSize.cloneWithDefault())
+    val shadow = create("shadow", Widgets.Default.shadow.cloneWithDefault())
+    val textColor = create("text_color", Widgets.Default.textColor.cloneWithDefault())
+    val borderRadius = create("border_radius", Widgets.Default.borderRadius.cloneWithDefault())
 
     val icons = mapOf(
         39 to createIdentifier("bewisclient", "textures/gui/sprites/helmet.png"),

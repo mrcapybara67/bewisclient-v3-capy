@@ -5,12 +5,11 @@ import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.alpha
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.BackgroundEffectProvider
-import net.bewis09.bewisclient.drawable.SettingStructure
 import net.bewis09.bewisclient.drawable.renderables.components.button.ImageButton
 import net.bewis09.bewisclient.drawable.renderables.popup.AddWidgetPopup
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
+import net.bewis09.bewisclient.features.sidebar.Widgets
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.impl.DefaultWidgetSettings
 import net.bewis09.bewisclient.util.number.Precision
 import net.bewis09.bewisclient.version.isKeyPressed
 import net.bewis09.bewisclient.version.translateToTopOptional
@@ -55,7 +54,7 @@ class HudEditScreen : PopupScreen(), BackgroundEffectProvider {
                     setRenderableScreen(OptionScreen().apply {
                         val widgetsCategory = widgets.firstOrNull { b -> b.enabled == it.enabled } ?: return@apply
 
-                        changeCategory(SettingStructure.widgetsCategory, instant = true)
+                        changeCategory(Widgets, instant = true)
 
                         openPage(
                             widgetsCategory.getHeader(),
@@ -144,7 +143,7 @@ class HudEditScreen : PopupScreen(), BackgroundEffectProvider {
         }.setImagePadding(0)(width - 16, height - 16, 14, 14))
         addRenderable(ImageButton(createIdentifier("bewisclient", "textures/gui/sprites/settings.png")) {
             setRenderableScreen(OptionScreen().apply {
-                changeCategory(SettingStructure.widgetsCategory, instant = true)
+                changeCategory(Widgets, instant = true)
             })
         }.setImagePadding(2)(width - 32, height - 16, 14, 14))
     }
@@ -222,12 +221,12 @@ class HudEditScreen : PopupScreen(), BackgroundEffectProvider {
         val yTransform = if (end) SidedPosition.END else SidedPosition.START
 
         if (!client.isKeyPressed(GLFW.GLFW_KEY_LEFT_SHIFT)) {
-            if (abs(x - DefaultWidgetSettings.screenEdgeDistance.get()) < 10) {
-                x = DefaultWidgetSettings.screenEdgeDistance.get().toDouble()
+            if (abs(x - Widgets.Default.screenEdgeDistance.get()) < 10) {
+                x = Widgets.Default.screenEdgeDistance.get().toDouble()
             }
 
-            if (abs(y - DefaultWidgetSettings.screenEdgeDistance.get()) < 10) {
-                y = DefaultWidgetSettings.screenEdgeDistance.get().toDouble()
+            if (abs(y - Widgets.Default.screenEdgeDistance.get()) < 10) {
+                y = Widgets.Default.screenEdgeDistance.get().toDouble()
             }
 
             if (abs(wX + widget.getScaledWidth() / 2 - width / 2) < 10) {

@@ -12,7 +12,7 @@ import net.bewis09.bewisclient.drawable.renderables.components.element.TextEleme
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.util.Bewisclient
 import net.bewis09.bewisclient.util.int
 import net.bewis09.bewisclient.util.number.Precision
@@ -106,9 +106,9 @@ class ChangingColorSaver : ColorSaver {
         override fun init() {
             addRenderable(text(x, y + 2, width, 9))
             addRenderable(fader(x, y + 11, width, 14))
-            addRenderable(Rectangle { GeneralSettings.getThemeColor(alpha = 0.3f) }(x, y + 29, width, 1))
+            addRenderable(Rectangle { General.getThemeColor(alpha = 0.3f) }(x, y + 29, width, 1))
             addRenderable(spectrumButton(x, y + 36, width, 8))
-            addRenderable(Rectangle { GeneralSettings.getThemeColor(alpha = 0.3f) }(x, y + 49, width, 1))
+            addRenderable(Rectangle { General.getThemeColor(alpha = 0.3f) }(x, y + 49, width, 1))
             addRenderable(actionButton(x, y + 55, width, 8))
         }
     }

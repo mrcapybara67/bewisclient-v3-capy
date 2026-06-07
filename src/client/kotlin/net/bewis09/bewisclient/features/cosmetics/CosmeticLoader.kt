@@ -11,13 +11,14 @@ import net.bewis09.bewisclient.data.Constants
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.components.element.Rectangle
 import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
+import net.bewis09.bewisclient.drawable.renderables.components.structure.Plane
 import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalAlignPlane
 import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalAlignScrollPlane
 import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalGrid
 import net.bewis09.bewisclient.drawable.renderables.impl.SelectCapeElement
 import net.bewis09.bewisclient.server.Authorization
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
-import net.bewis09.bewisclient.settings.structure.Feature
+import net.bewis09.bewisclient.features.sidebar.General
+import net.bewis09.bewisclient.settings.structure.SidebarFeature
 import net.bewis09.bewisclient.settings.types.StringMapSetting
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.minecraft.client.multiplayer.PlayerInfo
@@ -26,7 +27,7 @@ import java.net.URI
 import java.security.MessageDigest
 import java.util.*
 
-object CosmeticLoader : Feature(createIdentifier("bewisclient", "cosmetics")), EventEntrypoint {
+object CosmeticLoader : SidebarFeature(createIdentifier("bewisclient", "cosmetics"), "Cosmetics"), EventEntrypoint {
     val allowedCosmetics = mutableListOf<CosmeticIdentifier>()
     val specialCosmetics = mutableListOf<CosmeticIdentifier>()
     val elytraCosmetics = mutableListOf<CosmeticIdentifier>()
@@ -56,6 +57,13 @@ object CosmeticLoader : Feature(createIdentifier("bewisclient", "cosmetics")), E
     var playerCosmetics = hashMapOf<String, OnePlayerData?>()
 
     var lastCosmeticChange: Long = 0
+
+    override fun getRenderable(): Renderable = Plane { x, y, width, height ->
+        listOf(
+            elytra.createRenderable("cosmetics.elytra", "Apply cape to elytra", "Some capes include a unique texture for the elytra, which can be disabled here if desired.")(x, y, width, 22),
+            getCosmeticGrid()(x, y + 27, width, height - 27)
+        )
+    }
 
     fun getStatus(identifier: CosmeticIdentifier): DownloadStatus {
         return status.getOrDefault(identifier, DownloadStatus.NOT_STARTED)
@@ -300,7 +308,7 @@ object CosmeticLoader : Feature(createIdentifier("bewisclient", "cosmetics")), E
                             SelectCapeElement(id, cosmetics[id]!!)
                         } else null
                     }.let { a -> { _ -> a } }, 5, 65),
-                    if (i != setCategories.size - 1) Rectangle { GeneralSettings.getTextThemeColor().withBrightness(0.3f) }.setHeight(1) else null
+                    if (i != setCategories.size - 1) Rectangle { General.getTextThemeColor().withBrightness(0.3f) }.setHeight(1) else null
                 ), 5
             )
         }, 5)

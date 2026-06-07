@@ -10,7 +10,7 @@ import net.bewis09.bewisclient.drawable.renderables.components.element.TextEleme
 import net.bewis09.bewisclient.drawable.renderables.components.setting.Fader
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.util.float
 import net.bewis09.bewisclient.util.number.Precision
 
@@ -26,7 +26,7 @@ class ThemeColorSaver : ColorSaver {
     }
 
     override fun getColor(): Color {
-        return GeneralSettings.themeColor.get().getColor().withBrightness(getBrightness())
+        return General.themeColor.get().getColor().withBrightness(getBrightness())
     }
 
     override fun getType(): String = "theme"
@@ -35,7 +35,7 @@ class ThemeColorSaver : ColorSaver {
         return if (brightness == null) JsonPrimitive(-1) else JsonPrimitive(brightness)
     }
 
-    fun getDefault() = Precision(0f, 1f, 0.01f, 2).parse(GeneralSettings.themeColor.get().getColor().brightness)
+    fun getDefault() = Precision(0f, 1f, 0.01f, 2).parse(General.themeColor.get().getColor().brightness)
 
     fun getBrightness() = brightness ?: getDefault()
 

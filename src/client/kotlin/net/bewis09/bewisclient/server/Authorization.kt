@@ -4,7 +4,7 @@ import net.bewis09.bewisclient.common.catch
 import net.bewis09.bewisclient.cosmetics.CommonCosmeticLoader
 import net.bewis09.bewisclient.features.cosmetics.CosmeticLoader
 import net.bewis09.bewisclient.generated.BuildInfo
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.util.logic.ClientInterface
 import java.math.BigInteger
@@ -17,13 +17,13 @@ object Authorization: ClientInterface, EventEntrypoint {
     var onlineModeEnabled = false
 
     override fun onMetadataLoaded(metadata: CommonCosmeticLoader.Metadata) {
-        onlineModeEnabled = GeneralSettings.onlineMode.get()
+        onlineModeEnabled = General.onlineMode.get()
         val clientVersion = BuildInfo.BC_VERSION
         val comparison = compareVersions(clientVersion, metadata.minimum)
         if (comparison < 0) {
             warn("Bewisclient is outdated! Minimum version: ${metadata.minimum}, your version: $clientVersion")
         }
-        val startupData = if (comparison >= 0 && GeneralSettings.onlineMode.get() && GeneralSettings.acceptedEULA.get()) catch { authorize(metadata) } else null
+        val startupData = if (comparison >= 0 && General.onlineMode.get() && General.acceptedEULA.get()) catch { authorize(metadata) } else null
         CosmeticLoader.loadSpecials(startupData)
     }
 

@@ -3,7 +3,7 @@ package net.bewis09.bewisclient.core.mixin;
 import net.bewis09.bewisclient.common.UtilKt;
 import net.bewis09.bewisclient.drawable.minecraft.TexturedButtonWidget;
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen;
-import net.bewis09.bewisclient.settings.impl.GeneralSettings;
+import net.bewis09.bewisclient.features.sidebar.General;
 import net.bewis09.bewisclient.util.Bewisclient;
 import net.minecraft.client.gui.components.SpriteIconButton;
 import net.minecraft.client.gui.components.Tooltip;
@@ -32,7 +32,7 @@ public abstract class NewTitleScreenButtonInjector extends Screen {
 
     @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/SpriteIconButton;setPosition(II)V", ordinal = 1))
     public void addButton(SpriteIconButton instance, int i, int j) {
-        if (GeneralSettings.INSTANCE.getButtonInTitleScreen().get()) {
+        if (General.INSTANCE.getButtonInTitleScreen().get()) {
             TexturedButtonWidget button = addRenderableWidget(new TexturedButtonWidget(
                     this.width / 2 + 106,
                     this.height / 4 + 56,

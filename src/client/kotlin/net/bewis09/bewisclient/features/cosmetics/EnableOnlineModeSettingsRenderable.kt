@@ -8,14 +8,14 @@ import net.bewis09.bewisclient.drawable.renderables.settings.SettingRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.server.Authorization
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.settings.types.Setting
 
 class EnableOnlineModeSettingsRenderable(val title: Translation, val description: Translation?, val setting: Setting<Boolean>) : SettingRenderable(description, 26 + SelectiveScreenDrawer.getSideButtonHeight()) {
     val switch = Switch(
         state = setting::get,
         onChange = {
-            if (!it || GeneralSettings.acceptedEULA())
+            if (!it || General.acceptedEULA())
                 setting.set(it)
             else
                 AcceptPrivacyPage.openPrivacyPage()
@@ -31,12 +31,12 @@ class EnableOnlineModeSettingsRenderable(val title: Translation, val description
     val resetButton = ResetButton(setting, setting::isDefault)
 
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
-        internalHeight = 26 + SelectiveScreenDrawer.getSideButtonHeight()
+        internalHeight = 44
         super.render(screenDrawing, mouseX, mouseY)
-        screenDrawing.drawText(title(), x + 8, y + 11 - screenDrawing.getTextHeight() / 2f + if(isMinecrafty) 0f else 0.5f, GeneralSettings.getTextThemeColor())
+        screenDrawing.drawText(title(), x + 8, y + 11 - screenDrawing.getTextHeight() / 2f + if(isMinecrafty) 0f else 0.5f, General.getTextThemeColor())
         if (Authorization.onlineModeEnabled != setting.get())
-            screenDrawing.drawText(reloadWarning(), x + 8, y + 22 - screenDrawing.getTextHeight() / 2f + if(isMinecrafty) 0f else 0.5f, GeneralSettings.getTextThemeColor() alpha 0.7f)
-        screenDrawing.drawText(needToAccept(), x + 8, y + 33 - screenDrawing.getTextHeight() / 2f + if(isMinecrafty) 0f else 0.5f, GeneralSettings.getTextThemeColor() alpha 0.7f)
+            screenDrawing.drawText(reloadWarning(), x + 8, y + 22 - screenDrawing.getTextHeight() / 2f + if(isMinecrafty) 0f else 0.5f, General.getTextThemeColor() alpha 0.7f)
+        screenDrawing.drawText(needToAccept(), x + 8, y + 33 - screenDrawing.getTextHeight() / 2f + if(isMinecrafty) 0f else 0.5f, General.getTextThemeColor() alpha 0.7f)
         renderRenderables(screenDrawing, mouseX, mouseY)
     }
 

@@ -9,7 +9,7 @@ import net.bewis09.bewisclient.drawable.renderables.popup.TiwylaLinesSettingsPop
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.settings.types.ListSetting
 import net.bewis09.bewisclient.widget.impl.TiwylaWidget
 
@@ -32,8 +32,8 @@ class TiwylaLinesSettingsRenderable : Renderable() {
         if (width < 12) return
 
         addRenderable(Rectangle(Color.WHITE alpha 0.25f)(centerX, y + 5, 1, height - 5))
-        addRenderable(TextElement(entityText(), GeneralSettings.getTextThemeColor(), true)(x, y + 6, (width - 11) / 2, 9))
-        addRenderable(TextElement(blockText(), GeneralSettings.getTextThemeColor(), true)(x2 - (width - 11) / 2, y + 6, (width - 11) / 2, 9))
+        addRenderable(TextElement(entityText(), General.getTextThemeColor(), true)(x, y + 6, (width - 11) / 2, 9))
+        addRenderable(TextElement(blockText(), General.getTextThemeColor(), true)(x2 - (width - 11) / 2, y + 6, (width - 11) / 2, 9))
 
         addForSide(TiwylaWidget.entityLines)
         addForSide(TiwylaWidget.blockLines, right = true)

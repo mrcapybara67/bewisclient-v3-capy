@@ -8,7 +8,7 @@ import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.settings.InfoTextRenderable
 import net.bewis09.bewisclient.game.keybinds.Keybind
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.settings.structure.ImageFeature
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
@@ -61,7 +61,7 @@ object Fullbright : ImageFeature(createIdentifier("bewisclient", "fullbright"), 
         list.addRenderable(nightVision, "fullbright.night_vision", "Night Vision", "Allows you to have the visual effect of night vision without actually having it", "night_vision")
         list.add(
             InfoTextRenderable(
-                infoText(), 0xAAAAAA.color * GeneralSettings.getThemeColor(), true
+                infoText(), 0xAAAAAA.color * General.getThemeColor(), true
             )
         )
     }

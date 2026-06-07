@@ -14,7 +14,7 @@ import net.bewis09.bewisclient.drawable.renderables.components.element.Rectangle
 import net.bewis09.bewisclient.drawable.renderables.components.setting.Switch
 import net.bewis09.bewisclient.drawable.renderables.components.structure.Plane
 import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalAlignScrollPlane
-import net.bewis09.bewisclient.drawable.renderables.options_structure.SidebarCategory
+import net.bewis09.bewisclient.settings.structure.SidebarFeature
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawingInterface.Companion.DEFAULT_FONT
 import net.bewis09.bewisclient.drawable.screen_drawing.pushAlpha
@@ -22,7 +22,8 @@ import net.bewis09.bewisclient.drawable.screen_drawing.transform
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.generated.BuildInfo
 import net.bewis09.bewisclient.server.Security
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
+import net.bewis09.bewisclient.features.sidebar.Home
 import net.bewis09.bewisclient.settings.types.Setting
 import net.bewis09.bewisclient.version.setScreen
 import net.minecraft.network.chat.CommonComponents
@@ -42,7 +43,7 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
 
     val sidebarPlane = VerticalAlignScrollPlane(
         arrayListOf<Renderable>().also {
-            it.add(SettingStructure.homeCategory().let { button ->
+            it.add(Home.createButton().let { button ->
                 Plane { x, y, _, _ ->
                     listOf(
                         createTopButton(backIdentifier, 1, x, y, ::goBack),
@@ -51,14 +52,9 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
                     )
                 }.setHeight(SelectiveScreenDrawer.getSideButtonHeight())
             })
-            it.add(Rectangle { GeneralSettings.getThemeColor(alpha = 0.3f) }.setHeight(1))
-            it.addAll(
-                arrayListOf<Renderable>(
-                    SettingStructure.widgetsCategory(), SettingStructure.utilitiesCategory(), SettingStructure.settingsCategory(), SettingStructure.cosmeticsCategory(), SettingStructure.extensionsCategory()
-                ).apply {
-                    APIEntrypointLoader.mapEntrypoint { a -> a.getSidebarCategories().forEach { b -> add(b()) } }
-                })
-            it.add(Rectangle { GeneralSettings.getThemeColor(alpha = 0.3f) }.setHeight(1))
+            it.add(Rectangle { General.getThemeColor(alpha = 0.3f) }.setHeight(1))
+            it.addAll(APIEntrypointLoader.mapEntrypoint { a -> a.getSidebarCategories().map { b -> b.createButton() } }.flatten())
+            it.add(Rectangle { General.getThemeColor(alpha = 0.3f) }.setHeight(1))
             it.add(ThemeButton(editHudTranslation()) {
                 alphaMainAnimation.set(0f) {
                     setRenderableScreen(HudEditScreen())
@@ -69,7 +65,7 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
 
     fun createTopButton(identifier: Identifier, padding: Int, x: Int, y: Int, onClick: () -> Unit): Renderable = ImageButton(identifier) {
         onClick()
-    }.setImagePadding(padding).setImageColor { GeneralSettings.getTextThemeColor() }(x, y, SelectiveScreenDrawer.getSideButtonHeight(), SelectiveScreenDrawer.getSideButtonHeight())
+    }.setImagePadding(padding).setImageColor { General.getTextThemeColor() }(x, y, SelectiveScreenDrawer.getSideButtonHeight(), SelectiveScreenDrawer.getSideButtonHeight())
 
     companion object {
         var currentInstance: OptionScreen? = null
@@ -78,8 +74,8 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
 
     val pageStack = mutableListOf(
         Page(
-            SettingStructure.homeCategory.getHeader(),
-            SettingStructure.homeCategory.renderable,
+            Home.getHeader(),
+            Home.getRenderable(),
             null
         )
     )
@@ -123,7 +119,7 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
 
     fun renderVersionText(screenDrawing: ScreenDrawing) {
         screenDrawing.transform(width - 5f, height - 11f, 0.7f) {
-            screenDrawing.drawRightAlignedText("Bewisclient ${BuildInfo.VERSION} by Bewis09", 0, 0, if (isMinecrafty) Color.WHITE alpha 0.5f else GeneralSettings.getThemeColor(alpha = 0.5f))
+            screenDrawing.drawRightAlignedText("Bewisclient ${BuildInfo.VERSION} by Bewis09", 0, 0, if (isMinecrafty) Color.WHITE alpha 0.5f else General.getThemeColor(alpha = 0.5f))
         }
     }
 
@@ -151,7 +147,7 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
             }
 
             screenDrawing.transform(width - 5f, height - 11f, 0.7f) {
-                screenDrawing.drawRightAlignedText("Bewisclient ${BuildInfo.VERSION} by Bewis09", 0, 0, GeneralSettings.getThemeColor(alpha = 0.5f))
+                screenDrawing.drawRightAlignedText("Bewisclient ${BuildInfo.VERSION} by Bewis09", 0, 0, General.getThemeColor(alpha = 0.5f))
             }
 
             renderRenderables(screenDrawing, mouseX, mouseY)
@@ -186,18 +182,18 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
         addRenderable(page.pane.invoke(175, 37 + (page.header.height + 5), width - 211, height - 74 - (page.header.height + 5)))
     }
 
-    fun changeCategory(category: SidebarCategory, instant: Boolean = false) {
+    fun changeCategory(category: SidebarFeature, instant: Boolean = false) {
         this.category = category.id.toString()
 
         if (instant) {
             pageStack.removeAll { pageStack[0] != it }
-            pageStack.add(Page(category.getHeader(), category.renderable))
+            pageStack.add(Page(category.getHeader(), category.getRenderable()))
             return resize()
         }
 
         insideMainAnimation.set(0f) {
             pageStack.removeAll { pageStack[0] != it }
-            pageStack.add(Page(category.getHeader(), category.renderable))
+            pageStack.add(Page(category.getHeader(), category.getRenderable()))
             resize()
             insideMainAnimation.set(1f)
         }

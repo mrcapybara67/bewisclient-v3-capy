@@ -2,7 +2,7 @@ package net.bewis09.bewisclient.util.logic
 
 import com.mojang.blaze3d.platform.NativeImage
 import net.bewis09.bewisclient.common.Identifier
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.version.registerTexture
 import net.minecraft.client.Minecraft
 import java.awt.image.BufferedImage
@@ -13,10 +13,10 @@ import javax.imageio.ImageIO
 
 interface DrawingLogic : InGameLogic {
     val isMinecrafty: Boolean
-        get() = GeneralSettings.minecraftyOptionsMenu.get()
+        get() = General.minecraftyOptionsMenu.get()
 
     val animationDuration: Long
-        get() = GeneralSettings.animationTime.get().toLong()
+        get() = General.animationTime.get().toLong()
 
     fun createTexture(identifier: Identifier, width: Int, height: Int, supplier: (img: BufferedImage) -> Unit): Identifier {
         return createTexture(identifier, BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB).apply { supplier(this) })

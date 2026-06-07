@@ -8,12 +8,12 @@ import net.bewis09.bewisclient.common.*
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.impl.TiwylaInfoSettingsRenderable
 import net.bewis09.bewisclient.drawable.renderables.impl.TiwylaLinesSettingsRenderable
-import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.drawable.renderables.settings.InfoTextRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.transform
+import net.bewis09.bewisclient.features.sidebar.Home.addToQuickSettings
+import net.bewis09.bewisclient.features.sidebar.Widgets
 import net.bewis09.bewisclient.mixin.client.MultiPlayerGameModeMixin
-import net.bewis09.bewisclient.settings.impl.DefaultWidgetSettings
 import net.bewis09.bewisclient.settings.types.BooleanMapSetting
 import net.bewis09.bewisclient.settings.types.ListSetting
 import net.bewis09.bewisclient.util.EventEntrypoint
@@ -36,6 +36,7 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.Property
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.EntityHitResult
+import kotlin.collections.mapNotNull
 import kotlin.math.ceil
 import kotlin.math.round
 import kotlin.math.roundToInt
@@ -49,34 +50,97 @@ object TiwylaWidget : ScalableWidget(
 
     var heartStyle: Identifier = createIdentifier("bewisclient", "extra")
 
-    val topTextColor = create("top_text_color", DefaultWidgetSettings.textColor.cloneWithDefault())
-    val bottomTextColor = create("bottom_text_color", DefaultWidgetSettings.textColor.cloneWithDefault())
-    val backgroundColor = create("background_color", DefaultWidgetSettings.backgroundColor.cloneWithDefault())
-    val backgroundOpacity = create("background_opacity", DefaultWidgetSettings.backgroundOpacity.cloneWithDefault())
-    val borderColor = create("border_color", DefaultWidgetSettings.borderColor.cloneWithDefault())
-    val borderOpacity = create("border_opacity", DefaultWidgetSettings.borderOpacity.cloneWithDefault())
-    val borderRadius = create("border_radius", DefaultWidgetSettings.borderRadius.cloneWithDefault())
-    val shadow = create("shadow", DefaultWidgetSettings.shadow.cloneWithDefault())
-    val paddingSize = create("padding_size", DefaultWidgetSettings.paddingSize.cloneWithDefault())
-    val lineSpacing = create("line_spacing", DefaultWidgetSettings.lineSpacing.cloneWithDefault())
+    val topTextColor = create("top_text_color", Widgets.Default.textColor.cloneWithDefault())
+    val bottomTextColor = create("bottom_text_color", Widgets.Default.textColor.cloneWithDefault())
+    val backgroundColor = create("background_color", Widgets.Default.backgroundColor.cloneWithDefault())
+    val backgroundOpacity = create("background_opacity", Widgets.Default.backgroundOpacity.cloneWithDefault())
+    val borderColor = create("border_color", Widgets.Default.borderColor.cloneWithDefault())
+    val borderOpacity = create("border_opacity", Widgets.Default.borderOpacity.cloneWithDefault())
+    val borderRadius = create("border_radius", Widgets.Default.borderRadius.cloneWithDefault())
+    val shadow = create("shadow", Widgets.Default.shadow.cloneWithDefault())
+    val paddingSize = create("padding_size", Widgets.Default.paddingSize.cloneWithDefault())
+    val lineSpacing = create("line_spacing", Widgets.Default.lineSpacing.cloneWithDefault())
 
     val blockSpecialInfoMap = create("block_special_info_map", BooleanMapSetting())
     val entitySpecialInfoMap = create("entity_special_info_map", BooleanMapSetting())
 
     val healthInfoText = createTranslation("information.health_information", "The Information of the health of the entity that you are looking at is not available on multiplayer servers due to cheating concerns. In singleplayer worlds it is still available.")
 
-    val entityLines by lazy {
-        create(
+    val entityLines: ListSetting<Information<Entity>>
+    val blockLines: ListSetting<Information<BlockData>>
+
+    val blockInformation: List<Information.Line<BlockData>>
+    val entityInformation: List<Information.Line<Entity>>
+
+    init {
+        blockInformation = listOf<Information.Line<BlockData>>(
+            Information.Line({ data ->
+                if (data.state.`is`(BlockTags.MINEABLE_WITH_AXE)) return@Line toolText(axeToolText.getTranslatedString())
+                if (data.state.`is`(BlockTags.MINEABLE_WITH_PICKAXE)) return@Line toolText(pickaxeToolText.getTranslatedString())
+                if (data.state.`is`(BlockTags.MINEABLE_WITH_HOE)) return@Line toolText(hoeToolText.getTranslatedString())
+                if (data.state.`is`(BlockTags.MINEABLE_WITH_HOE)) return@Line toolText(shovelToolText.getTranslatedString())
+                if (data.state.`is`(BlockTags.SWORD_EFFICIENT)) return@Line toolText(swordToolText.getTranslatedString())
+                return@Line toolText(noneToolText.getTranslatedString())
+            }, "tool", 0), Information.Line({ data ->
+                if (data.state.`is`(BlockTags.NEEDS_DIAMOND_TOOL)) return@Line miningLevel(diamondLevelText.getTranslatedString())
+                if (data.state.`is`(BlockTags.NEEDS_IRON_TOOL)) return@Line miningLevel(ironLevelText.getTranslatedString())
+                if (data.state.`is`(BlockTags.NEEDS_STONE_TOOL)) return@Line miningLevel(stoneLevelText.getTranslatedString())
+
+                if (data.state.requiresCorrectToolForDrops()) return@Line miningLevel(woodLevelText.getTranslatedString())
+                return@Line miningLevel(noneLevelText.getTranslatedString())
+            }, "mining_level", 0), Information.Line({ data ->
+                if (!isInWorld()) return@Line secondsText(4.5)
+
+                val delta = client.player?.let { client.level?.let { blockGetter -> data.state.getDestroyProgress(it, blockGetter, data.blockPos) } } ?: return@Line null
+
+                if (delta > 1) return@Line instantText()
+
+                if ((1f / delta * 5F).roundToInt() == Int.MAX_VALUE) return@Line unbreakableText()
+
+                val secs = (1f / delta * 5F).roundToInt() / 100F
+
+                if (secs > (3600 * 24)) return@Line daysText((secs / 36 / 24).roundToInt() / 100F)
+                if (secs > 3600) return@Line hoursText((secs / 36).roundToInt() / 100F)
+                if (secs > 60) return@Line minutesText((secs / 6 * 10).roundToInt() / 100F)
+                return@Line secondsText((secs * 100).roundToInt() / 100F)
+            }, "break_time", 0), Information.Line({ _ ->
+                val s = ((client.gameMode as? MultiPlayerGameModeMixin)?.getDestroyProgress() ?: 0f) * 1000
+                if (s == 0F) {
+                    return@Line null
+                }
+                return@Line progressText(round(s) / 10f)
+            }, "progress", 2), Information.Line({ data ->
+                val id = data.state.blockId().toString()
+                if (blockSpecialInfoMap[id] == false) return@Line null
+                val property = blockStateInfoMap[id] ?: return@Line null
+                return@Line "${snake_toCamelCase(property.name)}: ${data.state.getValue(property)}".toText()
+            }, "block_property", 1)
+        )
+
+        entityInformation = listOf<Information.Line<Entity>>(
+            Information.Line({ entity ->
+                return@Line entity.entityId().toString().toText()
+            }, "entity_id", 0), Information.Line({ entity ->
+                return@Line if (client.singleplayerServer != null) (entity as? LivingEntity)?.let {
+                    convertToHearths(
+                        it.health.toDouble(), it.maxHealth.toDouble(), it.absorptionAmount.toDouble()
+                    )
+                } else null
+            }, "health", 1), Information.Line({ entity ->
+                if (entity.entityId().let { entitySpecialInfoMap[it.toString()] } == false) return@Line null
+                return@Line provideEntityInfo(entity)?.toText()
+            }, "special_entity_info", 2)
+        )
+
+        entityLines = create(
             "entity_lines", createListSetting(
                 listOf(
                     loadEntityInformation("health"), loadEntityInformation("entity_id", "special_entity_info")
                 ), ::loadEntityInformation
             )
         )
-    }
 
-    val blockLines by lazy {
-        create(
+        blockLines = create(
             "block_lines", createListSetting(
                 listOf(
                     loadBlockInformation("tool"), loadBlockInformation("mining_level", "block_property"), loadBlockInformation("break_time", "progress")
@@ -159,6 +223,7 @@ object TiwylaWidget : ScalableWidget(
                 val state = if (!isInWorld()) Blocks.GRASS_BLOCK.defaultBlockState() else world.getBlockState(hitResult.blockPos)
                 if (state.isAir) null else block(BlockData(state, hitResult.blockPos))
             }
+
             is EntityHitResult -> entity(hitResult.entity)
             else -> null
         }
@@ -222,65 +287,6 @@ object TiwylaWidget : ScalableWidget(
     data class BlockData(val state: BlockState, val blockPos: BlockPos)
 
     fun findBlockInformation(name: String) = blockInformation.firstOrNull { it.id == name }
-
-    val blockInformation = listOf<Information.Line<BlockData>>(
-        Information.Line({ data ->
-            if (data.state.`is`(BlockTags.MINEABLE_WITH_AXE)) return@Line toolText(axeToolText.getTranslatedString())
-            if (data.state.`is`(BlockTags.MINEABLE_WITH_PICKAXE)) return@Line toolText(pickaxeToolText.getTranslatedString())
-            if (data.state.`is`(BlockTags.MINEABLE_WITH_HOE)) return@Line toolText(hoeToolText.getTranslatedString())
-            if (data.state.`is`(BlockTags.MINEABLE_WITH_HOE)) return@Line toolText(shovelToolText.getTranslatedString())
-            if (data.state.`is`(BlockTags.SWORD_EFFICIENT)) return@Line toolText(swordToolText.getTranslatedString())
-            return@Line toolText(noneToolText.getTranslatedString())
-        }, "tool", 0), Information.Line({ data ->
-            if (data.state.`is`(BlockTags.NEEDS_DIAMOND_TOOL)) return@Line miningLevel(diamondLevelText.getTranslatedString())
-            if (data.state.`is`(BlockTags.NEEDS_IRON_TOOL)) return@Line miningLevel(ironLevelText.getTranslatedString())
-            if (data.state.`is`(BlockTags.NEEDS_STONE_TOOL)) return@Line miningLevel(stoneLevelText.getTranslatedString())
-
-            if (data.state.requiresCorrectToolForDrops()) return@Line miningLevel(woodLevelText.getTranslatedString())
-            return@Line miningLevel(noneLevelText.getTranslatedString())
-        }, "mining_level", 0), Information.Line({ data ->
-            if (!isInWorld()) return@Line secondsText(4.5)
-
-            val delta = client.player?.let { client.level?.let { blockGetter -> data.state.getDestroyProgress(it, blockGetter, data.blockPos) } } ?: return@Line null
-
-            if (delta > 1) return@Line instantText()
-
-            if ((1f / delta * 5F).roundToInt() == Int.MAX_VALUE) return@Line unbreakableText()
-
-            val secs = (1f / delta * 5F).roundToInt() / 100F
-
-            if (secs > (3600 * 24)) return@Line daysText((secs / 36 / 24).roundToInt() / 100F)
-            if (secs > 3600) return@Line hoursText((secs / 36).roundToInt() / 100F)
-            if (secs > 60) return@Line minutesText((secs / 6 * 10).roundToInt() / 100F)
-            return@Line secondsText((secs * 100).roundToInt() / 100F)
-        }, "break_time", 0), Information.Line({ _ ->
-            val s = ((client.gameMode as? MultiPlayerGameModeMixin)?.getDestroyProgress() ?: 0f) * 1000
-            if (s == 0F) {
-                return@Line null
-            }
-            return@Line progressText(round(s) / 10f)
-        }, "progress", 2), Information.Line({ data ->
-            val id = data.state.blockId().toString()
-            if (blockSpecialInfoMap[id] == false) return@Line null
-            val property = blockStateInfoMap[id] ?: return@Line null
-            return@Line "${snake_toCamelCase(property.name)}: ${data.state.getValue(property)}".toText()
-        }, "block_property", 1)
-    )
-
-    val entityInformation = listOf<Information.Line<Entity>>(
-        Information.Line({ entity ->
-            return@Line entity.entityId().toString().toText()
-        }, "entity_id", 0), Information.Line({ entity ->
-            return@Line if (client.singleplayerServer != null) (entity as? LivingEntity)?.let {
-                convertToHearths(
-                    it.health.toDouble(), it.maxHealth.toDouble(), it.absorptionAmount.toDouble()
-                )
-            } else null
-        }, "health", 1), Information.Line({ entity ->
-            if (entity.entityId().let { entitySpecialInfoMap[it.toString()] } == false) return@Line null
-            return@Line provideEntityInfo(entity)?.toText()
-        }, "special_entity_info", 2)
-    )
 
     fun convertToHearths(h: Double, mH: Double, a: Double): Component {
         var health = h

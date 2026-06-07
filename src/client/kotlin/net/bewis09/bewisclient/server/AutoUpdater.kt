@@ -6,7 +6,7 @@ import Updater
 import net.bewis09.bewisclient.common.catch
 import net.bewis09.bewisclient.common.getModrinthVersion
 import net.bewis09.bewisclient.generated.BuildInfo
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.fabricmc.loader.api.FabricLoader
 import java.io.File
@@ -19,7 +19,7 @@ object AutoUpdater : EventEntrypoint {
     override fun onInitializeClient() {
         Util.nonCriticalIoPool().execute {
             catch {
-                if (GeneralSettings.autoUpdate.get()) {
+                if (General.autoUpdate.get()) {
                     checkForUpdates()
                 }
             }
@@ -80,7 +80,7 @@ object AutoUpdater : EventEntrypoint {
         val file = downloadedFile ?: return
         if (!System.getProperty("os.name").lowercase().contains("win")) return
 
-        if (GeneralSettings.autoUpdate.get()) {
+        if (General.autoUpdate.get()) {
             val javaHome = System.getProperty("java.home")
             val f = File("$javaHome\\bin\\javaw.exe")
             val cmd = "cd " + FabricLoader.getInstance().gameDir.pathString + "\\bewisclient\\server\\updates\\java && " +

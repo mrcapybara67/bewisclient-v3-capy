@@ -8,7 +8,7 @@ import net.bewis09.bewisclient.drawable.renderables.components.structure.Vertica
 import net.bewis09.bewisclient.drawable.renderables.screen.PopupScreen
 import net.bewis09.bewisclient.drawable.renderables.settings.InfoTextRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.widget.impl.CustomWidget
 
 class CustomWidgetHelpPopup(val screen: PopupScreen) : Renderable() {
@@ -46,9 +46,9 @@ class CustomWidgetHelpPopup(val screen: PopupScreen) : Renderable() {
         }
 
         override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
-            screenDrawing.drawText(dataPoint.name().append(" ".toText()).append(("{${dataPoint.id}}").toText().setColor((GeneralSettings.getThemeColor(black = 0.5f)).argb)), x, y, GeneralSettings.getThemeColor())
-            val texts = screenDrawing.drawWrappedText(dataPoint.description().string, x, y + 10, width, GeneralSettings.getThemeColor(alpha = 0.7f))
-            val paramTexts = dataPoint.param?.let { screenDrawing.drawWrappedText("Param: " + it().string, x, y + 10 + texts.size * 10, width, GeneralSettings.getThemeColor(alpha = 0.4f)) } ?: emptyList()
+            screenDrawing.drawText(dataPoint.name().append(" ".toText()).append(("{${dataPoint.id}}").toText().setColor((General.getThemeColor(black = 0.5f)).argb)), x, y, General.getThemeColor())
+            val texts = screenDrawing.drawWrappedText(dataPoint.description().string, x, y + 10, width, General.getThemeColor(alpha = 0.7f))
+            val paramTexts = dataPoint.param?.let { screenDrawing.drawWrappedText("Param: " + it().string, x, y + 10 + texts.size * 10, width, General.getThemeColor(alpha = 0.4f)) } ?: emptyList()
             internalHeight = 9 + texts.size * 10 + paramTexts.size * 10
         }
     }

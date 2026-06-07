@@ -2,7 +2,7 @@ package net.bewis09.bewisclient.game
 
 import com.mojang.brigadier.arguments.StringArgumentType
 import net.bewis09.bewisclient.common.toText
-import net.bewis09.bewisclient.features.screenshot.openBigScreenshotNewScreen
+import net.bewis09.bewisclient.features.sidebar.Screenshot
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.version.ClientCommandManager
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
@@ -18,7 +18,7 @@ object BewisclientCommand : EventEntrypoint {
                         ClientCommandManager.argument("path", StringArgumentType.greedyString()).executes {
                             val path = StringArgumentType.getString(it, "path")
                             it.source.client.execute {
-                                openBigScreenshotNewScreen(File(path))
+                                Screenshot.openBigScreenshotNewScreen(File(path))
                             }
                             1
                         }

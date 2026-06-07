@@ -7,11 +7,12 @@ import net.bewis09.bewisclient.common.EntityTypes
 import net.bewis09.bewisclient.common.id
 import net.bewis09.bewisclient.drawable.ImageIdentifier
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.renderables.options_structure.SidebarCategory
-import net.bewis09.bewisclient.features.contact.Contact
+import net.bewis09.bewisclient.settings.structure.SidebarFeature
+import net.bewis09.bewisclient.features.sidebar.Contact
 import net.bewis09.bewisclient.features.cosmetics.CosmeticLoader
-import net.bewis09.bewisclient.features.screenshot.Screenshot
-import net.bewis09.bewisclient.features.screenshot.ScreenshotSettings
+import net.bewis09.bewisclient.features.sidebar.Extensions
+import net.bewis09.bewisclient.features.sidebar.Screenshot
+import net.bewis09.bewisclient.features.sidebar.Utilities
 import net.bewis09.bewisclient.features.utilities.*
 import net.bewis09.bewisclient.features.utilities.TntTimer.FuseProvider
 import net.bewis09.bewisclient.game.BewisclientCommand
@@ -25,10 +26,9 @@ import net.bewis09.bewisclient.game.translations.TranslationLoader
 import net.bewis09.bewisclient.server.Authorization
 import net.bewis09.bewisclient.server.AutoUpdater
 import net.bewis09.bewisclient.server.Security
-import net.bewis09.bewisclient.settings.impl.DefaultWidgetSettings
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
-import net.bewis09.bewisclient.settings.impl.HomePlaneSettings
-import net.bewis09.bewisclient.settings.impl.WidgetSettings
+import net.bewis09.bewisclient.features.sidebar.General
+import net.bewis09.bewisclient.features.sidebar.Home
+import net.bewis09.bewisclient.features.sidebar.Widgets
 import net.bewis09.bewisclient.settings.logic.Settings
 import net.bewis09.bewisclient.settings.structure.CategorizedFeature
 import net.bewis09.bewisclient.settings.structure.Feature
@@ -56,24 +56,24 @@ class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
     )
 
     override fun getOtherSettings(): List<Feature> {
-        return listOf(GeneralSettings, HomePlaneSettings, ScreenshotSettings, CosmeticLoader, WidgetSettings)
+        return listOf( Home, Widgets)
     }
 
     override fun getGeneralWidgetSettings(): List<Renderable> = listOf(
-        DefaultWidgetSettings.gap.createRenderable("widget.gap", "Gap", "Set the gap between widgets in a row"),
-        DefaultWidgetSettings.screenEdgeDistance.createRenderable("widget.screen_edge_distance", "Screen Edge Distance", "Set the snapping distance of a widget to the screen edge"),
-        DefaultWidgetSettings.backgroundColor.createRenderableWithFader("widget.default_background", "Default Background", "Set the default color and opacity of a widget", DefaultWidgetSettings.backgroundOpacity),
-        DefaultWidgetSettings.borderColor.createRenderableWithFader("widget.default_border", "Default Border", "Set the default color and opacity of a widget's border", DefaultWidgetSettings.borderOpacity),
-        DefaultWidgetSettings.paddingSize.createRenderable("widget.default_padding_size", "Default Padding Size", "Set the default padding at the edge of a widget to the text"),
-        DefaultWidgetSettings.lineSpacing.createRenderable("widget.default_line_spacing", "Default Line Spacing", "Set the default spacing between lines of text in a widget"),
-        DefaultWidgetSettings.shadow.createRenderable("widget.default_text_shadow", "Default Text Shadow", "Set whether text in a widget has a shadow by default"),
-        DefaultWidgetSettings.textColor.createRenderable("widget.default_text_color", "Default Text Color", "Set the default color of the text in a widget"),
-        DefaultWidgetSettings.borderRadius.createRenderable("widget.default_border_radius", "Default Border Radius", "Set the default radius of a widget's border corners"),
-        DefaultWidgetSettings.scale.createRenderable("widget.default_scale", "Default Scale", "Set the default scale of a widget"),
+        Widgets.Default.gap.createRenderable("widget.gap", "Gap", "Set the gap between widgets in a row"),
+        Widgets.Default.screenEdgeDistance.createRenderable("widget.screen_edge_distance", "Screen Edge Distance", "Set the snapping distance of a widget to the screen edge"),
+        Widgets.Default.backgroundColor.createRenderableWithFader("widget.default_background", "Default Background", "Set the default color and opacity of a widget", Widgets.Default.backgroundOpacity),
+        Widgets.Default.borderColor.createRenderableWithFader("widget.default_border", "Default Border", "Set the default color and opacity of a widget's border", Widgets.Default.borderOpacity),
+        Widgets.Default.paddingSize.createRenderable("widget.default_padding_size", "Default Padding Size", "Set the default padding at the edge of a widget to the text"),
+        Widgets.Default.lineSpacing.createRenderable("widget.default_line_spacing", "Default Line Spacing", "Set the default spacing between lines of text in a widget"),
+        Widgets.Default.shadow.createRenderable("widget.default_text_shadow", "Default Text Shadow", "Set whether text in a widget has a shadow by default"),
+        Widgets.Default.textColor.createRenderable("widget.default_text_color", "Default Text Color", "Set the default color of the text in a widget"),
+        Widgets.Default.borderRadius.createRenderable("widget.default_border_radius", "Default Border Radius", "Set the default radius of a widget's border corners"),
+        Widgets.Default.scale.createRenderable("widget.default_scale", "Default Scale", "Set the default scale of a widget"),
     )
 
-    override fun getSidebarCategories(): List<SidebarCategory> = listOf(
-        Screenshot, Contact
+    override fun getSidebarCategories(): List<SidebarFeature> = listOf(
+        Widgets, Utilities, General, CosmeticLoader, Extensions, Screenshot, Contact
     )
 
     override fun getTiwylaEntityExtraInfoProviders(): List<TiwylaWidget.EntityInfoProvider<*>> = listOf(

@@ -12,8 +12,8 @@ import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.renderables.settings.InfoTextRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
-import net.bewis09.bewisclient.settings.impl.GeneralSettings.getTextThemeColor
+import net.bewis09.bewisclient.features.sidebar.General
+import net.bewis09.bewisclient.features.sidebar.General.getTextThemeColor
 import net.bewis09.bewisclient.util.Bewisclient
 import net.minecraft.network.chat.Component
 
@@ -65,11 +65,11 @@ object AcceptPrivacyPage : Renderable() {
                     Button(decline(), {
                         val screen = Bewisclient.getCurrentRenderableScreen()?.renderable as? OptionScreen ?: return@Button
                         screen.goBack()
-                        GeneralSettings.acceptedEULA.set(false)
+                        General.acceptedEULA.set(false)
                     }, dark = true).setSize(100, SelectiveScreenDrawer.getSideButtonHeight()),
                     Button(accept()) {
-                        GeneralSettings.acceptedEULA.set(true)
-                        GeneralSettings.onlineMode.set(true)
+                        General.acceptedEULA.set(true)
+                        General.onlineMode.set(true)
                         val screen = Bewisclient.getCurrentRenderableScreen()?.renderable as? OptionScreen ?: return@Button
                         screen.goBack()
                     }.setSize(100, SelectiveScreenDrawer.getSideButtonHeight())

@@ -11,14 +11,14 @@ import net.bewis09.bewisclient.drawable.renderables.components.element.TextEleme
 import net.bewis09.bewisclient.drawable.renderables.components.element.TooltipHoverableText
 import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalAlignScrollPlane
 import net.bewis09.bewisclient.drawable.renderables.components.logic.Hoverable
-import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.renderables.settings.BooleanSettingRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.pushColor
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
+import net.bewis09.bewisclient.features.sidebar.Home.addToQuickSettings
 import net.bewis09.bewisclient.settings.logic.RenderableCreator
 import net.bewis09.bewisclient.settings.types.ColorSetting
 import net.bewis09.bewisclient.settings.types.FloatSetting
@@ -47,7 +47,7 @@ abstract class CategorizedFeature(id: Identifier, titleText: String) : Feature(i
     abstract fun createRenderable(): SettingCategory
 
     fun getHeader(): Renderable {
-        return Plane { x, y, width, _ -> listOf(TextElement(title(), GeneralSettings.getTextThemeColor(), centered = true)(x, y, width, 13)) }.setHeight(14)
+        return Plane { x, y, width, _ -> listOf(TextElement(title(), General.getTextThemeColor(), centered = true)(x, y, width, 13)) }.setHeight(14)
     }
 
     open fun getPane(): Renderable {

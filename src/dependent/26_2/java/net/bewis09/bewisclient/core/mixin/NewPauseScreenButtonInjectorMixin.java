@@ -3,7 +3,7 @@ package net.bewis09.bewisclient.core.mixin;
 import net.bewis09.bewisclient.common.UtilKt;
 import net.bewis09.bewisclient.drawable.minecraft.TexturedButtonWidget;
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen;
-import net.bewis09.bewisclient.settings.impl.GeneralSettings;
+import net.bewis09.bewisclient.features.sidebar.General;
 import net.bewis09.bewisclient.util.Bewisclient;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.layouts.GridLayout;
@@ -25,7 +25,7 @@ public class NewPauseScreenButtonInjectorMixin extends Screen {
 
     @Redirect(method = "createPauseMenu", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/layouts/GridLayout$RowHelper;addChild(Lnet/minecraft/client/gui/layouts/LayoutElement;ILnet/minecraft/client/gui/layouts/LayoutSettings;)Lnet/minecraft/client/gui/layouts/LayoutElement;", ordinal = 1))
     private <T extends LayoutElement> T addNewButton(GridLayout.RowHelper instance, T widget, int columnWidth, LayoutSettings layoutSettings) {
-        if (widget instanceof LinearLayout linearLayout && GeneralSettings.INSTANCE.getButtonInGameScreen().get()) {
+        if (widget instanceof LinearLayout linearLayout && General.INSTANCE.getButtonInGameScreen().get()) {
             TexturedButtonWidget button = new TexturedButtonWidget(
                     this.width / 2 + 106,
                     this.height / 4 + 56,

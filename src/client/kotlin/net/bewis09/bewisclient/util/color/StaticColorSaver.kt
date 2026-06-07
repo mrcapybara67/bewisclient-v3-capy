@@ -14,7 +14,7 @@ import net.bewis09.bewisclient.drawable.renderables.components.setting.Fader
 import net.bewis09.bewisclient.drawable.renderables.components.structure.HorizontalScrollGrid
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.util.number.Precision
 import net.bewis09.bewisclient.util.string
 import net.minecraft.network.chat.Component
@@ -92,9 +92,9 @@ open class StaticColorSaver(private val color: Color) : ColorSaver {
             addRenderable(colorPicker(x, y, height, height))
             addRenderable(text(x + height + 6, y + 2, width - height - 5, 9))
             addRenderable(fader(x + height + 6, y + 11, width - height - 6, 14))
-            addRenderable(Rectangle { if (isMinecrafty) Color.WHITE alpha 0.3f else GeneralSettings.getThemeColor(alpha = 0.3f) }(x + height + 5, y + 30, width - height - 5, 1))
+            addRenderable(Rectangle { if (isMinecrafty) Color.WHITE alpha 0.3f else General.getThemeColor(alpha = 0.3f) }(x + height + 5, y + 30, width - height - 5, 1))
             addRenderable(ColorButton(x + height + 5, y + 36, 27, 27, { get().getColor() }, String.format("#%06X", get().getColor().argb).toText()))
-            addRenderable(Rectangle { if (isMinecrafty) Color.WHITE alpha 0.3f else GeneralSettings.getThemeColor(alpha = 0.3f) }(x + height + 37, y + 36, 1, 27))
+            addRenderable(Rectangle { if (isMinecrafty) Color.WHITE alpha 0.3f else General.getThemeColor(alpha = 0.3f) }(x + height + 37, y + 36, 1, 27))
 
             addRenderable(
                 HorizontalScrollGrid({
@@ -117,7 +117,7 @@ open class StaticColorSaver(private val color: Color) : ColorSaver {
 
             override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
                 super.render(screenDrawing, mouseX, mouseY)
-                screenDrawing.fillWithBorderRounded(x, y, width, height, if (isMinecrafty) 0 else 3, color(), if (isMinecrafty) Color.WHITE alpha 0.3f else GeneralSettings.getThemeColor(alpha = 0.3f))
+                screenDrawing.fillWithBorderRounded(x, y, width, height, if (isMinecrafty) 0 else 3, color(), if (isMinecrafty) Color.WHITE alpha 0.3f else General.getThemeColor(alpha = 0.3f))
             }
 
             override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean {

@@ -14,11 +14,11 @@ import net.bewis09.bewisclient.drawable.renderables.popup.InputTextPopup
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.renderables.settings.InfoTextRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.features.screenshot.BigScreenshotViewElement
 import net.bewis09.bewisclient.game.BewisclientResourcePack
 import net.bewis09.bewisclient.game.keybinds.Keybind
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
+import net.bewis09.bewisclient.features.sidebar.Screenshot
 import net.bewis09.bewisclient.settings.logic.Settings
 import net.bewis09.bewisclient.settings.structure.ImageFeature
 import net.bewis09.bewisclient.util.EventEntrypoint
@@ -96,9 +96,9 @@ object Panorama : ImageFeature(createIdentifier("bewisclient","panorama"), "Pano
 
             super.render(screenDrawing, mouseX, mouseY)
 
-            if (path.get() == file.absolutePath) screenDrawing.fillWithBorderRounded(x, y, width, height, 5, GeneralSettings.getThemeColor(alpha = 0.25f), GeneralSettings.getThemeColor(alpha = 0.5f), topLeft = index == 0, topRight = index == 0, bottomLeft = index == size - 1, bottomRight = index == size - 1)
-            else screenDrawing.fillRounded(x, y, width, height, 5, GeneralSettings.getThemeColor(alpha = hoverFactor * 0.15f + 0.1f), topLeft = index == 0, topRight = index == 0, bottomLeft = index == size - 1, bottomRight = index == size - 1)
-            screenDrawing.drawText(file.name, x + 8, y + 8, GeneralSettings.getTextThemeColor())
+            if (path.get() == file.absolutePath) screenDrawing.fillWithBorderRounded(x, y, width, height, 5, General.getThemeColor(alpha = 0.25f), General.getThemeColor(alpha = 0.5f), topLeft = index == 0, topRight = index == 0, bottomLeft = index == size - 1, bottomRight = index == size - 1)
+            else screenDrawing.fillRounded(x, y, width, height, 5, General.getThemeColor(alpha = hoverFactor * 0.15f + 0.1f), topLeft = index == 0, topRight = index == 0, bottomLeft = index == size - 1, bottomRight = index == size - 1)
+            screenDrawing.drawText(file.name, x + 8, y + 8, General.getTextThemeColor())
 
             images[file]?.identifiers?.forEachIndexed { index, identifier ->
                 if (identifier != null) {
@@ -123,7 +123,7 @@ object Panorama : ImageFeature(createIdentifier("bewisclient","panorama"), "Pano
                         if (catch { file.deleteRecursively() } == true) {
                             NotificationManager.addNotification(SimpleTextNotification(deletedPanormaText()))
                         } else {
-                            NotificationManager.addNotification(SimpleTextNotification(BigScreenshotViewElement.deleteFailedNotifText()))
+                            NotificationManager.addNotification(SimpleTextNotification(Screenshot.BigScreenshotViewElement.deleteFailedNotifText()))
                         }
                         OptionScreen.currentInstance?.goBack(instant = true)
                         OptionScreen.currentInstance?.openPage(getHeader(), getPane(), enabled, true)

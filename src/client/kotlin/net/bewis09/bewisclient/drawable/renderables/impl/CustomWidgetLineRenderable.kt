@@ -15,7 +15,7 @@ import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawingInterface
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.widget.impl.CustomWidget
 
 class CustomWidgetLineRenderable : Renderable() {
@@ -49,8 +49,8 @@ class CustomWidgetLineRenderable : Renderable() {
 
     override fun init() {
         if (width < 15) return
-        addRenderable(Rectangle { GeneralSettings.getThemeColor(alpha = 0.5f) }(x, y + 3, width, 1))
-        addRenderable(Rectangle { GeneralSettings.getThemeColor(alpha = 0.5f) }(x, y + 27 + lines.size * 10 - if (CustomWidget.lines.isEmpty()) 1 else 0, width, 1))
+        addRenderable(Rectangle { General.getThemeColor(alpha = 0.5f) }(x, y + 3, width, 1))
+        addRenderable(Rectangle { General.getThemeColor(alpha = 0.5f) }(x, y + 27 + lines.size * 10 - if (CustomWidget.lines.isEmpty()) 1 else 0, width, 1))
         lines.forEachIndexed { index, input ->
             addRenderable(ImageButton(createIdentifier("bewisclient", "textures/gui/sprites/remove.png"), {
                 CustomWidget.lines.removeAt(index)

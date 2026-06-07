@@ -4,9 +4,9 @@ import com.google.gson.Gson
 import com.google.gson.JsonElement
 import net.bewis09.bewisclient.common.catchAndPrint
 import net.bewis09.bewisclient.common.color
-import net.bewis09.bewisclient.features.screenshot.ScreenshotSettings
+import net.bewis09.bewisclient.features.sidebar.Screenshot
 import net.bewis09.bewisclient.features.utilities.*
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.settings.types.Setting
 import net.bewis09.bewisclient.util.boolean
 import net.bewis09.bewisclient.util.color.ChangingColorSaver
@@ -23,7 +23,7 @@ object Version2Migration : ClientInterface {
         if (createBewisclientFile("bewisclient.json").exists()) return false
 
         updateFromFile("general.json") {
-            mapBoolean("screenshot_folder_open", setting = ScreenshotSettings.redirect, default = false)
+            mapBoolean("screenshot_folder_open", setting = Screenshot.redirect, default = false)
             mapBoolean("instant_zoom", setting = Zoom.instant)
             mapBoolean("hard_zoom", setting = Zoom.smooth) { it.not() }
             mapBoolean("zoom_enabled", setting = Zoom.enabled)
@@ -31,8 +31,8 @@ object Version2Migration : ClientInterface {
         }
 
         updateFromFile("design.json") {
-            mapBoolean("options_menu", "show_game_menu", setting = GeneralSettings.buttonInGameScreen)
-            mapBoolean("options_menu", "show_title_menu", setting = GeneralSettings.buttonInTitleScreen)
+            mapBoolean("options_menu", "show_game_menu", setting = General.buttonInGameScreen)
+            mapBoolean("options_menu", "show_title_menu", setting = General.buttonInTitleScreen)
             mapFloat("fire_height", setting = FireHeight.height) { (it - 0.6f) * 2.5f }
             enableOnNotDefault(FireHeight.enabled, FireHeight.height)
             mapBoolean("fullbright", "enabled", setting = Fullbright.enabled)

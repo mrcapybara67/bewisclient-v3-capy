@@ -4,7 +4,7 @@ import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.minecraft.network.chat.Component
 
 class SimpleTextNotification(val text: Component, val duration: Long = 5000) : Notification() {
@@ -28,10 +28,10 @@ class SimpleTextNotification(val text: Component, val duration: Long = 5000) : N
             }
 
             lines.forEachIndexed { index, line ->
-                screenDrawing.drawText(line, x + if (isMinecrafty) 5 else 4, y + index * 9 + 4, GeneralSettings.getTextThemeColor())
+                screenDrawing.drawText(line, x + if (isMinecrafty) 5 else 4, y + index * 9 + 4, General.getTextThemeColor())
             }
 
-            screenDrawing.fill(x + if (isMinecrafty) 1 else 0, y + height - 1, (width * ((System.currentTimeMillis() - start).toFloat() / duration)).toInt(), 1, GeneralSettings.getThemeColor())
+            screenDrawing.fill(x + if (isMinecrafty) 1 else 0, y + height - 1, (width * ((System.currentTimeMillis() - start).toFloat() / duration)).toInt(), 1, General.getThemeColor())
             screenDrawing.setDefaultFont()
         }
     }

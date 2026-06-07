@@ -3,7 +3,7 @@ package net.bewis09.bewisclient.api
 import net.bewis09.bewisclient.common.Identifier
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.renderables.options_structure.SidebarCategory
+import net.bewis09.bewisclient.settings.structure.SidebarFeature
 import net.bewis09.bewisclient.features.utilities.TntTimer
 import net.bewis09.bewisclient.game.BewisclientResourcePack
 import net.bewis09.bewisclient.game.keybinds.Keybind
@@ -72,7 +72,7 @@ open class BewisclientAPIEntrypoint : ClientInterface {
     /**
      * Should return a list of the sidebar categories that are displayed in the Bewisclient options screen.
      */
-    open fun getSidebarCategories(): List<SidebarCategory> {
+    open fun getSidebarCategories(): List<SidebarFeature> {
         return emptyList()
     }
 

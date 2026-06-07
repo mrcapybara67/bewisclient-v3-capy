@@ -4,7 +4,7 @@ import net.bewis09.bewisclient.drawable.renderables.components.button.ResetButto
 import net.bewis09.bewisclient.drawable.renderables.components.setting.Fader
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.settings.logic.SettingInterfaceWithDefault
 import net.bewis09.bewisclient.util.number.Precision
 
@@ -21,7 +21,7 @@ open class FaderSettingRenderable<T : Number>(val title: Translation, val descri
         super.render(screenDrawing, mouseX, mouseY)
         drawVerticalCenteredText(screenDrawing, title)
         renderRenderables(screenDrawing, mouseX, mouseY)
-        screenDrawing.drawRightAlignedText(precision.roundToString(setting.get().toFloat()), x2 - fader.width - 12 - resetButton.width, fontYCenter, GeneralSettings.getTextThemeColor())
+        screenDrawing.drawRightAlignedText(precision.roundToString(setting.get().toFloat()), x2 - fader.width - 12 - resetButton.width, fontYCenter, General.getTextThemeColor())
     }
 
     override fun init() {

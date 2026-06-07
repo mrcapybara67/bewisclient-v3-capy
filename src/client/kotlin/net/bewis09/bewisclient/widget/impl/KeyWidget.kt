@@ -5,12 +5,12 @@ import net.bewis09.bewisclient.common.Color
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.staticFun
 import net.bewis09.bewisclient.drawable.Renderable
-import net.bewis09.bewisclient.drawable.renderables.options_structure.addToQuickSettings
 import net.bewis09.bewisclient.drawable.renderables.screen.HudEditScreen
 import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
-import net.bewis09.bewisclient.settings.impl.DefaultWidgetSettings
+import net.bewis09.bewisclient.features.sidebar.Home.addToQuickSettings
+import net.bewis09.bewisclient.features.sidebar.Widgets
 import net.bewis09.bewisclient.settings.types.BooleanSetting
 import net.bewis09.bewisclient.settings.types.ColorSetting
 import net.bewis09.bewisclient.util.color.StaticColorSaver
@@ -25,21 +25,21 @@ import org.lwjgl.glfw.GLFW
 object KeyWidget : ScalableWidget(
     createIdentifier("bewisclient", "key_widget"), "Key Widget", "Displays your movement and attack/use keys."
 ) {
-    val backgroundColor = create("background_color", DefaultWidgetSettings.backgroundColor.cloneWithDefault())
-    val backgroundOpacity = create("background_opacity", DefaultWidgetSettings.backgroundOpacity.cloneWithDefault())
-    val borderColor = create("border_color", DefaultWidgetSettings.borderColor.cloneWithDefault())
-    val borderOpacity = create("border_opacity", DefaultWidgetSettings.borderOpacity.cloneWithDefault())
-    val textColor = create("text_color", DefaultWidgetSettings.textColor.cloneWithDefault())
+    val backgroundColor = create("background_color", Widgets.Default.backgroundColor.cloneWithDefault())
+    val backgroundOpacity = create("background_opacity", Widgets.Default.backgroundOpacity.cloneWithDefault())
+    val borderColor = create("border_color", Widgets.Default.borderColor.cloneWithDefault())
+    val borderOpacity = create("border_opacity", Widgets.Default.borderOpacity.cloneWithDefault())
+    val textColor = create("text_color", Widgets.Default.textColor.cloneWithDefault())
 
     val pressedBackgroundColor = color("pressed_background_color", StaticColorSaver(Color.LIGHT_GRAY), *ColorSetting.ALL)
-    val pressedBackgroundOpacity = create("pressed_background_opacity", DefaultWidgetSettings.backgroundOpacity.cloneWithDefault())
+    val pressedBackgroundOpacity = create("pressed_background_opacity", Widgets.Default.backgroundOpacity.cloneWithDefault())
     val pressedBorderColor = color("pressed_border_color", StaticColorSaver(Color.LIGHT_GRAY), *ColorSetting.ALL)
-    val pressedBorderOpacity = create("pressed_border_opacity", DefaultWidgetSettings.borderOpacity.cloneWithDefault())
+    val pressedBorderOpacity = create("pressed_border_opacity", Widgets.Default.borderOpacity.cloneWithDefault())
     val pressedTextColor = color("pressed_text_color", StaticColorSaver(Color.GRAY), *ColorSetting.ALL)
 
-    val shadow = create("shadow", DefaultWidgetSettings.shadow.cloneWithDefault())
+    val shadow = create("shadow", Widgets.Default.shadow.cloneWithDefault())
     val paddingSize = int("padding_size", 5, 0, 10)
-    val borderRadius = create("border_radius", DefaultWidgetSettings.borderRadius.cloneWithDefault())
+    val borderRadius = create("border_radius", Widgets.Default.borderRadius.cloneWithDefault())
     val gap = int("gap", 2, 0, 20)
 
     val showMovementKeys: BooleanSetting = boolean("show_movement_keys", true) { _, new ->

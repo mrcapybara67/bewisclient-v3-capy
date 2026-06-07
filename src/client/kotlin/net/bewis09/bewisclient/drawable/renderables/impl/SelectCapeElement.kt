@@ -10,7 +10,7 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.darken
 import net.bewis09.bewisclient.features.cosmetics.Cosmetic
 import net.bewis09.bewisclient.features.cosmetics.CosmeticLoader
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.version.drawCape
 
 class SelectCapeElement(val identifier: CosmeticIdentifier, val cosmetic: Cosmetic) : Hoverable() {
@@ -26,7 +26,7 @@ class SelectCapeElement(val identifier: CosmeticIdentifier, val cosmetic: Cosmet
                 screenDrawing.fill(x + 3, y + 3, width - 6, height - 6, (selected.get() / 2f) within (hoverFactor within (0x333333.color to 0x444444.color) to Color.WHITE))
             }
         } else {
-            screenDrawing.fillRounded(x, y, width, height, 5, GeneralSettings.getThemeColor(alpha = selected.get() * 0.3f + hoverFactor * 0.15f + 0.1f))
+            screenDrawing.fillRounded(x, y, width, height, 5, General.getThemeColor(alpha = selected.get() * 0.3f + hoverFactor * 0.15f + 0.1f))
         }
 
         screenDrawing.drawCape(cosmetic.getIdentifier(), x + 8, y + 8, width - 16, height - 25)
@@ -34,7 +34,7 @@ class SelectCapeElement(val identifier: CosmeticIdentifier, val cosmetic: Cosmet
 
         for (i in text.indices) {
             screenDrawing.drawCenteredText(
-                text[i], centerX, y + i * 7 + height - 7 - text.size * 7, GeneralSettings.getTextThemeColor()
+                text[i], centerX, y + i * 7 + height - 7 - text.size * 7, General.getTextThemeColor()
             )
         }
 
@@ -45,7 +45,7 @@ class SelectCapeElement(val identifier: CosmeticIdentifier, val cosmetic: Cosmet
                 screenDrawing.drawBorder(x + 2, y + 2, width - 4, height - 4, 0x282828.color)
             }
         } else {
-            screenDrawing.drawBorderRounded(x, y, width, height, 5, 0.2f within ((selected.get() within (Color.DARK_GRAY to Color.WHITE)) to GeneralSettings.getThemeColor()))
+            screenDrawing.drawBorderRounded(x, y, width, height, 5, 0.2f within ((selected.get() within (Color.DARK_GRAY to Color.WHITE)) to General.getThemeColor()))
         }
 
         if (CosmeticLoader.elytraCosmetics.contains(identifier)) {
@@ -53,7 +53,7 @@ class SelectCapeElement(val identifier: CosmeticIdentifier, val cosmetic: Cosmet
                 screenDrawing.drawBorder(x + width - 21, y - 1, 22, 22, Color.BLACK alpha 0.5f)
                 SelectiveScreenDrawer.renderButtonBackground(screenDrawing, 0f, 0f, x + width - 20, y, 20, 20, 1f, mouseX, mouseY, small = true)
             } else {
-                screenDrawing.fillWithBorderRounded(x + width - 20, y, 20, 20, 5, 0.3f within (Color.BLACK to GeneralSettings.getThemeColor()), 0.2f within ((selected.get() within (Color.DARK_GRAY to Color.WHITE)) to GeneralSettings.getThemeColor()), topLeft = false, bottomRight = false)
+                screenDrawing.fillWithBorderRounded(x + width - 20, y, 20, 20, 5, 0.3f within (Color.BLACK to General.getThemeColor()), 0.2f within ((selected.get() within (Color.DARK_GRAY to Color.WHITE)) to General.getThemeColor()), topLeft = false, bottomRight = false)
             }
 
             screenDrawing.drawTexture(createIdentifier("textures/item/elytra.png"), x + width - 18, y + 2, 16, 16)

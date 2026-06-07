@@ -2,7 +2,7 @@ package net.bewis09.bewisclient.widget.logic
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
-import net.bewis09.bewisclient.settings.impl.DefaultWidgetSettings
+import net.bewis09.bewisclient.features.sidebar.Widgets
 import net.bewis09.bewisclient.widget.Widget
 import net.bewis09.bewisclient.widget.WidgetLoader
 
@@ -18,7 +18,7 @@ class RelativePosition(val parent: String, val side: String) : WidgetPosition {
             return parent.position.get().getX(widget)
         }
 
-        val gap = DefaultWidgetSettings.gap.get()
+        val gap = Widgets.Default.gap.get()
 
         return when (side) {
             "left" -> parent.getX() - widget.getScaledWidth() - gap
@@ -38,7 +38,7 @@ class RelativePosition(val parent: String, val side: String) : WidgetPosition {
             return parent.position.get().getY(widget)
         }
 
-        val gap = DefaultWidgetSettings.gap.get()
+        val gap = Widgets.Default.gap.get()
 
         return when (side) {
             "left" -> parent.position.get().getY(widget)

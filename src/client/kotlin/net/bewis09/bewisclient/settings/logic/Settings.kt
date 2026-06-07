@@ -15,7 +15,7 @@ object Settings : ObjectSetting(), ClientInterface, EventEntrypoint {
     var dirty: Boolean = false
 
     init {
-        for (feature in APIEntrypointLoader.mapEntrypoint { it.getOtherSettings() + it.getUtilities() }.flatten()) {
+        for (feature in APIEntrypointLoader.mapEntrypoint { it.getOtherSettings() + it.getUtilities() + it.getSidebarCategories() }.flatten()) {
             create(if (feature.id.namespace == "bewisclient") feature.id.path else feature.id.toString(), feature)
         }
     }

@@ -5,7 +5,7 @@ import net.bewis09.bewisclient.drawable.renderables.components.button.ResetButto
 import net.bewis09.bewisclient.drawable.renderables.components.setting.Fader
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
-import net.bewis09.bewisclient.settings.impl.GeneralSettings
+import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.settings.types.FloatSetting
 import net.bewis09.bewisclient.settings.types.Setting
 import net.bewis09.bewisclient.util.color.ColorSaver
@@ -31,7 +31,7 @@ class ColorFaderSettingRenderable(val title: Translation, val description: Trans
     override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
         super.render(screenDrawing, mouseX, mouseY)
         drawVerticalCenteredText(screenDrawing, title)
-        screenDrawing.drawRightAlignedText(title2.getTranslatedString() + ": " + setting2.get(), x2 - fader.width - 12 - resetButton.width, y + 22.5f, GeneralSettings.getTextThemeColor())
+        screenDrawing.drawRightAlignedText(title2.getTranslatedString() + ": " + setting2.get(), x2 - fader.width - 12 - resetButton.width, y + 22.5f, General.getTextThemeColor())
         renderRenderables(screenDrawing, mouseX, mouseY)
     }
 
