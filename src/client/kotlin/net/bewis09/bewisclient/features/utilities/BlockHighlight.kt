@@ -11,7 +11,7 @@ object BlockHighlight : ImageFeature(createIdentifier("bewisclient", "block_high
     val thickness = float("thickness", 0.4f, 0f, 1f, 0.01f, 2)
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
-        list.addRenderable(color, "block_highlight.color", "Color", "Change the color of the block highlight", "color")
-        list.addRenderable(thickness, "block_highlight.thickness", "Thickness", "Adjust the thickness of the block highlight", "thickness")
+        list.addRenderable(this, color, "block_highlight.color", "Color", "Change the color of the block highlight", "color")
+        list.addRenderable(this, thickness, "block_highlight.thickness", "Thickness", "Adjust the thickness of the block highlight", "thickness")
     }
 }

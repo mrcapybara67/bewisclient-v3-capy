@@ -123,7 +123,7 @@ object Panorama : ImageFeature(createIdentifier("bewisclient","panorama"), "Pano
                         if (catch { file.deleteRecursively() } == true) {
                             NotificationManager.addNotification(SimpleTextNotification(deletedPanormaText()))
                         } else {
-                            NotificationManager.addNotification(SimpleTextNotification(Screenshot.BigScreenshotViewElement.deleteFailedNotifText()))
+                            NotificationManager.addNotification(SimpleTextNotification(Screenshot.deleteFailedNotifText()))
                         }
                         OptionScreen.currentInstance?.goBack(instant = true)
                         OptionScreen.currentInstance?.openPage(getHeader(), getPane(), enabled, true)

@@ -14,7 +14,6 @@ import net.bewis09.bewisclient.settings.structure.CategorizedFeature
 import net.bewis09.bewisclient.settings.structure.SidebarFeature
 import net.bewis09.bewisclient.util.EventEntrypoint
 import net.bewis09.bewisclient.util.color.colors
-import net.bewis09.bewisclient.widget.WidgetLoader
 
 @Suppress("unusedExpression")
 object TranslationLoader : EventEntrypoint {
@@ -25,12 +24,16 @@ object TranslationLoader : EventEntrypoint {
         HudEditScreen
         TiwylaLinesSettingsPopup
         Modrinth
-        WidgetLoader.widgets.map(CategorizedFeature::getSettingRenderables)
-        APIEntrypointLoader.mapEntrypoint { it.getUtilities().map(CategorizedFeature::getSettingRenderables) }
-        APIEntrypointLoader.mapEntrypoint { it.getSidebarCategories().map(SidebarFeature::getRenderable) }
+        APIEntrypointLoader.mapEntrypointForList { it.getWidgets() }.map(CategorizedFeature::getSettingRenderables)
+        APIEntrypointLoader.mapEntrypointForList { it.getUtilities() }.map(CategorizedFeature::getSettingRenderables)
+        APIEntrypointLoader.mapEntrypointForList { it.getSidebarCategories() }.map(SidebarFeature::getRenderable)
         BewisclientResourcePack
         PackListScreen.Companion
         AcceptPrivacyPage
         EnableOnlineModeSettingsRenderable.Companion
+    }
+
+    override fun onMinecraftClientInitFinished() {
+        onDatagen()
     }
 }

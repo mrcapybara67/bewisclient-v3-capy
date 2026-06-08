@@ -12,7 +12,7 @@ object EntityHighlight : ImageFeature(createIdentifier("bewisclient","entity_hig
     val alpha = float("alpha", 0.31f, 0f, 1f, 0.01f, 2)
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
-        list.addRenderable(color, "entity_highlight.color", "Color", "Change the color of the entity highlight", "color")
-        list.addRenderable(alpha, "entity_highlight.alpha", "Transparency", "Adjust the transparency of the entity highlight", "alpha")
+        list.addRenderable(this, color, "entity_highlight.color", "Color", "Change the color of the entity highlight", "color")
+        list.addRenderable(this, alpha, "entity_highlight.alpha", "Transparency", "Adjust the transparency of the entity highlight", "alpha")
     }
 }

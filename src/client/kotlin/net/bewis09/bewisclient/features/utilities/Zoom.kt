@@ -23,8 +23,8 @@ object Zoom : ImageFeature(createIdentifier("bewisclient", "zoom"), "Zoom") {
         get() = true
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
-        list.addRenderable(smooth, "zoom.smooth", "Smooth Zoom", "Enable or disable smooth zoom (Works as if smooth camera is enabled)", "smooth")
-        list.addRenderable(instant, "zoom.instant", "Instant Zoom", "Disables the transition animation when zooming in or out", "instant")
+        list.addRenderable(this, smooth, "zoom.smooth", "Smooth Zoom", "Enable or disable smooth zoom (Works as if smooth camera is enabled)", "smooth")
+        list.addRenderable(this, instant, "zoom.instant", "Instant Zoom", "Disables the transition animation when zooming in or out", "instant")
     }
 
     fun getFactor(): Float {

@@ -5,7 +5,6 @@ import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
-import net.bewis09.bewisclient.features.sidebar.Home.addToQuickSettings
 import net.bewis09.bewisclient.features.sidebar.Widgets
 import net.bewis09.bewisclient.widget.impl.InventoryWidget.indicatorText
 import net.bewis09.bewisclient.widget.logic.RelativePosition
@@ -145,14 +144,14 @@ object ArmorWidget : ScalableWidget(
                     showFeet.createRenderablePart("widget.armor_widget.show_feet", "Show Feet"),
                     showOffHand.createRenderablePart("widget.armor_widget.show_off_hand", "Show Off-Hand")
                 ).staticFun()
-            ).addToQuickSettings("widget.armor_widget.name", "armor_slots")
+            ).addToQuickSettings(this, "armor_slots")
         )
 
-        list.addRenderable(showDurability, "armor_widget.show_durability", "Show Durability", "Toggle whether to show armor durability", "durability")
-        list.addRenderable(showPercentage, "armor_widget.show_percentage", "Show Percentage", "Toggle whether to show durability as a percentage", "percentage")
-        list.addRenderable(showEmptySlots, "armor_widget.show_empty_slots", "Show Empty Slots", "Toggle whether to show empty armor slots", "empty_slots")
-        list.addRenderable(showEmptySlotIcon, "armor_widget.show_empty_slot_icon", "Show Empty Slot Icon", "Toggle whether to show an icon for empty armor slots", "empty_slot_icon")
-        list.addRenderable(colorCodeText, "armor_widget.color_code_text", "Color Code Text", "Toggle whether to color code the durability text", "color_code_text")
+        list.addRenderable(this, showDurability, "armor_widget.show_durability", "Show Durability", "Toggle whether to show armor durability", "durability")
+        list.addRenderable(this, showPercentage, "armor_widget.show_percentage", "Show Percentage", "Toggle whether to show durability as a percentage", "percentage")
+        list.addRenderable(this, showEmptySlots, "armor_widget.show_empty_slots", "Show Empty Slots", "Toggle whether to show empty armor slots", "empty_slots")
+        list.addRenderable(this, showEmptySlotIcon, "armor_widget.show_empty_slot_icon", "Show Empty Slot Icon", "Toggle whether to show an icon for empty armor slots", "empty_slot_icon")
+        list.addRenderable(this, colorCodeText, "armor_widget.color_code_text", "Color Code Text", "Toggle whether to color code the durability text", "color_code_text")
 
         list.add(LineWidget.backgroundColorRenderable(backgroundColor, backgroundOpacity))
         list.add(LineWidget.borderColorRenderable(borderColor, borderOpacity))

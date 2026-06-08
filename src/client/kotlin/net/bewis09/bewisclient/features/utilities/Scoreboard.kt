@@ -8,6 +8,6 @@ object Scoreboard : ImageFeature(createIdentifier("bewisclient", "scoreboard"), 
     val scale = float("scale", 1.0f, 0.5f, 2.0f, 0.01f, 2)
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
-        list.addRenderable(scale, "scoreboard.scale", "Scale", "Adjust the size of the scoreboard", "scale")
+        list.addRenderable(this, scale, "scoreboard.scale", "Scale", "Adjust the size of the scoreboard", "scale")
     }
 }

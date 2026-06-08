@@ -57,8 +57,8 @@ object Fullbright : ImageFeature(createIdentifier("bewisclient", "fullbright"), 
     })
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
-        list.addRenderable(brightness, "fullbright.brightness", "Brightness", "Adjust the brightness level. 0.0 to 1.0 are the normal levels, while 1.0 to 15.0 is lighting up the world according to the brightness level", "brightness")
-        list.addRenderable(nightVision, "fullbright.night_vision", "Night Vision", "Allows you to have the visual effect of night vision without actually having it", "night_vision")
+        list.addRenderable(this, brightness, "fullbright.brightness", "Brightness", "Adjust the brightness level. 0.0 to 1.0 are the normal levels, while 1.0 to 15.0 is lighting up the world according to the brightness level", "brightness")
+        list.addRenderable(this, nightVision, "fullbright.night_vision", "Night Vision", "Allows you to have the visual effect of night vision without actually having it", "night_vision")
         list.add(
             InfoTextRenderable(
                 infoText(), 0xAAAAAA.color * General.getThemeColor(), true

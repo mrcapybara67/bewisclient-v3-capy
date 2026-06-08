@@ -59,7 +59,7 @@ object Home : SidebarFeature(createIdentifier("bewisclient", "home"), "Bewisclie
                         quickSettingsOptions.map {
                             listOf(
                                 EmptyRenderable().setHeight(5),
-                                InfoTextRenderable(Component.translatable("bewisclient." + it.key), centered = true, color = General.getTextThemeColor(), padding = 0),
+                                InfoTextRenderable(Component.translatable(it.key), centered = true, color = General.getTextThemeColor(), padding = 0),
                                 EmptyRenderable().setHeight(3),
                             ) + it.value.map { a -> ConfigureRenderableVisibilityPlane(it.key, a.key, a.value).setWidth(width) }
                         }.flatten()
@@ -67,7 +67,17 @@ object Home : SidebarFeature(createIdentifier("bewisclient", "home"), "Bewisclie
                 )
             }
 
-            if (quickSettings.isEmpty()) {
+            val innerList = quickSettings.toSortedSet().filter { it.split("/").size >= 2 }.groupBy { it.split("/")[0] }.mapNotNull {
+                (listOf(
+                    EmptyRenderable().setHeight(5),
+                    InfoTextRenderable(Component.translatable(it.key), centered = true, color = General.getTextThemeColor(), padding = 0).setHeight(14),
+                    EmptyRenderable().setHeight(3),
+                ) + it.value.mapNotNull { a ->
+                    quickSettingsOptions[it.key]?.get(a.split("/")[1])
+                }).run { if (size == 3) null else this }
+            }.flatten()
+
+            if (innerList.isEmpty()) {
                 addRenderable(Plane { x, y, width, height ->
                     listOf(
                         InfoTextRenderable(no_quick_settings(), General.getTextThemeColor() alpha 0.66f, centered = true)(x + width / 2 - 100, y + height / 4, 200, 0),
@@ -80,15 +90,7 @@ object Home : SidebarFeature(createIdentifier("bewisclient", "home"), "Bewisclie
             addRenderable(
                 VerticalAlignScrollPlane(
                     mutableListOf(
-                        VerticalAlignPlane(quickSettings.toSortedSet().filter { it.split("/").size >= 2 }.groupBy { it.split("/")[0] }.mapNotNull {
-                            listOf(
-                                EmptyRenderable().setHeight(5),
-                                InfoTextRenderable(Component.translatable("bewisclient." + it.key), centered = true, color = General.getTextThemeColor(), padding = 0).setHeight(14),
-                                EmptyRenderable().setHeight(3),
-                            ) + it.value.mapNotNull { a ->
-                                quickSettingsOptions[it.key]?.get(a.split("/")[1])
-                            }
-                        }.flatten(), gap = 1),
+                        VerticalAlignPlane(innerList, gap = 1),
                         Plane { x, y, width, height ->
                             listOf(
                                 button(x + width / 2 - 50, y, 100, height)

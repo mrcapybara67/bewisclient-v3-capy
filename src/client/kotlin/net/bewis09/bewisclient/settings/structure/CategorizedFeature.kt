@@ -6,19 +6,18 @@ import net.bewis09.bewisclient.common.color
 import net.bewis09.bewisclient.drawable.Animator
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.draw_methods.SelectiveScreenDrawer
-import net.bewis09.bewisclient.drawable.renderables.components.structure.Plane
 import net.bewis09.bewisclient.drawable.renderables.components.element.TextElement
 import net.bewis09.bewisclient.drawable.renderables.components.element.TooltipHoverableText
-import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalAlignScrollPlane
 import net.bewis09.bewisclient.drawable.renderables.components.logic.Hoverable
+import net.bewis09.bewisclient.drawable.renderables.components.structure.Plane
+import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalAlignScrollPlane
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.renderables.settings.BooleanSettingRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.pushColor
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
-import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.features.sidebar.General
-import net.bewis09.bewisclient.features.sidebar.Home.addToQuickSettings
+import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.logic.RenderableCreator
 import net.bewis09.bewisclient.settings.types.ColorSetting
 import net.bewis09.bewisclient.settings.types.FloatSetting
@@ -58,7 +57,7 @@ abstract class CategorizedFeature(id: Identifier, titleText: String) : Feature(i
         val state = Animator({ animationDuration }, Animator.EASE_IN_OUT, if (enabled.get()) 1f else 0f)
 
         init {
-            BooleanSettingRenderable(enabledText, null, enabled).addToQuickSettings(title.getKeyWithoutNamespace(), "enabled")
+            BooleanSettingRenderable(enabledText, null, enabled).addToQuickSettings(this@CategorizedFeature, "enabled")
         }
 
         override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean {
@@ -105,15 +104,15 @@ abstract class CategorizedFeature(id: Identifier, titleText: String) : Feature(i
         }
     }
 
-    fun ArrayList<Renderable>.addRenderable(setting: RenderableCreator<*>, id: String, title: String, description: String? = null, quickSettingsId: String? = null) {
+    fun ArrayList<Renderable>.addRenderable(feature: CategorizedFeature, setting: RenderableCreator<*>, id: String, title: String, description: String? = null, quickSettingsId: String? = null) {
         val renderable = setting.createRenderable(id, title, description)
-        if (quickSettingsId != null) renderable.addToQuickSettings("menu.category.${id}", quickSettingsId)
+        if (quickSettingsId != null) renderable.addToQuickSettings(feature, quickSettingsId)
         this.add(renderable)
     }
 
-    fun ArrayList<Renderable>.addColorRenderable(setting: ColorSetting, alpha: FloatSetting, id: String, title: String, description: String? = null, quickSettingsId: String? = null) {
+    fun ArrayList<Renderable>.addColorRenderable(feature: CategorizedFeature, setting: ColorSetting, alpha: FloatSetting, id: String, title: String, description: String? = null, quickSettingsId: String? = null) {
         val renderable = setting.createRenderableWithFader(id, title, description, alpha)
-        if (quickSettingsId != null) renderable.addToQuickSettings("menu.category.${id}", quickSettingsId)
+        if (quickSettingsId != null) renderable.addToQuickSettings(feature, quickSettingsId)
         this.add(renderable)
     }
 }

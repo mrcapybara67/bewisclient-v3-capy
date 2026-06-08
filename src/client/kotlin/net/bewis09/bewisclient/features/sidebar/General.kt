@@ -9,7 +9,6 @@ import net.bewis09.bewisclient.drawable.renderables.components.structure.Vertica
 import net.bewis09.bewisclient.settings.structure.SidebarFeature
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.features.cosmetics.EnableOnlineModeSettingsRenderable
-import net.bewis09.bewisclient.features.sidebar.Home.addToQuickSettings
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.types.BooleanSetting
 import net.bewis09.bewisclient.settings.types.ColorSetting
@@ -45,11 +44,11 @@ object General : SidebarFeature(createIdentifier("bewisclient", "options_menu"),
         return VerticalAlignScrollPlane(
             listOfNotNull(
 //            OptionsMenuSettings.animationTime.createRenderable("menu.settings.animation_time", "Animation Time", "The time (in milliseconds) it takes for animations to complete"),
-                blurBackground.createRenderable("settings.blur_background", "Blur Background", "Whether to blur the background when opening menus").addToQuickSettings("menu.category.settings", "blur"),
-                buttonInTitleScreen.createRenderable("settings.button_in_title_screen", "Button in Title Screen", "Whether to show the Bewisclient button in the title screen").addToQuickSettings("menu.category.settings", "title"),
-                buttonInGameScreen.createRenderable("settings.button_in_game_screen", "Button in Game Screen", "Whether to show the Bewisclient button in the in-game pause menu").addToQuickSettings("menu.category.settings", "in-game"),
-                themeColor.createRenderable("settings.theme_color", "Theme Color", "The theme color used throughout the client").addToQuickSettings("menu.category.settings", "theme_color"),
-                backgroundColor.createRenderableWithFader("settings.background_color", "Background Color", "The background color used for menus. Reset to use the theme color.", backgroundOpacity).addToQuickSettings("menu.category.settings", "background"),
+                blurBackground.createRenderable("settings.blur_background", "Blur Background", "Whether to blur the background when opening menus").addToQuickSettings(this, "blur"),
+                buttonInTitleScreen.createRenderable("settings.button_in_title_screen", "Button in Title Screen", "Whether to show the Bewisclient button in the title screen").addToQuickSettings(this, "title"),
+                buttonInGameScreen.createRenderable("settings.button_in_game_screen", "Button in Game Screen", "Whether to show the Bewisclient button in the in-game pause menu").addToQuickSettings(this, "in-game"),
+                themeColor.createRenderable("settings.theme_color", "Theme Color", "The theme color used throughout the client").addToQuickSettings(this, "theme_color"),
+                backgroundColor.createRenderableWithFader("settings.background_color", "Background Color", "The background color used for menus. Reset to use the theme color.", backgroundOpacity).addToQuickSettings(this, "background"),
                 minecraftyOptionsMenu.createRenderable("settings.minecrafty_options_menu", "Minecrafty Options Menu", "Whether to use a Minecrafty style options menu instead of the default flat design"),
                 if (System.getProperty("os.name").lowercase().contains("win"))
                     autoUpdate.createRenderable("settings.auto_update", "Automatic Updates", "Whether to automatically check for updates and update the client when an update is found")

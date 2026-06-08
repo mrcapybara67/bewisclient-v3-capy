@@ -46,6 +46,6 @@ class EnableOnlineModeSettingsRenderable(val title: Translation, val description
         addRenderable(switch.setPosition(x2 - switch.width - 8 - resetButton.width, y + 5))
         addRenderable(Button(readPrivacyNotice()) {
             AcceptPrivacyPage.openPrivacyPage()
-        }(x2 - 104, y2 - SelectiveScreenDrawer.getSideButtonHeight() - 4, 100, SelectiveScreenDrawer.getSideButtonHeight()))
+        }(x2 - 104, y + height - SelectiveScreenDrawer.getSideButtonHeight() * 2 + 14, 100, SelectiveScreenDrawer.getSideButtonHeight()))
     }
 }

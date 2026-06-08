@@ -11,4 +11,6 @@ object APIEntrypointLoader {
     fun <T> mapContainer(action: (EntrypointContainer<BewisclientAPIEntrypoint>) -> T): List<T> = entrypoints.map(action)
 
     fun <T> mapEntrypoint(action: (BewisclientAPIEntrypoint) -> T): List<T> = entrypoints.map { action(it.entrypoint) }
+
+    fun <T> mapEntrypointForList(action: (BewisclientAPIEntrypoint) -> List<T>): List<T> = entrypoints.flatMap { action(it.entrypoint) }
 }

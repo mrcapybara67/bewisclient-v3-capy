@@ -26,7 +26,7 @@ object HeldItemTooltip : ImageFeature(createIdentifier("bewisclient", "held_item
     val moreLinesText = Translation("menu.held_item_tooltip.more_lines", "and %s more...")
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
-        list.addRenderable(maxShownLines, "held_item_tooltip.max_shown_lines", "Max Shown Lines", "Maximum number of lines to show in the held item tooltip", "max_lines")
+        list.addRenderable(this, maxShownLines, "held_item_tooltip.max_shown_lines", "Max Shown Lines", "Maximum number of lines to show in the held item tooltip", "max_lines")
         list.add(MultipleBooleanSettingsRenderable.create(
             "held_item_tooltip.multiple_boolean_settings", "Data Component Tooltips:", "Select which information to show in the held item tooltip"
         ) { componentRenderableParts })

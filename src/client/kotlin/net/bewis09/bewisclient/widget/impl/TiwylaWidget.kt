@@ -11,7 +11,6 @@ import net.bewis09.bewisclient.drawable.renderables.impl.TiwylaLinesSettingsRend
 import net.bewis09.bewisclient.drawable.renderables.settings.InfoTextRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.transform
-import net.bewis09.bewisclient.features.sidebar.Home.addToQuickSettings
 import net.bewis09.bewisclient.features.sidebar.Widgets
 import net.bewis09.bewisclient.mixin.client.MultiPlayerGameModeMixin
 import net.bewis09.bewisclient.settings.types.BooleanMapSetting
@@ -248,10 +247,10 @@ object TiwylaWidget : ScalableWidget(
     override fun getHeight(): Int = 9 + getSublines().size * 6 + lineSpacing.get() * (getSublines().size) + 2 * paddingSize.get()
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
-        list.addRenderable(topTextColor, "top_text_color", "Top Text Color", "Set the color of the top text in the widget")
-        list.addRenderable(bottomTextColor, "bottom_text_color", "Bottom Text Color", "Set the color of the bottom text in the widget")
+        list.addRenderable(this, topTextColor, "top_text_color", "Top Text Color", "Set the color of the top text in the widget")
+        list.addRenderable(this, bottomTextColor, "bottom_text_color", "Bottom Text Color", "Set the color of the bottom text in the widget")
 
-        list.add(TiwylaLinesSettingsRenderable().addToQuickSettings("widget.tiwyla_widget.name", "lines"))
+        list.add(TiwylaLinesSettingsRenderable().addToQuickSettings(this, "lines"))
         list.add(InfoTextRenderable(healthInfoText(), 0xAAAAAA.color, true))
 
         list.add(LineWidget.backgroundColorRenderable(backgroundColor, backgroundOpacity))

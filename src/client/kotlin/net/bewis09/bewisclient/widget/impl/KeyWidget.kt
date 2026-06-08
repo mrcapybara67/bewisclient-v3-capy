@@ -9,7 +9,6 @@ import net.bewis09.bewisclient.drawable.renderables.screen.HudEditScreen
 import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
-import net.bewis09.bewisclient.features.sidebar.Home.addToQuickSettings
 import net.bewis09.bewisclient.features.sidebar.Widgets
 import net.bewis09.bewisclient.settings.types.BooleanSetting
 import net.bewis09.bewisclient.settings.types.ColorSetting
@@ -157,22 +156,22 @@ object KeyWidget : ScalableWidget(
                 createTranslation("keys", "Select which keys should be shown"), null, listOf(
                     showMovementKeys.createRenderablePart("widget.key_widget.show_movement_keys", "Movement Keys"), showAttackUseKeys.createRenderablePart("widget.key_widget.show_attack_use_keys", "Attack/Use Keys"), showJumpKey.createRenderablePart("widget.key_widget.show_jump_key", "Jump Key")
                 ).staticFun()
-            ).addToQuickSettings("widget.key_widget.name", "shown_keys")
+            ).addToQuickSettings(this, "shown_keys")
         )
 
-        list.addRenderable(showCPS, "key_widget.show_cps", "Show CPS", "Shows your clicks per second (CPS) for the attack/use keys", "show_cps")
-        list.addRenderable(backgroundColor, "background", "Background", "Set the color of the widget's background")
+        list.addRenderable(this, showCPS, "key_widget.show_cps", "Show CPS", "Shows your clicks per second (CPS) for the attack/use keys", "show_cps")
+        list.addRenderable(this, backgroundColor, "background", "Background", "Set the color of the widget's background")
 
         list.add(LineWidget.backgroundColorRenderable(backgroundColor, backgroundOpacity))
         list.add(LineWidget.borderColorRenderable(borderColor, borderOpacity))
         list.add(LineWidget.textColorRenderable(textColor))
 
-        list.addColorRenderable(pressedBackgroundColor, pressedBackgroundOpacity, "pressed_background", "Pressed Background", "Set the color and opacity of the widget when a key is pressed")
-        list.addColorRenderable(pressedBorderColor, pressedBorderOpacity, "pressed_border", "Pressed Border", "Set the color and opacity of the widget's border when a key is pressed")
-        list.addRenderable(pressedTextColor, "pressed_text_color", "Pressed Text Color", "Set the color of the text in the widget when a key is pressed")
+        list.addColorRenderable(this, pressedBackgroundColor, pressedBackgroundOpacity, "pressed_background", "Pressed Background", "Set the color and opacity of the widget when a key is pressed")
+        list.addColorRenderable(this, pressedBorderColor, pressedBorderOpacity, "pressed_border", "Pressed Border", "Set the color and opacity of the widget's border when a key is pressed")
+        list.addRenderable(this, pressedTextColor, "pressed_text_color", "Pressed Text Color", "Set the color of the text in the widget when a key is pressed")
 
         list.add(LineWidget.shadowRenderable(shadow))
-        list.addRenderable(gap, "gap", "Gap", "Set the gap between the keys in the widget")
+        list.addRenderable(this, gap, "gap", "Gap", "Set the gap between the keys in the widget")
         list.add(LineWidget.paddingSizeRenderable(paddingSize))
         list.add(LineWidget.borderRadiusRenderable(borderRadius))
 

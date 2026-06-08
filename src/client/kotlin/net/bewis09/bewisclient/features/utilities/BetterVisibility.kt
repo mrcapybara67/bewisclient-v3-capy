@@ -23,10 +23,10 @@ object BetterVisibility : ImageFeature(createIdentifier("bewisclient", "better_v
     )
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
-        list.addRenderable(nether, "better_visibility.nether", "Nether", "Improve visibility in the Nether dimension", "nether")
-        list.addRenderable(water, "better_visibility.water", "Water", "Enhance visibility underwater", "water")
-        list.addRenderable(lava, "better_visibility.lava", "Lava", "Boost visibility in lava", "lava")
-        list.addRenderable(powder_snow, "better_visibility.powder_snow", "Powder Snow", "Increase visibility in powder snow", "snow")
+        list.addRenderable(this, nether, "better_visibility.nether", "Nether", "Improve visibility in the Nether dimension", "nether")
+        list.addRenderable(this, water, "better_visibility.water", "Water", "Enhance visibility underwater", "water")
+        list.addRenderable(this, lava, "better_visibility.lava", "Lava", "Boost visibility in lava", "lava")
+        list.addRenderable(this, powder_snow, "better_visibility.powder_snow", "Powder Snow", "Increase visibility in powder snow", "snow")
     }
 
     fun applyFogModifier(instance: String, fogData: FogData, viewDistance: Float) {
