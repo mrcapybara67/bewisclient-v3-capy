@@ -5,6 +5,7 @@ import com.google.gson.JsonPrimitive
 import net.bewis09.bewisclient.drawable.renderables.settings.IntegerSettingRenderable
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.logic.RenderableCreator
+import net.bewis09.bewisclient.settings.structure.Feature
 import net.bewis09.bewisclient.util.int
 
 class IntegerSetting(default: () -> Int, val min: Int, val max: Int) : Setting<Int>(default), RenderableCreator<IntegerSettingRenderable> {
@@ -14,8 +15,8 @@ class IntegerSetting(default: () -> Int, val min: Int, val max: Int) : Setting<I
 
     override fun convertFromElement(data: JsonElement?): Int? = data?.int()
 
-    override fun createRenderable(id: String, title: String, description: String?) = IntegerSettingRenderable(
-        Translation("menu.$id", title), description?.let { Translation("menu.$id.description", it) }, this, min, max
+    override fun createRenderable(feature: Feature, id: String, title: String, description: String?) = IntegerSettingRenderable(
+        feature.createTranslation(id, title), description?.let { Translation("$id.description", it) }, this, min, max
     )
 
     fun cloneWithDefault(): IntegerSetting = IntegerSetting(::get, min, max)

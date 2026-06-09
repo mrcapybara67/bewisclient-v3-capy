@@ -7,6 +7,7 @@ import net.bewis09.bewisclient.drawable.renderables.settings.IntegerSettingRende
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.logic.RenderableCreator
 import net.bewis09.bewisclient.settings.logic.SettingInterfaceWithDefault
+import net.bewis09.bewisclient.settings.structure.Feature
 import net.bewis09.bewisclient.util.float
 import net.bewis09.bewisclient.util.number.Precision
 
@@ -18,15 +19,15 @@ class FloatSetting(default: () -> Float, val precision: Precision) : Setting<Flo
     override fun convertFromElement(data: JsonElement?): Float? = processChange(data?.float())
 
     override fun createRenderable(
-        id: String, title: String, description: String?
+        feature: Feature, id: String, title: String, description: String?
     ) = FloatSettingRenderable(
-        Translation("menu.$id", title), description?.let { Translation("menu.$id.description", it) }, this, precision
+        feature.createTranslation(id, title), description?.let { Translation("$id.description", it) }, this, precision
     )
 
     fun createIntRenderable(
-        id: String, title: String, description: String? = null
+        feature: Feature, id: String, title: String, description: String? = null
     ): IntegerSettingRenderable = IntegerSettingRenderable(
-        Translation("menu.$id", title), description?.let { Translation("menu.$id.description", it) }, object : SettingInterfaceWithDefault<Int> {
+        feature.createTranslation(id, title), description?.let { feature.createTranslation("$id.description", it) }, object : SettingInterfaceWithDefault<Int> {
             override fun set(value: Int?) {
                 this@FloatSetting.set(value?.toFloat())
             }

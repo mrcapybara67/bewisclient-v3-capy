@@ -16,7 +16,6 @@ import net.bewis09.bewisclient.drawable.renderables.components.structure.Vertica
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.drawable.renderables.settings.InfoTextRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.structure.SidebarFeature
 import net.bewis09.bewisclient.settings.types.ListSetting
 import net.bewis09.bewisclient.util.color.ThemeColorSaver
@@ -30,16 +29,16 @@ object Home : SidebarFeature(createIdentifier("bewisclient", "home"), "Bewisclie
     override fun getRenderable(): Renderable = HomePlane
 
     object HomePlane : Renderable() {
-        val editQuickSettings = Translation("menu.home.edit_quick_settings", "Edit Quick Settings")
-        val widgetPresets = Translation("menu.home.widget_presets", "Widget Presets")
-        val moreWidgetOptions = Translation("menu.home.more_widget_options", "More customization options can be found in the widgets tab")
-        val currentSettings = Translation("menu.home.current_settings", "Current Settings")
-        val defaultSettings = Translation("menu.home.default_settings", "Default Settings")
-        val border = Translation("menu.home.border", "Default with Border")
-        val themed = Translation("menu.home.themed", "Theme color")
-        val themed_border = Translation("menu.home.themed_border", "Theme with Border")
-        val selectPreset = Translation("menu.home.select_preset", "Apply preset [%s] to your widgets")
-        val no_quick_settings = Translation("menu.home.no_quick_settings", "Here you can add settings that you need frequently, so you don't have to search for them in the different categories and have quicker access to them.")
+        val editQuickSettings = createTranslation("edit_quick_settings", "Edit Quick Settings")
+        val widgetPresets = createTranslation("widget_presets", "Widget Presets")
+        val moreWidgetOptions = createTranslation("more_widget_options", "More customization options can be found in the widgets tab")
+        val currentSettings = createTranslation("current_settings", "Current Settings")
+        val defaultSettings = createTranslation("default_settings", "Default Settings")
+        val border = createTranslation("border", "Default with Border")
+        val themed = createTranslation("themed", "Theme color")
+        val themed_border = createTranslation("themed_border", "Theme with Border")
+        val selectPreset = createTranslation("select_preset", "Apply preset [%s] to your widgets")
+        val no_quick_settings = createTranslation("no_quick_settings", "Here you can add settings that you need frequently, so you don't have to search for them in the different categories and have quicker access to them.")
 
         var borderRadius = Widgets.Default.borderRadius.get().toFloat()
 

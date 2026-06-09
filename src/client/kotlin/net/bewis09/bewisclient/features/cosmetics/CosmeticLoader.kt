@@ -60,7 +60,7 @@ object CosmeticLoader : SidebarFeature(createIdentifier("bewisclient", "cosmetic
 
     override fun getRenderable(): Renderable = Plane { x, y, width, height ->
         listOf(
-            elytra.createRenderable("cosmetics.elytra", "Apply cape to elytra", "Some capes include a unique texture for the elytra, which can be disabled here if desired.")(x, y, width, 22),
+            elytra.createRenderable(this, "elytra", "Apply cape to elytra", "Some capes include a unique texture for the elytra, which can be disabled here if desired.")(x, y, width, 22),
             getCosmeticGrid()(x, y + 27, width, height - 27)
         )
     }

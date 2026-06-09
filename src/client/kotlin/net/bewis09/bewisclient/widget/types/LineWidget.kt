@@ -1,6 +1,7 @@
 package net.bewis09.bewisclient.widget.types
 
 import net.bewis09.bewisclient.common.Identifier
+import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.toText
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.settings.BooleanSettingRenderable
@@ -9,6 +10,7 @@ import net.bewis09.bewisclient.drawable.renderables.settings.ColorSettingRendera
 import net.bewis09.bewisclient.drawable.renderables.settings.IntegerSettingRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.features.sidebar.Widgets
+import net.bewis09.bewisclient.settings.structure.Feature
 import net.bewis09.bewisclient.settings.types.BooleanSetting
 import net.bewis09.bewisclient.settings.types.ColorSetting
 import net.bewis09.bewisclient.settings.types.FloatSetting
@@ -21,32 +23,34 @@ abstract class LineWidget(id: Identifier, title: String, description: String) : 
     companion object {
         private val EMPTY = "".toText()
 
+        val feature = Feature(createIdentifier("bewisclient", "widget.line_widget"))
+
         fun backgroundColorRenderable(backgroundColor: ColorSetting, backgroundOpacity: FloatSetting): ColorFaderSettingRenderable {
-            return backgroundColor.createRenderableWithFader("widget.background", "Background", "Set the color and opacity of the widget's background", backgroundOpacity)
+            return backgroundColor.createRenderableWithFader(feature, "background", "Background", "Set the color and opacity of the widget's background", backgroundOpacity)
         }
 
         fun borderColorRenderable(borderColor: ColorSetting, borderOpacity: FloatSetting): ColorFaderSettingRenderable {
-            return borderColor.createRenderableWithFader("widget.border", "Border", "Set the color and opacity of the widget's border", borderOpacity)
+            return borderColor.createRenderableWithFader(feature, "border", "Border", "Set the color and opacity of the widget's border", borderOpacity)
         }
 
         fun paddingSizeRenderable(paddingSize: IntegerSetting): IntegerSettingRenderable {
-            return paddingSize.createRenderable("widget.padding_size", "Padding Size", "Set the padding at the edge of the widget to the text")
+            return paddingSize.createRenderable(feature, "padding_size", "Padding Size", "Set the padding at the edge of the widget to the text")
         }
 
         fun lineSpacingRenderable(lineSpacing: IntegerSetting): IntegerSettingRenderable {
-            return lineSpacing.createRenderable("widget.line_spacing", "Line Spacing", "Set the spacing between lines of text in the widget")
+            return lineSpacing.createRenderable(feature, "line_spacing", "Line Spacing", "Set the spacing between lines of text in the widget")
         }
 
         fun textColorRenderable(textColor: ColorSetting): ColorSettingRenderable {
-            return textColor.createRenderable("widget.text_color", "Text Color", "Set the color of the text in the widget")
+            return textColor.createRenderable(feature, "text_color", "Text Color", "Set the color of the text in the widget")
         }
 
         fun borderRadiusRenderable(borderRadius: IntegerSetting): IntegerSettingRenderable {
-            return borderRadius.createRenderable("widget.border_radius", "Border Radius", "Set the radius of the widget's border corners")
+            return borderRadius.createRenderable(feature, "border_radius", "Border Radius", "Set the radius of the widget's border corners")
         }
 
         fun shadowRenderable(shadow: BooleanSetting): BooleanSettingRenderable {
-            return shadow.createRenderable("widget.text_shadow", "Text Shadow", "Set whether text in the widget has a shadow")
+            return shadow.createRenderable(feature, "text_shadow", "Text Shadow", "Set whether text in the widget has a shadow")
         }
     }
 

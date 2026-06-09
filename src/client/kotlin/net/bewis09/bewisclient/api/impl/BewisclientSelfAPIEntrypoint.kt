@@ -60,16 +60,16 @@ class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
     }
 
     override fun getGeneralWidgetSettings(): List<Renderable> = listOf(
-        Widgets.Default.gap.createRenderable("widget.gap", "Gap", "Set the gap between widgets in a row"),
-        Widgets.Default.screenEdgeDistance.createRenderable("widget.screen_edge_distance", "Screen Edge Distance", "Set the snapping distance of a widget to the screen edge"),
-        Widgets.Default.backgroundColor.createRenderableWithFader("widget.default_background", "Default Background", "Set the default color and opacity of a widget", Widgets.Default.backgroundOpacity),
-        Widgets.Default.borderColor.createRenderableWithFader("widget.default_border", "Default Border", "Set the default color and opacity of a widget's border", Widgets.Default.borderOpacity),
-        Widgets.Default.paddingSize.createRenderable("widget.default_padding_size", "Default Padding Size", "Set the default padding at the edge of a widget to the text"),
-        Widgets.Default.lineSpacing.createRenderable("widget.default_line_spacing", "Default Line Spacing", "Set the default spacing between lines of text in a widget"),
-        Widgets.Default.shadow.createRenderable("widget.default_text_shadow", "Default Text Shadow", "Set whether text in a widget has a shadow by default"),
-        Widgets.Default.textColor.createRenderable("widget.default_text_color", "Default Text Color", "Set the default color of the text in a widget"),
-        Widgets.Default.borderRadius.createRenderable("widget.default_border_radius", "Default Border Radius", "Set the default radius of a widget's border corners"),
-        Widgets.Default.scale.createRenderable("widget.default_scale", "Default Scale", "Set the default scale of a widget"),
+        Widgets.Default.gap.createRenderable(General, "gap", "Gap", "Set the gap between widgets in a row"),
+        Widgets.Default.screenEdgeDistance.createRenderable(General, "screen_edge_distance", "Screen Edge Distance", "Set the snapping distance of a widget to the screen edge"),
+        Widgets.Default.backgroundColor.createRenderableWithFader(General, "default_background", "Default Background", "Set the default color and opacity of a widget", Widgets.Default.backgroundOpacity),
+        Widgets.Default.borderColor.createRenderableWithFader(General, "default_border", "Default Border", "Set the default color and opacity of a widget's border", Widgets.Default.borderOpacity),
+        Widgets.Default.paddingSize.createRenderable(General, "default_padding_size", "Default Padding Size", "Set the default padding at the edge of a widget to the text"),
+        Widgets.Default.lineSpacing.createRenderable(General, "default_line_spacing", "Default Line Spacing", "Set the default spacing between lines of text in a widget"),
+        Widgets.Default.shadow.createRenderable(General, "default_text_shadow", "Default Text Shadow", "Set whether text in a widget has a shadow by default"),
+        Widgets.Default.textColor.createRenderable(General, "default_text_color", "Default Text Color", "Set the default color of the text in a widget"),
+        Widgets.Default.borderRadius.createRenderable(General, "default_border_radius", "Default Border Radius", "Set the default radius of a widget's border corners"),
+        Widgets.Default.scale.createRenderable(General, "default_scale", "Default Scale", "Set the default scale of a widget"),
     )
 
     override fun getSidebarCategories(): List<SidebarFeature> = listOf(

@@ -8,6 +8,6 @@ object FireHeight : ImageFeature(createIdentifier("bewisclient", "fire_height"),
     val height = float("height", 1f, 0f, 1f, 0.01f, 2)
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
-        list.addRenderable(this, height, "fire_height.height", "Fire Height", "Adjust the height of the fire overlay on your screen", "height")
+        list.addRenderable(this, height, "height", "Fire Height", "Adjust the height of the fire overlay on your screen", "height")
     }
 }

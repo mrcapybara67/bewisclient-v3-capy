@@ -30,7 +30,7 @@ abstract class CategorizedFeature(id: Identifier, titleText: String) : Feature(i
         val disabledText = Translation("menu.general.disabled", "Disabled")
     }
 
-    val title = Translation(id.namespace, "menu.category.${id.path}", titleText)
+    val title = Translation(id.namespace, "category.${id.path}", titleText)
 
     open val enabledByDefault = false
     val enabled = boolean("enabled", enabledByDefault) { oldValue, newValue -> enabledListener(oldValue, newValue) }
@@ -105,13 +105,13 @@ abstract class CategorizedFeature(id: Identifier, titleText: String) : Feature(i
     }
 
     fun ArrayList<Renderable>.addRenderable(feature: CategorizedFeature, setting: RenderableCreator<*>, id: String, title: String, description: String? = null, quickSettingsId: String? = null) {
-        val renderable = setting.createRenderable(id, title, description)
+        val renderable = setting.createRenderable(this@CategorizedFeature, id, title, description)
         if (quickSettingsId != null) renderable.addToQuickSettings(feature, quickSettingsId)
         this.add(renderable)
     }
 
     fun ArrayList<Renderable>.addColorRenderable(feature: CategorizedFeature, setting: ColorSetting, alpha: FloatSetting, id: String, title: String, description: String? = null, quickSettingsId: String? = null) {
-        val renderable = setting.createRenderableWithFader(id, title, description, alpha)
+        val renderable = setting.createRenderableWithFader(this@CategorizedFeature, id, title, description, alpha)
         if (quickSettingsId != null) renderable.addToQuickSettings(feature, quickSettingsId)
         this.add(renderable)
     }

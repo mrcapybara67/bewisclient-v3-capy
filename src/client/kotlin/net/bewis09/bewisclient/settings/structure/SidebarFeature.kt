@@ -12,7 +12,7 @@ import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.features.sidebar.General
 
 abstract class SidebarFeature(id: Identifier, titleText: String): Feature(id) {
-    val title = Translation(id.namespace, "menu.category.${id.path}", titleText)
+    val title = Translation(id.namespace, "category.${id.path}", titleText)
 
     fun createButton(): ThemeButton {
         return ThemeButton(title(), { OptionScreen.currentInstance?.category == id.toString() }, {

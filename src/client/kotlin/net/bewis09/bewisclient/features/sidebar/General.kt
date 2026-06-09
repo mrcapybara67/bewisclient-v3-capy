@@ -9,7 +9,6 @@ import net.bewis09.bewisclient.drawable.renderables.components.structure.Vertica
 import net.bewis09.bewisclient.settings.structure.SidebarFeature
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
 import net.bewis09.bewisclient.features.cosmetics.EnableOnlineModeSettingsRenderable
-import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.types.BooleanSetting
 import net.bewis09.bewisclient.settings.types.ColorSetting
 import net.bewis09.bewisclient.util.Bewisclient
@@ -44,18 +43,18 @@ object General : SidebarFeature(createIdentifier("bewisclient", "options_menu"),
         return VerticalAlignScrollPlane(
             listOfNotNull(
 //            OptionsMenuSettings.animationTime.createRenderable("menu.settings.animation_time", "Animation Time", "The time (in milliseconds) it takes for animations to complete"),
-                blurBackground.createRenderable("settings.blur_background", "Blur Background", "Whether to blur the background when opening menus").addToQuickSettings(this, "blur"),
-                buttonInTitleScreen.createRenderable("settings.button_in_title_screen", "Button in Title Screen", "Whether to show the Bewisclient button in the title screen").addToQuickSettings(this, "title"),
-                buttonInGameScreen.createRenderable("settings.button_in_game_screen", "Button in Game Screen", "Whether to show the Bewisclient button in the in-game pause menu").addToQuickSettings(this, "in-game"),
-                themeColor.createRenderable("settings.theme_color", "Theme Color", "The theme color used throughout the client").addToQuickSettings(this, "theme_color"),
-                backgroundColor.createRenderableWithFader("settings.background_color", "Background Color", "The background color used for menus. Reset to use the theme color.", backgroundOpacity).addToQuickSettings(this, "background"),
-                minecraftyOptionsMenu.createRenderable("settings.minecrafty_options_menu", "Minecrafty Options Menu", "Whether to use a Minecrafty style options menu instead of the default flat design"),
+                blurBackground.createRenderable(this, "blur_background", "Blur Background", "Whether to blur the background when opening menus").addToQuickSettings(this, "blur"),
+                buttonInTitleScreen.createRenderable(this, "button_in_title_screen", "Button in Title Screen", "Whether to show the Bewisclient button in the title screen").addToQuickSettings(this, "title"),
+                buttonInGameScreen.createRenderable(this, "button_in_game_screen", "Button in Game Screen", "Whether to show the Bewisclient button in the in-game pause menu").addToQuickSettings(this, "in-game"),
+                themeColor.createRenderable(this, "theme_color", "Theme Color", "The theme color used throughout the client").addToQuickSettings(this, "theme_color"),
+                backgroundColor.createRenderableWithFader(this, "background_color", "Background Color", "The background color used for menus. Reset to use the theme color.", backgroundOpacity).addToQuickSettings(this, "background"),
+                minecraftyOptionsMenu.createRenderable(this, "minecrafty_options_menu", "Minecrafty Options Menu", "Whether to use a Minecrafty style options menu instead of the default flat design"),
                 if (System.getProperty("os.name").lowercase().contains("win"))
-                    autoUpdate.createRenderable("settings.auto_update", "Automatic Updates", "Whether to automatically check for updates and update the client when an update is found")
+                    autoUpdate.createRenderable(this, "auto_update", "Automatic Updates", "Whether to automatically check for updates and update the client when an update is found")
                 else null,
                 EnableOnlineModeSettingsRenderable(
-                    Translation("menu.settings.online_mode", "Online Mode"),
-                    Translation("menu.settings.online_mode.description", "Whether to enable online features such as special cosmetics and cosmetic syncing. Needs to be enabled if you want other players to see your cosmetics or if you want to see other players' cosmetics. Requires restarting the client to take effect."),
+                    createTranslation("online_mode", "Online Mode"),
+                    createTranslation("online_mode.description", "Whether to enable online features such as special cosmetics and cosmetic syncing. Needs to be enabled if you want other players to see your cosmetics or if you want to see other players' cosmetics. Requires restarting the client to take effect."),
                     onlineMode
                 ),
             ), 1

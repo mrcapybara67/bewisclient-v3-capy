@@ -6,13 +6,9 @@ import net.bewis09.bewisclient.drawable.renderables.settings.ColorFaderSettingRe
 import net.bewis09.bewisclient.drawable.renderables.settings.ColorSettingRenderable
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.logic.RenderableCreator
+import net.bewis09.bewisclient.settings.structure.Feature
 import net.bewis09.bewisclient.util.color.ColorSaver
 
-/**
- * A setting that allows the user to select a color.
- *
- * @param types the types of colors that can be selected. If not specified, all types are allowed.
- */
 class ColorSetting(default: () -> ColorSaver, vararg val types: String = ALL) : Setting<ColorSaver>(default), RenderableCreator<ColorSettingRenderable> {
     companion object {
         val ALL = ColorSaver.types.map { it.getType() }.toTypedArray()
@@ -38,12 +34,12 @@ class ColorSetting(default: () -> ColorSaver, vararg val types: String = ALL) : 
 
     override fun convertFromElement(data: JsonElement?): ColorSaver? = ColorSaver.fromJson(data)
 
-    override fun createRenderable(id: String, title: String, description: String?): ColorSettingRenderable {
-        return ColorSettingRenderable(Translation("menu.$id", title), description?.let { Translation("menu.$id.description", it) }, this, types.map { it }.toTypedArray())
+    override fun createRenderable(feature: Feature, id: String, title: String, description: String?): ColorSettingRenderable {
+        return ColorSettingRenderable(feature.createTranslation(id, title), description?.let { feature.createTranslation("$id.description", it) }, this, types.map { it }.toTypedArray())
     }
 
-    fun createRenderableWithFader(id: String, title: String, description: String? = null, faderSetting: FloatSetting): ColorFaderSettingRenderable {
-        return ColorFaderSettingRenderable(Translation("menu.$id", title), description?.let { Translation("menu.$id.description", it) }, this, types.map { it }.toTypedArray(), faderSetting, opacityTranslation)
+    fun createRenderableWithFader(feature: Feature, id: String, title: String, description: String? = null, faderSetting: FloatSetting): ColorFaderSettingRenderable {
+        return ColorFaderSettingRenderable(feature.createTranslation(id, title), description?.let { feature.createTranslation("$id.description", it) }, this, types.map { it }.toTypedArray(), faderSetting, opacityTranslation)
     }
 
     override fun processChange(value: ColorSaver?): ColorSaver? {

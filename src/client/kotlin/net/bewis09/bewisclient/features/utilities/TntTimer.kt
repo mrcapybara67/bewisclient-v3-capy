@@ -6,7 +6,6 @@ import net.bewis09.bewisclient.api.APIEntrypointLoader
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
-import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.logic.SettingInterfaceWithDefault
 import net.bewis09.bewisclient.settings.structure.ImageFeature
 import net.bewis09.bewisclient.settings.types.BooleanMapSetting
@@ -26,7 +25,7 @@ object TntTimer : ImageFeature(createIdentifier("bewisclient", "tnt_timer"), "TN
     fun getFuseForEntity(entity: Entity) = entityTypes.firstOrNull { it.type == entity.type }?.invoke(entity)
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
-        list.add(MultipleBooleanSettingsRenderable(Translation("menu.tnt_timer.entities", "Show Timer For:"), null) {
+        list.add(MultipleBooleanSettingsRenderable(createTranslation("entities", "Show Timer For:"), null) {
             entityTypes.map { MultipleBooleanSettingsRenderable.Part(Component.translatable(it.type.toString()), null, it) }
         })
     }

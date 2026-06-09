@@ -15,7 +15,6 @@ import net.bewis09.bewisclient.drawable.renderables.notification.SimpleTextNotif
 import net.bewis09.bewisclient.settings.structure.SidebarFeature
 import net.bewis09.bewisclient.drawable.renderables.settings.SettingRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.game.translations.Translation
 import kotlin.math.roundToInt
 
 object Contact : SidebarFeature(
@@ -36,13 +35,13 @@ object Contact : SidebarFeature(
 
     class ContactLinkElement(val id: String, val url: String, val title: String, val description: String) : SettingRenderable(null, 22) {
         companion object {
-            val copyToClipboardText = Translation("contact.copy_to_clipboard", "Copy to clipboard")
-            val openLinkText = Translation("contact.open_link", "Open link in browser")
-            val copyLinkSuccessText = Translation("contact.copy_link_success", "Copied link to clipboard")
+            val copyToClipboardText = createTranslation("copy_to_clipboard", "Copy to clipboard")
+            val openLinkText = createTranslation("open_link", "Open link in browser")
+            val copyLinkSuccessText = createTranslation("copy_link_success", "Copied link to clipboard")
         }
 
-        val titleTranslation = Translation("contact.$id.title", title)
-        val descriptionTranslation = Translation("contact.$id.description", description)
+        val titleTranslation = createTranslation("$id.title", title)
+        val descriptionTranslation = createTranslation("$id.description", description)
         val identifier = createIdentifier("bewisclient", "textures/gui/contact/$id.png")
 
         val menuAnimation = Animator({ animationDuration }, Animator.EASE_IN_OUT, 0f)

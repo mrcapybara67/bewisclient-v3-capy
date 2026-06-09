@@ -154,12 +154,14 @@ object KeyWidget : ScalableWidget(
         list.add(
             MultipleBooleanSettingsRenderable(
                 createTranslation("keys", "Select which keys should be shown"), null, listOf(
-                    showMovementKeys.createRenderablePart("widget.key_widget.show_movement_keys", "Movement Keys"), showAttackUseKeys.createRenderablePart("widget.key_widget.show_attack_use_keys", "Attack/Use Keys"), showJumpKey.createRenderablePart("widget.key_widget.show_jump_key", "Jump Key")
+                    showMovementKeys.createRenderablePart(this, "show_movement_keys", "Movement Keys"),
+                    showAttackUseKeys.createRenderablePart(this, "show_attack_use_keys", "Attack/Use Keys"),
+                    showJumpKey.createRenderablePart(this, "show_jump_key", "Jump Key")
                 ).staticFun()
             ).addToQuickSettings(this, "shown_keys")
         )
 
-        list.addRenderable(this, showCPS, "key_widget.show_cps", "Show CPS", "Shows your clicks per second (CPS) for the attack/use keys", "show_cps")
+        list.addRenderable(this, showCPS, "show_cps", "Show CPS", "Shows your clicks per second (CPS) for the attack/use keys", "show_cps")
         list.addRenderable(this, backgroundColor, "background", "Background", "Set the color of the widget's background")
 
         list.add(LineWidget.backgroundColorRenderable(backgroundColor, backgroundOpacity))

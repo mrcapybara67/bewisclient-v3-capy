@@ -138,20 +138,20 @@ object ArmorWidget : ScalableWidget(
             MultipleBooleanSettingsRenderable(
                 createTranslation("armor_slots", "Armor Slots"), null,
                 listOf(
-                    showHead.createRenderablePart("widget.armor_widget.show_head", "Show Head"),
-                    showChest.createRenderablePart("widget.armor_widget.show_chest", "Show Chest"),
-                    showLegs.createRenderablePart("widget.armor_widget.show_legs", "Show Legs"),
-                    showFeet.createRenderablePart("widget.armor_widget.show_feet", "Show Feet"),
-                    showOffHand.createRenderablePart("widget.armor_widget.show_off_hand", "Show Off-Hand")
+                    showHead.createRenderablePart(this, "show_head", "Show Head"),
+                    showChest.createRenderablePart(this, "show_chest", "Show Chest"),
+                    showLegs.createRenderablePart(this, "show_legs", "Show Legs"),
+                    showFeet.createRenderablePart(this, "show_feet", "Show Feet"),
+                    showOffHand.createRenderablePart(this, "show_off_hand", "Show Off-Hand")
                 ).staticFun()
             ).addToQuickSettings(this, "armor_slots")
         )
 
-        list.addRenderable(this, showDurability, "armor_widget.show_durability", "Show Durability", "Toggle whether to show armor durability", "durability")
-        list.addRenderable(this, showPercentage, "armor_widget.show_percentage", "Show Percentage", "Toggle whether to show durability as a percentage", "percentage")
-        list.addRenderable(this, showEmptySlots, "armor_widget.show_empty_slots", "Show Empty Slots", "Toggle whether to show empty armor slots", "empty_slots")
-        list.addRenderable(this, showEmptySlotIcon, "armor_widget.show_empty_slot_icon", "Show Empty Slot Icon", "Toggle whether to show an icon for empty armor slots", "empty_slot_icon")
-        list.addRenderable(this, colorCodeText, "armor_widget.color_code_text", "Color Code Text", "Toggle whether to color code the durability text", "color_code_text")
+        list.addRenderable(this, showDurability, "show_durability", "Show Durability", "Toggle whether to show armor durability", "durability")
+        list.addRenderable(this, showPercentage, "show_percentage", "Show Percentage", "Toggle whether to show durability as a percentage", "percentage")
+        list.addRenderable(this, showEmptySlots, "show_empty_slots", "Show Empty Slots", "Toggle whether to show empty armor slots", "empty_slots")
+        list.addRenderable(this, showEmptySlotIcon, "show_empty_slot_icon", "Show Empty Slot Icon", "Toggle whether to show an icon for empty armor slots", "empty_slot_icon")
+        list.addRenderable(this, colorCodeText, "color_code_text", "Color Code Text", "Toggle whether to color code the durability text", "color_code_text")
 
         list.add(LineWidget.backgroundColorRenderable(backgroundColor, backgroundOpacity))
         list.add(LineWidget.borderColorRenderable(borderColor, borderOpacity))

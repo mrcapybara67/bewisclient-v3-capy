@@ -10,11 +10,10 @@ import net.bewis09.bewisclient.drawable.renderables.components.structure.Plane
 import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalAlignScrollPlane
 import net.bewis09.bewisclient.drawable.renderables.components.structure.VerticalScrollGrid
 import net.bewis09.bewisclient.drawable.renderables.screen.OptionScreen
-import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.structure.CategorizedFeature
+import net.bewis09.bewisclient.settings.structure.Feature
 import net.bewis09.bewisclient.settings.structure.SidebarFeature
 import net.bewis09.bewisclient.settings.types.ColorSetting
-import net.bewis09.bewisclient.settings.types.ObjectSetting
 import net.bewis09.bewisclient.util.color.StaticColorSaver
 import net.bewis09.bewisclient.widget.WidgetLoader
 import net.bewis09.bewisclient.widget.WidgetLoader.widgets
@@ -31,9 +30,9 @@ object Widgets : SidebarFeature(createIdentifier("bewisclient", "widgets"), "Wid
 
     val widgetsPlane = Plane { x, y, width, height ->
         listOf(
-            Button(Translation("menu.widgets.general_setting", "General Widget Settings")()) {
+            Button(createTranslation("general_setting", "General Widget Settings")()) {
                 OptionScreen.currentInstance?.openPage(
-                    TextElement(Translation("menu.widgets.general_setting", "General Widget Settings")(), centered = true).setHeight(12), VerticalAlignScrollPlane({ generalWidgetSettings }, 1)
+                    TextElement(createTranslation("general_setting", "General Widget Settings")(), centered = true).setHeight(12), VerticalAlignScrollPlane({ generalWidgetSettings }, 1)
                 )
             }(x, y, width, SelectiveScreenDrawer.getSideButtonHeight()),
 //            Button(Translation("menu.widgets.presets", "Presets")()) {
@@ -45,7 +44,7 @@ object Widgets : SidebarFeature(createIdentifier("bewisclient", "widgets"), "Wid
 
     override fun getRenderable(): Renderable = widgetsPlane
 
-    object Default : ObjectSetting() {
+    object Default : Feature(createIdentifier("bewisclient", "widgets_defaults")) {
         val backgroundColor = color("background_color", StaticColorSaver(0f, 0f, 0f), ColorSetting.STATIC, ColorSetting.CHANGING, ColorSetting.THEME)
         val backgroundOpacity = float("background_opacity", 0.5f, 0f, 1f, 0.01f, 2)
         val borderColor = color("border_color", StaticColorSaver(0f, 0f, 0f), ColorSetting.STATIC, ColorSetting.CHANGING, ColorSetting.THEME)

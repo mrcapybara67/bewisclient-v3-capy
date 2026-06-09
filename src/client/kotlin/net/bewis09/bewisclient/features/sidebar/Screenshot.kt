@@ -18,7 +18,6 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.pushColor
 import net.bewis09.bewisclient.drawable.screen_drawing.scale
 import net.bewis09.bewisclient.drawable.screen_drawing.transform
-import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.process.CopyImage
 import net.bewis09.bewisclient.process.ProcessCreator
 import net.bewis09.bewisclient.settings.structure.SidebarFeature
@@ -33,16 +32,16 @@ import java.nio.file.StandardWatchEventKinds
 object Screenshot : SidebarFeature(createIdentifier("bewisclient", "screenshot"), "Screenshots") {
     val redirect = boolean("redirect", true)
 
-    val copyButtonText = Translation("menu.screenshot.copy", "Copy")
-    val copyingButtonText = Translation("menu.screenshot.copying", "Copying...")
-    val copySuccessNotifText = Translation("menu.screenshot.copy_screenshot_success", "Copied screenshot to clipboard")
-    val copyFailedNotifText = Translation("menu.screenshot.copy_failed", "Copying Failed: Exit code %s")
-    val deleteSuccessNotifText = Translation("menu.screenshot.delete_screenshot_success", "Deleted screenshot")
-    val confirmDeletePopupText = Translation("menu.screenshot.confirm_delete", "Are you sure you want to delete this screenshot?")
-    val deleteButtonText = Translation("menu.screenshot.delete", "Delete")
-    val openButtonText = Translation("menu.screenshot.open", "Open")
-    val openFolderButtonText = Translation("menu.screenshot.open_folder", "Open Folder")
-    val deleteFailedNotifText = Translation("menu.screenshot.delete_failed", "Deleting failed")
+    val copyButtonText = createTranslation("copy", "Copy")
+    val copyingButtonText = createTranslation("copying", "Copying...")
+    val copySuccessNotifText = createTranslation("copy_screenshot_success", "Copied screenshot to clipboard")
+    val copyFailedNotifText = createTranslation("copy_failed", "Copying Failed: Exit code %s")
+    val deleteSuccessNotifText = createTranslation("delete_screenshot_success", "Deleted screenshot")
+    val confirmDeletePopupText = createTranslation("confirm_delete", "Are you sure you want to delete this screenshot?")
+    val deleteButtonText = createTranslation("delete", "Delete")
+    val openButtonText = createTranslation("open", "Open")
+    val openFolderButtonText = createTranslation("open_folder", "Open Folder")
+    val deleteFailedNotifText = createTranslation("delete_failed", "Deleting failed")
 
     override fun getRenderable(): Renderable = ScreenshotElement
 
@@ -51,13 +50,13 @@ object Screenshot : SidebarFeature(createIdentifier("bewisclient", "screenshot")
     class ScreenshotFileData(val nativeImage: NativeImage?, val identifier: Identifier?, val failed: Boolean)
 
     object ScreenshotElement : Renderable() {
-        val loading = Translation("menu.general.loading", "Loading...")
-        val loadingFailed = Translation("menu.general.file_load_fail", "Failed to load file")
+        val loading = createTranslation("loading", "Loading...")
+        val loadingFailed = createTranslation("file_load_fail", "Failed to load file")
 
-        val screenshotName = Translation("menu.general.screenshot_name", "Screenshot: %s")
-        val redirectElement = redirect.createRenderable("screenshot.redirect", "Redirect screenshot chat click event", "When clicking the screenshot name in chat, the screenshot opens in the in-game screen instead of an external program.").addToQuickSettings(this@Screenshot, "click")
+        val screenshotName = createTranslation("screenshot_name", "Screenshot: %s")
+        val redirectElement = redirect.createRenderable(this@Screenshot, "redirect", "Redirect screenshot chat click event", "When clicking the screenshot name in chat, the screenshot opens in the in-game screen instead of an external program.").addToQuickSettings(this@Screenshot, "click")
 
-        val noScreenshotsYet = Translation("menu.screenshot.no_screenshots_yet", "Taken screenshots will appear here.")
+        val noScreenshotsYet = createTranslation("no_screenshots_yet", "Taken screenshots will appear here.")
 
         fun load() {
             Util.ioPool().execute {

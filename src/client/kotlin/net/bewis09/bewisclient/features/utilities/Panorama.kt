@@ -39,13 +39,13 @@ import kotlin.io.path.exists
 object Panorama : ImageFeature(createIdentifier("bewisclient","panorama"), "Panorama"), EventEntrypoint, BewisclientResourcePack.CustomResourceProvider {
     val path = string("path", "")
 
-    val deletedPanormaText = Translation("menu.screenshot.delete_panorama_success", "Deleted panorama")
-    val noEmptyNameText = Translation("menu.screenshot.no_empty_name", "Name cannot be empty")
-    val nameAlreadyExistsText = Translation("menu.screenshot.name_already_exists", "A panorama with this name already exists")
-    val renameSuccessText = Translation("menu.screenshot.rename_success", "Renamed panorama")
-    val renameFailedText = Translation("menu.screenshot.rename_failed", "Renaming failed")
-    val renamePanoramaText = Translation("menu.screenshot.rename_panorama", "Enter name for panorama")
-    val confirmPanoramaDelete = Translation("menu.screenshot.confirm_panorama_delete", "Are you sure you want to delete this panorama?")
+    val deletedPanormaText = createTranslation("delete_panorama_success", "Deleted panorama")
+    val noEmptyNameText = createTranslation("no_empty_name", "Name cannot be empty")
+    val nameAlreadyExistsText = createTranslation("name_already_exists", "A panorama with this name already exists")
+    val renameSuccessText = createTranslation("rename_success", "Renamed panorama")
+    val renameFailedText = createTranslation("rename_failed", "Renaming failed")
+    val renamePanoramaText = createTranslation("rename_panorama", "Enter name for panorama")
+    val confirmPanoramaDelete = createTranslation("confirm_panorama_delete", "Are you sure you want to delete this panorama?")
 
     override fun enabledListener(oldValue: Boolean?, newValue: Boolean?) {
         if (path.get().isNotEmpty() && !Settings.isLoading) {
@@ -63,7 +63,7 @@ object Panorama : ImageFeature(createIdentifier("bewisclient","panorama"), "Pano
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
         list.add(InfoTextRenderable(
-            Translation("panorama.info_text", "The panorama functionality allows you to set a custom panorama background for the main menu. You can create the panorama by pressing the \"%s\" button [%s]. After taking the screenshot select the screenshot below.")(Component.translatable("bewisclient.key.screenshot.take_panorama"), Component.keybind("bewisclient.key.screenshot.take_panorama")),
+            createTranslation("info_text", "The panorama functionality allows you to set a custom panorama background for the main menu. You can create the panorama by pressing the \"%s\" button [%s]. After taking the screenshot select the screenshot below.")(Component.translatable("bewisclient.key.screenshot.take_panorama"), Component.keybind("bewisclient.key.screenshot.take_panorama")),
             centered = true
         ))
     }

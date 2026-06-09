@@ -6,7 +6,6 @@ import net.bewis09.bewisclient.common.setColor
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
-import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.settings.logic.SettingInterfaceWithDefault
 import net.bewis09.bewisclient.settings.structure.ImageFeature
 import net.bewis09.bewisclient.settings.types.BooleanMapSetting
@@ -23,12 +22,12 @@ object HeldItemTooltip : ImageFeature(createIdentifier("bewisclient", "held_item
     val maxShownLines = int("max_shown_lines", 5, 1, 10)
     val showMap = create("show_map", BooleanMapSetting())
 
-    val moreLinesText = Translation("menu.held_item_tooltip.more_lines", "and %s more...")
+    val moreLinesText = createTranslation("more_lines", "and %s more...")
 
     override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
-        list.addRenderable(this, maxShownLines, "held_item_tooltip.max_shown_lines", "Max Shown Lines", "Maximum number of lines to show in the held item tooltip", "max_lines")
+        list.addRenderable(this, maxShownLines, "max_shown_lines", "Max Shown Lines", "Maximum number of lines to show in the held item tooltip", "max_lines")
         list.add(MultipleBooleanSettingsRenderable.create(
-            "held_item_tooltip.multiple_boolean_settings", "Data Component Tooltips:", "Select which information to show in the held item tooltip"
+            this, "multiple_boolean_settings", "Data Component Tooltips:", "Select which information to show in the held item tooltip"
         ) { componentRenderableParts })
     }
 

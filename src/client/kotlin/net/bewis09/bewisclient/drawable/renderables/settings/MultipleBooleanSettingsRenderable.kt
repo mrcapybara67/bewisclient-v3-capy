@@ -8,6 +8,7 @@ import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.settings.logic.SettingInterfaceWithDefault
+import net.bewis09.bewisclient.settings.structure.Feature
 import net.minecraft.network.chat.Component
 
 class MultipleBooleanSettingsRenderable(
@@ -59,12 +60,12 @@ class MultipleBooleanSettingsRenderable(
     }
 
     companion object {
-        fun create(id: String, title: String, description: String? = null, settings: List<Part>): MultipleBooleanSettingsRenderable {
-            return MultipleBooleanSettingsRenderable(Translation("menu.$id", title), description?.let { Translation("menu.$id.description", it) }) { settings }
+        fun create(feature: Feature, id: String, title: String, description: String? = null, settings: List<Part>): MultipleBooleanSettingsRenderable {
+            return MultipleBooleanSettingsRenderable(Translation(id, title), description?.let { feature.createTranslation("$id.description", it) }) { settings }
         }
 
-        fun create(id: String, title: String, description: String? = null, settings: () -> List<Part>): MultipleBooleanSettingsRenderable {
-            return MultipleBooleanSettingsRenderable(Translation("menu.$id", title), description?.let { Translation("menu.$id.description", it) }, settings)
+        fun create(feature: Feature, id: String, title: String, description: String? = null, settings: () -> List<Part>): MultipleBooleanSettingsRenderable {
+            return MultipleBooleanSettingsRenderable(feature.createTranslation(id, title), description?.let { feature.createTranslation("$id.description", it) }, settings)
         }
     }
 }

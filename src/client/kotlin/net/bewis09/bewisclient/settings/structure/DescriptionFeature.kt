@@ -7,7 +7,7 @@ import net.bewis09.bewisclient.game.translations.Translation
 import net.bewis09.bewisclient.features.sidebar.General
 
 abstract class DescriptionFeature(id: Identifier, title: String, descriptionText: String) : CategorizedFeature(id, title) {
-    val description = Translation(id.namespace, "menu.category.${id.path}.description", descriptionText)
+    val description = Translation(id.namespace, "category.${id.path}.description", descriptionText)
 
     override fun createRenderable() = object : SettingCategory() {
         override fun renderContent(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
