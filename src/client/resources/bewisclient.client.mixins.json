@@ -23,7 +23,8 @@
     "MultiPlayerGameModeMixin",
     "ClientPacketListenerAccessor",
     "TntRendererMixin",
-    "ScissorStackMixin"
+    "ScissorStackMixin",
+    "KeyMappingAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

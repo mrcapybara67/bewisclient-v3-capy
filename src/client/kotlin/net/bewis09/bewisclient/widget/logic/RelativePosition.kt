@@ -7,6 +7,8 @@ import net.bewis09.bewisclient.widget.Widget
 import net.bewis09.bewisclient.widget.WidgetLoader
 
 class RelativePosition(val parent: String, val side: String) : WidgetPosition {
+    constructor(parent: Widget, side: String) : this(parent.id.toString(), side)
+
     val parentWidget by lazy { WidgetLoader.widgets.find { it.id.toString() == parent } }
 
     override fun getX(widget: Widget): Float {
@@ -21,10 +23,10 @@ class RelativePosition(val parent: String, val side: String) : WidgetPosition {
         val gap = Widgets.Default.gap.get()
 
         return when (side) {
-            "left" -> parent.getX() - widget.getScaledWidth() - gap
-            "right" -> parent.getX() + parent.getScaledWidth() + gap
-            "top" -> parent.position.get().getX(widget)
-            "bottom" -> parent.position.get().getX(widget)
+            LEFT -> parent.getX() - widget.getScaledWidth() - gap
+            RIGHT -> parent.getX() + parent.getScaledWidth() + gap
+            TOP -> parent.position.get().getX(widget)
+            BOTTOM -> parent.position.get().getX(widget)
             else -> 0f
         }
     }
@@ -41,10 +43,10 @@ class RelativePosition(val parent: String, val side: String) : WidgetPosition {
         val gap = Widgets.Default.gap.get()
 
         return when (side) {
-            "left" -> parent.position.get().getY(widget)
-            "right" -> parent.position.get().getY(widget)
-            "top" -> parent.getY() - widget.getScaledHeight() - gap
-            "bottom" -> parent.getY() + parent.getScaledHeight() + gap
+            LEFT -> parent.position.get().getY(widget)
+            RIGHT -> parent.position.get().getY(widget)
+            TOP -> parent.getY() - widget.getScaledHeight() - gap
+            BOTTOM -> parent.getY() + parent.getScaledHeight() + gap
             else -> 0f
         }
     }
@@ -80,3 +82,8 @@ class RelativePosition(val parent: String, val side: String) : WidgetPosition {
         override fun getType(): String = "relative"
     }
 }
+
+const val TOP = "top"
+const val BOTTOM = "bottom"
+const val LEFT = "left"
+const val RIGHT = "right"

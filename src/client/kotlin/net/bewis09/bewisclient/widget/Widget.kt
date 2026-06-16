@@ -10,6 +10,8 @@ import net.bewis09.bewisclient.settings.structure.DescriptionFeature
 import net.bewis09.bewisclient.settings.types.WidgetPositionSetting
 import net.bewis09.bewisclient.widget.impl.CustomWidget
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
+import java.io.OutputStream
+import java.io.PrintStream
 
 abstract class Widget(id: Identifier, title: String, description: String) : DescriptionFeature(id, title, description) {
     var position: WidgetPositionSetting = create("position", WidgetPositionSetting(defaultPosition()))
@@ -31,8 +33,11 @@ abstract class Widget(id: Identifier, title: String, description: String) : Desc
 
     fun renderScaled(screenDrawing: ScreenDrawing) {
         screenDrawing.transform(getX(), getY(), getScale()) {
-            catch { render(screenDrawing) } ?: run {
+            try {
+                render(screenDrawing)
+            } catch (e: Exception) {
                 error("Error rendering widget $id - disabling it to prevent further errors")
+                e.printStackTrace()
                 enabled.set(false)
             }
         }

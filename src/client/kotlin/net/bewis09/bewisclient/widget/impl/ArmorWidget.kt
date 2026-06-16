@@ -8,6 +8,7 @@ import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.features.sidebar.Widgets
 import net.bewis09.bewisclient.widget.impl.InventoryWidget.indicatorText
 import net.bewis09.bewisclient.widget.logic.RelativePosition
+import net.bewis09.bewisclient.widget.logic.TOP
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
 import net.bewis09.bewisclient.widget.types.LineWidget
 import net.bewis09.bewisclient.widget.types.ScalableWidget
@@ -73,7 +74,7 @@ object ArmorWidget : ScalableWidget(
 
     override fun isEnabledByDefault(): Boolean = false
 
-    override fun defaultPosition(): WidgetPosition = RelativePosition("bewisclient:inventory_widget", "top")
+    override fun defaultPosition(): WidgetPosition = RelativePosition(InventoryWidget, TOP)
 
     override fun render(screenDrawing: ScreenDrawing) {
         if (getHeight() == 0) return

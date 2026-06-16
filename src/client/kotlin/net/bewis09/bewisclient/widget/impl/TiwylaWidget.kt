@@ -35,7 +35,6 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.Property
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.EntityHitResult
-import kotlin.collections.mapNotNull
 import kotlin.math.ceil
 import kotlin.math.round
 import kotlin.math.roundToInt
@@ -68,67 +67,16 @@ object TiwylaWidget : ScalableWidget(
     val entityLines: ListSetting<Information<Entity>>
     val blockLines: ListSetting<Information<BlockData>>
 
-    val blockInformation: List<Information.Line<BlockData>>
-    val entityInformation: List<Information.Line<Entity>>
+    val blockInformation: List<Line<BlockData>>
+    val entityInformation: List<Line<Entity>>
 
     init {
-        blockInformation = listOf<Information.Line<BlockData>>(
-            Information.Line({ data ->
-                if (data.state.`is`(BlockTags.MINEABLE_WITH_AXE)) return@Line toolText(axeToolText.getTranslatedString())
-                if (data.state.`is`(BlockTags.MINEABLE_WITH_PICKAXE)) return@Line toolText(pickaxeToolText.getTranslatedString())
-                if (data.state.`is`(BlockTags.MINEABLE_WITH_HOE)) return@Line toolText(hoeToolText.getTranslatedString())
-                if (data.state.`is`(BlockTags.MINEABLE_WITH_HOE)) return@Line toolText(shovelToolText.getTranslatedString())
-                if (data.state.`is`(BlockTags.SWORD_EFFICIENT)) return@Line toolText(swordToolText.getTranslatedString())
-                return@Line toolText(noneToolText.getTranslatedString())
-            }, "tool", 0), Information.Line({ data ->
-                if (data.state.`is`(BlockTags.NEEDS_DIAMOND_TOOL)) return@Line miningLevel(diamondLevelText.getTranslatedString())
-                if (data.state.`is`(BlockTags.NEEDS_IRON_TOOL)) return@Line miningLevel(ironLevelText.getTranslatedString())
-                if (data.state.`is`(BlockTags.NEEDS_STONE_TOOL)) return@Line miningLevel(stoneLevelText.getTranslatedString())
-
-                if (data.state.requiresCorrectToolForDrops()) return@Line miningLevel(woodLevelText.getTranslatedString())
-                return@Line miningLevel(noneLevelText.getTranslatedString())
-            }, "mining_level", 0), Information.Line({ data ->
-                if (!isInWorld()) return@Line secondsText(4.5)
-
-                val delta = client.player?.let { client.level?.let { blockGetter -> data.state.getDestroyProgress(it, blockGetter, data.blockPos) } } ?: return@Line null
-
-                if (delta > 1) return@Line instantText()
-
-                if ((1f / delta * 5F).roundToInt() == Int.MAX_VALUE) return@Line unbreakableText()
-
-                val secs = (1f / delta * 5F).roundToInt() / 100F
-
-                if (secs > (3600 * 24)) return@Line daysText((secs / 36 / 24).roundToInt() / 100F)
-                if (secs > 3600) return@Line hoursText((secs / 36).roundToInt() / 100F)
-                if (secs > 60) return@Line minutesText((secs / 6 * 10).roundToInt() / 100F)
-                return@Line secondsText((secs * 100).roundToInt() / 100F)
-            }, "break_time", 0), Information.Line({ _ ->
-                val s = ((client.gameMode as? MultiPlayerGameModeMixin)?.getDestroyProgress() ?: 0f) * 1000
-                if (s == 0F) {
-                    return@Line null
-                }
-                return@Line progressText(round(s) / 10f)
-            }, "progress", 2), Information.Line({ data ->
-                val id = data.state.blockId().toString()
-                if (blockSpecialInfoMap[id] == false) return@Line null
-                val property = blockStateInfoMap[id] ?: return@Line null
-                return@Line "${snake_toCamelCase(property.name)}: ${data.state.getValue(property)}".toText()
-            }, "block_property", 1)
+        blockInformation = listOf<Line<BlockData>>(
+            BlockLines.tool, BlockLines.miningLevel, BlockLines.breakTime, BlockLines.progress, BlockLines.blockProperty
         )
 
-        entityInformation = listOf<Information.Line<Entity>>(
-            Information.Line({ entity ->
-                return@Line entity.entityId().toString().toText()
-            }, "entity_id", 0), Information.Line({ entity ->
-                return@Line if (client.singleplayerServer != null) (entity as? LivingEntity)?.let {
-                    convertToHearths(
-                        it.health.toDouble(), it.maxHealth.toDouble(), it.absorptionAmount.toDouble()
-                    )
-                } else null
-            }, "health", 1), Information.Line({ entity ->
-                if (entity.entityId().let { entitySpecialInfoMap[it.toString()] } == false) return@Line null
-                return@Line provideEntityInfo(entity)?.toText()
-            }, "special_entity_info", 2)
+        entityInformation = listOf<Line<Entity>>(
+            EntityLines.entityId, EntityLines.health, EntityLines.specialEntityInfo
         )
 
         entityLines = create(
@@ -275,12 +223,12 @@ object TiwylaWidget : ScalableWidget(
 
     data class Information<T>(
         val first: Line<T>?, val second: Line<T>?
-    ) {
-        data class Line<T>(val fn: (data: T) -> Component?, val id: String, val priority: Int) {
-            val translation = createTranslation("information.$id", `snake_toWord With Spaces`(id))
+    )
 
-            operator fun invoke(data: T): Component? = fn(data)
-        }
+    data class Line<T>(val fn: (data: T) -> Component?, val id: String, val priority: Int) {
+        val translation = createTranslation("information.$id", `snake_toWord With Spaces`(id))
+
+        operator fun invoke(data: T): Component? = fn(data)
     }
 
     data class BlockData(val state: BlockState, val blockPos: BlockPos)
@@ -357,4 +305,77 @@ object TiwylaWidget : ScalableWidget(
     override fun getDefaultScale(): Float = 1f
 
     data class EntityInfoProvider<T : Entity>(val entityType: EntityType<T>, val fn: (entity: T) -> String?)
+
+    object BlockLines {
+        val tool = Line<BlockData>({ data ->
+            if (data.state.`is`(BlockTags.MINEABLE_WITH_AXE)) return@Line toolText(axeToolText.getTranslatedString())
+            if (data.state.`is`(BlockTags.MINEABLE_WITH_PICKAXE)) return@Line toolText(pickaxeToolText.getTranslatedString())
+            if (data.state.`is`(BlockTags.MINEABLE_WITH_HOE)) return@Line toolText(hoeToolText.getTranslatedString())
+            if (data.state.`is`(BlockTags.MINEABLE_WITH_HOE)) return@Line toolText(shovelToolText.getTranslatedString())
+            if (data.state.`is`(BlockTags.SWORD_EFFICIENT)) return@Line toolText(swordToolText.getTranslatedString())
+            return@Line toolText(noneToolText.getTranslatedString())
+        }, "tool", 0)
+
+        val miningLevel = Line<BlockData>({ data ->
+            if (data.state.`is`(BlockTags.NEEDS_DIAMOND_TOOL)) return@Line miningLevel(diamondLevelText.getTranslatedString())
+            if (data.state.`is`(BlockTags.NEEDS_IRON_TOOL)) return@Line miningLevel(ironLevelText.getTranslatedString())
+            if (data.state.`is`(BlockTags.NEEDS_STONE_TOOL)) return@Line miningLevel(stoneLevelText.getTranslatedString())
+
+            if (data.state.requiresCorrectToolForDrops()) return@Line miningLevel(woodLevelText.getTranslatedString())
+            return@Line miningLevel(noneLevelText.getTranslatedString())
+        }, "mining_level", 0)
+
+        val breakTime = Line<BlockData>({ data ->
+            if (!isInWorld()) return@Line secondsText(4.5)
+
+            val delta = client.player?.let { client.level?.let { blockGetter -> data.state.getDestroyProgress(it, blockGetter, data.blockPos) } } ?: return@Line null
+
+            if (delta > 1) return@Line instantText()
+
+            if ((1f / delta * 5F).roundToInt() == Int.MAX_VALUE) return@Line unbreakableText()
+
+            val secs = (1f / delta * 5F).roundToInt() / 100F
+
+            if (secs > (3600 * 24)) return@Line daysText((secs / 36 / 24).roundToInt() / 100F)
+            if (secs > 3600) return@Line hoursText((secs / 36).roundToInt() / 100F)
+            if (secs > 60) return@Line minutesText((secs / 6 * 10).roundToInt() / 100F)
+            return@Line secondsText((secs * 100).roundToInt() / 100F)
+        }, "break_time", 0)
+
+        val progress = Line<BlockData>({ _ ->
+            val s = ((client.gameMode as? MultiPlayerGameModeMixin)?.getDestroyProgress() ?: 0f) * 1000
+            if (s == 0F) {
+                return@Line null
+            }
+            return@Line progressText(round(s) / 10f)
+        }, "progress", 2)
+
+        val blockProperty = Line<BlockData>({ data ->
+            val id = data.state.blockId().toString()
+            if (blockSpecialInfoMap[id] == false) return@Line null
+            val property = blockStateInfoMap[id] ?: return@Line null
+            return@Line "${snake_toCamelCase(property.name)}: ${data.state.getValue(property)}".toText()
+        }, "block_property", 1)
+    }
+
+    object EntityLines {
+        val entityId = Line<Entity>({ entity ->
+            return@Line entity.entityId().toString().toText()
+        }, "entity_id", 0)
+
+        val health = Line<Entity>({ entity ->
+            return@Line if (client.singleplayerServer != null) (entity as? LivingEntity)?.let {
+                convertToHearths(
+                    it.health.toDouble(), it.maxHealth.toDouble(), it.absorptionAmount.toDouble()
+                )
+            } else null
+        }, "health", 1)
+
+        val specialEntityInfo = Line<Entity>({ entity ->
+            if (entity.entityId().let { entitySpecialInfoMap[it.toString()] } == false) return@Line null
+            return@Line provideEntityInfo(entity)?.toText()
+        }, "special_entity_info", 2)
+    }
+
+    class LineCollection
 }

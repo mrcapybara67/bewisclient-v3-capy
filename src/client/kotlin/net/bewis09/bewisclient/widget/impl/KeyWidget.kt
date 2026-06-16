@@ -10,11 +10,13 @@ import net.bewis09.bewisclient.drawable.renderables.settings.MultipleBooleanSett
 import net.bewis09.bewisclient.drawable.screen_drawing.ScreenDrawing
 import net.bewis09.bewisclient.drawable.screen_drawing.translate
 import net.bewis09.bewisclient.features.sidebar.Widgets
+import net.bewis09.bewisclient.mixin.client.KeyMappingAccessor
 import net.bewis09.bewisclient.settings.types.BooleanSetting
 import net.bewis09.bewisclient.settings.types.ColorSetting
 import net.bewis09.bewisclient.util.color.StaticColorSaver
 import net.bewis09.bewisclient.version.isKeyPressed
 import net.bewis09.bewisclient.widget.logic.RelativePosition
+import net.bewis09.bewisclient.widget.logic.TOP
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
 import net.bewis09.bewisclient.widget.types.LineWidget
 import net.bewis09.bewisclient.widget.types.ScalableWidget
@@ -53,7 +55,7 @@ object KeyWidget : ScalableWidget(
 
     val showCPS = boolean("show_cps", false)
 
-    override fun defaultPosition(): WidgetPosition = RelativePosition("bewisclient:biome_widget", "top")
+    override fun defaultPosition(): WidgetPosition = RelativePosition(BiomeWidget, TOP)
 
     override fun render(screenDrawing: ScreenDrawing) {
         val paddingSize = paddingSize.get()
@@ -98,14 +100,14 @@ object KeyWidget : ScalableWidget(
         val c = getCurrentRenderableScreen() ?: return keyBinding.isDown
         val d = c.renderable as? HudEditScreen ?: return keyBinding.isDown
 
-        val key = keyBinding.key
+        val key = (keyBinding as KeyMappingAccessor).getKey()
 
         if (key.type == InputConstants.Type.KEYSYM) return client.isKeyPressed(key.value)
         if (key.type == InputConstants.Type.MOUSE) return d.mouseMap[key.value] == true
         return keyBinding.isDown
     }
 
-    fun KeyMapping.getKeyText(): String = when (this.key.value) {
+    fun KeyMapping.getKeyText(): String = when ((this as KeyMappingAccessor).getKey().value) {
         GLFW.GLFW_MOUSE_BUTTON_LEFT -> "LMB"
         GLFW.GLFW_MOUSE_BUTTON_RIGHT -> "RMB"
         else -> this.translatedKeyMessage.string

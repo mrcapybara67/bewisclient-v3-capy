@@ -4,6 +4,7 @@ import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.toText
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.version.clockTime
+import net.bewis09.bewisclient.widget.logic.BOTTOM
 import net.bewis09.bewisclient.widget.logic.RelativePosition
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
 import net.bewis09.bewisclient.widget.types.LineWidget
@@ -36,7 +37,7 @@ object DaytimeWidget : LineWidget(
         return String.format("%02d:%02d", hours, minutes).toText()
     }
 
-    override fun defaultPosition(): WidgetPosition = RelativePosition("bewisclient:cps_widget", "bottom")
+    override fun defaultPosition(): WidgetPosition = RelativePosition(CPSWidget, BOTTOM)
 
     override fun getMinimumWidth(): Int = 80
 

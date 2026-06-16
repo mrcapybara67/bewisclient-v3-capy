@@ -4,6 +4,7 @@ import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.toText
 import net.bewis09.bewisclient.drawable.Renderable
 import net.bewis09.bewisclient.util.EventEntrypoint
+import net.bewis09.bewisclient.widget.logic.BOTTOM
 import net.bewis09.bewisclient.widget.logic.RelativePosition
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
 import net.bewis09.bewisclient.widget.types.LineWidget
@@ -23,24 +24,18 @@ object SpeedWidget : LineWidget(
 
     override fun getLine() = String.format("%.2f m/s", if (!isInWorld()) if (verticalSpeed.get()) 6.9f else 4.2f else if (verticalSpeed.get()) totalSpeed else horizontalSpeed).toText()
 
-    override fun defaultPosition(): WidgetPosition = RelativePosition("bewisclient:ping_widget", "bottom")
+    override fun defaultPosition(): WidgetPosition = RelativePosition(PingWidget, BOTTOM)
 
     override fun getMinimumWidth(): Int = 80
 
     override fun isEnabledByDefault(): Boolean = false
 
-    override fun onInitializeClient() {
-        Timer().scheduleAtFixedRate(
-            object : TimerTask() {
-                override fun run() {
-                    client.player?.position()?.let {
-                        totalSpeed = it.distanceTo(oldPos).toFloat() * 20f
-                        horizontalSpeed = it.subtract(oldPos).horizontalDistance().toFloat() * 20
-                        oldPos = it
-                    }
-                }
-            }, 0, 50
-        )
+    override fun onClientTickStart() {
+        client.player?.position()?.let {
+            totalSpeed = it.distanceTo(oldPos).toFloat() * 20f
+            horizontalSpeed = it.subtract(oldPos).horizontalDistance().toFloat() * 20
+            oldPos = it
+        }
     }
 
     override fun appendSettingsRenderables(

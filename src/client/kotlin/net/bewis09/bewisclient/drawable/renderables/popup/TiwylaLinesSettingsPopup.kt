@@ -13,7 +13,7 @@ import net.bewis09.bewisclient.settings.types.ListSetting
 import net.bewis09.bewisclient.widget.impl.TiwylaWidget
 
 class TiwylaLinesSettingsPopup<T>(
-    val setting: ListSetting<TiwylaWidget.Information<T>>, val options: List<TiwylaWidget.Information.Line<T>>, val yIndex: Int, val left: Boolean
+    val setting: ListSetting<TiwylaWidget.Information<T>>, val options: List<TiwylaWidget.Line<T>>, val yIndex: Int, val left: Boolean
 ) : Renderable() {
     companion object {
         val selectText = Translation("popup.tiwyla_lines_settings.title", "Select Information")

@@ -3,6 +3,7 @@ package net.bewis09.bewisclient.widget.impl
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.toText
 import net.bewis09.bewisclient.version.clockTime
+import net.bewis09.bewisclient.widget.logic.BOTTOM
 import net.bewis09.bewisclient.widget.logic.RelativePosition
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
 import net.bewis09.bewisclient.widget.types.LineWidget
@@ -22,7 +23,7 @@ object DayWidget : LineWidget(
     fun getText(): Int = client.level?.clockTime?.div(24000L)?.toInt() ?: ((System.currentTimeMillis() - 1679875200000L) / 86400000L).toInt()
 
     override fun defaultPosition(): WidgetPosition {
-        return RelativePosition("bewisclient:fps_widget", "bottom")
+        return RelativePosition(FPSWidget, BOTTOM)
     }
 
     override fun getMinimumWidth(): Int = 80

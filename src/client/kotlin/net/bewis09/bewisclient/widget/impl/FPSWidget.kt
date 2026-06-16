@@ -2,6 +2,7 @@ package net.bewis09.bewisclient.widget.impl
 
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.toText
+import net.bewis09.bewisclient.widget.logic.BOTTOM
 import net.bewis09.bewisclient.widget.logic.RelativePosition
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
 import net.bewis09.bewisclient.widget.types.LineWidget
@@ -15,7 +16,7 @@ object FPSWidget : LineWidget(
 
     override fun getLine() = fpsText(client.fps.toString())
 
-    override fun defaultPosition(): WidgetPosition = RelativePosition("bewisclient:coordinates_widget", "bottom")
+    override fun defaultPosition(): WidgetPosition = RelativePosition(CoordinatesWidget, BOTTOM)
 
     override fun getMinimumWidth(): Int = 80
 

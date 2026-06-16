@@ -7,14 +7,17 @@
     "FogRendererMixin",
     "ItemStackMixin",
     "LightmapTextureManagerMixin",
+    "NewPauseScreenButtonInjectorMixin",
+    "NewTitleScreenButtonInjector",
     "PackScreenMixin",
     "SkinTexturesMixin",
     "TooltipDisplayComponentMixin",
-    "WorldRendererMixin",
-    "NewPauseScreenButtonInjectorMixin",
-    "NewTitleScreenButtonInjector"
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
+  },
+  "mixinextras": {
+    "minVersion": "0.5.4"
   }
 }

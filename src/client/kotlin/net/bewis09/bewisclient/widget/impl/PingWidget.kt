@@ -3,6 +3,7 @@ package net.bewis09.bewisclient.widget.impl
 import net.bewis09.bewisclient.common.createIdentifier
 import net.bewis09.bewisclient.common.toText
 import net.bewis09.bewisclient.mixin.client.ClientPacketListenerAccessor
+import net.bewis09.bewisclient.widget.logic.BOTTOM
 import net.bewis09.bewisclient.widget.logic.RelativePosition
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
 import net.bewis09.bewisclient.widget.types.LineWidget
@@ -25,7 +26,7 @@ object PingWidget : LineWidget(
         return pingText(getLatency().toString())
     }
 
-    override fun defaultPosition(): WidgetPosition = RelativePosition("bewisclient:daytime_widget", "bottom")
+    override fun defaultPosition(): WidgetPosition = RelativePosition(DaytimeWidget, BOTTOM)
 
     override fun getMinimumWidth(): Int = 80
 
