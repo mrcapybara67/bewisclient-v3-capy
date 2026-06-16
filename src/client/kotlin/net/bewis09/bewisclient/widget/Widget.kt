@@ -10,8 +10,6 @@ import net.bewis09.bewisclient.settings.structure.DescriptionFeature
 import net.bewis09.bewisclient.settings.types.WidgetPositionSetting
 import net.bewis09.bewisclient.widget.impl.CustomWidget
 import net.bewis09.bewisclient.widget.logic.WidgetPosition
-import java.io.OutputStream
-import java.io.PrintStream
 
 abstract class Widget(id: Identifier, title: String, description: String) : DescriptionFeature(id, title, description) {
     var position: WidgetPositionSetting = create("position", WidgetPositionSetting(defaultPosition()))
