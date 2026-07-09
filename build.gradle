@@ -28,13 +28,13 @@ base {
 tasks.register("generateVersionInfo") {
     def outputDir = layout.projectDirectory.dir("src/generated/kotlin")
 
-    def pkgDir = outputDir.file("net/bewis09/bewisclient/generated")
+    def pkgDir = outputDir.file("net/bewis09/capyclient/generated")
     pkgDir.asFile.mkdirs()
 
     def file = new File(pkgDir.asFile.absolutePath, "BuildInfo.kt")
     file.write(
             """
-package net.bewis09.bewisclient.generated
+package net.bewis09.capyclient.generated
 
 object BuildInfo {
     const val VERSION = "${project.version}"
@@ -140,7 +140,7 @@ loom {
     }
 
     mods {
-        "bewisclient" {
+        "capyclient" {
             sourceSet sourceSets.main
             sourceSet sourceSets.client
         }
@@ -245,5 +245,5 @@ publishing {
 }
 
 loom {
-    accessWidenerPath = file("src/dependent/" + project.property("like_version_" + project.minecraft_version.replace('.', '_')).replace('.', '_') + "/resources/bewisclient.accesswidener")
+    accessWidenerPath = file("src/dependent/" + project.property("like_version_" + project.minecraft_version.replace('.', '_')).replace('.', '_') + "/resources/capyclient.accesswidener")
 }

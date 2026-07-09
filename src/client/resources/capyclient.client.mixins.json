@@ -26,8 +26,6 @@
     "ScissorStackMixin",
     "KeyMappingAccessor",
     "PlayerRendererMixin",
-    "ColorSaturationMixin",
-    "FlatItemsMixin",
     "ItemPhysicsMixin",
   ],
   "injectors": {
