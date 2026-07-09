@@ -1,0 +1,20 @@
+package net.bewis09.capyclient.drawable.renderables.components.button
+
+import net.bewis09.capyclient.drawable.draw_methods.SelectiveScreenDrawer
+import net.bewis09.capyclient.drawable.renderables.components.logic.TooltipHoverable
+import net.bewis09.capyclient.drawable.screen_drawing.ScreenDrawing
+import net.bewis09.capyclient.features.sidebar.General
+import net.minecraft.network.chat.Component
+
+class Button(var text: Component, val onClick: (Button) -> Unit, tooltip: Component? = null, val selected: (() -> Boolean)? = null, var dark: Boolean = false, val small: Boolean = false) : TooltipHoverable(tooltip) {
+    constructor(text: Component, onClick: (Button) -> Unit) : this(text, onClick, null)
+
+    override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
+        super.render(screenDrawing, mouseX, mouseY)
+        SelectiveScreenDrawer.renderButtonBackground(screenDrawing, hoverAnimation.get(), if (selected?.invoke() == true) 1f else 0f, x, y, width, height, 1f, mouseX, mouseY, dark, small)
+        usePointer(screenDrawing, mouseX, mouseY)
+        screenDrawing.drawCenteredText(text, exactCenterX, fontYCenter, General.getTextThemeColor())
+    }
+
+    override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean = onClick(this).let { true }
+}

@@ -1,0 +1,17 @@
+package net.bewis09.capyclient.process
+
+import net.bewis09.capyclient.common.Util
+import java.io.File
+
+object ProcessCreator {
+    fun create(clazz: Class<*>, vararg args: String, onFinish: ((exitCode: Int) -> Unit)? = null) {
+        Util.backgroundExecutor().execute {
+            val javaHome = System.getProperty("java.home")
+            val javaExe = javaHome + File.separator + "bin" + File.separator + "java"
+            val processBuilder = ProcessBuilder(javaExe, "-cp", clazz.protectionDomain.codeSource.location.toURI().path, clazz.getName(), *args)
+            val process = processBuilder.start()
+            val output = process.waitFor()
+            onFinish?.invoke(output)
+        }
+    }
+}

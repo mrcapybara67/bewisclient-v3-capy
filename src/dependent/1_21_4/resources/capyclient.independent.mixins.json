@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "net.bewis09.capyclient.core.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "FogRendererMixin",
+    "InGameHudMixin",
+    "ItemStackMixin",
+    "LightmapTextureManagerMixin",
+    "PackListWidgetMixin",
+    "SkinTexturesMixin",
+    "WorldRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,50 @@
+package net.bewis09.capyclient.settings.types
+
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import net.bewis09.capyclient.drawable.renderables.settings.ColorFaderSettingRenderable
+import net.bewis09.capyclient.drawable.renderables.settings.ColorSettingRenderable
+import net.bewis09.capyclient.game.translations.Translation
+import net.bewis09.capyclient.settings.logic.RenderableCreator
+import net.bewis09.capyclient.settings.structure.Feature
+import net.bewis09.capyclient.util.color.ColorSaver
+
+class ColorSetting(default: () -> ColorSaver, vararg val types: String = ALL) : Setting<ColorSaver>(default), RenderableCreator<ColorSettingRenderable> {
+    companion object {
+        val ALL = ColorSaver.types.map { it.getType() }.toTypedArray()
+        const val STATIC = "static"
+        const val CHANGING = "changing"
+        const val THEME = "theme"
+
+        val opacityTranslation = Translation("menu.color.opacity", "Opacity")
+
+        fun without(vararg types: String): Array<String> {
+            return ALL.filterNot { it in types }.toTypedArray()
+        }
+    }
+
+    override fun convertToElement(): JsonElement? {
+        if (getWithoutDefault() == null) return null
+
+        return JsonObject().apply {
+            addProperty("type", get().getType())
+            add("data", get().saveToJson())
+        }
+    }
+
+    override fun convertFromElement(data: JsonElement?): ColorSaver? = ColorSaver.fromJson(data)
+
+    override fun createRenderable(feature: Feature, id: String, title: String, description: String?): ColorSettingRenderable {
+        return ColorSettingRenderable(feature.createTranslation(id, title), description?.let { feature.createTranslation("$id.description", it) }, this, types.map { it }.toTypedArray())
+    }
+
+    fun createRenderableWithFader(feature: Feature, id: String, title: String, description: String? = null, faderSetting: FloatSetting): ColorFaderSettingRenderable {
+        return ColorFaderSettingRenderable(feature.createTranslation(id, title), description?.let { feature.createTranslation("$id.description", it) }, this, types.map { it }.toTypedArray(), faderSetting, opacityTranslation)
+    }
+
+    override fun processChange(value: ColorSaver?): ColorSaver? {
+        return if (value?.getType() in types) value else null
+    }
+
+    fun cloneWithDefault(): ColorSetting = ColorSetting(::get, *types)
+}

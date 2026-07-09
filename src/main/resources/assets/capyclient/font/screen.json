@@ -1,0 +1,24 @@
+{
+  "providers": [
+    {
+      "type": "ttf",
+      "file": "capyclient:screen.ttf",
+      "shift": [
+        0,
+        0
+      ],
+      "size": 8.0,
+      "oversample": 10.0
+    },    
+	{
+      "type": "ttf",
+      "file": "capyclient:screen_zh.ttf",
+      "shift": [
+        0,
+        0
+      ],
+      "size": 8.0,
+      "oversample": 10.0
+    }
+  ]
+}

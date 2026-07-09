@@ -1,0 +1,25 @@
+package net.bewis09.capyclient.drawable.renderables.components.button
+
+import net.bewis09.capyclient.common.Color
+import net.bewis09.capyclient.common.Identifier
+import net.bewis09.capyclient.drawable.Renderable
+import net.bewis09.capyclient.drawable.screen_drawing.ScreenDrawing
+import net.bewis09.capyclient.version.drawGuiTexture
+import net.minecraft.network.chat.Component
+
+class MinecraftButton(var text: Component, val onClick: (MinecraftButton) -> Unit) : Renderable() {
+    override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
+        screenDrawing.drawGuiTexture(
+            if (isMouseOver(mouseX, mouseY)) Identifier.withDefaultNamespace("widget/button_highlighted") else Identifier.withDefaultNamespace("widget/button"),
+            x, y, width, height
+        )
+        screenDrawing.drawCenteredTextWithShadow(text, exactCenterX, exactCenterY - 4, Color.WHITE)
+        usePointer(screenDrawing, mouseX, mouseY)
+    }
+
+    override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        onClick(this)
+        playClickSound()
+        return true
+    }
+}

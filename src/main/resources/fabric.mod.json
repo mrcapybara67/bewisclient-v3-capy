@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "bewisclient",
+  "id": "capyclient",
   "version": "${version}",
   "name": "Capy Client",
   "description": "Capy Client adds many quality of life features to Minecraft.",
@@ -8,45 +8,45 @@
     "Bewis09", "Minkxxy"
   ],
   "contact": {
-    "homepage": "https://modrinth.com/mod/bewisclient/",
-    "sources": "https://github.com/bewisclient-team/bewisclient-v3"
+    "homepage": "https://modrinth.com/mod/capyclient/",
+    "sources": "https://github.com/capyclient-team/capyclient-v3"
   },
   "license": "Capy Client Licence 1.0",
-  "icon": "assets/bewisclient/icon.png",
+  "icon": "assets/capyclient/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
       {
-        "value": "net.bewis09.bewisclient.BewisclientInitializer",
+        "value": "net.bewis09.capyclient.BewisclientInitializer",
         "adapter": "kotlin"
       }
     ],
     "main": [
       {
-        "value": "net.bewis09.bewisclient.server.BewisclientServer",
+        "value": "net.bewis09.capyclient.server.BewisclientServer",
         "adapter": "kotlin"
       }
     ],
     "fabric-datagen": [
       {
-        "value": "net.bewis09.bewisclient.util.BewisclientDataGenerator",
+        "value": "net.bewis09.capyclient.util.BewisclientDataGenerator",
         "adapter": "kotlin"
       }
     ],
-    "bewisclient": [
+    "capyclient": [
       {
-        "value": "net.bewis09.bewisclient.api.impl.BewisclientSelfAPIEntrypoint",
+        "value": "net.bewis09.capyclient.api.impl.BewisclientSelfAPIEntrypoint",
         "adapter": "kotlin"
       }
     ]
   },
   "mixins": [
     {
-      "config": "bewisclient.client.mixins.json",
+      "config": "capyclient.client.mixins.json",
       "environment": "client"
     },
     {
-      "config": "bewisclient.independent.mixins.json",
+      "config": "capyclient.independent.mixins.json",
       "environment": "client"
     }
   ],

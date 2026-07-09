@@ -1,0 +1,80 @@
+package net.bewis09.capyclient.features.cosmetics
+
+import net.bewis09.capyclient.drawable.Renderable
+import net.bewis09.capyclient.drawable.draw_methods.SelectiveScreenDrawer
+import net.bewis09.capyclient.drawable.renderables.components.button.Button
+import net.bewis09.capyclient.drawable.renderables.components.element.TextElement
+import net.bewis09.capyclient.drawable.renderables.components.structure.EmptyRenderable
+import net.bewis09.capyclient.drawable.renderables.components.structure.Plane
+import net.bewis09.capyclient.drawable.renderables.components.structure.VerticalAlignPlane
+import net.bewis09.capyclient.drawable.renderables.components.structure.VerticalAlignScrollPlane
+import net.bewis09.capyclient.drawable.renderables.screen.OptionScreen
+import net.bewis09.capyclient.drawable.renderables.settings.InfoTextRenderable
+import net.bewis09.capyclient.drawable.screen_drawing.ScreenDrawing
+import net.bewis09.capyclient.game.translations.Translation
+import net.bewis09.capyclient.features.sidebar.General
+import net.bewis09.capyclient.features.sidebar.General.getTextThemeColor
+import net.bewis09.capyclient.util.Bewisclient
+import net.minecraft.network.chat.Component
+
+object AcceptPrivacyPage : Renderable() {
+    val headerText = Translation("privacy.header", "Read and accept privacy notice to continue")
+    val decline = Translation("privacy.reject", "Reject privacy notice")
+    val accept = Translation("privacy.accept", "Accept privacy notice and enable online mode")
+
+    val notice = """
+        By enabling the online mode of Capy Client some of your data is sent to the Capy Client servers in the following manner:
+
+        When starting the game:
+        - One request containing your uuid is sent to the Capy Client servers. Authorization is the same as when you are joining a Minecraft server, no private data is sent to the Capy Client servers.
+        - The time and quantity of you joining does not get saved, although the total amount of players starting the game in online mode is stored.
+
+        When selecting a cosmetic:
+        - One request including your uuid and the selected cosmetics is sent to the Capy Client servers.
+        - When you deselect all cosmetics, your uuid is removed from the database, so no data is stored when you are not using any cosmetics.
+
+        How the data is sent to other players:
+        - When someone starts the game in online mode, they get a list of all players that have cosmetics enabled, including the cosmetics they have selected.
+        - This list does not contain the direct uuids, but a sha-256 hash of the uuid, so you can only check if a specific uuid has cosmetics enabled, but you cannot get a list of all uuids.
+
+        For the backend of the online mode, we use cloudflare workers and a cloudflare d1 database.
+
+        The data is stored in a secure database and is only used for the purpose of enabling online features such as cosmetic syncing and special cosmetics. The data is not getting shared with any third parties and is only accessible by the Capy Client team.
+        When using Capy Client in online mode, all data is sent over a secure connection and is handled in accordance with the applicable data protection laws. You can request the deletion of your data at any time by contacting the Capy Client support team.
+    """.trimIndent()
+
+    fun openPrivacyPage() {
+        val screen = Bewisclient.getCurrentRenderableScreen()?.renderable as? OptionScreen ?: return
+
+        screen.openPage(
+            Plane { x, y, width, _ -> listOf(TextElement(headerText(), getTextThemeColor(), centered = true)(x, y, width, 13)) }.setHeight(14),
+            AcceptPrivacyPage
+        )
+    }
+
+    override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
+        renderRenderables(screenDrawing, mouseX, mouseY)
+    }
+
+    override fun init() {
+        addRenderable(VerticalAlignScrollPlane({
+            listOf(
+                VerticalAlignPlane(listOf(
+                    InfoTextRenderable(Component.literal(notice)),
+                    EmptyRenderable(),
+                    Button(decline(), {
+                        val screen = Bewisclient.getCurrentRenderableScreen()?.renderable as? OptionScreen ?: return@Button
+                        screen.goBack()
+                        General.acceptedEULA.set(false)
+                    }, dark = true).setSize(100, SelectiveScreenDrawer.getSideButtonHeight()),
+                    Button(accept()) {
+                        General.acceptedEULA.set(true)
+                        General.onlineMode.set(true)
+                        val screen = Bewisclient.getCurrentRenderableScreen()?.renderable as? OptionScreen ?: return@Button
+                        screen.goBack()
+                    }.setSize(100, SelectiveScreenDrawer.getSideButtonHeight())
+                ), 2)
+            )
+        }, 5)(x, y, width, height))
+    }
+}

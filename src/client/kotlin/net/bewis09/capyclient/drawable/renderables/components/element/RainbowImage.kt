@@ -1,0 +1,22 @@
+package net.bewis09.capyclient.drawable.renderables.components.element
+
+import net.bewis09.capyclient.common.Color
+import net.bewis09.capyclient.common.Identifier
+import net.bewis09.capyclient.common.color
+import net.bewis09.capyclient.common.within
+import net.bewis09.capyclient.drawable.renderables.components.logic.Hoverable
+import net.bewis09.capyclient.drawable.screen_drawing.ScreenDrawing
+
+class RainbowImage(val image: Identifier, val alpha: Float) : Hoverable() {
+    val colors = listOf(
+        0xCC3333.color, 0xCC8833.color, 0xCCCC33.color, 0x33CC66.color, 0x3366CC.color, 0x7F33A6.color
+    )
+
+    override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
+        super.render(screenDrawing, mouseX, mouseY)
+        for (i in 0 until 6) {
+            val offsetY = i * height / 6
+            screenDrawing.drawTextureRegion(image, x, y + offsetY, 0f, offsetY.toFloat(), width, (i + 1) * height / 6 - offsetY, width, height / 6, width, height, hoverFactor within (Color.WHITE to colors[i]) alpha alpha * (1 - hoverFactor) + 1f * hoverFactor)
+        }
+    }
+}

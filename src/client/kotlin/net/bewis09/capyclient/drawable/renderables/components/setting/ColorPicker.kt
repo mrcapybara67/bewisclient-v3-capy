@@ -1,0 +1,49 @@
+package net.bewis09.capyclient.drawable.renderables.components.setting
+
+import net.bewis09.capyclient.common.Color
+import net.bewis09.capyclient.common.Identifier
+import net.bewis09.capyclient.common.createIdentifier
+import net.bewis09.capyclient.drawable.Renderable
+import net.bewis09.capyclient.drawable.screen_drawing.ScreenDrawing
+import net.bewis09.capyclient.drawable.screen_drawing.pushColor
+import net.bewis09.capyclient.features.sidebar.General
+
+class ColorPicker(val get: () -> Color, val set: (hue: Float, sat: Float) -> Unit) : Renderable() {
+    companion object {
+        val colorPickerCache = mutableMapOf<Int, Identifier>()
+    }
+
+    fun getColorPickerImage(size: Int): Identifier {
+        colorPickerCache[size]?.let { return it }
+
+        val identifier = createIdentifier("capyclient", "color_picker_${size}")
+
+        createTexture(identifier, size, size) {
+            for (x in 0 until size) {
+                for (y in 0 until size) {
+                    val color = java.awt.Color.HSBtoRGB(x / size.toFloat(), y / size.toFloat(), 1f)
+                    it.setRGB(x, y, color)
+                }
+            }
+        }
+
+        colorPickerCache[size] = identifier
+
+        return identifier
+    }
+
+    override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
+        screenDrawing.drawBorder(x, y, width, height, General.getThemeColor(alpha = 0.3f))
+        get().brightness.let {
+            screenDrawing.pushColor(it, it, it, 1f) {
+                screenDrawing.drawTexture(getColorPickerImage((width - 2).coerceAtMost((height - 2))), x + 1, y + 1, width - 2, height - 2)
+            }
+        }
+    }
+
+    override fun onMouseDrag(mouseX: Double, mouseY: Double, startX: Double, startY: Double, button: Int): Boolean {
+        set((mouseX - x - 1f).toFloat().coerceIn(0f, width - 2f) / (width - 2f), (mouseY - y - 1f).toFloat().coerceIn(0f, height - 2f) / (height - 2f))
+
+        return true
+    }
+}

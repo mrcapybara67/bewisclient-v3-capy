@@ -1,0 +1,36 @@
+{
+  "required": true,
+  "package": "net.bewis09.capyclient.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "EntityHighlightMixin",
+    "BewisclientPackProviderMixin",
+    "HudMixin",
+    "InGameOverlayRendererMixin",
+    "NightVisionInjectorMixin",
+    "MinecraftClientMixin",
+    "PackSelectionScreenMixin",
+    "TitleScreenButtonInjectorMixin",
+    "ScreenshotRecorderMixin",
+    "ShulkerBoxTooltipMixin",
+    "PerspectiveInjectorMixin",
+    "PerspectiveReceiverMixin",
+    "PauseScreenButtonInjectorMixin",
+    "BlurrinessInjectorMixin",
+    "OverlayTextureChangerMixin",
+    "MouseMixin",
+    "ZoomMixin",
+    "MultiPlayerGameModeMixin",
+    "ClientPacketListenerAccessor",
+    "TntRendererMixin",
+    "ScissorStackMixin",
+    "KeyMappingAccessor",
+    "PlayerRendererMixin",
+    "ColorSaturationMixin",
+    "FlatItemsMixin",
+    "ItemPhysicsMixin",
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
