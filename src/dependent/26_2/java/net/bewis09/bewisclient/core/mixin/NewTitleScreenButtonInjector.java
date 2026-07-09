@@ -66,6 +66,6 @@ public abstract class NewTitleScreenButtonInjector extends Screen {
 
         Screens.getWidgets(screen).add(button);
 
-        button.setTooltip(Tooltip.create(Component.literal("Bewisclient")));
+        button.setTooltip(Tooltip.create(Component.literal("Capy Client")));
     }
 }

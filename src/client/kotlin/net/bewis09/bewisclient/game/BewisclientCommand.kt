@@ -24,7 +24,7 @@ object BewisclientCommand : EventEntrypoint {
                         }
                     )
                 ).executes {
-                    it.source.sendFeedback("Bewisclient v${FabricLoader.getInstance().allMods.firstOrNull { a -> a.metadata.id == "bewisclient" }?.metadata?.version ?: "Unknown Version"}".toText())
+                    it.source.sendFeedback("Capy Client v${FabricLoader.getInstance().allMods.firstOrNull { a -> a.metadata.id == "bewisclient" }?.metadata?.version ?: "Unknown Version"}".toText())
                     1
                 })
         }

@@ -23,7 +23,7 @@ import net.bewis09.bewisclient.util.number.Precision
 import net.bewis09.bewisclient.util.string
 import net.minecraft.network.chat.Component
 
-object Home : SidebarFeature(createIdentifier("bewisclient", "home"), "Bewisclient") {
+object Home : SidebarFeature(createIdentifier("bewisclient", "home"), "Capy Client") {
     val quickSettings = create("quick_settings", ListSetting(mutableListOf(), { it.string() }, ::JsonPrimitive))
 
     override fun getRenderable(): Renderable = HomePlane

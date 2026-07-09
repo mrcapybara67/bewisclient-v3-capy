@@ -23,24 +23,24 @@ object AcceptPrivacyPage : Renderable() {
     val accept = Translation("privacy.accept", "Accept privacy notice and enable online mode")
 
     val notice = """
-        By enabling the online mode of Bewisclient some of your data is sent to the Bewisclient servers in the following manner:
-        
+        By enabling the online mode of Capy Client some of your data is sent to the Capy Client servers in the following manner:
+
         When starting the game:
-        - One request containing your uuid is sent to the Bewisclient servers. Authorization is the same as when you are joining a Minecraft server, no private data is sent to the Bewisclient servers.
+        - One request containing your uuid is sent to the Capy Client servers. Authorization is the same as when you are joining a Minecraft server, no private data is sent to the Capy Client servers.
         - The time and quantity of you joining does not get saved, although the total amount of players starting the game in online mode is stored.
-        
+
         When selecting a cosmetic:
-        - One request including your uuid and the selected cosmetics is sent to the Bewisclient servers.
+        - One request including your uuid and the selected cosmetics is sent to the Capy Client servers.
         - When you deselect all cosmetics, your uuid is removed from the database, so no data is stored when you are not using any cosmetics.
-        
+
         How the data is sent to other players:
         - When someone starts the game in online mode, they get a list of all players that have cosmetics enabled, including the cosmetics they have selected.
         - This list does not contain the direct uuids, but a sha-256 hash of the uuid, so you can only check if a specific uuid has cosmetics enabled, but you cannot get a list of all uuids.
-        
+
         For the backend of the online mode, we use cloudflare workers and a cloudflare d1 database.
-        
-        The data is stored in a secure database and is only used for the purpose of enabling online features such as cosmetic syncing and special cosmetics. The data is not getting shared with any third parties and is only accessible by the Bewisclient team.
-        When using Bewisclient in online mode, all data is sent over a secure connection and is handled in accordance with the applicable data protection laws. You can request the deletion of your data at any time by contacting the Bewisclient support team.
+
+        The data is stored in a secure database and is only used for the purpose of enabling online features such as cosmetic syncing and special cosmetics. The data is not getting shared with any third parties and is only accessible by the Capy Client team.
+        When using Capy Client in online mode, all data is sent over a secure connection and is handled in accordance with the applicable data protection laws. You can request the deletion of your data at any time by contacting the Capy Client support team.
     """.trimIndent()
 
     fun openPrivacyPage() {

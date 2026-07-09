@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "bewisclient",
   "version": "${version}",
-  "name": "Bewisclient",
-  "description": "Bewisclient adds many quality of life features to Minecraft.",
+  "name": "Capy Client",
+  "description": "Capy Client adds many quality of life features to Minecraft.",
   "authors": [
     "Bewis09", "Minkxxy"
   ],
@@ -11,7 +11,7 @@
     "homepage": "https://modrinth.com/mod/bewisclient/",
     "sources": "https://github.com/bewisclient-team/bewisclient-v3"
   },
-  "license": "Bewisclient Licence 1.0",
+  "license": "Capy Client Licence 1.0",
   "icon": "assets/bewisclient/icon.png",
   "environment": "*",
   "entrypoints": {

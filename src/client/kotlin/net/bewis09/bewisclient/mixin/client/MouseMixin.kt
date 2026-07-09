@@ -2,6 +2,7 @@
 
 package net.bewis09.bewisclient.mixin.client
 
+import net.bewis09.bewisclient.features.utilities.Zoom
 import net.bewis09.bewisclient.features.utilities.Zoom.factorAnimation
 import net.bewis09.bewisclient.features.utilities.Zoom.isUsed
 import net.bewis09.bewisclient.widget.impl.CPSWidget.leftMouseList
@@ -29,10 +30,15 @@ class MouseMixin {
 
     @Inject(method = ["onScroll"], at = [At("HEAD")], cancellable = true)
     private fun bewisclientOnMouseScroll(handle: Long, horizontal: Double, vertical: Double, ci: CallbackInfo) {
-        if (isUsed()) {
-            factorAnimation.set((factorAnimation.getWithoutInterpolation() - vertical.toFloat() * 0.02f).coerceIn(.009f, .4f))
+        // Honor the new "Scroll Wheel Zoom" setting so users who want keyboard-only
+        // zoom control can disable wheel fine-tuning without losing the zoom itself.
+        if (!isUsed() || !Zoom.scrollEnabled.get()) return
 
-            ci.cancel()
-        }
+        // Use the user-configured sensitivity / bounds rather than the old
+        // hard-coded 0.02 step and 0.009..0.4 coerce range.
+        val newFactor = (factorAnimation.getWithoutInterpolation() - vertical.toFloat() * Zoom.scrollSensitivity.get())
+            .coerceIn(Zoom.minFactor.get(), Zoom.factor.get())
+        factorAnimation.set(newFactor)
+        ci.cancel()
     }
 }

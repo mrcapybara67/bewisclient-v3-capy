@@ -21,8 +21,8 @@ import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
 object BewisclientResourcePack : PackResources, ClientInterface {
-    val bewisclientResourcesTitle = Translation("menu.resource_pack.bewisclient_resource", "Bewisclient Custom Resources")
-    val bewisclientResourcesDescription = Translation("menu.resource_pack.bewisclient_resource_description", "Features can be enabled in the Bewisclient settings")
+    val bewisclientResourcesTitle = Translation("menu.resource_pack.bewisclient_resource", "Capy Client Custom Resources")
+    val bewisclientResourcesDescription = Translation("menu.resource_pack.bewisclient_resource_description", "Features can be enabled in the Capy Client settings")
 
     val packInfo = PackLocationInfo(
         "bewisclient_resources",

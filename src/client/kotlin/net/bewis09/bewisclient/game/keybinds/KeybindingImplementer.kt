@@ -12,7 +12,7 @@ import net.minecraft.client.Minecraft
 
 object KeybindingImplementer : EventEntrypoint {
     init {
-        Translation("key.category.bewisclient", "category", "Bewisclient")
+        Translation("key.category.bewisclient", "category", "Capy Client")
     }
 
     val category = createCategory(createIdentifier("bewisclient", "category"))

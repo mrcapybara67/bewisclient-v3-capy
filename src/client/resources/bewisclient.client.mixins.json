@@ -24,7 +24,8 @@
     "ClientPacketListenerAccessor",
     "TntRendererMixin",
     "ScissorStackMixin",
-    "KeyMappingAccessor"
+    "KeyMappingAccessor",
+    "PlayerRendererMixin",
   ],
   "injectors": {
     "defaultRequire": 1

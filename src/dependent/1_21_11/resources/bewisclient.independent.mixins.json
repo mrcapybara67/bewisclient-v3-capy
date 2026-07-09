@@ -10,7 +10,8 @@
     "PackScreenMixin",
     "SkinTexturesMixin",
     "TooltipDisplayComponentMixin",
-    "WorldRendererMixin"
+    "WorldRendererMixin",
+    "ChatComponentMixin"
   ],
   "injectors": {
     "defaultRequire": 1

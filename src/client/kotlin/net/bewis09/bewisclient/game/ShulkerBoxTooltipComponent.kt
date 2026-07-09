@@ -26,7 +26,7 @@ class ShulkerBoxTooltipComponent(val data: Data) : ClientTooltipComponent {
     fun getHeightDef(): Int = 77
 
     // @[1.21.1] renderImage(textRenderer: Font, x: Int, y: Int @[1.21.11] renderImage(textRenderer: Font, x: Int, y: Int, width: Int, height: Int @[] extractImage(textRenderer: Font, x: Int, y: Int, width: Int, height: Int
-    override fun /*[@]*/extractImage(textRenderer: Font, x: Int, y: Int, width: Int, height: Int/*[!@]*/, context: GuiGraphics) {
+    override fun /*[@]*/renderImage(textRenderer: Font, x: Int, y: Int, width: Int, height: Int/*[!@]*/, context: GuiGraphics) {
         val screenDrawing = ScreenDrawing(context, textRenderer)
 
         screenDrawing.fill(x + 1, y + 1, getWidth(screenDrawing.textRenderer) - 2, getHeightDef() - 7, data.color * 0xC3C3C3)

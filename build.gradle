@@ -135,6 +135,10 @@ tasks.named("compileKotlin") {
 loom {
     splitEnvironmentSourceSets()
 
+    mixin {
+        useLegacyMixinAp = false
+    }
+
     mods {
         "bewisclient" {
             sourceSet sourceSets.main

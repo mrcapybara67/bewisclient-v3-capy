@@ -1,0 +1,211 @@
+package net.bewis09.bewisclient.features.utilities
+
+import net.bewis09.bewisclient.common.createIdentifier
+import net.bewis09.bewisclient.drawable.Renderable
+import net.bewis09.bewisclient.settings.structure.ImageFeature
+import net.bewis09.bewisclient.util.EventEntrypoint
+import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents
+import net.minecraft.client.Minecraft
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.contents.TranslatableContents
+
+object AutoGG : ImageFeature(createIdentifier("bewisclient", "auto_gg"), "AutoGG"), EventEntrypoint {
+    val preset = string("preset", "gg")
+    val useCustom = boolean("use_custom", false)
+    val custom = string("custom", "GG!")
+    // Cooldown (ms) so a single kill/death/match-end doesn't fire multiple chat lines
+    // in a burst (e.g., if the server sends the kill message a second time for chat
+    // signing). Without it a quick "double-fire" could land two "gg" messages in chat.
+    val cooldownMs = int("cooldown_ms", 100, 0, 10000)
+    // Fire on match-end style messages (you won, victory!, ...). Off by default
+    // because a casual "gg!" in chat would also match — opt-in for ranked/lobby
+    // servers where the chat is moderated.
+    val fireOnMatchEnd = boolean("fire_on_match_end", true)
+
+    @Volatile
+    private var lastSentAt: Long = 0L
+
+    override fun appendSettingsRenderables(list: ArrayList<Renderable>) {
+        list.addRenderable(
+            this, preset, "preset",
+            "Preset Message",
+            "One of the preset messages sent after a kill. Common presets: 'gg', 'ggs', 'nice match'. " +
+                "Supports comma-separated lists if you want multiple messages rotated.",
+            "preset",
+        )
+        list.addRenderable(
+            this, useCustom, "use_custom",
+            "Use Custom Message",
+            "When on, AutoGG sends your custom message below instead of the preset. " +
+                "Pure chat etiquette — no gameplay automation.",
+            "use_custom",
+        )
+        list.addRenderable(
+            this, custom, "custom",
+            "Custom Message",
+            "The custom AutoGG message. Only used when 'Use Custom Message' is enabled.",
+            "custom",
+        )
+        list.addRenderable(this, fireOnMatchEnd, "match_end",
+            "Also fire on match end",
+            "If on, AutoGG will also send the message on clear match-end lines such as 'You won the match!', 'Victory!' or 'Game Over!'.",
+            "match_end"
+        )
+        list.addRenderable(this, cooldownMs, "cooldown_ms",
+            "Cooldown (ms)",
+            "Minimum gap between two AutoGG chat sends to avoid double-firing on duplicate events.",
+            "cooldown_ms"
+        )
+    }
+
+    override fun onInitializeClient() {
+        ClientReceiveMessageEvents.ALLOW_GAME.register { message, _ ->
+            handlePotentialDeathMessage(message)
+            true
+        }
+    }
+
+    /**
+     * Triggered by Fabric's [ClientReceiveMessageEvents.ALLOW_GAME] whenever a
+     * game chat / system chat / death message arrives at the client. Fires
+     * [onLocalPlayerKill] on three distinct events:
+     *
+     * 1. **Vanilla kill** — `death.attack.*` translatable message with the local
+     *    player as the killer.
+     * 2. **Plugin-style kill / PvP log line** — server uses plain text without a
+     *    translatable component (e.g., `Steve was slain by Alex`). We detect
+     *    "<local name> ... by ..." and similar shapes.
+     * 3. **Match-end** — opt-in chat lines like `You won the match!`, `Victory!`,
+     *    `Game Over!`, `Match ended`. Disabled when [fireOnMatchEnd] is off to
+     *    avoid false positives on autocompleted GG chat.
+     *
+     * Across all three paths, the same cooldown-and-rotation logic in
+     * [sendChatLine] is used so behaviour stays consistent.
+     */
+    fun handlePotentialDeathMessage(message: Component) {
+        if (!isEnabled()) return
+        val player = Minecraft.getInstance().player ?: return
+        val name = player.name.string
+        if (name.isBlank()) return
+
+        // Stage 0: match-end (opt-in). Cheap substring check fires before the
+        // longer arg-shape scan so end-of-match chats reply faster.
+        if (fireOnMatchEnd.get() && isMatchEndMessage(message)) {
+            sendChatLine()
+            return
+        }
+
+        // Stage 1: vanilla death TranslatableContents with structured args.
+        val contents = message.contents
+        if (contents is TranslatableContents && contents.key.startsWith("death.attack.")) {
+            val victim = contents.args.getOrNull(0)
+            val killer = contents.args.getOrNull(1)
+            val victimIsLocal = argMatchesName(victim, name)
+            val killerIsLocal = argMatchesName(killer, name)
+            if (!victimIsLocal && killerIsLocal) {
+                sendChatLine()
+                return
+            }
+        }
+
+        // Stage 2: legacy fallback — text-shape match (server-side plugin strings).
+        val text = runCatching { message.string }.getOrNull() ?: return
+        if (!text.contains(name)) return
+        val byIdx = text.lastIndexOf(" by ")
+        val nameIdx = text.lastIndexOf(name)
+        if (byIdx < 0 || nameIdx <= byIdx) return
+        val trailing = text.substring(nameIdx + name.length)
+        if (!trailing.all { it == ' ' || it == '.' || it == ',' || it == '!' || it == '?' || it == ')' || it == '*' || it == '\n' }) return
+        sendChatLine()
+    }
+
+    /**
+     * Cheap textual match for the most common end-of-match chat lines. Carefully
+     * scoped — we deliberately avoid matching bare 'gg' / 'ggs' / 'gg!' which
+     * would also match someone else's casual chat that we shouldn't reply to.
+     * Defeat-side lines ("you have been eliminated", "your team has been
+     * eliminated") are intentionally excluded so we don't say "gg" when the
+     * user just lost. The list is intentionally row-oriented (one phrase per
+     * line) so a server admin can scan what we'll reply to.
+     */
+    private fun isMatchEndMessage(message: Component): Boolean {
+        val raw = runCatching { message.string }.getOrNull() ?: return false
+        val text = raw.lowercase()
+        return text.contains("you won the match") ||
+            text.contains("you won the game") ||
+            text.contains("you have won") ||
+            text.contains("victory royale") ||
+            text.contains("game over!") ||
+            text.contains("game over.") ||
+            text.contains("match ended") ||
+            text.contains("bedwars game ended") ||
+            text.contains("your team won") ||
+            text.contains("your team has won") ||
+            text.contains("winner winner") ||
+            text.contains("replay ended")
+    }
+
+    private fun argMatchesName(arg: Any?, name: String): Boolean {
+        return when (arg) {
+            is Component -> arg.string.trim().equals(name, ignoreCase = false)
+            is String -> arg.trim().equals(name, ignoreCase = false)
+            else -> false
+        }
+    }
+
+    /**
+     * Sends the configured chat line, optionally picking the next one from a
+     * comma-separated preset list. Capped by [cooldownMs] so two events firing
+     * back-to-back (e.g., the kill message followed by a redundant fan-out) do
+     * not spam chat.
+     *
+     * BUGFIX: the previous build captured `player.connection` at the outer
+     * scope and then dispatched the send via `client.execute { ... }`. The
+     * `execute` lambda runs on the next client tick, by which time the player
+     * could have been replaced/closed (e.g., during a /logout or quick server
+     * switch). Sending through a captured-but-closed connection throws an
+     * exception on the main thread. We now re-fetch `client`/`player`/`connection`
+     * inside the runnable and re-check the cooldown there so the entire
+     * critical section stays on the main thread.
+     */
+    private fun sendChatLine() {
+        val client = Minecraft.getInstance()
+        val player = client.player ?: return
+        // Defensive: in older 1.21.x snapshots, connection could momentarily be
+        // null during login/logout. The @Suppress is required because Kotlin
+        // infers `player.connection` as non-null in 1.21.11+ (it isn't
+        // formally annotated), which is exactly the case where the elvis is
+        // truly useless — but we want the runtime guard anyway.
+        @Suppress("USELESS_ELVIS")
+        val earlyConnection = player.connection ?: return
+
+        val raw = if (useCustom.get()) custom.get() else preset.get()
+        val candidates = raw.split(',').map { it.trim() }.filter { it.isNotEmpty() }
+        if (candidates.isEmpty()) return
+
+        val cooldown = cooldownMs.get().toLong()
+
+        // Cooldown and chat-send must run on the same thread, otherwise two
+        // death messages processed back-to-back on different threads could
+        // both pass the cooldown check and double-fire. Coalesce into the
+        // client.execute block.
+        client.execute(Runnable {
+            val now = System.currentTimeMillis()
+            if (cooldown > 0 && now - lastSentAt < cooldown) return@Runnable
+            // Re-fetch on the main thread: by the time the lambda runs the
+            // captured connection may be closed. The previous build had a
+            // buggy `live !== earlyConnection && !live.connection.isConnected`
+            // guard that conflated reference identity with freshness — but
+            // `live` is the *current* connection reference, so just check
+            // whether the current connection is open. If it isn't, the player
+            // is mid-login / mid-logout and we must not send.
+            val live = Minecraft.getInstance().player?.connection
+            if (live == null || !live.connection.isConnected) {
+                return@Runnable
+            }
+            lastSentAt = now
+            val pick: String = if (useCustom.get()) candidates.first() else candidates[(now / 1000L % candidates.size).toInt()]
+            live.sendChat(pick)
+        })
+    }
+}

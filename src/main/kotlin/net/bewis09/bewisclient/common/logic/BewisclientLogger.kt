@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory
  */
 interface BewisclientLogger {
     companion object {
-        private val logger = LoggerFactory.getLogger("Bewisclient")
+        private val logger = LoggerFactory.getLogger("Capy Client")
     }
 
     fun info(vararg msg: Any?) = logger.info(msg.joinToString(" ") { it.toString() })

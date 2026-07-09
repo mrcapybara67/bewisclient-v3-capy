@@ -25,8 +25,8 @@ object Contact : SidebarFeature(
     override fun getRenderable(): Renderable {
         return VerticalAlignScrollPlane(
             listOf(
-                ContactLinkElement("modrinth", Constants.MODRINTH_URL, "Modrinth", "The official download page of Bewisclient on Modrinth."),
-                ContactLinkElement("github", Constants.GITHUB_URL, "GitHub", "The source code of Bewisclient is available on GitHub."),
+                ContactLinkElement("modrinth", Constants.MODRINTH_URL, "Modrinth", "The official download page of Capy Client on Modrinth."),
+                ContactLinkElement("github", Constants.GITHUB_URL, "GitHub", "The source code of Capy Client is available on GitHub."),
                 ContactLinkElement("issues", "${Constants.GITHUB_URL}/issues", "Issue Tracker", "Report bugs or request features on our GitHub issue tracker."),
                 ContactLinkElement("discord", Constants.DISCORD_URL, "Discord", "Join our Discord server to chat with the community and get support."),
             ), 1

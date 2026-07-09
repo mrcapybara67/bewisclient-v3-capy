@@ -119,7 +119,7 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
 
     fun renderVersionText(screenDrawing: ScreenDrawing) {
         screenDrawing.transform(width - 5f, height - 11f, 0.7f) {
-            screenDrawing.drawRightAlignedText("Bewisclient ${BuildInfo.VERSION} by Bewis09", 0, 0, if (isMinecrafty) Color.WHITE alpha 0.5f else General.getThemeColor(alpha = 0.5f))
+            screenDrawing.drawRightAlignedText("Capy Client ${BuildInfo.VERSION}", 0, 0, if (isMinecrafty) Color.WHITE alpha 0.5f else General.getThemeColor(alpha = 0.5f))
         }
     }
 
@@ -139,7 +139,7 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
 
     object VersionInvalidScreen : Renderable() {
         const val SECURITY_MESSAGE =
-            "Your version of Bewisclient could not be verified. This probably means that the file your are using was changed after downloading or the version you are using was removed from Modrinth due to a critical bug.\n\nPlease download the newest version from Modrinth to ensure you are using a safe version.\n\nIf you believe this is an error, please let us know on GitHub."
+            "Your version of Capy Client could not be verified. This probably means that the file your are using was changed after downloading or the version you are using was removed from Modrinth due to a critical bug.\n\nPlease download the newest version from Modrinth to ensure you are using a safe version.\n\nIf you believe this is an error, please let us know on GitHub."
 
         override fun render(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
             screenDrawing.wrapText(SECURITY_MESSAGE + "\n\nError message: ${(Security.verificationState as? Security.ILLEGAL)?.reason ?: "Unknown"}", 300).let {
@@ -147,7 +147,7 @@ class OptionScreen(startBlur: Float = 0f, startAlpha: Float = 0f) : PopupScreen(
             }
 
             screenDrawing.transform(width - 5f, height - 11f, 0.7f) {
-                screenDrawing.drawRightAlignedText("Bewisclient ${BuildInfo.VERSION} by Bewis09", 0, 0, General.getThemeColor(alpha = 0.5f))
+                screenDrawing.drawRightAlignedText("Capy Client ${BuildInfo.VERSION}", 0, 0, General.getThemeColor(alpha = 0.5f))
             }
 
             renderRenderables(screenDrawing, mouseX, mouseY)

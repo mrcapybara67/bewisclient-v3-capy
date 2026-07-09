@@ -42,11 +42,11 @@ object Security : ClientInterface, EventEntrypoint {
                 return
             }
 
-            verifyStep("Bewisclient file was changed to pretend to be a different mod.") {
+            verifyStep("Capy Client file was changed to pretend to be a different mod.") {
                 FabricLoader.getInstance().allMods.any { it.metadata.id == "bewisclient" }
             }
 
-            verifyStep("Bewisclient file was changed to an unrecognized version.") {
+            verifyStep("Capy Client file was changed to an unrecognized version.") {
                 val version = FabricLoader.getInstance().allMods.first { it.metadata.id == "bewisclient" }.metadata.version.friendlyString
                 version == BuildInfo.VERSION
             }
@@ -71,15 +71,15 @@ object Security : ClientInterface, EventEntrypoint {
                         verificationState = VERIFIED
                         return
                     } else {
-                        throw SecurityException("Security verification failed: Bewisclient version is not recognized as a valid Modrinth release.")
+                        throw SecurityException("Security verification failed: Capy Client version is not recognized as a valid Modrinth release.")
                     }
                 }
             } catch (e: Exception) {
                 if (e is FileNotFoundException) {
-                    throw SecurityException("Security verification failed: Bewisclient file is not recognized as a valid Modrinth release.")
+                    throw SecurityException("Security verification failed: Capy Client file is not recognized as a valid Modrinth release.")
                 }
 
-                verificationState = VERIFICATION_FAILED("Could not verify Bewisclient on Modrinth: ${e.message ?: "Unknown reason"}")
+                verificationState = VERIFICATION_FAILED("Could not verify Capy Client on Modrinth: ${e.message ?: "Unknown reason"}")
                 return
             }
         } catch (e: Exception) {

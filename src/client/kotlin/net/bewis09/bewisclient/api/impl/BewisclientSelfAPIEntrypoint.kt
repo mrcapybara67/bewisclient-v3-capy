@@ -23,9 +23,6 @@ import net.bewis09.bewisclient.game.keybinds.Keybind
 import net.bewis09.bewisclient.game.keybinds.KeybindingImplementer
 import net.bewis09.bewisclient.game.keybinds.OpenOptionScreen
 import net.bewis09.bewisclient.game.translations.TranslationLoader
-import net.bewis09.bewisclient.server.Authorization
-import net.bewis09.bewisclient.server.AutoUpdater
-import net.bewis09.bewisclient.server.Security
 import net.bewis09.bewisclient.features.sidebar.General
 import net.bewis09.bewisclient.features.sidebar.Home
 import net.bewis09.bewisclient.features.sidebar.Widgets
@@ -40,11 +37,11 @@ import kotlin.jvm.optionals.getOrNull
 
 class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
     override fun getEventEntrypoints(): List<EventEntrypoint> = listOf(
-        WidgetLoader, Settings, KeybindingImplementer, TranslationLoader, BiomeWidget, SpeedWidget, TiwylaWidget, ShulkerBoxTooltipComponent.Entrypoint, CosmeticLoader, BewisclientCommand, Security, ImageIdentifier, Panorama, Ticker, AutoUpdater, Authorization
+        WidgetLoader, Settings, KeybindingImplementer, TranslationLoader, BiomeWidget, SpeedWidget, TiwylaWidget, ShulkerBoxTooltipComponent.Entrypoint, CosmeticLoader, BewisclientCommand, ImageIdentifier, Panorama, Ticker, AutoGG
     )
 
     override fun getKeybinds(): List<Keybind> = listOf(
-        OpenOptionScreen, Fullbright.ToggleNightVision, Fullbright.ToggleFullbright, Fullbright.IncreaseBrightness, Fullbright.DecreaseBrightness, Zoom.ZoomKeybind, Perspective.EnablePerspective, Panorama.TakePanoramaScreenshot
+        OpenOptionScreen, Fullbright.ToggleNightVision, Fullbright.ToggleFullbright, Fullbright.IncreaseBrightness, Fullbright.DecreaseBrightness, Zoom.ZoomKeybind, Perspective.EnablePerspective, Panorama.TakePanoramaScreenshot, PlayerNametag.ToggleNametag
     )
 
     override fun getWidgets(): List<Widget> = listOf(
@@ -52,7 +49,7 @@ class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
     )
 
     override fun getUtilities(): List<CategorizedFeature> = listOf(
-        Fullbright, BlockHighlight, EntityHighlight, HeldItemTooltip, Zoom, PumpkinOverlay, BetterVisibility, Scoreboard, ShulkerBoxTooltip, Perspective, FireHeight, Panorama, TntTimer, PackAdder
+        Fullbright, BlockHighlight, EntityHighlight, HeldItemTooltip, Zoom, PumpkinOverlay, BetterVisibility, Scoreboard, ShulkerBoxTooltip, Perspective, FireHeight, Panorama, TntTimer, PackAdder, AutoGG, PlayerNametag, NoChatLag
     )
 
     override fun getOtherSettings(): List<Feature> {
@@ -93,6 +90,6 @@ class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
         FuseProvider(EntityTypes.TNT, true) { entity -> entity.fuse },
         FuseProvider(EntityTypes.TNT_MINECART, false) { entity -> entity.fuse },
         // @[26.1] @[] FuseProvider(EntityTypes.SULFUR_CUBE, false) { entity -> entity.fuse }
-        /*[@]*/FuseProvider(EntityTypes.SULFUR_CUBE, false) { entity -> entity.fuse }/*[!@]*/
+        /*[@]*//*[!@]*/
     )
 }

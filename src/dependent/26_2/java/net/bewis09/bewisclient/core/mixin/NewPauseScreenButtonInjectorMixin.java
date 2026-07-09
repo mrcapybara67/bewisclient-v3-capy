@@ -36,7 +36,7 @@ public class NewPauseScreenButtonInjectorMixin extends Screen {
                     (b) -> Bewisclient.INSTANCE.setRenderableScreen(new OptionScreen(1f, 0f))
             );
 
-            button.setTooltip(Tooltip.create(Component.literal("Bewisclient")));
+            button.setTooltip(Tooltip.create(Component.literal("Capy Client")));
 
             linearLayout.addChild(button);
         }

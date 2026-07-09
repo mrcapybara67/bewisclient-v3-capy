@@ -23,7 +23,7 @@ object Fullbright : ImageFeature(createIdentifier("bewisclient", "fullbright"), 
     val brightnessTranslation = createTranslation("brightness", "Brightness: %s")
 
     val infoText = createTranslation(
-        "night_vision.error_text", "When night vision is applied via Bewisclient, the effect will not be the same as if you got it via a potion, because Bewisclient preserves the old way in which night vision works, which illuminates the world completely, whilst with the status effect it is always rendered as if the brightness is set all the way down to moody."
+        "night_vision.error_text", "When night vision is applied via Capy Client, the effect will not be the same as if you got it via a potion, because Capy Client preserves the old way in which night vision works, which illuminates the world completely, whilst with the status effect it is always rendered as if the brightness is set all the way down to moody."
     )
 
     object ToggleNightVision : Keybind(GLFW.GLFW_KEY_H, "fullbright.toggle_night_vision", "Toggle Night Vision", {

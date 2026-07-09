@@ -47,26 +47,26 @@ fun GuiGraphics.scale(x: Float, y: Float) {
 
 val ClientLevel.clockTime
     // @[1.21.11] dayTime @[] overworldClockTime
-    get() = this./*[@]*/overworldClockTime/*[!@]*/
+    get() = this./*[@]*/dayTime/*[!@]*/
 
 // @[26.1] setScreen @[] gui.setScreen
-fun setScreen(screen: Screen?) = Minecraft.getInstance()./*[@]*/gui.setScreen/*[!@]*/(screen)
+fun setScreen(screen: Screen?) = Minecraft.getInstance()./*[@]*/setScreen/*[!@]*/(screen)
 
 @Suppress("UNNECESSARY_SAFE_CALL")
 // @[26.1] screen @[] gui?.screen()
-fun getScreen() = Minecraft.getInstance()./*[@]*/gui?.screen()/*[!@]*/
+fun getScreen() = Minecraft.getInstance()./*[@]*/screen/*[!@]*/
 
 // @[1.21.11] net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper.registerKeyBinding @[] net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper.registerKeyMapping
-fun registerKeyBinding(keyMapping: KeyMapping) = /*[@]*/net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper.registerKeyMapping/*[!@]*/(keyMapping)
+fun registerKeyBinding(keyMapping: KeyMapping) = /*[@]*/net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper.registerKeyBinding/*[!@]*/(keyMapping)
 
 fun GuiGraphics.string(font: Font, text: Component, x: Int, y: Int, color: Int, shadow: Boolean) {
     // @[1.21.11] drawString @[] text
-    this./*[@]*/text/*[!@]*/(font, text, x, y, color, shadow)
+    this./*[@]*/drawString/*[!@]*/(font, text, x, y, color, shadow)
 }
 
 fun GuiGraphics.drawItem(itemStack: ItemStack, x: Int, y: Int) {
     // @[1.21.11] renderItem @[] item
-    this./*[@]*/item/*[!@]*/(itemStack, x, y)
+    this./*[@]*/renderItem/*[!@]*/(itemStack, x, y)
 }
 
 object Profiler {
@@ -113,13 +113,13 @@ fun GuiGraphics.rotate(angle: Float) {
 
 val model by lazy {
     // @[1.21.1] net.minecraft.client.model.PlayerModel<net.minecraft.world.entity.player.Player> @[1.21.10] net.minecraft.client.model.PlayerModel @[26.1] net.minecraft.client.model.player.PlayerModel @[] net.minecraft.client.model.Model.Simple
-    /*[@]*/net.minecraft.client.model.Model.Simple/*[!@]*/(
+    /*[@]*/net.minecraft.client.model.player.PlayerModel/*[!@]*/(
         Minecraft.getInstance().entityModels.run {
             // @[1.21.1] PLAYER @[] PLAYER_CAPE
             bakeLayer(ModelLayers./*[@]*/PLAYER_CAPE/*[!@]*/)
         }
         // @[26.1] , false) @[] ) { net.minecraft.client.renderer.rendertype.RenderTypes.entitySolid(it) }
-    /*[@]*/) { net.minecraft.client.renderer.rendertype.RenderTypes.entitySolid(it) }/*[!@]*/
+    /*[@]*/, false)/*[!@]*/
 }
 
 // @[1.21.5] this.pose().translate(0f, 0f, 10000f) @[] Unit
@@ -132,7 +132,7 @@ fun Component.setFont(id: Identifier?): MutableComponent {
 
 fun GuiGraphics.drawItemOverlay(textRenderer: Font, itemStack: ItemStack, x: Int, y: Int) {
     // @[1.21.11] renderItemDecorations @[] itemDecorations
-    this./*[@]*/itemDecorations/*[!@]*/(textRenderer, itemStack, x, y)
+    this./*[@]*/renderItemDecorations/*[!@]*/(textRenderer, itemStack, x, y)
 }
 
 // @[1.21.8] "key.category.${name.namespace}.${name.path}" @[] KeyMapping.Category.register(name)
@@ -189,6 +189,6 @@ fun ScreenDrawing.drawCape(identifier: Identifier, x: Int, y: Int, width: Int, h
     // @[1.21.8] this.drawTextureRegion(identifier, x, y, 1f, 1f, width, height, 10, 16, 64, 32) @[]
     /*[@]*//*[!@]*/
     // @[1.21.8] @[1.21.11] this.guiGraphics.submitSkinRenderState(model, identifier, height.toFloat() * 0.9f, 18f, -195f, -10f, x - xOffset, y, x + (width * 1.13).toInt() - xOffset, y + (height * 1.13).toInt()) @[] this.guiGraphics.skin(model, identifier, height.toFloat() * 0.9f, 18f, -195f, -10f, x - xOffset, y, x + (width * 1.13).toInt() - xOffset, y + (height * 1.13).toInt())
-    /*[@]*/this.guiGraphics.skin(model, identifier, height.toFloat() * 0.9f, 18f, -195f, -10f, x - xOffset, y, x + (width * 1.13).toInt() - xOffset, y + (height * 1.13).toInt())/*[!@]*/
+    /*[@]*/this.guiGraphics.submitSkinRenderState(model, identifier, height.toFloat() * 0.9f, 18f, -195f, -10f, x - xOffset, y, x + (width * 1.13).toInt() - xOffset, y + (height * 1.13).toInt())/*[!@]*/
     this.disableScissors()
 }

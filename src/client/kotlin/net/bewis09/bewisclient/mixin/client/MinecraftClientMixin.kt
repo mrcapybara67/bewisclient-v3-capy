@@ -33,7 +33,7 @@ class MinecraftClientMixin {
     }
 
     // @[26.1.2] "destroy" @[] "close"
-    @Inject(method = [/*[@]*/"close"/*[!@]*/], at = [At("HEAD")])
+    @Inject(method = [/*[@]*/"destroy"/*[!@]*/], at = [At("HEAD")])
     fun onDestroy(ci: CallbackInfo?) {
         onAllEventEntrypoints(EventEntrypoint::onDestroy)
     }

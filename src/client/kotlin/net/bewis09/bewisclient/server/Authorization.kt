@@ -21,7 +21,7 @@ object Authorization: ClientInterface, EventEntrypoint {
         val clientVersion = BuildInfo.BC_VERSION
         val comparison = compareVersions(clientVersion, metadata.minimum)
         if (comparison < 0) {
-            warn("Bewisclient is outdated! Minimum version: ${metadata.minimum}, your version: $clientVersion")
+            warn("Capy Client is outdated! Minimum version: ${metadata.minimum}, your version: $clientVersion")
         }
         val startupData = if (comparison >= 0 && General.onlineMode.get() && General.acceptedEULA.get()) catch { authorize(metadata) } else null
         CosmeticLoader.loadSpecials(startupData)
@@ -69,11 +69,11 @@ object Authorization: ClientInterface, EventEntrypoint {
             }
         """.trimIndent().toByteArray())
         if (bewisclientRes?.statusCode() != 200) {
-            warn("Failed to authorize with Bewisclient server. Response code: ${bewisclientRes?.statusCode()}")
+            warn("Failed to authorize with Capy Client server. Response code: ${bewisclientRes?.statusCode()}")
             return null
         }
         Authorization.accessToken = bewisclientRes.headers().map()["Authorization"]?.firstOrNull() ?: run {
-            warn("Failed to get authorization token from Bewisclient server.")
+            warn("Failed to get authorization token from Capy Client server.")
             return null
         }
         return bewisclientRes.body()?.decodeToString()
