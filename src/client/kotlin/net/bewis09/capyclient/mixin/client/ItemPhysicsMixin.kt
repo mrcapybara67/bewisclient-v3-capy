@@ -29,9 +29,6 @@ abstract class ItemPhysicsMixin {
     @Shadow
     private var pickupDelay: Int = 0
 
-    @Shadow
-    public var bob: Float = 0f
-
     @Unique
     private var physicsWobble: Float = 0f
 
@@ -50,8 +47,6 @@ abstract class ItemPhysicsMixin {
             self.yRotO = 0f
             self.xRot = 0f
             self.xRotO = 0f
-            // Reset bob so items don't float up and down.
-            bob = 0f
         }
 
         if (ItemPhysics.wobble.get()) {
@@ -77,7 +72,6 @@ abstract class ItemPhysicsMixin {
             self.yRotO = 0f
             self.xRot = 0f
             self.xRotO = 0f
-            bob = 0f
         }
     }
 }
