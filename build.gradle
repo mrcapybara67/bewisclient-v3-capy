@@ -189,6 +189,8 @@ dependencies {
 }
 
 processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
     inputs.property "version", project.version
     inputs.property "minecraft_version", project.minecraft_version
     inputs.property "version_range", project.property("range_" + project.property("like_version_" + project.minecraft_version.replace('.', '_')).replace('.', '_'))
