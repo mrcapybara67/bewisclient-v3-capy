@@ -2,7 +2,6 @@
 
 package net.bewis09.bewisclient.mixin.client;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.bewis09.bewisclient.features.utilities.FireHeight;
 import net.minecraft.client.renderer.ScreenEffectRenderer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,14 +26,17 @@ public class InGameOverlayRendererMixin {
         return base + FireHeight.INSTANCE.getVerticalOffset().get() * 0.4f;
     }
 
-    // Scale the overlay's tint alpha by FireHeight.opacity (0 = invisible, 1 = vanilla).
-    // The fire overlay in vanilla passes an ARGB int to setShaderColor; intercept the
-    // alpha component and multiply by the user's opacity. Default alpha is 255.
-    @ModifyArg(method = /*[@]*/"renderFire"/*[!@]*/, at = @At(
+    /*
+     * Scale the overlay's tint alpha by FireHeight.opacity (0 = invisible, 1 = vanilla).
+     * In 1.21.11, renderFire does NOT call RenderSystem.setShaderColor — it now
+     * calls VertexConsumer.setColor(float, float, float, float) directly on each
+     * vertex (with alpha = 0.9f).  We intercept those setColor calls instead.
+     * The `require = 0` prevents a game crash if Mojang refactors this again.
+     */
+    @ModifyArg(method = "renderFire", at = @At(
             value = "INVOKE",
-            // @[26.1] "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V" @[] "Lorg/joml/Matrix4f;translate(FFF)Lorg/joml/Matrix4f;"
-            target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V"
-    ), index = 3)
+            target = "Lcom/mojang/blaze3d/vertex/VertexConsumer;setColor(FFFF)V"
+    ), index = 3, require = 0)
     private static float modifyFireAlpha(float alpha) {
         if (!FireHeight.INSTANCE.isEnabled()) return alpha;
         return alpha * FireHeight.INSTANCE.getOpacity().get();
