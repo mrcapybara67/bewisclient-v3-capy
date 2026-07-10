@@ -45,7 +45,7 @@ public abstract class ColorSaturationMixin {
      */
     @Redirect(
         method = "updateLightTexture",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/texture/DynamicTexture;upload()V")
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/texture/AbstractTexture;upload()V")
     )
     private void capyclient$onUpload(DynamicTexture texture) {
         if (!ColorSaturation.INSTANCE.isEnabled()) {
