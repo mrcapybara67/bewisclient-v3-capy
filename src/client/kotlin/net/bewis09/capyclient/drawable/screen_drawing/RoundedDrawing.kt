@@ -3,7 +3,10 @@ package net.bewis09.capyclient.drawable.screen_drawing
 import net.bewis09.capyclient.common.Color
 import net.bewis09.capyclient.common.Identifier
 import net.bewis09.capyclient.common.createIdentifier
-import kotlin.math.*
+import kotlin.math.sqrt
+import kotlin.math.roundToInt
+import kotlin.math.pow
+import kotlin.math.min
 
 interface RoundedDrawing : RectDrawing, TextureDrawing {
     val factor

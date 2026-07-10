@@ -5,8 +5,9 @@ package net.bewis09.capyclient.version
 // @[26.1] Minecraft.GameLoadCookie @[] GameLoadCookie
 typealias GameLoadCookie = net.minecraft.client./*[@]*/Minecraft.GameLoadCookie/*[!@]*/
 
-// @[26.1] Gui @[] Hud
-typealias Hud = net.minecraft.client.gui./*[@]*/Gui/*[!@]*/
+// All versions use `Gui` as the Fabric intermediary name, even Yarn-mapped
+// versions (confirmed by dependent/1_21_1 InGameHudMixin using @Mixin(Gui.class)).
+typealias Hud = net.minecraft.client.gui.Gui
 
 // @[1.21.11] GuiGraphics @[] GuiGraphicsExtractor
 typealias GuiGraphics = net.minecraft.client.gui./*[@]*/GuiGraphics/*[!@]*/

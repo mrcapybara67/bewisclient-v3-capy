@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.component.ItemContainerContents
 import net.minecraft.world.level.block.ShulkerBoxBlock
 import org.spongepowered.asm.mixin.Mixin
-import java.util.*
+import java.util.Optional
 
 @Mixin(BlockItem::class)
 class ShulkerBoxTooltipMixin(settings: Properties) : Item(settings) {

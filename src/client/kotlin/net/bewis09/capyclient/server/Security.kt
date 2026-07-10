@@ -12,7 +12,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.net.URI
 import java.security.MessageDigest
-import java.util.*
+import java.util.UUID
 
 @Suppress("ClassName")
 object Security : ClientInterface, EventEntrypoint {
