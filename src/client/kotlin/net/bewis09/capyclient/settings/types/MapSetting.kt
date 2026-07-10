@@ -34,7 +34,14 @@ open class MapSetting<T>(val from: (JsonElement) -> T?, val to: (T) -> JsonEleme
         save()
     }
 
-    override fun convertFromElement(data: JsonElement?): HashMap<String, T>? = data?.jsonObject()?.asMap()?.mapValues { from(it.value) }?.filter { it.value != null }?.map { it.key to it.value!! }?.toTypedArray()?.let { hashMapOf(*it) }
+    override fun convertFromElement(data: JsonElement?): HashMap<String, T>? =
+        data?.jsonObject()?.asMap()
+            ?.mapNotNull { (key, element) ->
+                val converted = from(element) ?: return@mapNotNull null
+                key to converted
+            }
+            ?.toTypedArray()
+            ?.let { hashMapOf(*it) }
 }
 
 open class BooleanMapSetting : MapSetting<Boolean>(from = { it.boolean() }, to = { JsonPrimitive(it) })

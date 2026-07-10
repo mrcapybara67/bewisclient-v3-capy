@@ -37,19 +37,20 @@ class PackSelectionScreenMixin(title: Component) : Screen(title) {
     fun capyclientInit(ci: CallbackInfo) {
         if (!PackAdder.isEnabled()) return
 
+        val dir = packDir ?: return
         addResourcePackButton = addRenderableWidget(TexturedButtonWidget(width / 2 - 215, height - 49, 200, 18, buttonTexture, buttonTexture, { b: Button? ->
             Bewisclient.setRenderableScreen(
                 PackListScreen(
-                    if (packDir.endsWith(Path.of("resourcepacks"))) Modrinth.Type.RESOURCE_PACK else Modrinth.Type.DATA_PACK, this, this.packDir
+                    if (dir.endsWith(Path.of("resourcepacks"))) Modrinth.Type.RESOURCE_PACK else Modrinth.Type.DATA_PACK, this, dir
                 )
             )
-        }, (if (packDir!!.endsWith(Path.of("resourcepacks"))) Modrinth.addResourcePackText.getTranslatedText() else Modrinth.addDataPackText.getTranslatedText()).append("...")))
+        }, (if (dir.endsWith(Path.of("resourcepacks"))) Modrinth.addResourcePackText.getTranslatedText() else Modrinth.addDataPackText.getTranslatedText()).append("...")))
     }
 
     @Inject(method = ["repositionElements"], at = [At("HEAD")])
     fun capyclientRefreshWidgetPositions(ci: CallbackInfo) {
-        if (addResourcePackButton == null) return
-        addResourcePackButton!!.setPosition(width / 2 - 215, height - 49)
+        val button = addResourcePackButton ?: return
+        button.setPosition(width / 2 - 215, height - 49)
     }
 
     @ModifyArg(method = ["init"], at = At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/packs/TransferableSelectionList;<init>(Lnet/minecraft/client/Minecraft;Lnet/minecraft/client/gui/screens/packs/PackSelectionScreen;IILnet/minecraft/network/chat/Component;)V", ordinal = 0), index = 3)

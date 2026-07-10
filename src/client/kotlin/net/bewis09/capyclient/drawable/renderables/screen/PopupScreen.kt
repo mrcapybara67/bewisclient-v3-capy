@@ -96,8 +96,9 @@ abstract class PopupScreen : Renderable() {
         if (popup != null) {
             popup?.let { renderables.remove(it) }
         }
-        popup = Popup(popupRenderable, this)
-        renderables.addFirst(popup!!)
+        val newPopup = Popup(popupRenderable, this)
+        popup = newPopup
+        renderables.addFirst(newPopup)
         popup?.invoke(0, 0, width, height)?.resize()
         selectedElement = popup
     }

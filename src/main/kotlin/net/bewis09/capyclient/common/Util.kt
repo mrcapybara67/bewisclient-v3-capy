@@ -26,9 +26,9 @@ inline infix fun <T> Boolean.then(other: () -> T): T? = if (this) other() else n
 
 infix fun <T> Boolean.then(other: T): T? = if (this) other else null
 
-fun createIdentifier(namespace: String, path: String): Identifier = Identifier.tryBuild(namespace, path)!!
+fun createIdentifier(namespace: String, path: String): Identifier = Identifier.tryBuild(namespace, path) ?: error("Cannot create identifier: $namespace:$path")
 
-fun createIdentifier(path: String): Identifier = Identifier.tryParse(path)!!
+fun createIdentifier(path: String): Identifier = Identifier.tryParse(path) ?: error("Cannot parse identifier: $path")
 
 fun <T: Any> DefaultedRegistry<T>.getOrNull(id: Identifier): T? = this.getOptional(id).orElse(null)
 

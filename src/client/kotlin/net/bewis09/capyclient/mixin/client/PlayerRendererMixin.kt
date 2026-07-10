@@ -121,8 +121,6 @@ abstract class PlayerRendererMixin {
             }
 
             state.nameTag = tag
-
-            state.nameTag = tag
             state.nameTagAttachment = Vec3(0.0, entity.getBbHeight().toDouble() + 0.5, 0.0)
         } else {
             // Feature off: hide OTHER players' nametags but keep vanilla

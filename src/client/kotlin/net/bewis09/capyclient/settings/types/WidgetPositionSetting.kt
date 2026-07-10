@@ -7,12 +7,12 @@ import net.bewis09.capyclient.widget.logic.WidgetPosition
 
 class WidgetPositionSetting(defaultPos: WidgetPosition) : Setting<WidgetPosition>(defaultPos) {
     override fun convertToElement(): JsonElement? {
-        if (getWithoutDefault() == null) return null
+        val current = getWithoutDefault() ?: return null
 
         val jsonObject = JsonObject()
 
-        jsonObject.addProperty("positionType", getWithoutDefault()!!.getType())
-        jsonObject.add("positionData", getWithoutDefault()!!.saveToJson())
+        jsonObject.addProperty("positionType", current.getType())
+        jsonObject.add("positionData", current.saveToJson())
 
         return jsonObject
     }

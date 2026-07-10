@@ -184,22 +184,24 @@ object Modrinth : ClientInterface {
     }
 
     fun loadPage(type: Type, page: Int, query: String) {
-        if (typeMaps[type to query] == null) {
-            typeMaps[type to query] = mutableMapOf<Int, Pair<List<ListPack>?, Boolean>>() to null
+        var entry = typeMaps[type to query]
+        if (entry == null) {
+            entry = mutableMapOf<Int, Pair<List<ListPack>?, Boolean>>() to null
+            typeMaps[type to query] = entry
         }
 
-        if (typeMaps[type to query]!!.first.containsKey(page)) {
-            return
-        }
+        val pages = entry.first
+        if (pages.containsKey(page)) return
 
-        typeMaps[type to query]!!.first[page] = null to false
+        pages[page] = null to false
 
         downloadFile("https://api.modrinth.com/v2/search?query=${URLEncoder.encode(query.replace(Regex("&\\?="), ""), "UTF-8")}&facets=%5B%5B%22project_type:${type.url}%22%5D,%5B%22versions:${getModrinthVersion()}%22%5D%5D&limit=20&offset=${page * 20}", {
             val json = gson.fromJson(String(it), ModrinthSearchResult::class.java)
-            if (typeMaps[type to query]!!.second == null) {
-                typeMaps[type to query] = typeMaps[type to query]!!.first to json.total_hits
+            val current = typeMaps[type to query] ?: return@downloadFile
+            if (current.second == null) {
+                typeMaps[type to query] = current.first to json.total_hits
             }
-            typeMaps[type to query]!!.first[page] = json.hits to true
+            typeMaps[type to query]?.first?.set(page, json.hits to true)
         }) {
             NotificationManager.addNotification(SimpleTextNotification(searchFailedReason(it.message ?: "Unknown Error")))
         }

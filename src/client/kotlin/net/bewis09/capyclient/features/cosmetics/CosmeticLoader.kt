@@ -305,7 +305,10 @@ object CosmeticLoader : SidebarFeature(createIdentifier("capyclient", "cosmetics
                     TextElement(category.first.replaceFirstChar { it.uppercase() }.toText(), Color.WHITE, centered = true).setHeight(9),
                     VerticalGrid(category.second.mapNotNull { id ->
                         if (id.type == CosmeticType.CAPE && allowedCosmetics.contains(id) && cosmetics[id] != null) {
-                            SelectCapeElement(id, cosmetics[id]!!)
+                            val cosmetic = cosmetics[id]
+                            if (cosmetic != null) {
+                                SelectCapeElement(id, cosmetic)
+                            } else null
                         } else null
                     }.let { a -> { _ -> a } }, 5, 65),
                     if (i != setCategories.size - 1) Rectangle { General.getTextThemeColor().withBrightness(0.3f) }.setHeight(1) else null

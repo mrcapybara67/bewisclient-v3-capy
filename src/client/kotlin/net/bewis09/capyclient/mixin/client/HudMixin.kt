@@ -37,7 +37,9 @@ abstract class HudMixin : ClientInterface {
     private fun capyclientRenderHeldItemTooltip(drawContext: GuiGraphics, ci: CallbackInfo) {
         if (!HeldItemTooltip.isEnabled()) return
 
-        HeldItemTooltip.render(ScreenDrawing(drawContext, getFont()!!), toolHighlightTimer, lastToolHighlight!!)
+        val font = getFont() ?: return
+        val item = lastToolHighlight ?: return
+        HeldItemTooltip.render(ScreenDrawing(drawContext, font), toolHighlightTimer, item)
         ci.cancel()
     }
 

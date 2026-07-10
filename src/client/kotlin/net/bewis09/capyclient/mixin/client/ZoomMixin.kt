@@ -15,6 +15,9 @@ class ZoomMixin {
     @Inject(method = [/*[@]*/"getFov"/*[!@]*/], at = [At("RETURN")], cancellable = true)
     // @[1.21.1] camera: net.minecraft.client.Camera, tickProgress: Float, changingFov: Boolean, cir: CallbackInfoReturnable<Double> @[1.21.11] camera: net.minecraft.client.Camera, tickProgress: Float, changingFov: Boolean, cir: CallbackInfoReturnable<Float> @[] cir: CallbackInfoReturnable<Float>
     fun inject(/*[@]*/camera: net.minecraft.client.Camera, tickProgress: Float, changingFov: Boolean, cir: CallbackInfoReturnable<Float>/*[!@]*/) {
-        cir.returnValue = cir.returnValue!! * getFactor()
+        val base = cir.returnValue
+        if (base != null) {
+            cir.returnValue = base * getFactor()
+        }
     }
 }

@@ -50,21 +50,65 @@ object BewisclientResourcePack : PackResources, ClientInterface {
 
     override fun getRootResource(vararg strings: String): IoSupplier<InputStream>? {
         if (strings.contentEquals(arrayOf("pack.png"))) {
-            return IoSupplier { client.resourceManager.getResource(createIdentifier("capyclient", "icon.png")).getOrNull()?.open()!! }
+            val iconId = createIdentifier("capyclient", "icon.png")
+            val iconRes = client.resourceManager.getResource(iconId).getOrNull()
+            if (iconRes != null) {
+                return IoSupplier { iconRes.open() }
+            }
+            // Icon not found — return null so Minecraft uses the default pack icon.
+            return null
         }
         return null
     }
 
     override fun listResources(packType: PackType, string: String, string2: String, resourceOutput: PackResources.ResourceOutput) {}
 
+    /**
+     * Lazily cached list of [CustomResourceProvider]s from API entrypoints.
+     * Built once after entrypoints are initialised and reused for the lifetime
+     * of the game session so we don't re-allocate+iterate on every vanilla
+     * resource lookup — especially important because this pack declares the
+     * "minecraft" namespace (needed for Panorama) and therefore gets queried
+     * for every single vanilla block/item/GUI texture.
+     */
+    @Volatile
+    private var cachedProviders: List<CustomResourceProvider>? = null
+
     override fun getResource(packType: PackType, identifier: Identifier): IoSupplier<InputStream>? {
         if (packType != PackType.CLIENT_RESOURCES) return null
 
-        APIEntrypointLoader.mapEntrypoint { it.getCustomResourceProviders() }.forEach { providers ->
-            providers.forEach { provider -> provider.provideResources(identifier)?.let { return it } }
+        // Fast path: only our own namespace and known-override paths need
+        // provider iteration — everything else returns immediately.
+        // Currently the only custom resource provider is Panorama, which
+        // overrides minecraft:textures/gui/title/background/panorama_X.png.
+        if (identifier.namespace != "capyclient" &&
+            !identifier.path.startsWith("textures/gui/title/background/panorama")) {
+            return null
+        }
+
+        val providers = cachedProviders ?: buildProviderList().also { cachedProviders = it }
+
+        for (provider in providers) {
+            try {
+                val result = provider.provideResources(identifier)
+                if (result != null) return result
+            } catch (_: Exception) {
+                // Swallow individual provider exceptions so a misbehaving
+                // feature doesn't silently break vanilla texture loading.
+            }
         }
 
         return null
+    }
+
+    private fun buildProviderList(): List<CustomResourceProvider> {
+        return try {
+            APIEntrypointLoader.mapEntrypoint { it.getCustomResourceProviders() }
+                .flatten()
+                .distinct()
+        } catch (_: Exception) {
+            emptyList()
+        }
     }
 
     override fun <T : Any> getMetadataSection(metadataSectionType: IndependentResourceMetadataSerializer<T>): T? = null

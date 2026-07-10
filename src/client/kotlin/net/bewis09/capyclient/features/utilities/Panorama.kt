@@ -205,7 +205,10 @@ object Panorama : ImageFeature(createIdentifier("capyclient","panorama"), "Panor
             for (i in 0..5) {
                 val identifier = createIdentifier("capyclient", directory.name.filter(::isAllowedInIdentifier) + "_" + i)
                 identifiers[i] = identifier
-                client.registerTexture(identifier, images[i]!!)
+                val pixelData = images[i]
+                if (pixelData != null) {
+                    client.registerTexture(identifier, pixelData)
+                }
             }
         }
     }

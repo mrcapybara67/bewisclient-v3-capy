@@ -27,6 +27,7 @@
     "KeyMappingAccessor",
     "PlayerRendererMixin",
     "ItemPhysicsMixin",
+    "FlatItemsMixin"
   ],
   "injectors": {
     "defaultRequire": 1
