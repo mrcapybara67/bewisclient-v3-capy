@@ -5,3 +5,4 @@ accessible class net/minecraft/client/renderer/FogRenderer$MobEffectFogFunction
 accessible class net/minecraft/client/renderer/FogRenderer$FogData
 accessible field net/minecraft/client/gui/GuiGraphics scissorStack Lnet/minecraft/client/gui/GuiGraphics$ScissorStack;
 accessible class net/minecraft/client/gui/GuiGraphics$ScissorStack
+accessible field net/minecraft/world/entity/Entity onGround Z

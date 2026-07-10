@@ -1,3 +1,4 @@
 accessWidener v1 named
 
 accessible class net/minecraft/client/Minecraft$GameLoadCookie
+accessible field net/minecraft/world/entity/Entity onGround Z
