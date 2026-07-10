@@ -7,6 +7,7 @@ import net.bewis09.capyclient.version.GuiGraphics
 import net.bewis09.capyclient.version.Hud
 import net.minecraft.client.Minecraft
 import net.minecraft.core.component.DataComponents
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.food.FoodProperties
 import net.minecraft.world.item.ItemStack
 import org.spongepowered.asm.mixin.Mixin
@@ -45,10 +46,9 @@ abstract class FoodSaturationOverlayMixin {
      */
     // @[1.21.8] "renderFoodLevel" @[] "renderFood"
     @Inject(method = [/*[@]*/"renderFood"/*[!@]*/], at = [At("RETURN")])
-    private fun onPostRenderFoodLevel(guiGraphics: GuiGraphics, ci: CallbackInfo) {
+    private fun onPostRenderFoodLevel(guiGraphics: GuiGraphics, player: Player, x: Int, y: Int, ci: CallbackInfo) {
         if (!FoodSaturationOverlay.isEnabled()) return
 
-        val player = mc().player ?: return
         val foodData = player.foodData
         val currentFood = foodData.foodLevel.toInt()
         val currentSaturation = foodData.saturationLevel.toFloat()
