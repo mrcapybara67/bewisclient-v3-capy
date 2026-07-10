@@ -192,17 +192,10 @@ object AutoGG : ImageFeature(createIdentifier("capyclient", "auto_gg"), "AutoGG"
         client.execute(Runnable {
             val now = System.currentTimeMillis()
             if (cooldown > 0 && now - lastSentAt < cooldown) return@Runnable
-            // Re-fetch on the main thread: by the time the lambda runs the
-            // captured connection may be closed. The previous build had a
-            // buggy `live !== earlyConnection && !live.connection.isConnected`
-            // guard that conflated reference identity with freshness — but
-            // `live` is the *current* connection reference, so just check
-            // whether the current connection is open. If it isn't, the player
-            // is mid-login / mid-logout and we must not send.
-            val live = Minecraft.getInstance().player?.connection
-            if (live == null || !live.connection.isConnected) {
-                return@Runnable
-            }
+            // Re-fetch on the main thread: the connection reference captured
+            // above (`earlyConnection`) could be stale by the time this lambda
+            // runs. Only proceed if the connection is still non-null.
+            val live = Minecraft.getInstance().player?.connection ?: return@Runnable
             lastSentAt = now
             val pick: String = if (useCustom.get()) candidates.first() else candidates[(now / 1000L % candidates.size).toInt()]
             live.sendChat(pick)
