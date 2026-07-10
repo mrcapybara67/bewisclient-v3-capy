@@ -42,10 +42,9 @@ abstract class FoodSaturationOverlayMixin {
     /**
      * Inject AFTER the food level is rendered to draw the saturation
      * overlay and food preview.
-     *
-     * @[1.21.8] "renderFoodLevel" @[] "renderFood"
      */
-    @Inject(method = [/*[@]*/"renderFoodLevel"/*[!@]*/], at = [At("RETURN")])
+    // @[1.21.8] "renderFoodLevel" @[] "renderFood"
+    @Inject(method = [/*[@]*/"renderFood"/*[!@]*/], at = [At("RETURN")])
     private fun onPostRenderFoodLevel(guiGraphics: GuiGraphics, ci: CallbackInfo) {
         if (!FoodSaturationOverlay.isEnabled()) return
 
