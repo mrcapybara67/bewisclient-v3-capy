@@ -38,15 +38,25 @@ abstract class FlatItemsMixin {
     @Shadow
     private var bobOffset: Float = 0f
 
+    @Unique
+    private val mc: Minecraft get() = Minecraft.getInstance()
+
+    /**
+     * Cached yaw value to avoid recalculating billboard in postTick
+     * when the value hasn't changed since preTick.
+     */
+    @Unique
+    private var capyclientLastBillboardYaw: Float = Float.MAX_VALUE
+
     /**
      * Calculates the yaw (in degrees) that would make this item
-     * face toward the nearest player.  Returns [Float.MAX_VALUE]
-     * when no player is available or the item is on the player's
-     * exact position (to avoid atan2(0,0)).
+     * face toward the nearest player.  Uses lazy [mc] accessor.
+     * Returns [Float.MAX_VALUE] when no player is available or the
+     * item is on the player's exact position (to avoid atan2(0,0)).
      */
     @Unique
     private fun capyclientBillboardYaw(self: ItemEntity): Float {
-        val player = Minecraft.getInstance().player ?: return Float.MAX_VALUE
+        val player = mc.player ?: return Float.MAX_VALUE
         val dx = player.x - self.x
         val dz = player.z - self.z
         if (dx == 0.0 && dz == 0.0) return Float.MAX_VALUE
@@ -66,6 +76,7 @@ abstract class FlatItemsMixin {
             if (yaw != Float.MAX_VALUE) {
                 self.yRot = yaw
                 self.yRotO = yaw
+                capyclientLastBillboardYaw = yaw
                 return
             }
         }
@@ -101,7 +112,21 @@ abstract class FlatItemsMixin {
         // Neutralize bob offset again after vanilla tick
         bobOffset = 0f
 
-        capyclientFreezeRotation(self)
+        // Re-freeze rotation — use cached billboard yaw if available
+        // to avoid recalculating atan2 a second time
+        if (FlatItems.billboard.get() && capyclientLastBillboardYaw != Float.MAX_VALUE) {
+            self.yRot = capyclientLastBillboardYaw
+            self.yRotO = capyclientLastBillboardYaw
+        } else {
+            self.yRot = 0f
+            self.yRotO = 0f
+        }
+
+        // Preserve xRot when ItemPhysics wobble is active
+        if (!ItemPhysics.isEnabled() || !ItemPhysics.wobble.get()) {
+            self.xRot = 0f
+            self.xRotO = 0f
+        }
 
         // Keep items flat on the ground
         if (self.onGround) {

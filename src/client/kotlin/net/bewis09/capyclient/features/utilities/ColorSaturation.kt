@@ -5,10 +5,6 @@ import net.bewis09.capyclient.common.setColor
 import net.bewis09.capyclient.drawable.Renderable
 import net.bewis09.capyclient.game.keybinds.Keybind
 import net.bewis09.capyclient.settings.structure.ImageFeature
-import net.minecraft.client.Minecraft
-import net.minecraft.world.food.FoodData
-import net.minecraft.world.food.FoodProperties
-import net.minecraft.world.item.ItemStack
 import org.lwjgl.glfw.GLFW
 
 /**
@@ -66,33 +62,5 @@ object ColorSaturation : ImageFeature(createIdentifier("capyclient", "color_satu
             "Display translucent hunger shanks when holding a food item, showing how much hunger would be restored.",
             "show_food_preview"
         )
-    }
-
-    // ---- Utility methods used by the mixin ----
-
-    /**
-     * Returns the [FoodData] for the current player, or null.
-     */
-    fun getFoodData(): FoodData? {
-        return Minecraft.getInstance().player?.foodData
-    }
-
-    /**
-     * Returns the held item stack, favouring the main hand.
-     */
-    fun getHeldItem(): ItemStack? {
-        val player = Minecraft.getInstance().player ?: return null
-        val mainHand = player.mainHandItem
-        if (mainHand.isEdible) return mainHand
-        val offHand = player.offhandItem
-        if (offHand.isEdible) return offHand
-        return null
-    }
-
-    /**
-     * Returns the [FoodProperties] for the given stack, or null.
-     */
-    fun getFoodProperties(stack: ItemStack): FoodProperties? {
-        return stack.item.foodProperties
     }
 }

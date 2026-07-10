@@ -2,7 +2,6 @@
 
 package net.bewis09.capyclient.mixin.client
 
-import net.bewis09.capyclient.features.utilities.FlatItems
 import net.bewis09.capyclient.features.utilities.ItemPhysics
 import net.minecraft.world.entity.item.ItemEntity
 import org.spongepowered.asm.mixin.Mixin
@@ -22,6 +21,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
  * (yaw changes every tick), making items spin in the air.  This mixin
  * resets the rotation so items lie flat on the ground and optionally
  * adds a realistic fall wobble.
+ *
+ * Note: Wobble only applies while the item is in the air (not on ground).
+ * Once the item lands, layFlat takes over to keep it flat on the ground.
  */
 @Mixin(ItemEntity::class)
 abstract class ItemPhysicsMixin {
@@ -30,15 +32,13 @@ abstract class ItemPhysicsMixin {
     private var physicsWobble: Float = 0f
 
     /**
-     * Check if ItemPhysics should be active — requires both
-     * ItemPhysics and FlatItems to be enabled.
+     * Check if ItemPhysics should be active.
+     * ItemPhysics.isEnabled() already checks FlatItems.isEnabled(),
+     * so we only need to check ItemPhysics here.
      */
     @Unique
     private fun capyclientCanApplyItemPhysics(): Boolean {
-        if (!ItemPhysics.isEnabled()) return false
-        // Item Physics requires 2D Items (FlatItems) to be active
-        if (!FlatItems.isEnabled()) return false
-        return true
+        return ItemPhysics.isEnabled()
     }
 
     // @[1.21.11] "tick" @[] "onEntityTick"
@@ -54,15 +54,10 @@ abstract class ItemPhysicsMixin {
             // the spinning effect.  We freeze it at 0.
             self.yRot = 0f
             self.yRotO = 0f
-
-            // When on the ground, tilt to lie flat
-            if (self.onGround) {
-                self.xRot = -90f
-                self.xRotO = -90f
-            }
         }
 
-        if (ItemPhysics.wobble.get()) {
+        // Wobble only applies while falling — once on ground, lay flat
+        if (!self.onGround && ItemPhysics.wobble.get()) {
             // Simulate a gentle wobble as items fall — varies by age
             // so each item falls slightly differently.
             physicsWobble = (self.age % 60).toFloat() / 60f * 360f
@@ -70,8 +65,7 @@ abstract class ItemPhysicsMixin {
             self.xRot = kotlin.math.sin(physicsWobble * 0.1f) * 5f
             self.xRotO = self.xRot
         } else if (ItemPhysics.layFlat.get()) {
-            // Lay-flat without wobble: freeze xRot at 0 for flying,
-            // or -90 when on ground.
+            // Lay-flat: on ground = -90, in air = 0
             if (self.onGround) {
                 self.xRot = -90f
                 self.xRotO = -90f
@@ -94,15 +88,10 @@ abstract class ItemPhysicsMixin {
             // Keep the rotation frozen even after vanilla tick resets it.
             self.yRot = 0f
             self.yRotO = 0f
-
-            // Keep flat on ground
-            if (self.onGround) {
-                self.xRot = -90f
-                self.xRotO = -90f
-            }
         }
 
-        if (ItemPhysics.wobble.get()) {
+        // Wobble only while falling, flat when on ground
+        if (!self.onGround && ItemPhysics.wobble.get()) {
             // Re-apply wobble in case layFlat cleared it.
             self.xRot = kotlin.math.sin(physicsWobble * 0.1f) * 5f
             self.xRotO = self.xRot

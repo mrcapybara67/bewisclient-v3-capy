@@ -33,6 +33,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 abstract class FoodSaturationOverlayMixin {
 
     /**
+     * Lazy Minecraft accessor to avoid eager getInstance() at class-load time.
+     */
+    @Unique
+    private val mc: Minecraft get() = Minecraft.getInstance()
+
+    /**
      * Inject AFTER the food level is rendered to draw the saturation
      * overlay and food preview on top.
      *
@@ -42,13 +48,13 @@ abstract class FoodSaturationOverlayMixin {
     private fun onPostRenderFoodLevel(guiGraphics: GuiGraphics, ci: CallbackInfo) {
         if (!ColorSaturation.isEnabled()) return
 
-        val player = Minecraft.getInstance().player ?: return
+        val player = mc.player ?: return
         val foodData = player.foodData
         val currentFood = foodData.foodLevel
         val currentSaturation = foodData.saturationLevel
 
-        val screenWidth = Minecraft.getInstance().window.guiScaledWidth
-        val screenHeight = Minecraft.getInstance().window.guiScaledHeight
+        val screenWidth = mc.window.guiScaledWidth
+        val screenHeight = mc.window.guiScaledHeight
 
         // Food bar position (vanilla: right side, above hotbar)
         val startX = screenWidth / 2 + 91
@@ -102,7 +108,7 @@ abstract class FoodSaturationOverlayMixin {
 
     @Unique
     private fun getHeldEdible(): ItemStack? {
-        val player = Minecraft.getInstance().player ?: return null
+        val player = mc.player ?: return null
         val mainHand = player.mainHandItem
         if (mainHand.isEdible) return mainHand
         val offHand = player.offhandItem
