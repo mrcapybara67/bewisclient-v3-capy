@@ -22,9 +22,9 @@ import org.spongepowered.asm.mixin.injection.Redirect;
  * from RGB to HSL, the S component is multiplied by the configured
  * saturation strength (default 1.4×), and the result is written back.
  *
- * Performance: a {@code dirty} flag tracks whether any pixel actually
- * changed since the last call, so we skip the pixel loop (and the
- * second {@code upload()}) when saturation strength hasn't changed.
+ * Because the lightmap pixels are recomputed every frame by vanilla,
+ * saturation is re-applied every frame.  No stale-cache optimisations
+ * are used — the pixel loop (16×16 = 256 pixels) is fast enough.
  */
 @Mixin(LightTexture.class)
 public abstract class ColorSaturationMixin {
