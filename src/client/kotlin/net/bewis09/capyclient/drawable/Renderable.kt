@@ -53,7 +53,13 @@ abstract class Renderable(
      * Should be called at some point in the rendering process.
      */
     open fun renderRenderables(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
-        ArrayList(renderables).forEach { it.render(screenDrawing, mouseX, mouseY) }
+        // Direct iteration avoids an unnecessary ArrayList copy every frame.
+        // renderables is stable during rendering (mutations only happen in
+        // resize(), which is called between frames).
+        val count = renderables.size
+        for (i in 0 until count) {
+            renderables[i].render(screenDrawing, mouseX, mouseY)
+        }
     }
 
     fun <T : Renderable> addRenderable(renderable: T): T = renderable.also { renderables.add(it) }
@@ -61,7 +67,11 @@ abstract class Renderable(
     fun resize() {
         renderables.clear()
         init()
-        ArrayList(renderables).forEach { it.resize() }
+        // Direct iteration — same reasoning as renderRenderables.
+        val count = renderables.size
+        for (i in 0 until count) {
+            renderables[i].resize()
+        }
     }
 
     fun setX(x: Int): Renderable {

@@ -104,6 +104,14 @@ abstract class PopupScreen : Renderable() {
     }
 
     override fun renderRenderables(screenDrawing: ScreenDrawing, mouseX: Int, mouseY: Int) {
-        ArrayList(renderables).forEach { if (it == popup) return@forEach; it.render(screenDrawing, mouseX, mouseY) }
+        // Direct iteration avoids an unnecessary ArrayList copy.
+        // Render the popup LAST (on top).
+        val count = renderables.size
+        for (i in 0 until count) {
+            val renderable = renderables[i]
+            if (renderable == popup) continue // render popup last
+            renderable.render(screenDrawing, mouseX, mouseY)
+        }
+        popup?.render(screenDrawing, mouseX, mouseY)
     }
 }

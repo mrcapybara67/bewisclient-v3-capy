@@ -23,12 +23,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 @Mixin(ItemEntity::class)
 abstract class ItemPhysicsMixin {
 
-    @Shadow
-    private var age: Int = 0
-
-    @Shadow
-    private var pickupDelay: Int = 0
-
     @Unique
     private var physicsWobble: Float = 0f
 
@@ -37,7 +31,7 @@ abstract class ItemPhysicsMixin {
     private fun onPreTick(ci: CallbackInfo) {
         if (!ItemPhysics.isEnabled()) return
 
-        val self = this as ItemEntity
+        val self = this as Any as ItemEntity
 
         if (ItemPhysics.layFlat.get()) {
             // Reset yaw so items don't spin.  Vanilla increments yaw
@@ -45,8 +39,6 @@ abstract class ItemPhysicsMixin {
             // the spinning effect.  We freeze it at 0.
             self.yRot = 0f
             self.yRotO = 0f
-            self.xRot = 0f
-            self.xRotO = 0f
         }
 
         if (ItemPhysics.wobble.get()) {
@@ -55,6 +47,11 @@ abstract class ItemPhysicsMixin {
             physicsWobble = (self.age % 60).toFloat() / 60f * 360f
             // Apply a slight tilt that changes over time.
             self.xRot = kotlin.math.sin(physicsWobble * 0.1f) * 5f
+            self.xRotO = self.xRot
+        } else if (ItemPhysics.layFlat.get()) {
+            // Lay-flat without wobble: freeze xRot at 0.
+            self.xRot = 0f
+            self.xRotO = 0f
         }
     }
 
@@ -64,12 +61,20 @@ abstract class ItemPhysicsMixin {
     private fun onPostTick(ci: CallbackInfo) {
         if (!ItemPhysics.isEnabled()) return
 
-        val self = this as ItemEntity
+        val self = this as Any as ItemEntity
 
         if (ItemPhysics.layFlat.get()) {
             // Keep the rotation frozen even after vanilla tick resets it.
             self.yRot = 0f
             self.yRotO = 0f
+        }
+
+        if (ItemPhysics.wobble.get()) {
+            // Re-apply wobble in case layFlat cleared it.
+            self.xRot = kotlin.math.sin(physicsWobble * 0.1f) * 5f
+            self.xRotO = self.xRot
+        } else if (ItemPhysics.layFlat.get()) {
+            // Lay-flat without wobble: keep xRot frozen at 0.
             self.xRot = 0f
             self.xRotO = 0f
         }

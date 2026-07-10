@@ -311,7 +311,7 @@ object TiwylaWidget : ScalableWidget(
             if (data.state.`is`(BlockTags.MINEABLE_WITH_AXE)) return@Line toolText(axeToolText.getTranslatedString())
             if (data.state.`is`(BlockTags.MINEABLE_WITH_PICKAXE)) return@Line toolText(pickaxeToolText.getTranslatedString())
             if (data.state.`is`(BlockTags.MINEABLE_WITH_HOE)) return@Line toolText(hoeToolText.getTranslatedString())
-            if (data.state.`is`(BlockTags.MINEABLE_WITH_HOE)) return@Line toolText(shovelToolText.getTranslatedString())
+            if (data.state.`is`(BlockTags.MINEABLE_WITH_SHOVEL)) return@Line toolText(shovelToolText.getTranslatedString())
             if (data.state.`is`(BlockTags.SWORD_EFFICIENT)) return@Line toolText(swordToolText.getTranslatedString())
             return@Line toolText(noneToolText.getTranslatedString())
         }, "tool", 0)
