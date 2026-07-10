@@ -41,7 +41,7 @@ abstract class CategorizedFeature(id: Identifier, titleText: String) : Feature(i
 
     open fun enabledListener(oldValue: Boolean?, newValue: Boolean?) {}
 
-    fun isEnabled(): Boolean = enabled.get()
+    open fun isEnabled(): Boolean = enabled.get()
 
     abstract fun createRenderable(): SettingCategory
 

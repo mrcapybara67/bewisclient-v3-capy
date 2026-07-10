@@ -2,6 +2,7 @@ package net.bewis09.capyclient.features.cosmetics
 
 import com.google.gson.Gson
 import com.mojang.authlib.GameProfile
+import net.bewis09.capyclient.common.Color
 import net.bewis09.capyclient.common.Identifier
 import net.bewis09.capyclient.common.Util
 import net.bewis09.capyclient.common.catch

@@ -5,6 +5,7 @@ import net.bewis09.capyclient.common.Identifier
 import net.bewis09.capyclient.common.alpha
 import net.bewis09.capyclient.common.color
 import net.bewis09.capyclient.common.createIdentifier
+import net.bewis09.capyclient.common.name
 import net.bewis09.capyclient.common.toText
 import net.bewis09.capyclient.drawable.Renderable
 import net.bewis09.capyclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
@@ -16,6 +17,7 @@ import net.bewis09.capyclient.widget.logic.RelativePosition
 import net.bewis09.capyclient.widget.logic.TOP
 import net.bewis09.capyclient.widget.logic.WidgetPosition
 import net.bewis09.capyclient.widget.types.LineWidget
+import net.bewis09.capyclient.common.staticFun
 import net.bewis09.capyclient.widget.types.ScalableWidget
 import net.minecraft.SharedConstants
 import net.minecraft.core.component.DataComponents

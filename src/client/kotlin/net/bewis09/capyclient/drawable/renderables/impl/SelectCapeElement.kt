@@ -5,6 +5,7 @@ import net.bewis09.capyclient.common.Identifier
 import net.bewis09.capyclient.common.alpha
 import net.bewis09.capyclient.common.color
 import net.bewis09.capyclient.common.createIdentifier
+import net.bewis09.capyclient.common.within
 import net.bewis09.capyclient.common.`snake_toWord With Spaces`
 import net.bewis09.capyclient.cosmetics.CosmeticIdentifier
 import net.bewis09.capyclient.cosmetics.CosmeticType

@@ -9,7 +9,6 @@ import net.bewis09.capyclient.widget.logic.WidgetPosition
 import net.bewis09.capyclient.widget.types.LineWidget
 import java.text.DateFormat
 import java.time.Instant
-import java.text.DateFormat
 import java.util.Date
 import java.util.Locale
 

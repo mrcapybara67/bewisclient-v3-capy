@@ -39,8 +39,11 @@ abstract class FlatItemsMixin {
     @Shadow
     private var bobOffset: Float = 0f
 
+    @Shadow
+    private var onGround: Boolean = false
+
     @Unique
-    private val mc: Minecraft get() = Minecraft.getInstance()
+    private fun mc(): Minecraft = Minecraft.getInstance()
 
     /**
      * Cached yaw value to avoid recalculating billboard in postTick.
@@ -55,7 +58,7 @@ abstract class FlatItemsMixin {
      */
     @Unique
     private fun capyclientBillboardYaw(self: ItemEntity): Float {
-        val player = mc.player ?: return Float.MAX_VALUE
+        val player = mc().player ?: return Float.MAX_VALUE
         val dx = player.x - self.x
         val dz = player.z - self.z
         if (dx == 0.0 && dz == 0.0) return Float.MAX_VALUE
@@ -105,7 +108,7 @@ abstract class FlatItemsMixin {
         capyclientFreezeRotation(self)
 
         // When on the ground, tilt items so they lie flat
-        if (self.onGround) {
+        if (onGround) {
             self.xRot = -90f
             self.xRotO = -90f
         }
@@ -135,7 +138,7 @@ abstract class FlatItemsMixin {
         }
 
         // Keep items flat on the ground
-        if (self.onGround) {
+        if (onGround) {
             self.xRot = -90f
             self.xRotO = -90f
         }

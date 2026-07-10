@@ -6,6 +6,7 @@ import net.bewis09.capyclient.common.Identifier
 import net.bewis09.capyclient.common.alpha
 import net.bewis09.capyclient.common.color
 import net.bewis09.capyclient.common.createIdentifier
+import net.bewis09.capyclient.common.setColor
 import net.bewis09.capyclient.common.toText
 import net.bewis09.capyclient.drawable.Animator
 import net.bewis09.capyclient.drawable.renderables.settings.SettingRenderable

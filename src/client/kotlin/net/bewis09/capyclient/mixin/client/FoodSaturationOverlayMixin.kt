@@ -6,6 +6,8 @@ import net.bewis09.capyclient.features.utilities.ColorSaturation
 import net.bewis09.capyclient.version.GuiGraphics
 import net.bewis09.capyclient.version.Hud
 import net.minecraft.client.Minecraft
+import net.minecraft.core.component.DataComponents
+import net.minecraft.world.food.FoodProperties
 import net.minecraft.world.item.ItemStack
 import org.spongepowered.asm.mixin.Mixin
 import org.spongepowered.asm.mixin.Unique
@@ -35,7 +37,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 abstract class FoodSaturationOverlayMixin {
 
     @Unique
-    private val mc: Minecraft get() = Minecraft.getInstance()
+    private fun mc(): Minecraft = Minecraft.getInstance()
 
     /**
      * Inject AFTER the food level is rendered to draw the saturation
@@ -47,13 +49,13 @@ abstract class FoodSaturationOverlayMixin {
     private fun onPostRenderFoodLevel(guiGraphics: GuiGraphics, ci: CallbackInfo) {
         if (!ColorSaturation.isEnabled()) return
 
-        val player = mc.player ?: return
+        val player = mc().player ?: return
         val foodData = player.foodData
-        val currentFood = foodData.foodLevel
-        val currentSaturation = foodData.saturationLevel
+        val currentFood = foodData.foodLevel.toInt()
+        val currentSaturation = foodData.saturationLevel.toFloat()
 
-        val screenWidth = mc.window.guiScaledWidth
-        val screenHeight = mc.window.guiScaledHeight
+        val screenWidth = mc().window.guiScaledWidth.toInt()
+        val screenHeight = mc().window.guiScaledHeight.toInt()
 
         // Food bar position (vanilla)
         val startX = screenWidth / 2 + 91
@@ -64,17 +66,17 @@ abstract class FoodSaturationOverlayMixin {
         // ---- 1. Saturation overlay (golden bars on existing hunger) ----
         if (ColorSaturation.showSaturationBar.get() && currentSaturation > 0.0f) {
             // Saturation is in half-shanks (0-20). Convert to shank index (0-10).
-            val shanks = (currentSaturation / 2.0f).coerceAtMost(10.0f).toInt()
+            val shanks = (currentSaturation / 2.0f).coerceAtMost(10f).toInt()
             if (shanks > 0) {
                 // Draw a bright gold bar over the saturated portion of the food bar
                 for (i in 0 until shanks) {
-                    val sx = startX - i * step - shankW
+                    val sx = (startX - i * step - shankW).toInt()
                     if (sx < 0) break
 
-                    val isFull = (i * 2 + 2) <= currentSaturation.toInt()
+                    val isFull = (i * 2 + 2) <= currentSaturation.toInt().coerceAtMost(20)
                     // Use bright, visible colors: AARRGGBB
-                    val color = if (isFull) 0xBBFFD700  // Bright gold, 73% alpha
-                                else 0x88B8860B         // Dark gold, 53% alpha
+                    val color = if (isFull) 0xBBFFD700.toInt()  // Bright gold, 73% alpha
+                                else 0x88B8860B.toInt()         // Dark gold, 53% alpha
 
                     guiGraphics.fill(sx, startY, sx + shankW, startY + 8, color)
                 }
@@ -84,9 +86,9 @@ abstract class FoodSaturationOverlayMixin {
         // ---- 2. Food preview (restoration preview when holding food) ----
         if (ColorSaturation.showFoodPreview.get()) {
             val heldFood = getHeldEdible()
-            val foodProps = heldFood?.item?.foodProperties ?: return
+            val foodProps: FoodProperties = heldFood?.get(DataComponents.FOOD) ?: return
 
-            val nutrition = foodProps.nutrition
+            val nutrition = foodProps.nutrition().toInt()
             if (nutrition <= 0) return
 
             // Calculate how many additional shanks would be restored
@@ -100,20 +102,20 @@ abstract class FoodSaturationOverlayMixin {
                 val shankIdx = currentFullShanks + i
                 if (shankIdx >= 10) break
 
-                val sx = startX - shankIdx * step - shankW
+                val sx = (startX - shankIdx * step - shankW).toInt()
                 if (sx < 0) break
 
                 // Visible orange-red: A=0x99(60%), R=FF, G=55, B=00
-                guiGraphics.fill(sx, startY, sx + shankW, startY + 8, 0x99FF5500)
+                guiGraphics.fill(sx, startY, sx + shankW, startY + 8, 0x99FF5500.toInt())
             }
 
             // Draw half-shank indicator if odd nutrition
             if (showHalfShank && currentFullShanks + previewFullShanks < 10) {
                 val shankIdx = currentFullShanks + previewFullShanks
-                val sx = startX - shankIdx * step - shankW
+                val sx = (startX - shankIdx * step - shankW).toInt()
                 if (sx >= 0) {
                     // Half-width bar: draw only the left half of the shank
-                    guiGraphics.fill(sx, startY, sx + shankW / 2, startY + 8, 0x99FF5500)
+                    guiGraphics.fill(sx, startY, sx + shankW / 2, startY + 8, 0x99FF5500.toInt())
                 }
             }
         }
@@ -121,11 +123,11 @@ abstract class FoodSaturationOverlayMixin {
 
     @Unique
     private fun getHeldEdible(): ItemStack? {
-        val player = mc.player ?: return null
+        val player = mc().player ?: return null
         val mainHand = player.mainHandItem
-        if (mainHand.isEdible) return mainHand
+        if (mainHand.has(DataComponents.FOOD)) return mainHand
         val offHand = player.offhandItem
-        if (offHand.isEdible) return offHand
+        if (offHand.has(DataComponents.FOOD)) return offHand
         return null
     }
 }

@@ -5,6 +5,8 @@ import com.google.gson.JsonElement
 import net.bewis09.capyclient.common.Color
 import net.bewis09.capyclient.common.Identifier
 import net.bewis09.capyclient.common.createIdentifier
+import net.bewis09.capyclient.common.id
+import net.bewis09.capyclient.common.setColor
 import net.bewis09.capyclient.common.toText
 import net.bewis09.capyclient.common.catch
 // warn() and findAllResources() inherited via EventEntrypoint → ClientInterface

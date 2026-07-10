@@ -116,7 +116,7 @@ object BewisclientResourcePack : PackResources, ClientInterface {
 
     override fun location(): PackLocationInfo = packInfo
 
-    override fun getNamespaces(type: PackType): Set<String> = setOf("capyclient", "minecraft")
+    override fun getNamespaces(type: PackType): MutableSet<String> = HashSet(listOf("capyclient", "minecraft"))
 
     override fun close() {}
 

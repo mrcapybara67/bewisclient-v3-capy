@@ -5,7 +5,9 @@ import net.bewis09.capyclient.common.Identifier
 import net.bewis09.capyclient.common.alpha
 import net.bewis09.capyclient.common.color
 import net.bewis09.capyclient.common.createIdentifier
+import net.bewis09.capyclient.common.getOrNull
 import net.bewis09.capyclient.common.snake_toCamelCase
+import net.bewis09.capyclient.common.staticFun
 import net.bewis09.capyclient.drawable.Renderable
 import net.bewis09.capyclient.drawable.renderables.components.element.Rectangle
 import net.bewis09.capyclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable

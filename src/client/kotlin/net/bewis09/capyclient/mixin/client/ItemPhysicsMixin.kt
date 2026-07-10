@@ -6,6 +6,7 @@ import net.bewis09.capyclient.features.utilities.ItemPhysics
 import net.minecraft.client.Minecraft
 import net.minecraft.world.entity.item.ItemEntity
 import org.spongepowered.asm.mixin.Mixin
+import org.spongepowered.asm.mixin.Shadow
 import org.spongepowered.asm.mixin.Unique
 import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
@@ -26,8 +27,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 @Mixin(ItemEntity::class)
 abstract class ItemPhysicsMixin {
 
+    @Shadow
+    private var onGround: Boolean = false
+
     @Unique
-    private val mc: Minecraft get() = Minecraft.getInstance()
+    private fun mc(): Minecraft = Minecraft.getInstance()
 
     /** Cached wobble values to avoid recomputing in postTick. */
     @Unique
@@ -46,7 +50,7 @@ abstract class ItemPhysicsMixin {
     /** Max distance in blocks for physics to apply (squared, avoids sqrt). */
     @Unique
     private fun capyclientIsNearPlayer(self: ItemEntity): Boolean {
-        val player = mc.player ?: return false
+        val player = mc().player ?: return false
         val dx = player.x - self.x
         val dz = player.z - self.z
         return (dx * dx + dz * dz) < 4096.0  // 64² = 4096
@@ -84,10 +88,10 @@ abstract class ItemPhysicsMixin {
         if (!capyclientIsNearPlayer(self)) return
 
         // === Detect landing: reduce bounce velocity ===
-        if (!capyclientWasOnGround && self.onGround) {
+        if (!capyclientWasOnGround && onGround) {
             self.setDeltaMovement(self.deltaMovement.x * 0.8, -0.05, self.deltaMovement.z * 0.8)
         }
-        capyclientWasOnGround = self.onGround
+        capyclientWasOnGround = onGround
 
         if (ItemPhysics.layFlat.get()) {
             self.yRot = 0f
@@ -96,7 +100,7 @@ abstract class ItemPhysicsMixin {
 
         // === Wobble (only while falling, not on ground) — computed ONCE ===
         cachedWobbleActive = false
-        if (!self.onGround && ItemPhysics.wobble.get() && self.deltaMovement.y < -0.01) {
+        if (!onGround && ItemPhysics.wobble.get() && self.deltaMovement.y < -0.01) {
             val velY = self.deltaMovement.y
             val fallSpeed = (velY.coerceAtLeast(-1.0) * -10.0f).toFloat()
 
@@ -113,7 +117,7 @@ abstract class ItemPhysicsMixin {
             self.xRot = clamped
             self.xRotO = clamped
         } else if (ItemPhysics.layFlat.get()) {
-            if (self.onGround) {
+            if (onGround) {
                 self.xRot = -90f
                 self.xRotO = -90f
             } else {
@@ -133,7 +137,7 @@ abstract class ItemPhysicsMixin {
         if (!capyclientIsNearPlayer(self)) return
 
         // === Reduce ground bounce ===
-        if (self.onGround && self.deltaMovement.y < -0.01) {
+        if (onGround && self.deltaMovement.y < -0.01) {
             self.setDeltaMovement(self.deltaMovement.x, self.deltaMovement.y * 0.3, self.deltaMovement.z)
         }
 
@@ -147,7 +151,7 @@ abstract class ItemPhysicsMixin {
             self.xRot = cachedWobbleXRot
             self.xRotO = cachedWobbleXRot
         } else if (ItemPhysics.layFlat.get()) {
-            if (self.onGround) {
+            if (onGround) {
                 self.xRot = -90f
                 self.xRotO = -90f
             } else {

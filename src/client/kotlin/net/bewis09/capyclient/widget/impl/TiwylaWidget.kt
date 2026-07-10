@@ -10,6 +10,10 @@ import net.bewis09.capyclient.common.alpha
 import net.bewis09.capyclient.common.catch
 import net.bewis09.capyclient.common.color
 import net.bewis09.capyclient.common.createIdentifier
+import net.bewis09.capyclient.common.blockId
+import net.bewis09.capyclient.common.entityId
+import net.bewis09.capyclient.common.getOrNull
+import net.bewis09.capyclient.common.setColor
 import net.bewis09.capyclient.common.toText
 // warn() inherited from BewisclientLogger (via EventEntrypoint → ClientInterface)
 import net.bewis09.capyclient.common.snake_toCamelCase
