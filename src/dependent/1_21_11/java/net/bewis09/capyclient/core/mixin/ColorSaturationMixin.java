@@ -7,57 +7,68 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.lang.reflect.Field;
 
 /**
- * Mixes into {@link LightTexture#updateLightTexture} by redirecting
- * the {@link DynamicTexture#upload()} call so we can post-process
- * the light-map pixels and boost colour saturation before they are
- * uploaded to the GPU.
+ * Mixes into {@link LightTexture#updateLightTexture} to boost colour
+ * saturation after the vanilla light-map is computed.
  *
- * This approach avoids touching any private field of {@code LightTexture}
- * directly, which sidesteps Mojang-mapping / remap issues entirely.
+ * Unlike a {@code @Redirect} on {@code DynamicTexture.upload()} (which
+ * fails in 1.21.11 + VulkanMod because the render-pipeline may bypass
+ * the direct {@code upload()} call inside {@code updateLightTexture}),
+ * this mixin uses a plain {@code @Inject} at RETURN and accesses the
+ * {@code DynamicTexture} field via cached reflection.  This sidesteps
+ * ALL remap / target-resolution issues.
  *
- * After the vanilla pixel computation finishes, each pixel is converted
- * from RGB to HSL, the S component is multiplied by the configured
- * saturation strength (default 1.4×), and the result is written back.
- *
- * Because the lightmap pixels are recomputed every frame by vanilla,
- * saturation is re-applied every frame.  No stale-cache optimisations
- * are used — the pixel loop (16×16 = 256 pixels) is fast enough.
+ * Each pixel is converted from RGB to HSL, the S component is multiplied
+ * by the configured saturation strength (default 1.4×), and written back.
+ * The texture is then re-uploaded so the GPU sees the saturated data.
  */
 @Mixin(LightTexture.class)
 public abstract class ColorSaturationMixin {
 
     /**
-     * Redirects {@code this.lightTexture.upload()} inside
-     * {@code updateLightTexture}.  Every frame the vanilla code fills
-     * the NativeImage with fresh lighting data, then calls upload.
-     * We intercept that call, apply HSL saturation to each pixel,
-     * and forward the upload.
-     *
-     * Because the lightmap pixels are recomputed every frame we MUST
-     * re-apply saturation every frame — a stale dirty-flag would
-     * cause vanilla (unsaturated) pixels to reach the GPU.
-     * The only optimisation we keep is skipping {@code texture.upload()}
-     * when no pixel actually changed (rare but possible when the
-     * entire lightmap is achromatic).
+     * Cached reflective handle for the {@code DynamicTexture} field inside
+     * {@code LightTexture}.  Resolved once on first access.
      */
-    @Redirect(
-        method = "updateLightTexture",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/texture/AbstractTexture;upload()V")
-    )
-    private void capyclient$onUpload(DynamicTexture texture) {
-        if (!ColorSaturation.INSTANCE.isEnabled()) {
-            texture.upload();
-            return;
+    @Unique
+    private static Field capyclient$textureField = null;
+
+    @Unique
+    private static boolean capyclient$fieldResolved = false;
+
+    @Unique
+    private static DynamicTexture capyclient$resolveTexture(LightTexture self) {
+        if (!capyclient$fieldResolved) {
+            for (Field f : LightTexture.class.getDeclaredFields()) {
+                if (DynamicTexture.class.isAssignableFrom(f.getType())) {
+                    f.setAccessible(true);
+                    capyclient$textureField = f;
+                    break;
+                }
+            }
+            capyclient$fieldResolved = true;
         }
+        if (capyclient$textureField == null) return null;
+        try {
+            return (DynamicTexture) capyclient$textureField.get(self);
+        } catch (IllegalAccessException e) {
+            return null;
+        }
+    }
+
+    @Inject(method = "updateLightTexture", at = @At("RETURN"))
+    private void capyclient$applySaturation(float partialTicks, CallbackInfo ci) {
+        if (!ColorSaturation.INSTANCE.isEnabled()) return;
 
         float strength = ColorSaturation.INSTANCE.getSaturationStrength().get();
-        if (strength <= 1.0f) {
-            texture.upload();
-            return; // vanilla — nothing to do
-        }
+        if (strength <= 1.0f) return;
+
+        DynamicTexture texture = capyclient$resolveTexture((LightTexture) (Object) this);
+        if (texture == null) return;
 
         applySaturation(texture, strength);
         texture.upload();
@@ -87,15 +98,13 @@ public abstract class ColorSaturationMixin {
                 float min = Math.min(rf, Math.min(gf, bf));
                 float delta = max - min;
 
-                if (delta < 0.001f) continue; // achromatic — skip
+                if (delta < 0.001f) continue;
 
                 float l = (max + min) / 2.0f;
                 float s = delta / (1.0f - Math.abs(2.0f * l - 1.0f));
 
-                // Apply the saturation multiplier
                 s = Math.min(1.0f, s * strength);
 
-                // Compute hue once per pixel
                 float hue;
                 if (max == rf) {
                     hue = ((gf - bf) / delta) / 6.0f;
@@ -105,7 +114,6 @@ public abstract class ColorSaturationMixin {
                     hue = ((rf - gf) / delta + 4.0f) / 6.0f;
                 }
 
-                // HSL → RGB
                 float q = l < 0.5f ? l * (1.0f + s) : l + s - l * s;
                 float p = 2.0f * l - q;
 
