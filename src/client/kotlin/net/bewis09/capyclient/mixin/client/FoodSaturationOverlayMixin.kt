@@ -2,7 +2,7 @@
 
 package net.bewis09.capyclient.mixin.client
 
-import net.bewis09.capyclient.features.utilities.ColorSaturation
+import net.bewis09.capyclient.features.utilities.FoodSaturationOverlay
 import net.bewis09.capyclient.version.GuiGraphics
 import net.bewis09.capyclient.version.Hud
 import net.minecraft.client.Minecraft
@@ -43,11 +43,11 @@ abstract class FoodSaturationOverlayMixin {
      * Inject AFTER the food level is rendered to draw the saturation
      * overlay and food preview.
      *
-     * @[1.21.8] "renderFoodLevel" @[] "renderFoodLevel"
+     * @[1.21.8] "renderFoodLevel" @[] "renderFood"
      */
-    @Inject(method = [/*[@]*/"renderFoodLevel"/*[!@]*/], at = [At("RETURN")], require = 0)
+    @Inject(method = [/*[@]*/"renderFoodLevel"/*[!@]*/], at = [At("RETURN")])
     private fun onPostRenderFoodLevel(guiGraphics: GuiGraphics, ci: CallbackInfo) {
-        if (!ColorSaturation.isEnabled()) return
+        if (!FoodSaturationOverlay.isEnabled()) return
 
         val player = mc().player ?: return
         val foodData = player.foodData
@@ -64,7 +64,7 @@ abstract class FoodSaturationOverlayMixin {
         val step = 9  // shankW + 1px gap
 
         // ---- 1. Saturation overlay (golden bars on existing hunger) ----
-        if (ColorSaturation.showSaturationBar.get() && currentSaturation > 0.0f) {
+        if (FoodSaturationOverlay.showSaturationBar.get() && currentSaturation > 0.0f) {
             // Saturation is in half-shanks (0-20). Convert to shank index (0-10).
             val shanks = (currentSaturation / 2.0f).coerceAtMost(10f).toInt()
             if (shanks > 0) {
@@ -84,7 +84,7 @@ abstract class FoodSaturationOverlayMixin {
         }
 
         // ---- 2. Food preview (restoration preview when holding food) ----
-        if (ColorSaturation.showFoodPreview.get()) {
+        if (FoodSaturationOverlay.showFoodPreview.get()) {
             val heldFood = getHeldEdible()
             val foodProps: FoodProperties = heldFood?.get(DataComponents.FOOD) ?: return
 

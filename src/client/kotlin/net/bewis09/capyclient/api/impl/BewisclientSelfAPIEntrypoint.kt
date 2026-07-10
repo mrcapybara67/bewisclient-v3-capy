@@ -21,6 +21,7 @@ import net.bewis09.capyclient.features.utilities.EntityHighlight
 import net.bewis09.capyclient.features.utilities.FeatureIcons
 import net.bewis09.capyclient.features.utilities.FireHeight
 import net.bewis09.capyclient.features.utilities.FlatItems
+import net.bewis09.capyclient.features.utilities.FoodSaturationOverlay
 import net.bewis09.capyclient.features.utilities.Fullbright
 import net.bewis09.capyclient.features.utilities.HeldItemTooltip
 import net.bewis09.capyclient.features.utilities.ItemPhysics
@@ -82,7 +83,7 @@ class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
     )
 
     override fun getUtilities(): List<CategorizedFeature> = listOf(
-        Fullbright, BlockHighlight, EntityHighlight, HeldItemTooltip, Zoom, PumpkinOverlay, BetterVisibility, Scoreboard, ShulkerBoxTooltip, Perspective, FireHeight, Panorama, TntTimer, PackAdder, AutoGG, PlayerNametag, NoChatLag, ColorSaturation, FlatItems, ItemPhysics
+        Fullbright, BlockHighlight, EntityHighlight, HeldItemTooltip, Zoom, PumpkinOverlay, BetterVisibility, Scoreboard, ShulkerBoxTooltip, Perspective, FireHeight, Panorama, TntTimer, PackAdder, AutoGG, PlayerNametag, NoChatLag, ColorSaturation, FlatItems, ItemPhysics, FoodSaturationOverlay
     )
 
     override fun getOtherSettings(): List<Feature> {
