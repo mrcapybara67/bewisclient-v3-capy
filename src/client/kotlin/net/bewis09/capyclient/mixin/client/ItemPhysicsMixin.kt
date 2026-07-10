@@ -9,12 +9,13 @@ import org.spongepowered.asm.mixin.Unique
 import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
+import kotlin.math.sin
 
 /**
  * Mixes into [ItemEntity] to override the default spinning/floating
  * physics behaviour of dropped items.
  *
- * **Requires [FlatItems] (2D Items) to be enabled.**
+ * **Requires [net.bewis09.capyclient.features.utilities.FlatItems] (2D Items) to be enabled.**
  *
  * Vanilla ItemEntity applies a `bob` animation and constant rotation
  * (yaw changes every tick), making items spin in the air.  This mixin
@@ -27,7 +28,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
  *
  * Note: Wobble only applies while the item is in the air (not on ground).
  * Once the item lands, layFlat takes over to keep it flat on the ground.
- * The visual bob is neutralised by [ItemEntityRendererMixin].
+ * The visual bob is cancelled by dynamically adjusting bobOffset in
+ * [net.bewis09.capyclient.mixin.client.FlatItemsMixin].
  */
 @Mixin(ItemEntity::class)
 abstract class ItemPhysicsMixin {
@@ -59,7 +61,6 @@ abstract class ItemPhysicsMixin {
 
         // === Detect landing: reduce bounce velocity ===
         if (!capyclientWasOnGround && self.onGround) {
-            // Item just landed — dampen the bounce
             self.setDeltaMovement(self.deltaMovement.x * 0.8, -0.05, self.deltaMovement.z * 0.8)
         }
         capyclientWasOnGround = self.onGround
@@ -68,8 +69,6 @@ abstract class ItemPhysicsMixin {
             // Reset yaw so items don't spin
             self.yRot = 0f
             self.yRotO = 0f
-
-            // Bob is neutralised by ItemEntityRendererMixin (sets state.bob = 0f)
         }
 
         // === Wobble (only while falling, not on ground) ===
@@ -82,11 +81,10 @@ abstract class ItemPhysicsMixin {
             physicsWobble = (self.age % 120).toFloat() / 120f * 360f
 
             // Combine phase with fall speed for dynamic wobble
-            val wobbleAngle = kotlin.math.sin(physicsWobble * 0.15f + fallSpeed) * (3f + fallSpeed * 2f)
+            val wobbleAngle = sin(physicsWobble * 0.15f + fallSpeed) * (3f + fallSpeed * 2f)
             self.xRot = wobbleAngle.coerceIn(-25f, 25f)
             self.xRotO = self.xRot
         } else if (ItemPhysics.layFlat.get()) {
-            // Lay-flat: on ground = facing up (flat), in air = upright
             if (self.onGround) {
                 self.xRot = -90f
                 self.xRotO = -90f
@@ -113,7 +111,6 @@ abstract class ItemPhysicsMixin {
         }
 
         if (ItemPhysics.layFlat.get()) {
-            // Keep the rotation frozen even after vanilla tick
             self.yRot = 0f
             self.yRotO = 0f
         }
@@ -122,11 +119,10 @@ abstract class ItemPhysicsMixin {
         if (!self.onGround && ItemPhysics.wobble.get()) {
             val velY = self.deltaMovement.y
             val fallSpeed = (velY.coerceAtLeast(-1.0).coerceAtMost(0.0) * -10.0f).toFloat()
-            val wobbleAngle = kotlin.math.sin(physicsWobble * 0.15f + fallSpeed) * (3f + fallSpeed * 2f)
+            val wobbleAngle = sin(physicsWobble * 0.15f + fallSpeed) * (3f + fallSpeed * 2f)
             self.xRot = wobbleAngle.coerceIn(-25f, 25f)
             self.xRotO = self.xRot
         } else if (ItemPhysics.layFlat.get()) {
-            // Keep flat
             if (self.onGround) {
                 self.xRot = -90f
                 self.xRotO = -90f

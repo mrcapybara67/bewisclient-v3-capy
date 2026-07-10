@@ -24,6 +24,8 @@ import org.lwjgl.glfw.GLFW
  * hooks into the HUD render pipeline.
  */
 object ColorSaturation : ImageFeature(createIdentifier("capyclient", "color_saturation"), "Food Saturation") {
+    override val enabledByDefault = true
+
     /**
      * Whether to show the saturation overlay on the hunger bar.
      */

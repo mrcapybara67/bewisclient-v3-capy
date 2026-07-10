@@ -73,8 +73,8 @@ abstract class FoodSaturationOverlayMixin {
 
                     val isFull = (i * 2 + 2) <= currentSaturation.toInt()
                     // Use bright, visible colors: AARRGGBB
-                    val color = if (isFull) 0xBBFFD700.toInt()  // Bright gold, 73% alpha
-                                else 0x88B8860B.toInt()         // Dark gold, 53% alpha
+                    val color = if (isFull) 0xBBFFD700  // Bright gold, 73% alpha
+                                else 0x88B8860B         // Dark gold, 53% alpha
 
                     guiGraphics.fill(sx, startY, sx + shankW, startY + 8, color)
                 }
@@ -104,7 +104,7 @@ abstract class FoodSaturationOverlayMixin {
                 if (sx < 0) break
 
                 // Visible orange-red: A=0x99(60%), R=FF, G=55, B=00
-                guiGraphics.fill(sx, startY, sx + shankW, startY + 8, 0x99FF5500.toInt())
+                guiGraphics.fill(sx, startY, sx + shankW, startY + 8, 0x99FF5500)
             }
 
             // Draw half-shank indicator if odd nutrition
@@ -113,7 +113,7 @@ abstract class FoodSaturationOverlayMixin {
                 val sx = startX - shankIdx * step - shankW
                 if (sx >= 0) {
                     // Half-width bar: draw only the left half of the shank
-                    guiGraphics.fill(sx, startY, sx + shankW / 2, startY + 8, 0x99FF5500.toInt())
+                    guiGraphics.fill(sx, startY, sx + shankW / 2, startY + 8, 0x99FF5500)
                 }
             }
         }
