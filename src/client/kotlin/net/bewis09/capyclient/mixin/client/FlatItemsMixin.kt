@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Unique
 import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
+import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.PI
 
@@ -39,9 +40,16 @@ abstract class FlatItemsMixin {
     @Shadow
     private var bobOffset: Float = 0f
 
-    @Shadow
-    private fun isOnGround(): Boolean {
-        return false // Shadowed - body replaced by Mixin
+    /** Self-contained ground tracking - no @Shadow needed. */
+    @Unique
+    private var capyclientPrevY: Double = Double.MIN_VALUE
+    @Unique
+    private var capyclientOnGround: Boolean = false
+
+    @Unique
+    private fun capyclientTrackGroundState(self: ItemEntity) {
+        capyclientOnGround = self.y == capyclientPrevY || abs(self.deltaMovement.y) < 0.001
+        capyclientPrevY = self.y
     }
 
     @Unique
@@ -104,13 +112,16 @@ abstract class FlatItemsMixin {
         if (!FlatItems.isEnabled()) return
         val self = this as Any as ItemEntity
 
+        // Track ground state from Y position (no @Shadow needed)
+        capyclientTrackGroundState(self)
+
         // Dynamically adjust bobOffset to cancel the visual hover
         capyclientUpdateBobOffset(self)
 
         capyclientFreezeRotation(self)
 
         // When on the ground, tilt items so they lie flat
-        if (isOnGround()) {
+        if (capyclientOnGround) {
             self.xRot = -90f
             self.xRotO = -90f
         }
@@ -140,7 +151,7 @@ abstract class FlatItemsMixin {
         }
 
         // Keep items flat on the ground
-        if (isOnGround()) {
+        if (capyclientOnGround) {
             self.xRot = -90f
             self.xRotO = -90f
         }

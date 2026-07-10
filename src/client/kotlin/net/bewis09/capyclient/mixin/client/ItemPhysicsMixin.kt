@@ -6,11 +6,11 @@ import net.bewis09.capyclient.features.utilities.ItemPhysics
 import net.minecraft.client.Minecraft
 import net.minecraft.world.entity.item.ItemEntity
 import org.spongepowered.asm.mixin.Mixin
-import org.spongepowered.asm.mixin.Shadow
 import org.spongepowered.asm.mixin.Unique
 import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
+import kotlin.math.abs
 
 /**
  * Mixes into [ItemEntity] to override the default spinning/floating
@@ -27,11 +27,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 @Mixin(ItemEntity::class)
 abstract class ItemPhysicsMixin {
 
-    @Shadow
-    private fun isOnGround(): Boolean {
-        return false // Shadowed - body replaced by Mixin
-    }
-
     @Unique
     private fun mc(): Minecraft = Minecraft.getInstance()
 
@@ -43,8 +38,22 @@ abstract class ItemPhysicsMixin {
 
     @Unique
     private var physicsWobblePhase: Int = 0
+
+    /** Self-contained ground tracking - no @Shadow needed. */
+    @Unique
+    private var capyclientPrevY: Double = Double.MIN_VALUE
+    @Unique
+    private var capyclientOnGround: Boolean = false
     @Unique
     private var capyclientWasOnGround: Boolean = false
+
+    /** Updates ground state by comparing Y position (works across all MC versions). */
+    @Unique
+    private fun capyclientTrackGroundState(self: ItemEntity) {
+        capyclientWasOnGround = capyclientOnGround
+        capyclientOnGround = self.y == capyclientPrevY || abs(self.deltaMovement.y) < 0.001
+        capyclientPrevY = self.y
+    }
 
     @Unique
     private fun capyclientCanApplyItemPhysics(): Boolean = ItemPhysics.isEnabled()
@@ -89,11 +98,13 @@ abstract class ItemPhysicsMixin {
         // === Skip distant items to save CPU ===
         if (!capyclientIsNearPlayer(self)) return
 
-        // === Detect landing: reduce bounce velocity ===
-        if (!capyclientWasOnGround && isOnGround()) {
-            self.setDeltaMovement(self.deltaMovement.x * 0.8, -0.05, self.deltaMovement.z * 0.8)
+        // Track ground state from Y position (no @Shadow needed)
+        capyclientTrackGroundState(self)
+
+        // === Detect landing transition: reduce horizontal velocity ===
+        if (capyclientOnGround && !capyclientWasOnGround && capyclientPrevY != Double.MIN_VALUE) {
+            self.setDeltaMovement(self.deltaMovement.x * 0.8, 0.0, self.deltaMovement.z * 0.8)
         }
-        capyclientWasOnGround = isOnGround()
 
         if (ItemPhysics.layFlat.get()) {
             self.yRot = 0f
@@ -102,7 +113,7 @@ abstract class ItemPhysicsMixin {
 
         // === Wobble (only while falling, not on ground) — computed ONCE ===
         cachedWobbleActive = false
-        if (!isOnGround() && ItemPhysics.wobble.get() && self.deltaMovement.y < -0.01) {
+        if (!capyclientOnGround && ItemPhysics.wobble.get() && self.deltaMovement.y < -0.01) {
             val velY = self.deltaMovement.y
             val fallSpeed = (velY.coerceAtLeast(-1.0) * -10.0f).toFloat()
 
@@ -119,7 +130,7 @@ abstract class ItemPhysicsMixin {
             self.xRot = clamped
             self.xRotO = clamped
         } else if (ItemPhysics.layFlat.get()) {
-            if (isOnGround()) {
+            if (capyclientOnGround) {
                 self.xRot = -90f
                 self.xRotO = -90f
             } else {
@@ -138,11 +149,6 @@ abstract class ItemPhysicsMixin {
         // === Skip distant items ===
         if (!capyclientIsNearPlayer(self)) return
 
-        // === Reduce ground bounce ===
-        if (isOnGround() && self.deltaMovement.y < -0.01) {
-            self.setDeltaMovement(self.deltaMovement.x, self.deltaMovement.y * 0.3, self.deltaMovement.z)
-        }
-
         if (ItemPhysics.layFlat.get()) {
             self.yRot = 0f
             self.yRotO = 0f
@@ -153,7 +159,7 @@ abstract class ItemPhysicsMixin {
             self.xRot = cachedWobbleXRot
             self.xRotO = cachedWobbleXRot
         } else if (ItemPhysics.layFlat.get()) {
-            if (isOnGround()) {
+            if (capyclientOnGround) {
                 self.xRot = -90f
                 self.xRotO = -90f
             } else {
