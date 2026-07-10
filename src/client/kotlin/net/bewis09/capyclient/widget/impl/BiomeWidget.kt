@@ -2,7 +2,13 @@ package net.bewis09.capyclient.widget.impl
 
 import com.google.gson.Gson
 import com.google.gson.JsonElement
-import net.bewis09.capyclient.common.*
+import net.bewis09.capyclient.common.Color
+import net.bewis09.capyclient.common.Identifier
+import net.bewis09.capyclient.common.createIdentifier
+import net.bewis09.capyclient.common.findAllResources
+import net.bewis09.capyclient.common.toText
+import net.bewis09.capyclient.common.catch
+import net.bewis09.capyclient.common.warn
 import net.bewis09.capyclient.drawable.Renderable
 import net.bewis09.capyclient.util.EventEntrypoint
 import net.bewis09.capyclient.widget.logic.SidedPosition
@@ -12,7 +18,7 @@ import net.minecraft.core.BlockPos
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TextColor
 import net.minecraft.server.packs.resources.Resource
-import java.util.*
+import java.util.Calendar
 import kotlin.jvm.optionals.getOrNull
 
 object BiomeWidget : LineWidget(

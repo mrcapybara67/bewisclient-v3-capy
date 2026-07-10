@@ -12,7 +12,10 @@ import net.minecraft.network.chat.Component
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.Instant
-import java.util.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 object DaytimeWidget : LineWidget(
     createIdentifier("capyclient", "daytime_widget"),

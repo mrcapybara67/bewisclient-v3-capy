@@ -1,7 +1,12 @@
 package net.bewis09.capyclient.drawable.renderables.impl
 
 import net.bewis09.capyclient.api.BewisclientAPIEntrypoint
-import net.bewis09.capyclient.common.*
+import net.bewis09.capyclient.common.Color
+import net.bewis09.capyclient.common.Identifier
+import net.bewis09.capyclient.common.alpha
+import net.bewis09.capyclient.common.color
+import net.bewis09.capyclient.common.createIdentifier
+import net.bewis09.capyclient.common.toText
 import net.bewis09.capyclient.drawable.Animator
 import net.bewis09.capyclient.drawable.renderables.settings.SettingRenderable
 import net.bewis09.capyclient.drawable.screen_drawing.ScreenDrawing

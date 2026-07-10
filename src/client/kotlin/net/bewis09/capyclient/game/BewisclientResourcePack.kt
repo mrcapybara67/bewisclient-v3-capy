@@ -17,7 +17,8 @@ import net.minecraft.server.packs.repository.PackSource
 import net.minecraft.server.packs.resources.IoSupplier
 import net.minecraft.world.flag.FeatureFlagSet
 import java.io.InputStream
-import java.util.*
+import java.util.Optional
+import java.util.Set
 import kotlin.jvm.optionals.getOrNull
 
 object BewisclientResourcePack : PackResources, ClientInterface {

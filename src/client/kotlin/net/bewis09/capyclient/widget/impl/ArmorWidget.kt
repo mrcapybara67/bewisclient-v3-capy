@@ -1,6 +1,11 @@
 package net.bewis09.capyclient.widget.impl
 
-import net.bewis09.capyclient.common.*
+import net.bewis09.capyclient.common.Color
+import net.bewis09.capyclient.common.Identifier
+import net.bewis09.capyclient.common.alpha
+import net.bewis09.capyclient.common.color
+import net.bewis09.capyclient.common.createIdentifier
+import net.bewis09.capyclient.common.toText
 import net.bewis09.capyclient.drawable.Renderable
 import net.bewis09.capyclient.drawable.renderables.settings.MultipleBooleanSettingsRenderable
 import net.bewis09.capyclient.drawable.screen_drawing.ScreenDrawing

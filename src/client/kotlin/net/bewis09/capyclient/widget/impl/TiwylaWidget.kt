@@ -4,7 +4,17 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import net.bewis09.capyclient.api.APIEntrypointLoader
-import net.bewis09.capyclient.common.*
+import net.bewis09.capyclient.common.Color
+import net.bewis09.capyclient.common.Identifier
+import net.bewis09.capyclient.common.alpha
+import net.bewis09.capyclient.common.catch
+import net.bewis09.capyclient.common.color
+import net.bewis09.capyclient.common.createIdentifier
+import net.bewis09.capyclient.common.id
+import net.bewis09.capyclient.common.toText
+import net.bewis09.capyclient.common.warn
+import net.bewis09.capyclient.common.snake_toCamelCase
+import net.bewis09.capyclient.common.`snake_toWord With Spaces`
 import net.bewis09.capyclient.drawable.Renderable
 import net.bewis09.capyclient.drawable.renderables.impl.TiwylaInfoSettingsRenderable
 import net.bewis09.capyclient.drawable.renderables.impl.TiwylaLinesSettingsRenderable

@@ -9,7 +9,7 @@ import net.bewis09.capyclient.widget.logic.RelativePosition
 import net.bewis09.capyclient.widget.logic.WidgetPosition
 import net.bewis09.capyclient.widget.types.LineWidget
 import net.minecraft.world.phys.Vec3
-import java.util.*
+
 
 object SpeedWidget : LineWidget(
     createIdentifier("capyclient", "speed_widget"),

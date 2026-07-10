@@ -1,6 +1,12 @@
 package net.bewis09.capyclient.drawable.renderables.screen
 
-import net.bewis09.capyclient.common.*
+import net.bewis09.capyclient.common.Color
+import net.bewis09.capyclient.common.Identifier
+import net.bewis09.capyclient.common.alpha
+import net.bewis09.capyclient.common.color
+import net.bewis09.capyclient.common.createIdentifier
+import net.bewis09.capyclient.common.getModrinthVersion
+import net.bewis09.capyclient.common.toText
 import net.bewis09.capyclient.drawable.Renderable
 import net.bewis09.capyclient.drawable.renderables.components.setting.Input
 import net.bewis09.capyclient.drawable.renderables.components.button.MinecraftButton

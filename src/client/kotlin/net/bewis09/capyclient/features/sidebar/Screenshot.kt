@@ -1,7 +1,15 @@
 package net.bewis09.capyclient.features.sidebar
 
 import com.mojang.blaze3d.platform.NativeImage
-import net.bewis09.capyclient.common.*
+import net.bewis09.capyclient.common.Color
+import net.bewis09.capyclient.common.Identifier
+import net.bewis09.capyclient.common.Util
+import net.bewis09.capyclient.common.alpha
+import net.bewis09.capyclient.common.catch
+import net.bewis09.capyclient.common.color
+import net.bewis09.capyclient.common.createIdentifier
+import net.bewis09.capyclient.common.id
+import net.bewis09.capyclient.common.then
 import net.bewis09.capyclient.drawable.Renderable
 import net.bewis09.capyclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.capyclient.drawable.renderables.components.button.Button

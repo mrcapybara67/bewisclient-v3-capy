@@ -1,8 +1,14 @@
 package net.bewis09.capyclient.features.utilities
 
 import com.mojang.blaze3d.platform.NativeImage
-import net.bewis09.capyclient.common.*
-import net.bewis09.capyclient.core.*
+import net.bewis09.capyclient.common.Color
+import net.bewis09.capyclient.common.Identifier
+import net.bewis09.capyclient.common.Util
+import net.bewis09.capyclient.common.catch
+import net.bewis09.capyclient.common.createIdentifier
+import net.bewis09.capyclient.common.isAllowedInIdentifier
+import net.bewis09.capyclient.common.toText
+// core package is empty — client/getHeader/getPane are inherited from CategorizedFeature
 import net.bewis09.capyclient.drawable.Renderable
 import net.bewis09.capyclient.drawable.renderables.components.logic.Hoverable
 import net.bewis09.capyclient.drawable.renderables.components.button.ImageButton

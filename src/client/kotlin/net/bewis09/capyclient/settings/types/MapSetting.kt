@@ -3,7 +3,11 @@ package net.bewis09.capyclient.settings.types
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
-import net.bewis09.capyclient.util.*
+import net.bewis09.capyclient.util.boolean
+import net.bewis09.capyclient.util.float
+import net.bewis09.capyclient.util.int
+import net.bewis09.capyclient.util.string
+import net.bewis09.capyclient.util.jsonObject
 
 open class MapSetting<T>(val from: (JsonElement) -> T?, val to: (T) -> JsonElement) : Setting<HashMap<String, T>>(hashMapOf()) {
     override fun convertToElement(): JsonElement {
@@ -34,9 +38,7 @@ open class MapSetting<T>(val from: (JsonElement) -> T?, val to: (T) -> JsonEleme
         save()
     }
 
-    override fun convertFromElement(data: JsonElement?): HashMap<String, T>? =
-        data?.jsonObject()?.asMap()
-            ?.mapNotNull { (key, element) ->
+    override fun convertFromElement(data: JsonElement?): HashMap<String, T>? =        data?.jsonObject()?.entries?.mapNotNull { (key, element) ->
                 val converted = from(element) ?: return@mapNotNull null
                 key to converted
             }

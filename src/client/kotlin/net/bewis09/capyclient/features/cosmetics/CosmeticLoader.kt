@@ -2,7 +2,13 @@ package net.bewis09.capyclient.features.cosmetics
 
 import com.google.gson.Gson
 import com.mojang.authlib.GameProfile
-import net.bewis09.capyclient.common.*
+import net.bewis09.capyclient.common.Identifier
+import net.bewis09.capyclient.common.Util
+import net.bewis09.capyclient.common.catch
+import net.bewis09.capyclient.common.color
+import net.bewis09.capyclient.common.createIdentifier
+import net.bewis09.capyclient.common.id
+import net.bewis09.capyclient.common.toText
 import net.bewis09.capyclient.cosmetics.CommonCosmeticLoader
 import net.bewis09.capyclient.cosmetics.CommonCosmeticLoader.cosmeticData
 import net.bewis09.capyclient.cosmetics.CosmeticIdentifier
@@ -25,7 +31,9 @@ import net.minecraft.client.multiplayer.PlayerInfo
 import net.minecraft.world.item.Items
 import java.net.URI
 import java.security.MessageDigest
-import java.util.*
+import java.util.Base64
+import java.util.HashMap
+import java.util.UUID
 
 object CosmeticLoader : SidebarFeature(createIdentifier("capyclient", "cosmetics"), "Cosmetics"), EventEntrypoint {
     val allowedCosmetics = mutableListOf<CosmeticIdentifier>()

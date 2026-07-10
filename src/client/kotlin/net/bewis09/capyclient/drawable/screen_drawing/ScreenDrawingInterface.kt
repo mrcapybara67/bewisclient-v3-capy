@@ -4,7 +4,13 @@ import net.bewis09.capyclient.common.Color
 import net.bewis09.capyclient.common.Identifier
 import net.bewis09.capyclient.common.createIdentifier
 import net.bewis09.capyclient.util.logic.ClientInterface
-import net.bewis09.capyclient.version.*
+import net.bewis09.capyclient.version.GuiGraphics
+import net.bewis09.capyclient.version.pop
+import net.bewis09.capyclient.version.push
+import net.bewis09.capyclient.version.rotate
+import net.bewis09.capyclient.version.scale
+import net.bewis09.capyclient.version.setCursorPointer
+import net.bewis09.capyclient.version.translate
 import net.minecraft.client.gui.Font
 
 interface ScreenDrawingInterface : ClientInterface {
