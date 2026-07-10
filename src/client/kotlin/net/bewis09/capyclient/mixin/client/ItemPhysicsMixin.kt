@@ -2,10 +2,10 @@
 
 package net.bewis09.capyclient.mixin.client
 
+import net.bewis09.capyclient.features.utilities.FlatItems
 import net.bewis09.capyclient.features.utilities.ItemPhysics
 import net.minecraft.world.entity.item.ItemEntity
 import org.spongepowered.asm.mixin.Mixin
-import org.spongepowered.asm.mixin.Shadow
 import org.spongepowered.asm.mixin.Unique
 import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
@@ -14,6 +14,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 /**
  * Mixes into [ItemEntity] to override the default spinning/floating
  * physics behaviour of dropped items.
+ *
+ * **Requires [FlatItems] (2D Items) to be enabled** — this module
+ * builds on the 2D flat item rendering to add enhanced physics.
  *
  * Vanilla ItemEntity applies a `bob` animation and constant rotation
  * (yaw changes every tick), making items spin in the air.  This mixin
@@ -26,10 +29,22 @@ abstract class ItemPhysicsMixin {
     @Unique
     private var physicsWobble: Float = 0f
 
+    /**
+     * Check if ItemPhysics should be active — requires both
+     * ItemPhysics and FlatItems to be enabled.
+     */
+    @Unique
+    private fun capyclientCanApplyItemPhysics(): Boolean {
+        if (!ItemPhysics.isEnabled()) return false
+        // Item Physics requires 2D Items (FlatItems) to be active
+        if (!FlatItems.isEnabled()) return false
+        return true
+    }
+
     // @[1.21.11] "tick" @[] "onEntityTick"
     @Inject(method = [/*[@]*/"tick"/*[!@]*/], at = [At("HEAD")])
     private fun onPreTick(ci: CallbackInfo) {
-        if (!ItemPhysics.isEnabled()) return
+        if (!capyclientCanApplyItemPhysics()) return
 
         val self = this as Any as ItemEntity
 
@@ -39,6 +54,12 @@ abstract class ItemPhysicsMixin {
             // the spinning effect.  We freeze it at 0.
             self.yRot = 0f
             self.yRotO = 0f
+
+            // When on the ground, tilt to lie flat
+            if (self.onGround) {
+                self.xRot = -90f
+                self.xRotO = -90f
+            }
         }
 
         if (ItemPhysics.wobble.get()) {
@@ -49,9 +70,15 @@ abstract class ItemPhysicsMixin {
             self.xRot = kotlin.math.sin(physicsWobble * 0.1f) * 5f
             self.xRotO = self.xRot
         } else if (ItemPhysics.layFlat.get()) {
-            // Lay-flat without wobble: freeze xRot at 0.
-            self.xRot = 0f
-            self.xRotO = 0f
+            // Lay-flat without wobble: freeze xRot at 0 for flying,
+            // or -90 when on ground.
+            if (self.onGround) {
+                self.xRot = -90f
+                self.xRotO = -90f
+            } else {
+                self.xRot = 0f
+                self.xRotO = 0f
+            }
         }
     }
 
@@ -59,7 +86,7 @@ abstract class ItemPhysicsMixin {
     // @[1.21.11] "tick" @[] "onEntityTick"
     @Inject(method = [/*[@]*/"tick"/*[!@]*/], at = [At("RETURN")])
     private fun onPostTick(ci: CallbackInfo) {
-        if (!ItemPhysics.isEnabled()) return
+        if (!capyclientCanApplyItemPhysics()) return
 
         val self = this as Any as ItemEntity
 
@@ -67,6 +94,12 @@ abstract class ItemPhysicsMixin {
             // Keep the rotation frozen even after vanilla tick resets it.
             self.yRot = 0f
             self.yRotO = 0f
+
+            // Keep flat on ground
+            if (self.onGround) {
+                self.xRot = -90f
+                self.xRotO = -90f
+            }
         }
 
         if (ItemPhysics.wobble.get()) {
@@ -74,9 +107,14 @@ abstract class ItemPhysicsMixin {
             self.xRot = kotlin.math.sin(physicsWobble * 0.1f) * 5f
             self.xRotO = self.xRot
         } else if (ItemPhysics.layFlat.get()) {
-            // Lay-flat without wobble: keep xRot frozen at 0.
-            self.xRot = 0f
-            self.xRotO = 0f
+            // Keep flat
+            if (self.onGround) {
+                self.xRot = -90f
+                self.xRotO = -90f
+            } else {
+                self.xRot = 0f
+                self.xRotO = 0f
+            }
         }
     }
 }

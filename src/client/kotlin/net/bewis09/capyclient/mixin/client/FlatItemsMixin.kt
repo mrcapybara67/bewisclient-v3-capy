@@ -5,6 +5,7 @@ import net.bewis09.capyclient.features.utilities.ItemPhysics
 import net.minecraft.client.Minecraft
 import net.minecraft.world.entity.item.ItemEntity
 import org.spongepowered.asm.mixin.Mixin
+import org.spongepowered.asm.mixin.Shadow
 import org.spongepowered.asm.mixin.Unique
 import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
@@ -14,8 +15,8 @@ import kotlin.math.PI
 
 /**
  * Mixes into [ItemEntity] to produce the "2D Items" effect:
- * dropped items no longer spin and optionally always face the
- * player (billboard mode).
+ * dropped items no longer spin, lie flat on the ground,
+ * and optionally always face the player (billboard mode).
  *
  * Billboard mode (default ON):
  *   The item's yaw is calculated each tick so the item always
@@ -25,11 +26,17 @@ import kotlin.math.PI
  *   The item's rotation is frozen at 0 — no spinning, no
  *   billboard, just a static flat sprite on the ground.
  *
+ * Items also have their bob/hover neutralized so they rest
+ * on the ground rather than floating in the air.
+ *
  * When ItemPhysics.wobble is active, xRot is preserved so the
  * wobble animation still plays — the two features cooperate.
  */
 @Mixin(ItemEntity::class)
 abstract class FlatItemsMixin {
+
+    @Shadow
+    private var bobOffset: Float = 0f
 
     /**
      * Calculates the yaw (in degrees) that would make this item
@@ -70,12 +77,36 @@ abstract class FlatItemsMixin {
     @Inject(method = ["tick"], at = [At("HEAD")])
     private fun onPreTick(ci: CallbackInfo) {
         if (!FlatItems.isEnabled()) return
-        capyclientFreezeRotation(this as Any as ItemEntity)
+        val self = this as Any as ItemEntity
+
+        // Neutralize bob offset so items rest on the ground
+        // instead of hovering in the air while spinning
+        bobOffset = 0f
+
+        capyclientFreezeRotation(self)
+
+        // When on the ground, tilt items so they lie flat
+        // (xRot = -90 makes the item face the ground)
+        if (self.onGround) {
+            self.xRot = -90f
+            self.xRotO = -90f
+        }
     }
 
     @Inject(method = ["tick"], at = [At("RETURN")])
     private fun onPostTick(ci: CallbackInfo) {
         if (!FlatItems.isEnabled()) return
-        capyclientFreezeRotation(this as Any as ItemEntity)
+        val self = this as Any as ItemEntity
+
+        // Neutralize bob offset again after vanilla tick
+        bobOffset = 0f
+
+        capyclientFreezeRotation(self)
+
+        // Keep items flat on the ground
+        if (self.onGround) {
+            self.xRot = -90f
+            self.xRotO = -90f
+        }
     }
 }

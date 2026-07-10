@@ -27,7 +27,8 @@
     "KeyMappingAccessor",
     "PlayerRendererMixin",
     "ItemPhysicsMixin",
-    "FlatItemsMixin"
+    "FlatItemsMixin",
+    "FoodSaturationOverlayMixin"
   ],
   "injectors": {
     "defaultRequire": 1

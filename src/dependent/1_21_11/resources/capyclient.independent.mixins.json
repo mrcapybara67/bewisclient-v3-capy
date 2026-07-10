@@ -11,8 +11,7 @@
     "SkinTexturesMixin",
     "TooltipDisplayComponentMixin",
     "WorldRendererMixin",
-    "ChatComponentMixin",
-    "ColorSaturationMixin"
+    "ChatComponentMixin"
   ],
   "injectors": {
     "defaultRequire": 1
