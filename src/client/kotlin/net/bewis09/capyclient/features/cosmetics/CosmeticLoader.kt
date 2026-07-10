@@ -7,7 +7,6 @@ import net.bewis09.capyclient.common.Util
 import net.bewis09.capyclient.common.catch
 import net.bewis09.capyclient.common.color
 import net.bewis09.capyclient.common.createIdentifier
-import net.bewis09.capyclient.common.id
 import net.bewis09.capyclient.common.toText
 import net.bewis09.capyclient.cosmetics.CommonCosmeticLoader
 import net.bewis09.capyclient.cosmetics.CommonCosmeticLoader.cosmeticData

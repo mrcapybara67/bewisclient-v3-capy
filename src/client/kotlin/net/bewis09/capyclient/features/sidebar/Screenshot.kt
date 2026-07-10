@@ -8,7 +8,6 @@ import net.bewis09.capyclient.common.alpha
 import net.bewis09.capyclient.common.catch
 import net.bewis09.capyclient.common.color
 import net.bewis09.capyclient.common.createIdentifier
-import net.bewis09.capyclient.common.id
 import net.bewis09.capyclient.common.then
 import net.bewis09.capyclient.drawable.Renderable
 import net.bewis09.capyclient.drawable.draw_methods.SelectiveScreenDrawer
