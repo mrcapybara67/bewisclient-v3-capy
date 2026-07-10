@@ -40,7 +40,9 @@ abstract class FlatItemsMixin {
     private var bobOffset: Float = 0f
 
     @Shadow
-    private var onGround: Boolean = false
+    private fun isOnGround(): Boolean {
+        return false // Shadowed - body replaced by Mixin
+    }
 
     @Unique
     private fun mc(): Minecraft = Minecraft.getInstance()
@@ -108,7 +110,7 @@ abstract class FlatItemsMixin {
         capyclientFreezeRotation(self)
 
         // When on the ground, tilt items so they lie flat
-        if (onGround) {
+        if (isOnGround()) {
             self.xRot = -90f
             self.xRotO = -90f
         }
@@ -138,7 +140,7 @@ abstract class FlatItemsMixin {
         }
 
         // Keep items flat on the ground
-        if (onGround) {
+        if (isOnGround()) {
             self.xRot = -90f
             self.xRotO = -90f
         }

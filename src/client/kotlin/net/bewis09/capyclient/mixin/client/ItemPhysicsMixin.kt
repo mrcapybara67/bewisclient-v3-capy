@@ -28,7 +28,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 abstract class ItemPhysicsMixin {
 
     @Shadow
-    private var onGround: Boolean = false
+    private fun isOnGround(): Boolean {
+        return false // Shadowed - body replaced by Mixin
+    }
 
     @Unique
     private fun mc(): Minecraft = Minecraft.getInstance()
@@ -88,10 +90,10 @@ abstract class ItemPhysicsMixin {
         if (!capyclientIsNearPlayer(self)) return
 
         // === Detect landing: reduce bounce velocity ===
-        if (!capyclientWasOnGround && onGround) {
+        if (!capyclientWasOnGround && isOnGround()) {
             self.setDeltaMovement(self.deltaMovement.x * 0.8, -0.05, self.deltaMovement.z * 0.8)
         }
-        capyclientWasOnGround = onGround
+        capyclientWasOnGround = isOnGround()
 
         if (ItemPhysics.layFlat.get()) {
             self.yRot = 0f
@@ -100,7 +102,7 @@ abstract class ItemPhysicsMixin {
 
         // === Wobble (only while falling, not on ground) — computed ONCE ===
         cachedWobbleActive = false
-        if (!onGround && ItemPhysics.wobble.get() && self.deltaMovement.y < -0.01) {
+        if (!isOnGround() && ItemPhysics.wobble.get() && self.deltaMovement.y < -0.01) {
             val velY = self.deltaMovement.y
             val fallSpeed = (velY.coerceAtLeast(-1.0) * -10.0f).toFloat()
 
@@ -117,7 +119,7 @@ abstract class ItemPhysicsMixin {
             self.xRot = clamped
             self.xRotO = clamped
         } else if (ItemPhysics.layFlat.get()) {
-            if (onGround) {
+            if (isOnGround()) {
                 self.xRot = -90f
                 self.xRotO = -90f
             } else {
@@ -137,7 +139,7 @@ abstract class ItemPhysicsMixin {
         if (!capyclientIsNearPlayer(self)) return
 
         // === Reduce ground bounce ===
-        if (onGround && self.deltaMovement.y < -0.01) {
+        if (isOnGround() && self.deltaMovement.y < -0.01) {
             self.setDeltaMovement(self.deltaMovement.x, self.deltaMovement.y * 0.3, self.deltaMovement.z)
         }
 
@@ -151,7 +153,7 @@ abstract class ItemPhysicsMixin {
             self.xRot = cachedWobbleXRot
             self.xRotO = cachedWobbleXRot
         } else if (ItemPhysics.layFlat.get()) {
-            if (onGround) {
+            if (isOnGround()) {
                 self.xRot = -90f
                 self.xRotO = -90f
             } else {
