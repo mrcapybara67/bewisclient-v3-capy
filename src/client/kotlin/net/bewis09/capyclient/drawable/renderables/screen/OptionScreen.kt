@@ -1,9 +1,17 @@
 package net.bewis09.capyclient.drawable.renderables.screen
 
 import net.bewis09.capyclient.api.APIEntrypointLoader
-import net.bewis09.capyclient.common.*
+import net.bewis09.capyclient.common.Color
+import net.bewis09.capyclient.common.Identifier
+import net.bewis09.capyclient.common.Util
+import net.bewis09.capyclient.common.alpha
+import net.bewis09.capyclient.common.color
+import net.bewis09.capyclient.common.createIdentifier
+import net.bewis09.capyclient.common.then
 import net.bewis09.capyclient.data.Constants
-import net.bewis09.capyclient.drawable.*
+import net.bewis09.capyclient.drawable.Animator
+import net.bewis09.capyclient.drawable.BackgroundEffectProvider
+import net.bewis09.capyclient.drawable.Renderable
 import net.bewis09.capyclient.drawable.ImageIdentifier.iconIdentifier
 import net.bewis09.capyclient.drawable.draw_methods.SelectiveScreenDrawer
 import net.bewis09.capyclient.drawable.renderables.components.button.ImageButton

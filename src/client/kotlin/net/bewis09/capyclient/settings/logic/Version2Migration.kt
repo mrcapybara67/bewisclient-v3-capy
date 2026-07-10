@@ -5,7 +5,17 @@ import com.google.gson.JsonElement
 import net.bewis09.capyclient.common.catchAndPrint
 import net.bewis09.capyclient.common.color
 import net.bewis09.capyclient.features.sidebar.Screenshot
-import net.bewis09.capyclient.features.utilities.*
+import net.bewis09.capyclient.features.utilities.BetterVisibility
+import net.bewis09.capyclient.features.utilities.BlockHighlight
+import net.bewis09.capyclient.features.utilities.EntityHighlight
+import net.bewis09.capyclient.features.utilities.FireHeight
+import net.bewis09.capyclient.features.utilities.Fullbright
+import net.bewis09.capyclient.features.utilities.HeldItemTooltip
+import net.bewis09.capyclient.features.utilities.Perspective
+import net.bewis09.capyclient.features.utilities.PumpkinOverlay
+import net.bewis09.capyclient.features.utilities.Scoreboard
+import net.bewis09.capyclient.features.utilities.ShulkerBoxTooltip
+import net.bewis09.capyclient.features.utilities.Zoom
 import net.bewis09.capyclient.features.sidebar.General
 import net.bewis09.capyclient.settings.types.Setting
 import net.bewis09.capyclient.util.boolean
@@ -16,7 +26,18 @@ import net.bewis09.capyclient.util.float
 import net.bewis09.capyclient.util.int
 import net.bewis09.capyclient.util.logic.ClientInterface
 import net.bewis09.capyclient.util.string
-import net.bewis09.capyclient.widget.impl.*
+import net.bewis09.capyclient.widget.impl.ArmorWidget
+import net.bewis09.capyclient.widget.impl.BiomeWidget
+import net.bewis09.capyclient.widget.impl.CPSWidget
+import net.bewis09.capyclient.widget.impl.CoordinatesWidget
+import net.bewis09.capyclient.widget.impl.DayWidget
+import net.bewis09.capyclient.widget.impl.DaytimeWidget
+import net.bewis09.capyclient.widget.impl.FPSWidget
+import net.bewis09.capyclient.widget.impl.InventoryWidget
+import net.bewis09.capyclient.widget.impl.KeyWidget
+import net.bewis09.capyclient.widget.impl.PingWidget
+import net.bewis09.capyclient.widget.impl.SpeedWidget
+import net.bewis09.capyclient.widget.impl.TiwylaWidget
 
 object Version2Migration : ClientInterface {
     fun update(): Boolean {
