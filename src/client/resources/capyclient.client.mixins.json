@@ -28,7 +28,8 @@
     "PlayerRendererMixin",
     "ItemPhysicsMixin",
     "FlatItemsMixin",
-    "FoodSaturationOverlayMixin"
+    "FoodSaturationOverlayMixin",
+    "ItemEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

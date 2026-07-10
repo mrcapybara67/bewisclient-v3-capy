@@ -18,29 +18,28 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
  * overlay on the hunger bar.
  *
  * Features:
- * 1. **Saturation overlay** — a semi-transparent golden bar behind
- *    the regular hunger bar that shows the player's current saturation.
- * 2. **Food preview** — when holding a food item, translucent shanks
- *    are drawn beyond the current hunger level showing how much hunger
- *    would be restored by eating the held food.
+ * 1. **Saturation overlay** — golden bars drawn ON TOP of the
+ *    existing hunger bar to show the player's current saturation.
+ *    Each saturated half-shank is filled with gold.
+ * 2. **Food preview** — when holding a food item, translucent
+ *    shanks are drawn beyond the current hunger level showing
+ *    how much hunger would be restored by eating the held food.
  *
- * The food bar in vanilla Minecraft is rendered at:
- *   x = screenWidth / 2 + 91   (right side)
- *   y = screenHeight - 39      (bottom, above hotbar)
- * Each chicken leg is 8×8 px with 1 px gap between legs.
+ * The vanilla food bar renders at:
+ *   startX = screenWidth / 2 + 91  (rightmost shank)
+ *   y = screenHeight - 39          (bottom, above hotbar)
+ * Each food shank is 8×8 px with 1 px gap (9 px step).
+ * The bar goes RIGHT-TO-LEFT: index 0 = rightmost (fullest).
  */
 @Mixin(Hud::class)
 abstract class FoodSaturationOverlayMixin {
 
-    /**
-     * Lazy Minecraft accessor to avoid eager getInstance() at class-load time.
-     */
     @Unique
     private val mc: Minecraft get() = Minecraft.getInstance()
 
     /**
      * Inject AFTER the food level is rendered to draw the saturation
-     * overlay and food preview on top.
+     * overlay and food preview.
      *
      * @[1.21.8] "renderFoodLevel" @[] "renderFoodLevel"
      */
@@ -56,32 +55,33 @@ abstract class FoodSaturationOverlayMixin {
         val screenWidth = mc.window.guiScaledWidth
         val screenHeight = mc.window.guiScaledHeight
 
-        // Food bar position (vanilla: right side, above hotbar)
+        // Food bar position (vanilla)
         val startX = screenWidth / 2 + 91
         val startY = screenHeight - 39
+        val shankW = 8
+        val step = 9  // shankW + 1px gap
 
-        // Each food shank = 8 px wide, 1 px gap between shanks
-        val shankWidth = 8
-        val shankGap = 1
-        val totalShankStep = shankWidth + shankGap
-
-        // ---- 1. Saturation overlay ----
+        // ---- 1. Saturation overlay (golden bars on existing hunger) ----
         if (ColorSaturation.showSaturationBar.get() && currentSaturation > 0.0f) {
-            val saturationShanks = (currentSaturation / 2.0f).coerceAtMost(10.0f)
+            // Saturation is in half-shanks (0-20). Convert to shank index (0-10).
+            val shanks = (currentSaturation / 2.0f).coerceAtMost(10.0f).toInt()
+            if (shanks > 0) {
+                // Draw a bright gold bar over the saturated portion of the food bar
+                for (i in 0 until shanks) {
+                    val sx = startX - i * step - shankW
+                    if (sx < 0) break
 
-            // Draw golden saturation bars behind the food bar
-            for (i in 0 until saturationShanks.toInt()) {
-                val shankX = startX - i * totalShankStep - shankWidth
-                if (shankX < 0) break
+                    val isFull = (i * 2 + 2) <= currentSaturation.toInt()
+                    // Use bright, visible colors: AARRGGBB
+                    val color = if (isFull) 0xBBFFD700.toInt()  // Bright gold, 73% alpha
+                                else 0x88B8860B.toInt()         // Dark gold, 53% alpha
 
-                val isFullySaturated = (i * 2 + 2) <= currentSaturation.toInt()
-                val fillColor = if (isFullySaturated) 0x44FFFFAA else 0x33FFD700
-
-                guiGraphics.fill(shankX, startY, shankX + shankWidth, startY + 8, fillColor)
+                    guiGraphics.fill(sx, startY, sx + shankW, startY + 8, color)
+                }
             }
         }
 
-        // ---- 2. Food preview (restoration preview) ----
+        // ---- 2. Food preview (restoration preview when holding food) ----
         if (ColorSaturation.showFoodPreview.get()) {
             val heldFood = getHeldEdible()
             val foodProps = heldFood?.item?.foodProperties ?: return
@@ -89,19 +89,32 @@ abstract class FoodSaturationOverlayMixin {
             val nutrition = foodProps.nutrition
             if (nutrition <= 0) return
 
-            // Calculate how many additional half-shanks would be restored
-            val previewShanks = (nutrition / 2.0f).toInt().coerceAtMost(10 - currentFood / 2)
+            // Calculate how many additional shanks would be restored
+            val currentFullShanks = currentFood / 2
+            val previewHalfShanks = nutrition.coerceAtMost(20 - currentFood)
+            val previewFullShanks = previewHalfShanks / 2
+            val showHalfShank = previewHalfShanks % 2 == 1
 
-            // Draw translucent red shanks for the food that would be restored
-            for (i in 0 until previewShanks) {
-                val shankIndex = currentFood / 2 + i
-                if (shankIndex >= 10) break
+            // Draw translucent orange/red shanks beyond current food level
+            for (i in 0 until previewFullShanks) {
+                val shankIdx = currentFullShanks + i
+                if (shankIdx >= 10) break
 
-                val shankX = startX - shankIndex * totalShankStep - shankWidth
-                if (shankX < 0) break
+                val sx = startX - shankIdx * step - shankW
+                if (sx < 0) break
 
-                // Semi-transparent red/orange preview
-                guiGraphics.fill(shankX, startY, shankX + shankWidth, startY + 8, 0x66FF5555)
+                // Visible orange-red: A=0x99(60%), R=FF, G=55, B=00
+                guiGraphics.fill(sx, startY, sx + shankW, startY + 8, 0x99FF5500.toInt())
+            }
+
+            // Draw half-shank indicator if odd nutrition
+            if (showHalfShank && currentFullShanks + previewFullShanks < 10) {
+                val shankIdx = currentFullShanks + previewFullShanks
+                val sx = startX - shankIdx * step - shankW
+                if (sx >= 0) {
+                    // Half-width bar: draw only the left half of the shank
+                    guiGraphics.fill(sx, startY, sx + shankW / 2, startY + 8, 0x99FF5500.toInt())
+                }
             }
         }
     }

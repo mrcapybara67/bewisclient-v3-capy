@@ -14,16 +14,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
  * Mixes into [ItemEntity] to override the default spinning/floating
  * physics behaviour of dropped items.
  *
- * **Requires [FlatItems] (2D Items) to be enabled** — this module
- * builds on the 2D flat item rendering to add enhanced physics.
+ * **Requires [FlatItems] (2D Items) to be enabled.**
  *
  * Vanilla ItemEntity applies a `bob` animation and constant rotation
  * (yaw changes every tick), making items spin in the air.  This mixin
- * resets the rotation so items lie flat on the ground and optionally
- * adds a realistic fall wobble.
+ * provides:
+ * - **Lay flat**: Items lie flat on the ground instead of spinning.
+ * - **Realistic wobble**: Items wobble as they fall through the air,
+ *   with intensity based on fall speed.
+ * - **Bounce reduction**: Items barely bounce when hitting the ground,
+ *   making them settle quickly.
  *
  * Note: Wobble only applies while the item is in the air (not on ground).
  * Once the item lands, layFlat takes over to keep it flat on the ground.
+ * The visual bob is neutralised by [ItemEntityRendererMixin].
  */
 @Mixin(ItemEntity::class)
 abstract class ItemPhysicsMixin {
@@ -32,9 +36,15 @@ abstract class ItemPhysicsMixin {
     private var physicsWobble: Float = 0f
 
     /**
+     * Whether the item was on the ground in the previous tick.
+     * Used to detect landing events.
+     */
+    @Unique
+    private var capyclientWasOnGround: Boolean = false
+
+    /**
      * Check if ItemPhysics should be active.
-     * ItemPhysics.isEnabled() already checks FlatItems.isEnabled(),
-     * so we only need to check ItemPhysics here.
+     * ItemPhysics.isEnabled() already checks FlatItems.isEnabled().
      */
     @Unique
     private fun capyclientCanApplyItemPhysics(): Boolean {
@@ -45,27 +55,38 @@ abstract class ItemPhysicsMixin {
     @Inject(method = [/*[@]*/"tick"/*[!@]*/], at = [At("HEAD")])
     private fun onPreTick(ci: CallbackInfo) {
         if (!capyclientCanApplyItemPhysics()) return
-
         val self = this as Any as ItemEntity
 
+        // === Detect landing: reduce bounce velocity ===
+        if (!capyclientWasOnGround && self.onGround) {
+            // Item just landed — dampen the bounce
+            self.setDeltaMovement(self.deltaMovement.x * 0.8, -0.05, self.deltaMovement.z * 0.8)
+        }
+        capyclientWasOnGround = self.onGround
+
         if (ItemPhysics.layFlat.get()) {
-            // Reset yaw so items don't spin.  Vanilla increments yaw
-            // by ( age + pickupDelay ) * 1.5 each tick, which gives
-            // the spinning effect.  We freeze it at 0.
+            // Reset yaw so items don't spin
             self.yRot = 0f
             self.yRotO = 0f
+
+            // Bob is neutralised by ItemEntityRendererMixin (sets state.bob = 0f)
         }
 
-        // Wobble only applies while falling — once on ground, lay flat
+        // === Wobble (only while falling, not on ground) ===
         if (!self.onGround && ItemPhysics.wobble.get()) {
-            // Simulate a gentle wobble as items fall — varies by age
-            // so each item falls slightly differently.
-            physicsWobble = (self.age % 60).toFloat() / 60f * 360f
-            // Apply a slight tilt that changes over time.
-            self.xRot = kotlin.math.sin(physicsWobble * 0.1f) * 5f
+            // Wobble intensity varies with vertical velocity
+            val velY = self.deltaMovement.y
+            val fallSpeed = (velY.coerceAtLeast(-1.0).coerceAtMost(0.0) * -10.0f).toFloat()
+
+            // Advance wobble phase based on age
+            physicsWobble = (self.age % 120).toFloat() / 120f * 360f
+
+            // Combine phase with fall speed for dynamic wobble
+            val wobbleAngle = kotlin.math.sin(physicsWobble * 0.15f + fallSpeed) * (3f + fallSpeed * 2f)
+            self.xRot = wobbleAngle.coerceIn(-25f, 25f)
             self.xRotO = self.xRot
         } else if (ItemPhysics.layFlat.get()) {
-            // Lay-flat: on ground = -90, in air = 0
+            // Lay-flat: on ground = facing up (flat), in air = upright
             if (self.onGround) {
                 self.xRot = -90f
                 self.xRotO = -90f
@@ -76,24 +97,33 @@ abstract class ItemPhysicsMixin {
         }
     }
 
-    // Re-apply physics after vanilla tick logic runs.
     // @[1.21.11] "tick" @[] "onEntityTick"
     @Inject(method = [/*[@]*/"tick"/*[!@]*/], at = [At("RETURN")])
     private fun onPostTick(ci: CallbackInfo) {
         if (!capyclientCanApplyItemPhysics()) return
-
         val self = this as Any as ItemEntity
 
+        // === Reduce ground bounce after vanilla physics ===
+        if (self.onGround && self.deltaMovement.y < -0.01) {
+            self.setDeltaMovement(
+                self.deltaMovement.x,
+                self.deltaMovement.y * 0.3,
+                self.deltaMovement.z
+            )
+        }
+
         if (ItemPhysics.layFlat.get()) {
-            // Keep the rotation frozen even after vanilla tick resets it.
+            // Keep the rotation frozen even after vanilla tick
             self.yRot = 0f
             self.yRotO = 0f
         }
 
-        // Wobble only while falling, flat when on ground
+        // === Re-apply wobble after vanilla tick ===
         if (!self.onGround && ItemPhysics.wobble.get()) {
-            // Re-apply wobble in case layFlat cleared it.
-            self.xRot = kotlin.math.sin(physicsWobble * 0.1f) * 5f
+            val velY = self.deltaMovement.y
+            val fallSpeed = (velY.coerceAtLeast(-1.0).coerceAtMost(0.0) * -10.0f).toFloat()
+            val wobbleAngle = kotlin.math.sin(physicsWobble * 0.15f + fallSpeed) * (3f + fallSpeed * 2f)
+            self.xRot = wobbleAngle.coerceIn(-25f, 25f)
             self.xRotO = self.xRot
         } else if (ItemPhysics.layFlat.get()) {
             // Keep flat

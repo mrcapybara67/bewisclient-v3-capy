@@ -5,7 +5,6 @@ import net.bewis09.capyclient.features.utilities.ItemPhysics
 import net.minecraft.client.Minecraft
 import net.minecraft.world.entity.item.ItemEntity
 import org.spongepowered.asm.mixin.Mixin
-import org.spongepowered.asm.mixin.Shadow
 import org.spongepowered.asm.mixin.Unique
 import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
@@ -26,8 +25,8 @@ import kotlin.math.PI
  *   The item's rotation is frozen at 0 — no spinning, no
  *   billboard, just a static flat sprite on the ground.
  *
- * Items also have their bob/hover neutralized so they rest
- * on the ground rather than floating in the air.
+ * The visual bob/hover is neutralised by [ItemEntityRendererMixin]
+ * which zeros the render-state bob field so items sit at ground level.
  *
  * When ItemPhysics.wobble is active, xRot is preserved so the
  * wobble animation still plays — the two features cooperate.
@@ -35,24 +34,19 @@ import kotlin.math.PI
 @Mixin(ItemEntity::class)
 abstract class FlatItemsMixin {
 
-    @Shadow
-    private var bobOffset: Float = 0f
-
     @Unique
     private val mc: Minecraft get() = Minecraft.getInstance()
 
     /**
-     * Cached yaw value to avoid recalculating billboard in postTick
-     * when the value hasn't changed since preTick.
+     * Cached yaw value to avoid recalculating billboard in postTick.
      */
     @Unique
     private var capyclientLastBillboardYaw: Float = Float.MAX_VALUE
 
     /**
      * Calculates the yaw (in degrees) that would make this item
-     * face toward the nearest player.  Uses lazy [mc] accessor.
-     * Returns [Float.MAX_VALUE] when no player is available or the
-     * item is on the player's exact position (to avoid atan2(0,0)).
+     * face toward the nearest player.  Returns [Float.MAX_VALUE]
+     * when no player is available.
      */
     @Unique
     private fun capyclientBillboardYaw(self: ItemEntity): Float {
@@ -80,7 +74,7 @@ abstract class FlatItemsMixin {
                 return
             }
         }
-        // Static fallback (also used when billboard can't resolve)
+        // Static fallback
         self.yRot = 0f
         self.yRotO = 0f
     }
@@ -90,14 +84,9 @@ abstract class FlatItemsMixin {
         if (!FlatItems.isEnabled()) return
         val self = this as Any as ItemEntity
 
-        // Neutralize bob offset so items rest on the ground
-        // instead of hovering in the air while spinning
-        bobOffset = 0f
-
         capyclientFreezeRotation(self)
 
         // When on the ground, tilt items so they lie flat
-        // (xRot = -90 makes the item face the ground)
         if (self.onGround) {
             self.xRot = -90f
             self.xRotO = -90f
@@ -109,11 +98,7 @@ abstract class FlatItemsMixin {
         if (!FlatItems.isEnabled()) return
         val self = this as Any as ItemEntity
 
-        // Neutralize bob offset again after vanilla tick
-        bobOffset = 0f
-
-        // Re-freeze rotation — use cached billboard yaw if available
-        // to avoid recalculating atan2 a second time
+        // Re-freeze rotation — use cached billboard yaw to avoid atan2 recalc
         if (FlatItems.billboard.get() && capyclientLastBillboardYaw != Float.MAX_VALUE) {
             self.yRot = capyclientLastBillboardYaw
             self.yRotO = capyclientLastBillboardYaw
