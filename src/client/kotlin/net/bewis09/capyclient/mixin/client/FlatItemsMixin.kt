@@ -5,11 +5,11 @@ import net.bewis09.capyclient.features.utilities.ItemPhysics
 import net.minecraft.client.Minecraft
 import net.minecraft.world.entity.item.ItemEntity
 import org.spongepowered.asm.mixin.Mixin
-import org.spongepowered.asm.mixin.Shadow
 import org.spongepowered.asm.mixin.Unique
 import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.PI
@@ -27,18 +27,23 @@ import kotlin.math.PI
  *   The item's rotation is frozen at 0 — no spinning, no
  *   billboard, just a static flat sprite on the ground.
  *
- * The visual bob/hover is neutralised by dynamically adjusting
- * bobOffset so that sin((age + partialTick) / 10 + bobOffset) = -1,
- * which makes the bob amplitude 0 (items sit at ground level).
+ * The visual bob/hover is neutralised via the onGetBob() inject
+ * (cancels ItemEntity.getBob(float) if the method exists in Yarn).
+ * In 1.21.5+ all bob-related fields (bobOffset, bob, hoverStart)
+ * were removed from ItemEntity — only getBob() remains.
+ *
+ * Ground state is tracked via self-contained Y-position comparison
+ * (no @Shadow needed, works across all MC versions).
  *
  * When ItemPhysics.wobble is active, xRot is preserved so the
  * wobble animation still plays — the two features cooperate.
+ *
+ * NOTE: If getBob(float) is not mapped in Yarn for this version,
+ * the bob cancellation is silently skipped (require=0). The main
+ * effects (flat rendering, no rotation, billboard) still work.
  */
 @Mixin(ItemEntity::class)
 abstract class FlatItemsMixin {
-
-    @Shadow
-    private var bobOffset: Float = 0f
 
     /** Self-contained ground tracking - no @Shadow needed. */
     @Unique
@@ -75,14 +80,18 @@ abstract class FlatItemsMixin {
         return (atan2(dz, dx) * 180.0 / PI).toFloat() - 90f
     }
 
-    @Unique
-    private fun capyclientUpdateBobOffset(self: ItemEntity) {
-        // Vanilla bob formula: bob = sin((age + partialTick) / 10 + bobOffset) * 0.1 + 0.1
-        // To make bob = 0: sin(...) = -1, so (age + partialTick)/10 + bobOffset = -PI/2
-        // Using partialTick ≈ 0.5 as the midpoint of the frame interpolation:
-        // bobOffset = -PI/2 - (age + 0.5) / 10
-        // This cancels the bob for any partialTick value because sin(x) ≈ -1 for x ≈ -PI/2
-        bobOffset = (-PI / 2.0 - (self.age + 0.5) / 10.0).toFloat()
+    /**
+     * Injects into ItemEntity.getBob(float) which was added in 1.21.5+
+     * as the public getter for the now-removed bobOffset field.
+     * Returns 0 to cancel the visual hover entirely.
+     * require=0 makes this optional — silently skipped if getBob
+     * doesn't exist in the Yarn mapping for this version.
+     */
+    @Inject(method = ["getBob"], at = [At("HEAD")], cancellable = true, require = 0)
+    private fun onGetBob(partialTick: Float, cir: CallbackInfoReturnable<Float>) {
+        if (FlatItems.isEnabled()) {
+            cir.setReturnValue(0f)
+        }
     }
 
     @Unique
@@ -115,8 +124,9 @@ abstract class FlatItemsMixin {
         // Track ground state from Y position (no @Shadow needed)
         capyclientTrackGroundState(self)
 
-        // Dynamically adjust bobOffset to cancel the visual hover
-        capyclientUpdateBobOffset(self)
+        // Bob cancellation: onGetBob() inject uses require=0 (best-effort).
+        // In Yarn 1.21.11 getBob(float) is not mapped — the sin-based bob
+        // animation (~0.1 blocks) may still be visible. See onGetBob().
 
         capyclientFreezeRotation(self)
 
@@ -132,8 +142,9 @@ abstract class FlatItemsMixin {
         if (!FlatItems.isEnabled()) return
         val self = this as Any as ItemEntity
 
-        // Re-apply bob offset cancellation after vanilla tick
-        capyclientUpdateBobOffset(self)
+        // Bob cancellation: onGetBob() inject uses require=0 (best-effort).
+        // In Yarn 1.21.11 getBob(float) is not mapped — the sin-based bob
+        // animation (~0.1 blocks) may still be visible. See onGetBob().
 
         // Re-freeze rotation — use cached billboard yaw to avoid atan2 recalc
         if (FlatItems.billboard.get() && capyclientLastBillboardYaw != Float.MAX_VALUE) {

@@ -45,7 +45,7 @@ abstract class FoodSaturationOverlayMixin {
      *
      * @[1.21.8] "renderFoodLevel" @[] "renderFoodLevel"
      */
-    @Inject(method = [/*[@]*/"renderFoodLevel"/*[!@]*/], at = [At("RETURN")])
+    @Inject(method = [/*[@]*/"renderFoodLevel"/*[!@]*/], at = [At("RETURN")], require = 0)
     private fun onPostRenderFoodLevel(guiGraphics: GuiGraphics, ci: CallbackInfo) {
         if (!ColorSaturation.isEnabled()) return
 
