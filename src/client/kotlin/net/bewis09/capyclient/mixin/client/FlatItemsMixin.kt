@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.Unique
 import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.PI
@@ -27,20 +26,15 @@ import kotlin.math.PI
  *   The item's rotation is frozen at 0 — no spinning, no
  *   billboard, just a static flat sprite on the ground.
  *
- * The visual bob/hover is neutralised via the onGetBob() inject
- * (cancels ItemEntity.getBob(float) if the method exists in Yarn).
- * In 1.21.5+ all bob-related fields (bobOffset, bob, hoverStart)
- * were removed from ItemEntity — only getBob() remains.
+ * The visual bob/hover is neutralised via [FlatItemsRendererMixin]
+ * which zeroes the bobOffset in the ItemEntityRenderState during
+ * extractRenderState().
  *
  * Ground state is tracked via self-contained Y-position comparison
  * (no @Shadow needed, works across all MC versions).
  *
  * When ItemPhysics.wobble is active, xRot is preserved so the
  * wobble animation still plays — the two features cooperate.
- *
- * NOTE: If getBob(float) is not mapped in Yarn for this version,
- * the bob cancellation is silently skipped (require=0). The main
- * effects (flat rendering, no rotation, billboard) still work.
  */
 @Mixin(ItemEntity::class)
 abstract class FlatItemsMixin {
@@ -81,19 +75,14 @@ abstract class FlatItemsMixin {
     }
 
     /**
-     * Injects into ItemEntity.getBob(float) which was added in 1.21.5+
-     * as the public getter for the now-removed bobOffset field.
-     * Returns 0 to cancel the visual hover entirely.
-     * require=0 makes this optional — silently skipped if getBob
-     * doesn't exist in the Yarn mapping for this version.
+     * Bob offset is zeroed in [FlatItemsRendererMixin] which injects
+     * into ItemEntityRenderer.extractRenderState() and overrides
+     * the render state's bobOffset to 0 when FlatItems is enabled.
+     * This replaces the previous onGetBob() inject that targeted a
+     * non-existent getBob(float) method — getBob was never mapped
+     * in 1.21.11 Mojang mappings, and the bob is now entirely
+     * renderer-side via ItemEntityRenderState.bobOffset.
      */
-    @Inject(method = ["getBob"], at = [At("HEAD")], cancellable = true, require = 0)
-    private fun onGetBob(partialTick: Float, cir: CallbackInfoReturnable<Float>) {
-        if (FlatItems.isEnabled()) {
-            cir.setReturnValue(0f)
-        }
-    }
-
     @Unique
     private fun capyclientFreezeRotation(self: ItemEntity) {
         // Preserve xRot when ItemPhysics wobble is active
@@ -124,9 +113,10 @@ abstract class FlatItemsMixin {
         // Track ground state from Y position (no @Shadow needed)
         capyclientTrackGroundState(self)
 
-        // Bob cancellation: onGetBob() inject uses require=0 (best-effort).
-        // In Yarn 1.21.11 getBob(float) is not mapped — the sin-based bob
-        // animation (~0.1 blocks) may still be visible. See onGetBob().
+        // Bob offset is zeroed in FlatItemsRendererMixin via
+        // ItemEntityRenderer.extractRenderState(). The old
+        // getBob(float) inject was removed because that method
+        // doesn't exist in 1.21.11 Mojang mappings.
 
         capyclientFreezeRotation(self)
 
@@ -141,10 +131,6 @@ abstract class FlatItemsMixin {
     private fun onPostTick(ci: CallbackInfo) {
         if (!FlatItems.isEnabled()) return
         val self = this as Any as ItemEntity
-
-        // Bob cancellation: onGetBob() inject uses require=0 (best-effort).
-        // In Yarn 1.21.11 getBob(float) is not mapped — the sin-based bob
-        // animation (~0.1 blocks) may still be visible. See onGetBob().
 
         // Re-freeze rotation — use cached billboard yaw to avoid atan2 recalc
         if (FlatItems.billboard.get() && capyclientLastBillboardYaw != Float.MAX_VALUE) {
