@@ -5,10 +5,9 @@ import com.google.gson.JsonElement
 import net.bewis09.capyclient.common.Color
 import net.bewis09.capyclient.common.Identifier
 import net.bewis09.capyclient.common.createIdentifier
-import net.bewis09.capyclient.common.findAllResources
 import net.bewis09.capyclient.common.toText
 import net.bewis09.capyclient.common.catch
-import net.bewis09.capyclient.common.warn
+// warn() and findAllResources() inherited via EventEntrypoint → ClientInterface
 import net.bewis09.capyclient.drawable.Renderable
 import net.bewis09.capyclient.util.EventEntrypoint
 import net.bewis09.capyclient.widget.logic.SidedPosition

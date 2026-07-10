@@ -12,7 +12,7 @@ import net.bewis09.capyclient.common.color
 import net.bewis09.capyclient.common.createIdentifier
 import net.bewis09.capyclient.common.id
 import net.bewis09.capyclient.common.toText
-import net.bewis09.capyclient.common.warn
+// warn() inherited from BewisclientLogger (via EventEntrypoint → ClientInterface)
 import net.bewis09.capyclient.common.snake_toCamelCase
 import net.bewis09.capyclient.common.`snake_toWord With Spaces`
 import net.bewis09.capyclient.drawable.Renderable
