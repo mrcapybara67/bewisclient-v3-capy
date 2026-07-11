@@ -37,7 +37,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 abstract class FoodSaturationOverlayMixin {
 
     @Unique
-    private fun mc(): Minecraft = Minecraft.getInstance()
+    private val mc: Minecraft = Minecraft.getInstance()
+
+    @Unique
+    private val emptySprite = Identifier.withDefaultNamespace("hud/food_empty")
+
+    @Unique
+    private val fullSprite = Identifier.withDefaultNamespace("hud/food_full")
+
+    @Unique
+    private val halfSprite = Identifier.withDefaultNamespace("hud/food_half")
 
     /**
      * Inject AFTER the food level is rendered to draw the saturation
@@ -52,8 +61,8 @@ abstract class FoodSaturationOverlayMixin {
         val currentFood = foodData.foodLevel
         val currentSaturation = foodData.saturationLevel
 
-        val screenWidth = mc().window.guiScaledWidth
-        val screenHeight = mc().window.guiScaledHeight
+        val screenWidth = mc.window.guiScaledWidth
+        val screenHeight = mc.window.guiScaledHeight
 
         // Food bar position (vanilla layout — right-to-left)
         val startX = screenWidth / 2 + 91
@@ -62,9 +71,6 @@ abstract class FoodSaturationOverlayMixin {
         val step = 9      // distance between shank centers
 
         // Modern HUD sprites (vanilla does not have hardcore variants for food).
-        val emptySprite = Identifier.withDefaultNamespace("hud/food_empty")
-        val fullSprite = Identifier.withDefaultNamespace("hud/food_full")
-        val halfSprite = Identifier.withDefaultNamespace("hud/food_half")
 
         // ================================================================
         //  1. Saturation overlay — gold outline on the vanilla drumsticks
@@ -164,7 +170,7 @@ abstract class FoodSaturationOverlayMixin {
 
     @Unique
     private fun getHeldEdible(): ItemStack? {
-        val player = mc().player ?: return null
+        val player = mc.player ?: return null
         val mainHand = player.mainHandItem
         if (mainHand.has(DataComponents.FOOD)) return mainHand
         val offHand = player.offhandItem

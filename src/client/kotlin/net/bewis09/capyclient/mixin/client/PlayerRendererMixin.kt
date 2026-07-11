@@ -10,12 +10,42 @@ import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.phys.Vec3
 import kotlin.math.roundToInt
 import org.spongepowered.asm.mixin.Mixin
+import org.spongepowered.asm.mixin.Unique
 import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 
 @Mixin(LivingEntityRenderer::class)
 abstract class PlayerRendererMixin {
+
+    /**
+     * Cache key for the local player's styled nametag.
+     * Rebuilding the component every frame causes unnecessary allocations;
+     * we only rebuild when one of these inputs changes.
+     */
+    @Unique
+    private data class CapyNametagCacheKey(
+        val colorInt: Int,
+        val bold: Boolean,
+        val italic: Boolean,
+        val prefix: String,
+        val baseName: String,
+        val suffix: String,
+        val health: Int?,
+        val ping: Int?
+    )
+
+    @Unique
+    private var capyLastNametagKey: CapyNametagCacheKey? = null
+
+    @Unique
+    private var capyCachedNametag: Component? = null
+
+    @Unique
+    private var capyLastBbHeight: Float = -1f
+
+    @Unique
+    private var capyCachedAttachment: Vec3? = null
     /**
      * Injects AFTER [LivingEntityRenderer.extractRenderState] to customise
      * the nametag that appears above each player.
@@ -74,48 +104,66 @@ abstract class PlayerRendererMixin {
         // ==============================================================
         //  Build the styled nametag for the local player only.
         // ==============================================================
+        val bold = PlayerNametag.bold.get()
+        val italic = PlayerNametag.italic.get()
+        val prefix = PlayerNametag.prefix.get()
+        val baseName = entity.name.string
+        val suffix = PlayerNametag.suffix.get()
+
         val colorInt: Int = if (PlayerNametag.rainbow.get()) {
-            val hue = (System.currentTimeMillis() / 1000f * PlayerNametag.rainbowSpeed.get()) % 1f
+            // Quantise time so the rainbow colour only updates every 50ms,
+            // allowing the nametag cache to hit instead of rebuilding every frame.
+            val quantized = (System.currentTimeMillis() / 50) * 50
+            val hue = (quantized / 1000f * PlayerNametag.rainbowSpeed.get()) % 1f
             java.awt.Color.HSBtoRGB(hue, 1f, 1f)
         } else {
             PlayerNametag.color.get().getColorInt()
         }
 
-        val bold = PlayerNametag.bold.get()
-        val italic = PlayerNametag.italic.get()
+        val health = if (PlayerNametag.showHealth.get()) entity.health.roundToInt() else null
+        val ping = if (PlayerNametag.showPing.get()) {
+            mc.connection?.getPlayerInfo(entity.uuid)?.latency ?: 0
+        } else null
 
-        val prefix = PlayerNametag.prefix.get()
-        val baseName = entity.name.string
-        val suffix = PlayerNametag.suffix.get()
+        val cacheKey = CapyNametagCacheKey(colorInt, bold, italic, prefix, baseName, suffix, health, ping)
 
-        // Start with the name (coloured + bold/italic).  Use
-        // MutableComponent directly so we can .append() without
-        // unnecessary .copy() calls.
-        val nameComp = Component.literal(prefix + baseName + suffix)
-            .withStyle { style -> style.withColor(colorInt).withBold(bold).withItalic(italic) }
+        val tag = if (capyLastNametagKey == cacheKey) {
+            capyCachedNametag
+        } else {
+            val nameComp = Component.literal(prefix + baseName + suffix)
+                .withStyle { style -> style.withColor(colorInt).withBold(bold).withItalic(italic) }
 
-        // Cast to MutableComponent for efficient append() — in
-        // practice withStyle() always returns a MutableComponent.
-        val tag: net.minecraft.network.chat.MutableComponent = nameComp
+            val newTag: net.minecraft.network.chat.MutableComponent = nameComp
 
-        // Append health text with red colour (NO § codes)
-        if (PlayerNametag.showHealth.get()) {
-            tag.append(
-                Component.literal(" ${entity.health.roundToInt()}❤")
-                    .withStyle { style -> style.withColor(0xFF5555).withBold(bold).withItalic(italic) }
-            )
-        }
+            if (health != null) {
+                newTag.append(
+                    Component.literal(" ${health}❤")
+                        .withStyle { style -> style.withColor(0xFF5555).withBold(bold).withItalic(italic) }
+                )
+            }
 
-        // Append ping text with yellow colour (NO § codes)
-        if (PlayerNametag.showPing.get()) {
-            val ping = mc.connection?.getPlayerInfo(entity.uuid)?.latency ?: 0
-            tag.append(
-                Component.literal(" ${ping}ms")
-                    .withStyle { style -> style.withColor(0xFFFF55).withBold(bold).withItalic(italic) }
-            )
+            if (ping != null) {
+                newTag.append(
+                    Component.literal(" ${ping}ms")
+                        .withStyle { style -> style.withColor(0xFFFF55).withBold(bold).withItalic(italic) }
+                )
+            }
+
+            capyLastNametagKey = cacheKey
+            capyCachedNametag = newTag
+            newTag
         }
 
         state.nameTag = tag
-        state.nameTagAttachment = Vec3(0.0, entity.getBbHeight().toDouble() + 0.5, 0.0)
+
+        // Cache the attachment vector; only rebuild when bbHeight changes.
+        val bbHeight = entity.getBbHeight()
+        val attachment = if (capyLastBbHeight == bbHeight) {
+            capyCachedAttachment
+        } else {
+            capyLastBbHeight = bbHeight
+            Vec3(0.0, bbHeight.toDouble() + 0.5, 0.0).also { capyCachedAttachment = it }
+        }
+        state.nameTagAttachment = attachment
     }
 }

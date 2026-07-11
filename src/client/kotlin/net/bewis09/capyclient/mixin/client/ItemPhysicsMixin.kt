@@ -39,7 +39,10 @@ abstract class ItemPhysicsMixin {
     private var capyclientWasOnGround: Boolean = false
 
     @Unique
-    private fun mc(): Minecraft = Minecraft.getInstance()
+    private val mc: Minecraft = Minecraft.getInstance()
+
+    @Unique
+    private var capyclientIsNearPlayerResult: Boolean = false
 
     /**
      * Max distance in blocks for physics to apply (squared, avoids sqrt).
@@ -47,7 +50,7 @@ abstract class ItemPhysicsMixin {
      */
     @Unique
     private fun capyclientIsNearPlayer(self: ItemEntity): Boolean {
-        val player = mc().player ?: return false
+        val player = mc.player ?: return false
         val dx = player.x - self.x
         val dz = player.z - self.z
         return (dx * dx + dz * dz) < 4096.0 // 64²
@@ -67,7 +70,8 @@ abstract class ItemPhysicsMixin {
         if (!ItemPhysics.isEnabled()) return
         val self = this as Any as ItemEntity
 
-        if (!capyclientIsNearPlayer(self)) return
+        capyclientIsNearPlayerResult = capyclientIsNearPlayer(self)
+        if (!capyclientIsNearPlayerResult) return
 
         capyclientTrackGroundState(self)
 
@@ -83,7 +87,7 @@ abstract class ItemPhysicsMixin {
         if (!ItemPhysics.isEnabled()) return
         val self = this as Any as ItemEntity
 
-        if (!capyclientIsNearPlayer(self)) return
+        if (!capyclientIsNearPlayerResult) return
 
         if (capyclientOnGround) {
             // Lay flat on the ground.
