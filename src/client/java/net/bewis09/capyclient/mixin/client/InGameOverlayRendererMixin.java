@@ -31,12 +31,16 @@ public class InGameOverlayRendererMixin {
      * In 1.21.11, renderFire does NOT call RenderSystem.setShaderColor — it now
      * calls VertexConsumer.setColor(float, float, float, float) directly on each
      * vertex (with alpha = 0.9f).  We intercept those setColor calls instead.
-     * The `require = 0` prevents a game crash if Mojang refactors this again.
+     * Uses default require=1 so any future refactoring that removes the setColor
+     * call site will fail loudly during testing.
      */
     @ModifyArg(method = "renderFire", at = @At(
             value = "INVOKE",
+            // VertexConsumer.setColor(FFFF) is called unconditionally for each
+            // vertex in renderFire. require=1 ensures a crash if the target
+            // ever changes so the break is caught during testing.
             target = "Lcom/mojang/blaze3d/vertex/VertexConsumer;setColor(FFFF)V"
-    ), index = 3, require = 0)
+    ), index = 3)
     private static float modifyFireAlpha(float alpha) {
         if (!FireHeight.INSTANCE.isEnabled()) return alpha;
         return alpha * FireHeight.INSTANCE.getOpacity().get();

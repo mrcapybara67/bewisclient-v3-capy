@@ -16,7 +16,6 @@ import net.bewis09.capyclient.features.sidebar.Utilities
 import net.bewis09.capyclient.features.utilities.AutoGG
 import net.bewis09.capyclient.features.utilities.BetterVisibility
 import net.bewis09.capyclient.features.utilities.BlockHighlight
-import net.bewis09.capyclient.features.utilities.ColorSaturation
 import net.bewis09.capyclient.features.utilities.EntityHighlight
 import net.bewis09.capyclient.features.utilities.FeatureIcons
 import net.bewis09.capyclient.features.utilities.FireHeight

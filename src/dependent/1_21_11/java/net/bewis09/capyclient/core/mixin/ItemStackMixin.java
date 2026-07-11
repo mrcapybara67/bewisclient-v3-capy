@@ -45,11 +45,11 @@ public abstract class ItemStackMixin {
      * when HeldItemTooltip is rendering its own overlay, we cancel the vanilla
      * attribute-modifier lines by injecting a transparent consumer wrapper.
      *
-     * The {@code require = 0} on the redirect means Mixin won't crash even if
-     * the target dispatch changes in a future snapshot — the feature simply
-     * degrades gracefully (attribute lines show in the custom overlay).
+     * The redirect uses the default require=1 so any future refactoring that
+     * removes the Consumer.accept call site will fail loudly during testing
+     * rather than silently degrading.
      */
-    @Redirect(method = "addDetailsToTooltip", at = @At(value = "INVOKE", target = "Ljava/util/function/Consumer;accept(Ljava/lang/Object;)V"), require = 0)
+    @Redirect(method = "addDetailsToTooltip", at = @At(value = "INVOKE", target = "Ljava/util/function/Consumer;accept(Ljava/lang/Object;)V"))
     private static <T> void capyclient$appendAttributeModifiersTooltip(Consumer<T> instance, T o) {
         if (!HeldItemTooltip.INSTANCE.isRendering()) instance.accept(o);
     }
