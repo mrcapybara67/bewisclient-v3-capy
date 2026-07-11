@@ -66,7 +66,14 @@ class Input : Renderable {
         return true
     }
 
-    override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean = true
+    override fun onMouseClick(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        // Ensure this Input is the focused/selected renderable so keyboard
+        // events are routed to it. The framework normally sets this via the
+        // selectedElement chain, but explicitly setting the screen's selected
+        // element guarantees focus even when parent panes are recreated.
+        getCurrentRenderableScreen()?.renderable?.selectedElement = this
+        return true
+    }
 
     override fun onKeyPress(key: Int, scanCode: Int, modifiers: Int): Boolean {
         return when (key) {
