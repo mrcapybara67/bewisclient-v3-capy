@@ -36,10 +36,9 @@ public class InGameOverlayRendererMixin {
      */
     @ModifyArg(method = "renderFire", at = @At(
             value = "INVOKE",
-            // VertexConsumer.setColor(FFFF) is called unconditionally for each
-            // vertex in renderFire. require=1 ensures a crash if the target
-            // ever changes so the break is caught during testing.
-            target = "Lcom/mojang/blaze3d/vertex/VertexConsumer;setColor(FFFF)V"
+            // VertexConsumer.setColor(FFFF) returns VertexConsumer (fluent API)
+            // and is called unconditionally for each vertex in renderFire.
+            target = "Lcom/mojang/blaze3d/vertex/VertexConsumer;setColor(FFFF)Lcom/mojang/blaze3d/vertex/VertexConsumer;"
     ), index = 3)
     private static float modifyFireAlpha(float alpha) {
         if (!FireHeight.INSTANCE.isEnabled()) return alpha;
