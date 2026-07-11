@@ -167,6 +167,24 @@ object AutoGG : ImageFeature(createIdentifier("capyclient", "auto_gg"), "AutoGG"
             text.contains("replay ended")
     }
 
+    /**
+     * Called from [AutoGGTitleMixin] when the server sends a centered
+     * title overlay (e.g. "VICTORY!", "GAME OVER!"). Checks the title
+     * text against the same keyword list used by [isMatchEndMessage]
+     * and triggers [sendChatLine] if matched, respecting the
+     * [fireOnMatchEnd] toggle and the cooldown.
+     *
+     * This is a second, more reliable match-end detection path that
+     * works on ANY server sending a vanilla title packet — not just
+     * servers with chat-based match-end messages.
+     */
+    fun handleTitleMatch(title: Component) {
+        if (!isEnabled() || !fireOnMatchEnd.get()) return
+        if (isMatchEndMessage(title)) {
+            sendChatLine()
+        }
+    }
+
     private fun argMatchesName(arg: Any?, name: String): Boolean {
         return when (arg) {
             is Component -> arg.string.trim().equals(name, ignoreCase = false)
