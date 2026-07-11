@@ -19,6 +19,8 @@ import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 
+private val GUI_ICONS: Identifier = createIdentifier("minecraft", "textures/gui/icons.png")
+
 /**
  * Mixes into [Hud] to render an AppleSkin-style food saturation
  * overlay on the hunger bar.
@@ -39,23 +41,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
  */
 @Mixin(Hud::class)
 abstract class FoodSaturationOverlayMixin {
-
-    companion object {
-        /**
-         * Minecraft's GUI icons texture — contains the food/shank
-         * sprites used by the vanilla hunger bar.
-         * Food icon positions on the 256×256 sheet:
-         *   - Empty background: u=16,  v=27  (outline only — no fill)
-         *   - Half food:        u=52,  v=27  (one half filled)
-         *   - Full food:        u=61,  v=27  (fully filled drumstick)
-         *   - Hardcore offset:  +36 to u
-         *
-         * AppleSkin approach: draw the EMPTY background icon (the drumstick
-         * outline) in yellow/gold on TOP of the already-rendered vanilla food
-         * bar, creating a gold outline effect that shows saturation level.
-         */
-        private val GUI_ICONS: Identifier = createIdentifier("minecraft", "textures/gui/icons.png")
-    }
 
     @Unique
     private fun mc(): Minecraft = Minecraft.getInstance()

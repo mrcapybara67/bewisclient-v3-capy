@@ -14,6 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 import kotlin.math.abs
 import org.slf4j.LoggerFactory
 
+private val log = LoggerFactory.getLogger("CapyItemPhysics")
+
 /**
  * Mixes into [ItemEntity] to override the default spinning/floating
  * physics behaviour of dropped items.
@@ -28,10 +30,6 @@ import org.slf4j.LoggerFactory
  */
 @Mixin(ItemEntity::class)
 abstract class ItemPhysicsMixin {
-
-    companion object {
-        private val log = LoggerFactory.getLogger("CapyItemPhysics")
-    }
 
     @Unique
     private fun mc(): Minecraft = Minecraft.getInstance()
