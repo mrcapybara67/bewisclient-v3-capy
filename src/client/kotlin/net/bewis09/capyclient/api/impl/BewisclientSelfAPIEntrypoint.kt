@@ -14,6 +14,8 @@ import net.bewis09.capyclient.features.sidebar.Extensions
 import net.bewis09.capyclient.features.sidebar.Screenshot
 import net.bewis09.capyclient.features.sidebar.Utilities
 import net.bewis09.capyclient.features.utilities.AutoGG
+import net.bewis09.capyclient.drawable.renderables.notification.NotificationManager
+import net.bewis09.capyclient.server.AutoUpdater
 import net.bewis09.capyclient.features.utilities.BetterVisibility
 import net.bewis09.capyclient.features.utilities.BlockHighlight
 import net.bewis09.capyclient.features.utilities.EntityHighlight
@@ -69,7 +71,7 @@ import kotlin.jvm.optionals.getOrNull
 
 class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
     override fun getEventEntrypoints(): List<EventEntrypoint> = listOf(
-        WidgetLoader, Settings, KeybindingImplementer, TranslationLoader, BiomeWidget, SpeedWidget, TiwylaWidget, ShulkerBoxTooltipComponent.Entrypoint, CosmeticLoader, BewisclientCommand, ImageIdentifier, Panorama, Ticker, AutoGG, FeatureIcons
+        WidgetLoader, Settings, KeybindingImplementer, TranslationLoader, BiomeWidget, SpeedWidget, TiwylaWidget, ShulkerBoxTooltipComponent.Entrypoint, CosmeticLoader, BewisclientCommand, ImageIdentifier, Panorama, Ticker, AutoGG, FeatureIcons, AutoUpdater, NotificationManager
     )
 
     override fun getKeybinds(): List<Keybind> = listOf(
