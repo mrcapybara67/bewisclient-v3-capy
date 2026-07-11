@@ -20,24 +20,16 @@ abstract class PlayerRendererMixin {
      * Injects AFTER [LivingEntityRenderer.extractRenderState] to customise
      * the nametag that appears above each player.
      *
-     * BUGFIX round 2 — the user reported two issues with the first fix:
-     *   1. The nametag appeared TWICE (duplicate) instead of once.
-     *   2. The nametag flickered.
+     * The method has two logical halves:
+     *   1. **Self-nametag mode** (isLocalPlayer only) — the selfNametag
+     *      toggle and the always/third_person/never mode selector control
+     *      whether the local player's own name is shown in third-person.
+     *   2. **Rich styling** (ALL players) — color/rainbow, prefix, suffix,
+     *      showHealth, showPing, bold, and italic are applied to every
+     *      player within visibleDistance.
      *
-     * Root causes eliminated:
-     *   - The old `lastLocalNametagTick` guard assumed `extractRenderState`
-     *     was called twice per frame in third person.  In 1.21+ it is called
-     *     ONCE — the guard never triggered so the tag was set normally.
-     *     With the tag set and the state reused for both the back and front
-     *     third-person render passes, the nametag appeared in BOTH views.
-     *   - The `!!` safe-call operator on `state.nameTag` could throw NPE
-     *     on the render thread, causing visible flicker.
-     *
-     * Fixes applied:
-     *   - Remove the `lastLocalNametagTick` guard entirely — it never worked.
-     *   - Use a local variable instead of `!!` to build the final component.
-     *   - Keep `state.nameTag = null` for non-local players so their tags
-     *     are hidden when the feature is on.
+     * When the feature is globally disabled, other players' nametags are
+     * hidden and the local player's tag falls back to vanilla rendering.
      */
     @Inject(method = ["extractRenderState"], at = [At("RETURN")])
     fun capyclientPlayernametag(entity: LivingEntity, state: LivingEntityRenderState, f: Float, ci: CallbackInfo) {
@@ -48,35 +40,37 @@ abstract class PlayerRendererMixin {
 
         if (PlayerNametag.isEnabled()) {
             // ==============================================================
-            //  Hide ALL nametags except the local player's own tag.
+            //  Self-nametag mode: only applies to the local player's own tag.
+            //  (always / third_person / never + the selfNametag toggle)
             // ==============================================================
-            if (!isLocalPlayer) {
-                state.nameTag = null
-                return
+            if (isLocalPlayer) {
+                if (!PlayerNametag.selfNametag.get()) {
+                    state.nameTag = null
+                    return
+                }
+
+                val cameraType = mc.options.cameraType
+                val isFirstPerson = cameraType.isFirstPerson
+                when (PlayerNametag.selfNametagMode.get().lowercase()) {
+                    "never" -> { state.nameTag = null; return }
+                    "third_person" -> if (isFirstPerson) { state.nameTag = null; return }
+                    "always" -> { /* always render */ }
+                    else -> if (isFirstPerson) { state.nameTag = null; return }
+                }
             }
 
-            // Only reach here for the local player.
-            if (!PlayerNametag.selfNametag.get()) {
-                state.nameTag = null
-                return
-            }
-
-            val cameraType = mc.options.cameraType
-            val isFirstPerson = cameraType.isFirstPerson
-            when (PlayerNametag.selfNametagMode.get().lowercase()) {
-                "never" -> { state.nameTag = null; return }
-                "third_person" -> if (isFirstPerson) { state.nameTag = null; return }
-                "always" -> { /* always render */ }
-                else -> if (isFirstPerson) { state.nameTag = null; return }
-            }
-
+            // ==============================================================
+            //  Visible-distance check for ALL players.
+            // ==============================================================
             val maxDist = PlayerNametag.visibleDistance.get()
             if (mc.entityRenderDispatcher.distanceToSqr(entity) > (maxDist * maxDist).toDouble()) {
                 state.nameTag = null
                 return
             }
 
-            // ------------------ Build the styled nametag ------------------
+            // ==============================================================
+            //  Build the styled nametag — applies to EVERY player.
+            // ==============================================================
             val colorInt: Int = if (PlayerNametag.rainbow.get()) {
                 val hue = (System.currentTimeMillis() / 1000f * PlayerNametag.rainbowSpeed.get()) % 1f
                 java.awt.Color.HSBtoRGB(hue, 1f, 1f)
@@ -87,8 +81,6 @@ abstract class PlayerRendererMixin {
             val bold = PlayerNametag.bold.get()
             val italic = PlayerNametag.italic.get()
 
-            // BUGFIX: §c/§e legacy codes are NOT parsed by Component.literal()
-            // in 1.21+.  Each coloured segment must use withStyle().
             val prefix = PlayerNametag.prefix.get()
             val baseName = entity.name.string
             val suffix = PlayerNametag.suffix.get()
