@@ -75,7 +75,7 @@ class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
     )
 
     override fun getKeybinds(): List<Keybind> = listOf(
-        OpenOptionScreen, Fullbright.ToggleNightVision, Fullbright.ToggleFullbright, Fullbright.IncreaseBrightness, Fullbright.DecreaseBrightness, Zoom.ZoomKeybind, Perspective.EnablePerspective, Panorama.TakePanoramaScreenshot, PlayerNametag.ToggleNametag, ColorSaturation.ToggleColorSaturation
+        OpenOptionScreen, Fullbright.ToggleNightVision, Fullbright.ToggleFullbright, Fullbright.IncreaseBrightness, Fullbright.DecreaseBrightness, Zoom.ZoomKeybind, Perspective.EnablePerspective, Panorama.TakePanoramaScreenshot, PlayerNametag.ToggleNametag
     )
 
     override fun getWidgets(): List<Widget> = listOf(
@@ -83,7 +83,7 @@ class BewisclientSelfAPIEntrypoint : BewisclientAPIEntrypoint() {
     )
 
     override fun getUtilities(): List<CategorizedFeature> = listOf(
-        Fullbright, BlockHighlight, EntityHighlight, HeldItemTooltip, Zoom, PumpkinOverlay, BetterVisibility, Scoreboard, ShulkerBoxTooltip, Perspective, FireHeight, Panorama, TntTimer, PackAdder, AutoGG, PlayerNametag, NoChatLag, ColorSaturation, FlatItems, ItemPhysics, FoodSaturationOverlay
+        Fullbright, BlockHighlight, EntityHighlight, HeldItemTooltip, Zoom, PumpkinOverlay, BetterVisibility, Scoreboard, ShulkerBoxTooltip, Perspective, FireHeight, Panorama, TntTimer, PackAdder, AutoGG, PlayerNametag, NoChatLag, FlatItems, ItemPhysics, FoodSaturationOverlay
     )
 
     override fun getOtherSettings(): List<Feature> {
