@@ -19,8 +19,6 @@ import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 
-private val GUI_ICONS: Identifier = createIdentifier("minecraft", "textures/gui/icons.png")
-
 /**
  * Mixes into [Hud] to render an AppleSkin-style food saturation
  * overlay on the hunger bar.
@@ -41,6 +39,9 @@ private val GUI_ICONS: Identifier = createIdentifier("minecraft", "textures/gui/
  */
 @Mixin(Hud::class)
 abstract class FoodSaturationOverlayMixin {
+
+    @Unique
+    private val GUI_ICONS: Identifier = createIdentifier("minecraft", "textures/gui/icons.png")
 
     @Unique
     private fun mc(): Minecraft = Minecraft.getInstance()

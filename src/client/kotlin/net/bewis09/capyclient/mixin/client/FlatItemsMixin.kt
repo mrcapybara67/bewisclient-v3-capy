@@ -14,8 +14,6 @@ import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.PI
 
-private val log = LoggerFactory.getLogger("CapyFlatItems")
-
 /**
  * Mixes into [ItemEntity] to produce the "2D Items" effect:
  * dropped items no longer spin, lie flat on the ground,
@@ -41,6 +39,9 @@ private val log = LoggerFactory.getLogger("CapyFlatItems")
  */
 @Mixin(ItemEntity::class)
 abstract class FlatItemsMixin {
+
+    @Unique
+    private val log = LoggerFactory.getLogger("CapyFlatItems")
 
     /** Self-contained ground tracking - no @Shadow needed. */
     @Unique

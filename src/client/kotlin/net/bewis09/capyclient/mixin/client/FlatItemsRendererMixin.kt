@@ -11,8 +11,6 @@ import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 
-private val log = LoggerFactory.getLogger("CapyFlatRenderer")
-
 /**
  * Mixes into [ItemEntityRenderer] to neutralise the visual bob/hover
  * of dropped items when FlatItems is enabled.
@@ -28,6 +26,9 @@ private val log = LoggerFactory.getLogger("CapyFlatRenderer")
  */
 @Mixin(ItemEntityRenderer::class)
 abstract class FlatItemsRendererMixin {
+
+    @Unique
+    private val log = LoggerFactory.getLogger("CapyFlatRenderer")
 
     @Unique
     private var capyclientRenderCallCounter: Int = 0
