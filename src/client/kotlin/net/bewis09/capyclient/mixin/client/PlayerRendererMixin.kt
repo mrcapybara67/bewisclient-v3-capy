@@ -38,88 +38,84 @@ abstract class PlayerRendererMixin {
         val mc = Minecraft.getInstance()
         val isLocalPlayer = entity === mc.player
 
-        if (PlayerNametag.isEnabled()) {
-            // ==============================================================
-            //  Self-nametag mode: only applies to the local player's own tag.
-            //  (always / third_person / never + the selfNametag toggle)
-            // ==============================================================
-            if (isLocalPlayer) {
-                if (!PlayerNametag.selfNametag.get()) {
-                    state.nameTag = null
-                    return
-                }
+        // Feature off: leave every nametag untouched (vanilla handles it).
+        if (!PlayerNametag.isEnabled()) return
 
-                val cameraType = mc.options.cameraType
-                val isFirstPerson = cameraType.isFirstPerson
-                when (PlayerNametag.selfNametagMode.get().lowercase()) {
-                    "never" -> { state.nameTag = null; return }
-                    "third_person" -> if (isFirstPerson) { state.nameTag = null; return }
-                    "always" -> { /* always render */ }
-                    else -> if (isFirstPerson) { state.nameTag = null; return }
-                }
-            }
+        // ==============================================================
+        //  Visible-distance check applies before the self/other split.
+        // ==============================================================
+        val maxDist = PlayerNametag.visibleDistance.get()
+        if (mc.entityRenderDispatcher.distanceToSqr(entity) > (maxDist * maxDist).toDouble()) return
 
-            // ==============================================================
-            //  Visible-distance check for ALL players.
-            // ==============================================================
-            val maxDist = PlayerNametag.visibleDistance.get()
-            if (mc.entityRenderDispatcher.distanceToSqr(entity) > (maxDist * maxDist).toDouble()) {
-                state.nameTag = null
-                return
-            }
+        // ==============================================================
+        //  Other players: never touch their nametag state. Vanilla will
+        //  render their normal white username above their head.
+        // ==============================================================
+        if (!isLocalPlayer) return
 
-            // ==============================================================
-            //  Build the styled nametag — applies to EVERY player.
-            // ==============================================================
-            val colorInt: Int = if (PlayerNametag.rainbow.get()) {
-                val hue = (System.currentTimeMillis() / 1000f * PlayerNametag.rainbowSpeed.get()) % 1f
-                java.awt.Color.HSBtoRGB(hue, 1f, 1f)
-            } else {
-                PlayerNametag.color.get().getColorInt()
-            }
-
-            val bold = PlayerNametag.bold.get()
-            val italic = PlayerNametag.italic.get()
-
-            val prefix = PlayerNametag.prefix.get()
-            val baseName = entity.name.string
-            val suffix = PlayerNametag.suffix.get()
-
-            // Start with the name (coloured + bold/italic).  Use
-            // MutableComponent directly so we can .append() without
-            // unnecessary .copy() calls.
-            val nameComp = Component.literal(prefix + baseName + suffix)
-                .withStyle { style -> style.withColor(colorInt).withBold(bold).withItalic(italic) }
-
-            // Cast to MutableComponent for efficient append() — in
-            // practice withStyle() always returns a MutableComponent.
-            val tag: net.minecraft.network.chat.MutableComponent = nameComp
-
-            // Append health text with red colour (NO § codes)
-            if (PlayerNametag.showHealth.get()) {
-                tag.append(
-                    Component.literal(" ${entity.health.roundToInt()}❤")
-                        .withStyle { style -> style.withColor(0xFF5555).withBold(bold).withItalic(italic) }
-                )
-            }
-
-            // Append ping text with yellow colour (NO § codes)
-            if (PlayerNametag.showPing.get()) {
-                val ping = mc.connection?.getPlayerInfo(entity.uuid)?.latency ?: 0
-                tag.append(
-                    Component.literal(" ${ping}ms")
-                        .withStyle { style -> style.withColor(0xFFFF55).withBold(bold).withItalic(italic) }
-                )
-            }
-
-            state.nameTag = tag
-            state.nameTagAttachment = Vec3(0.0, entity.getBbHeight().toDouble() + 0.5, 0.0)
-        } else {
-            // Feature off: hide OTHER players' nametags but keep vanilla
-            // behavior for the local player.
-            if (!isLocalPlayer) {
-                state.nameTag = null
-            }
+        // ==============================================================
+        //  Self-nametag mode: only applies to the local player's own tag.
+        //  (always / third_person / never + the selfNametag toggle)
+        // ==============================================================
+        if (!PlayerNametag.selfNametag.get()) {
+            state.nameTag = null
+            return
         }
+
+        val cameraType = mc.options.cameraType
+        val isFirstPerson = cameraType.isFirstPerson
+        when (PlayerNametag.selfNametagMode.get().lowercase()) {
+            "never" -> { state.nameTag = null; return }
+            "third_person" -> if (isFirstPerson) { state.nameTag = null; return }
+            "always" -> { /* always render */ }
+            else -> if (isFirstPerson) { state.nameTag = null; return }
+        }
+
+        // ==============================================================
+        //  Build the styled nametag for the local player only.
+        // ==============================================================
+        val colorInt: Int = if (PlayerNametag.rainbow.get()) {
+            val hue = (System.currentTimeMillis() / 1000f * PlayerNametag.rainbowSpeed.get()) % 1f
+            java.awt.Color.HSBtoRGB(hue, 1f, 1f)
+        } else {
+            PlayerNametag.color.get().getColorInt()
+        }
+
+        val bold = PlayerNametag.bold.get()
+        val italic = PlayerNametag.italic.get()
+
+        val prefix = PlayerNametag.prefix.get()
+        val baseName = entity.name.string
+        val suffix = PlayerNametag.suffix.get()
+
+        // Start with the name (coloured + bold/italic).  Use
+        // MutableComponent directly so we can .append() without
+        // unnecessary .copy() calls.
+        val nameComp = Component.literal(prefix + baseName + suffix)
+            .withStyle { style -> style.withColor(colorInt).withBold(bold).withItalic(italic) }
+
+        // Cast to MutableComponent for efficient append() — in
+        // practice withStyle() always returns a MutableComponent.
+        val tag: net.minecraft.network.chat.MutableComponent = nameComp
+
+        // Append health text with red colour (NO § codes)
+        if (PlayerNametag.showHealth.get()) {
+            tag.append(
+                Component.literal(" ${entity.health.roundToInt()}❤")
+                    .withStyle { style -> style.withColor(0xFF5555).withBold(bold).withItalic(italic) }
+            )
+        }
+
+        // Append ping text with yellow colour (NO § codes)
+        if (PlayerNametag.showPing.get()) {
+            val ping = mc.connection?.getPlayerInfo(entity.uuid)?.latency ?: 0
+            tag.append(
+                Component.literal(" ${ping}ms")
+                    .withStyle { style -> style.withColor(0xFFFF55).withBold(bold).withItalic(italic) }
+            )
+        }
+
+        state.nameTag = tag
+        state.nameTagAttachment = Vec3(0.0, entity.getBbHeight().toDouble() + 0.5, 0.0)
     }
 }
