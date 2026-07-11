@@ -32,8 +32,14 @@ object SpeedWidget : LineWidget(
 
     override fun onClientTickStart() {
         client.player?.position()?.let {
-            totalSpeed = it.distanceTo(oldPos).toFloat() * 20f
-            horizontalSpeed = it.subtract(oldPos).horizontalDistance().toFloat() * 20
+            // Compute speed using raw delta components to avoid two Vec3 allocations:
+            //   - it.distanceTo(oldPos) creates no Vec3 but uses sqrt internally (unavoidable for actual speed)
+            //   - it.subtract(oldPos).horizontalDistance() creates a NEW Vec3 every tick — avoid that
+            val dx = it.x - oldPos.x
+            val dy = it.y - oldPos.y
+            val dz = it.z - oldPos.z
+            totalSpeed = kotlin.math.sqrt(dx * dx + dy * dy + dz * dz).toFloat() * 20f
+            horizontalSpeed = kotlin.math.sqrt(dx * dx + dz * dz).toFloat() * 20f
             oldPos = it
         }
     }
