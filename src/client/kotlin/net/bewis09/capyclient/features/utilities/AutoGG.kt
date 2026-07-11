@@ -87,6 +87,9 @@ object AutoGG : ImageFeature(createIdentifier("capyclient", "auto_gg"), "AutoGG"
      */
     fun handlePotentialDeathMessage(message: Component) {
         val rawString = runCatching { message.string }.getOrNull() ?: "<unparseable>"
+        // TEMPORARY DEBUG: log every incoming game message so we can see the
+        // exact kill/death format used by mazerclub.net / minesive.com.
+        log.info("[AutoGG] RAW_GAME_MESSAGE: {}", rawString)
         val isEn = isEnabled()
         log.info("[AutoGG] handlePotentialDeathMessage called: isEnabled={}, rawMessage={}", isEn, rawString)
 
