@@ -8,8 +8,11 @@ import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.contents.TranslatableContents
+import org.slf4j.LoggerFactory
 
 object AutoGG : ImageFeature(createIdentifier("capyclient", "auto_gg"), "AutoGG"), EventEntrypoint {
+    private val log = LoggerFactory.getLogger("CapyAutoGG")
+
     val preset = string("preset", "gg")
     val useCustom = boolean("use_custom", false)
     val custom = string("custom", "GG!")
@@ -83,14 +86,24 @@ object AutoGG : ImageFeature(createIdentifier("capyclient", "auto_gg"), "AutoGG"
      * [sendChatLine] is used so behaviour stays consistent.
      */
     fun handlePotentialDeathMessage(message: Component) {
-        if (!isEnabled()) return
+        val rawString = runCatching { message.string }.getOrNull() ?: "<unparseable>"
+        val isEn = isEnabled()
+        log.info("[AutoGG] handlePotentialDeathMessage called: isEnabled={}, rawMessage={}", isEn, rawString)
+
+        if (!isEn) {
+            log.info("[AutoGG] handlePotentialDeathMessage: returning early because isEnabled()=false")
+            return
+        }
         val player = Minecraft.getInstance().player ?: return
         val name = player.name.string
         if (name.isBlank()) return
 
+        log.info("[AutoGG] handlePotentialDeathMessage: player name='{}', proceeding to detection stages", name)
+
         // Stage 0: match-end (opt-in). Cheap substring check fires before the
         // longer arg-shape scan so end-of-match chats reply faster.
         if (fireOnMatchEnd.get() && isMatchEndMessage(message)) {
+            log.info("[AutoGG] Stage 0 (match-end) DETECTED! Calling sendChatLine")
             sendChatLine()
             return
         }
@@ -102,7 +115,10 @@ object AutoGG : ImageFeature(createIdentifier("capyclient", "auto_gg"), "AutoGG"
             val killer = contents.args.getOrNull(1)
             val victimIsLocal = argMatchesName(victim, name)
             val killerIsLocal = argMatchesName(killer, name)
+            log.info("[AutoGG] Stage 1 (vanilla kill): key={}, victim={}, killer={}, victimIsLocal={}, killerIsLocal={}",
+                contents.key, victim, killer, victimIsLocal, killerIsLocal)
             if (!victimIsLocal && killerIsLocal) {
+                log.info("[AutoGG] Stage 1 DETECTED kill! Calling sendChatLine")
                 sendChatLine()
                 return
             }
@@ -110,12 +126,18 @@ object AutoGG : ImageFeature(createIdentifier("capyclient", "auto_gg"), "AutoGG"
 
         // Stage 2: legacy fallback — text-shape match (server-side plugin strings).
         val text = runCatching { message.string }.getOrNull() ?: return
-        if (!text.contains(name)) return
+        if (!text.contains(name)) {
+            log.info("[AutoGG] Stage 2 (legacy): text='{}' does NOT contain name='{}', skipping", text, name)
+            return
+        }
         val byIdx = text.lastIndexOf(" by ")
         val nameIdx = text.lastIndexOf(name)
+        log.info("[AutoGG] Stage 2 (legacy): text='{}', containsName=true, byIdx={}, nameIdx={}", text, byIdx, nameIdx)
         if (byIdx < 0 || nameIdx <= byIdx) return
         val trailing = text.substring(nameIdx + name.length)
+        log.info("[AutoGG] Stage 2 (legacy): trailing='{}'", trailing)
         if (!trailing.all { it == ' ' || it == '.' || it == ',' || it == '!' || it == '?' || it == ')' || it == '*' || it == '\n' }) return
+        log.info("[AutoGG] Stage 2 DETECTED kill! Calling sendChatLine")
         sendChatLine()
     }
 
@@ -169,19 +191,25 @@ object AutoGG : ImageFeature(createIdentifier("capyclient", "auto_gg"), "AutoGG"
      * critical section stays on the main thread.
      */
     private fun sendChatLine() {
+        log.info("[AutoGG] sendChatLine called!")
         val client = Minecraft.getInstance()
-        val player = client.player ?: return
+        val player = client.player ?: run { log.info("[AutoGG] sendChatLine: player is null, returning"); return }
         // Defensive: in older 1.21.x snapshots, connection could momentarily be
         // null during login/logout. The @Suppress is required because Kotlin
         // infers `player.connection` as non-null in 1.21.11+ (it isn't
         // formally annotated), which is exactly the case where the elvis is
         // truly useless — but we want the runtime guard anyway.
         @Suppress("USELESS_ELVIS")
-        val earlyConnection = player.connection ?: return
+        val earlyConnection = player.connection ?: run { log.info("[AutoGG] sendChatLine: earlyConnection is null, returning"); return }
 
         val raw = if (useCustom.get()) custom.get() else preset.get()
         val candidates = raw.split(',').map { it.trim() }.filter { it.isNotEmpty() }
-        if (candidates.isEmpty()) return
+        if (candidates.isEmpty()) {
+            log.info("[AutoGG] sendChatLine: candidates empty (raw='{}'), returning", raw)
+            return
+        }
+
+        log.info("[AutoGG] sendChatLine: raw='{}', candidates={}, cooldownMs={}", raw, candidates, cooldownMs.get())
 
         val cooldown = cooldownMs.get().toLong()
 
@@ -191,14 +219,23 @@ object AutoGG : ImageFeature(createIdentifier("capyclient", "auto_gg"), "AutoGG"
         // client.execute block.
         client.execute(Runnable {
             val now = System.currentTimeMillis()
-            if (cooldown > 0 && now - lastSentAt < cooldown) return@Runnable
+            if (cooldown > 0 && now - lastSentAt < cooldown) {
+                log.info("[AutoGG] sendChatLine lambda: cooldown active (lastSent={}, now={}, cooldown={}), returning", lastSentAt, now, cooldown)
+                return@Runnable
+            }
             // Re-fetch on the main thread: the connection reference captured
             // above (`earlyConnection`) could be stale by the time this lambda
             // runs. Only proceed if the connection is still non-null.
-            val live = Minecraft.getInstance().player?.connection ?: return@Runnable
+            val live = Minecraft.getInstance().player?.connection
+            if (live == null) {
+                log.info("[AutoGG] sendChatLine lambda: live connection is null, returning")
+                return@Runnable
+            }
             lastSentAt = now
             val pick: String = if (useCustom.get()) candidates.first() else candidates[(now / 1000L % candidates.size).toInt()]
+            log.info("[AutoGG] sendChatLine lambda: ABOUT TO SEND '{}' via live.sendChat()", pick)
             live.sendChat(pick)
+            log.info("[AutoGG] sendChatLine lambda: live.sendChat() completed for '{}'", pick)
         })
     }
 }
