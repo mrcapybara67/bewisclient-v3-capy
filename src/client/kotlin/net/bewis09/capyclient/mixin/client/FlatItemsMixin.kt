@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.Unique
 import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
+import org.slf4j.LoggerFactory
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.PI
@@ -39,11 +40,17 @@ import kotlin.math.PI
 @Mixin(ItemEntity::class)
 abstract class FlatItemsMixin {
 
+    companion object {
+        private val log = LoggerFactory.getLogger("CapyFlatItems")
+    }
+
     /** Self-contained ground tracking - no @Shadow needed. */
     @Unique
     private var capyclientPrevY: Double = Double.MIN_VALUE
     @Unique
     private var capyclientOnGround: Boolean = false
+    @Unique
+    private var capyclientTickCounter: Int = 0
 
     @Unique
     private fun capyclientTrackGroundState(self: ItemEntity) {
@@ -107,8 +114,21 @@ abstract class FlatItemsMixin {
 
     @Inject(method = ["tick"], at = [At("HEAD")])
     private fun onPreTick(ci: CallbackInfo) {
+        capyclientTickCounter++
+        val shouldLog = capyclientTickCounter % 20 == 0
+
+        if (shouldLog) {
+            log.info("[FlatItemsMixin] onPreTick called, FlatItems.isEnabled()={}, ItemPhysics.isEnabled()={}",
+                FlatItems.isEnabled(), ItemPhysics.isEnabled())
+        }
+
         if (!FlatItems.isEnabled()) return
         val self = this as Any as ItemEntity
+
+        if (shouldLog) {
+            log.info("[FlatItemsMixin] onPreTick PASSED enabled check, self={}, pos=({}, {}, {}), onGround={}, billboard={}",
+                self, self.x, self.y, self.z, capyclientOnGround, FlatItems.billboard.get())
+        }
 
         // Track ground state from Y position (no @Shadow needed)
         capyclientTrackGroundState(self)
@@ -118,12 +138,21 @@ abstract class FlatItemsMixin {
         // getBob(float) inject was removed because that method
         // doesn't exist in 1.21.11 Mojang mappings.
 
+        val yawBefore = self.yRot
         capyclientFreezeRotation(self)
+
+        if (shouldLog) {
+            log.info("[FlatItemsMixin] onPreTick rotation: yRot {} -> {}, xRot {} -> {}, capyclientLastBillboardYaw={}",
+                yawBefore, self.yRot, self.xRotO, self.xRot, capyclientLastBillboardYaw)
+        }
 
         // When on the ground, tilt items so they lie flat
         if (capyclientOnGround) {
             self.xRot = -90f
             self.xRotO = -90f
+            if (shouldLog) {
+                log.info("[FlatItemsMixin] onPreTick SET xRot to -90 (on ground)")
+            }
         }
     }
 
@@ -132,13 +161,22 @@ abstract class FlatItemsMixin {
         if (!FlatItems.isEnabled()) return
         val self = this as Any as ItemEntity
 
+        val shouldLog = capyclientTickCounter % 20 == 0
+
         // Re-freeze rotation — use cached billboard yaw to avoid atan2 recalc
         if (FlatItems.billboard.get() && capyclientLastBillboardYaw != Float.MAX_VALUE) {
             self.yRot = capyclientLastBillboardYaw
             self.yRotO = capyclientLastBillboardYaw
+            if (shouldLog) {
+                log.info("[FlatItemsMixin] onPostTick: billboard yaw = {}", capyclientLastBillboardYaw)
+            }
         } else {
             self.yRot = 0f
             self.yRotO = 0f
+            if (shouldLog) {
+                log.info("[FlatItemsMixin] onPostTick: static yaw = 0 (billboard={}, lastYaw={})",
+                    FlatItems.billboard.get(), capyclientLastBillboardYaw)
+            }
         }
 
         // Preserve xRot when ItemPhysics wobble is active
@@ -151,6 +189,9 @@ abstract class FlatItemsMixin {
         if (capyclientOnGround) {
             self.xRot = -90f
             self.xRotO = -90f
+            if (shouldLog) {
+                log.info("[FlatItemsMixin] onPostTick: keep flat on ground, xRot=-90")
+            }
         }
     }
 }

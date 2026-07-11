@@ -2,6 +2,7 @@
 
 package net.bewis09.capyclient.mixin.client
 
+import net.bewis09.capyclient.features.utilities.FlatItems
 import net.bewis09.capyclient.features.utilities.ItemPhysics
 import net.minecraft.client.Minecraft
 import net.minecraft.world.entity.item.ItemEntity
@@ -11,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 import kotlin.math.abs
+import org.slf4j.LoggerFactory
 
 /**
  * Mixes into [ItemEntity] to override the default spinning/floating
@@ -27,6 +29,10 @@ import kotlin.math.abs
 @Mixin(ItemEntity::class)
 abstract class ItemPhysicsMixin {
 
+    companion object {
+        private val log = LoggerFactory.getLogger("CapyItemPhysics")
+    }
+
     @Unique
     private fun mc(): Minecraft = Minecraft.getInstance()
 
@@ -38,6 +44,8 @@ abstract class ItemPhysicsMixin {
 
     @Unique
     private var physicsWobblePhase: Int = 0
+    @Unique
+    private var capyclientTickCounter: Int = 0
 
     /** Self-contained ground tracking - no @Shadow needed. */
     @Unique
@@ -92,17 +100,37 @@ abstract class ItemPhysicsMixin {
     // @[1.21.11] "tick" @[] "onEntityTick"
     @Inject(method = [/*[@]*/"tick"/*[!@]*/], at = [At("HEAD")])
     private fun onPreTick(ci: CallbackInfo) {
+        capyclientTickCounter++
+        val shouldLog = capyclientTickCounter % 20 == 0
+
+        if (shouldLog) {
+            log.info("[ItemPhysicsMixin] onPreTick: capyclientCanApplyItemPhysics()={}, ItemPhysics.isEnabled()={}, FlatItems.isEnabled()={}",
+                capyclientCanApplyItemPhysics(), ItemPhysics.isEnabled(), FlatItems.isEnabled())
+        }
+
         if (!capyclientCanApplyItemPhysics()) return
         val self = this as Any as ItemEntity
 
-        // === Skip distant items to save CPU ===
-        if (!capyclientIsNearPlayer(self)) return
+        if (!capyclientIsNearPlayer(self)) {
+            if (shouldLog) {
+                log.info("[ItemPhysicsMixin] onPreTick: item too far, skipping (pos={},{},{})", self.x, self.y, self.z)
+            }
+            return
+        }
+
+        if (shouldLog) {
+            log.info("[ItemPhysicsMixin] onPreTick: PASSED all checks, self={}, layFlat={}, wobble={}, deltaY={}",
+                self, ItemPhysics.layFlat.get(), ItemPhysics.wobble.get(), self.deltaMovement.y)
+        }
 
         // Track ground state from Y position (no @Shadow needed)
         capyclientTrackGroundState(self)
 
         // === Detect landing transition: reduce horizontal velocity ===
         if (capyclientOnGround && !capyclientWasOnGround && capyclientPrevY != Double.MIN_VALUE) {
+            if (shouldLog) {
+                log.info("[ItemPhysicsMixin] onPreTick: landing detected, reducing velocity")
+            }
             self.setDeltaMovement(self.deltaMovement.x * 0.8, 0.0, self.deltaMovement.z * 0.8)
         }
 
@@ -129,14 +157,25 @@ abstract class ItemPhysicsMixin {
 
             self.xRot = clamped
             self.xRotO = clamped
+
+            if (shouldLog) {
+                log.info("[ItemPhysicsMixin] onPreTick: WOBBLE active, phase={}, wobbleAngle={}, clamped={}",
+                    physicsWobblePhase, wobbleAngle, clamped)
+            }
         } else if (ItemPhysics.layFlat.get()) {
             if (capyclientOnGround) {
                 self.xRot = -90f
                 self.xRotO = -90f
+                if (shouldLog) {
+                    log.info("[ItemPhysicsMixin] onPreTick: layFlat+onGround, xRot=-90")
+                }
             } else {
                 self.xRot = 0f
                 self.xRotO = 0f
             }
+        } else if (shouldLog) {
+            log.info("[ItemPhysicsMixin] onPreTick: no wobble/layFlat, onGround={}, deltaY={}",
+                capyclientOnGround, self.deltaMovement.y)
         }
     }
 
@@ -149,6 +188,8 @@ abstract class ItemPhysicsMixin {
         // === Skip distant items ===
         if (!capyclientIsNearPlayer(self)) return
 
+        val shouldLog = capyclientTickCounter % 20 == 0
+
         if (ItemPhysics.layFlat.get()) {
             self.yRot = 0f
             self.yRotO = 0f
@@ -158,14 +199,23 @@ abstract class ItemPhysicsMixin {
         if (cachedWobbleActive) {
             self.xRot = cachedWobbleXRot
             self.xRotO = cachedWobbleXRot
+            if (shouldLog) {
+                log.info("[ItemPhysicsMixin] onPostTick: re-applied wobble, xRot={}", cachedWobbleXRot)
+            }
         } else if (ItemPhysics.layFlat.get()) {
             if (capyclientOnGround) {
                 self.xRot = -90f
                 self.xRotO = -90f
+                if (shouldLog) {
+                    log.info("[ItemPhysicsMixin] onPostTick: layFlat+onGround, xRot=-90")
+                }
             } else {
                 self.xRot = 0f
                 self.xRotO = 0f
             }
+        } else if (shouldLog) {
+            log.info("[ItemPhysicsMixin] onPostTick: no action (cachedWobbleActive={}, layFlat={}, onGround={})",
+                cachedWobbleActive, ItemPhysics.layFlat.get(), capyclientOnGround)
         }
     }
 }
