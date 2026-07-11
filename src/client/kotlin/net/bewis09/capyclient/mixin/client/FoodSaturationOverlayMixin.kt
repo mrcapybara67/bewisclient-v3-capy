@@ -45,10 +45,14 @@ abstract class FoodSaturationOverlayMixin {
          * Minecraft's GUI icons texture — contains the food/shank
          * sprites used by the vanilla hunger bar.
          * Food icon positions on the 256×256 sheet:
-         *   - Empty background: u=16,  v=27
-         *   - Half food:        u=52,  v=27
-         *   - Full food:        u=61,  v=27
+         *   - Empty background: u=16,  v=27  (outline only — no fill)
+         *   - Half food:        u=52,  v=27  (one half filled)
+         *   - Full food:        u=61,  v=27  (fully filled drumstick)
          *   - Hardcore offset:  +36 to u
+         *
+         * AppleSkin approach: draw the EMPTY background icon (the drumstick
+         * outline) in yellow/gold on TOP of the already-rendered vanilla food
+         * bar, creating a gold outline effect that shows saturation level.
          */
         private val GUI_ICONS: Identifier = createIdentifier("minecraft", "textures/gui/icons.png")
     }
@@ -84,40 +88,38 @@ abstract class FoodSaturationOverlayMixin {
         val hardU = if (isHardcore) 36 else 0
 
         // ================================================================
-        //  1. Saturation overlay — gold-tinted food icons
-        //     Draw actual food-icon textures (full/half) with a gold alpha
-        //     tint ON TOP of the already-rendered vanilla food bar.
+        //  1. Saturation overlay — yellow outline on the vanilla drumsticks
+        //     AppleSkin-style: draw the EMPTY background food icon (which is
+        //     just the drumstick outline — no fill) in yellow/gold on TOP of
+        //     the already-rendered vanilla food bar.  This produces a gold
+        //     outline effect directly on the drumsticks, not a separate row.
+        //     The outline shrinks right-to-left as saturation depletes.
         // ================================================================
         if (FoodSaturationOverlay.showSaturationBar.get() && currentSaturation > 0.0f) {
-            // Saturation is measured in half-shanks (0…20).
-            // Convert to whole shank count (0…10).
+            // Saturation is in half-shank units (0…20).
+            // Convert to full shank count (0…10).
             val saturatedShanks = (currentSaturation / 2.0f).coerceAtMost(10f).toInt()
             for (i in 0 until saturatedShanks) {
-                // Right-to-left: index 0 = rightmost (fullest)
                 val sx = startX - i * step - iconSize
                 if (sx < 0) break
 
-                // Does this shank have both halves filled?
                 val saturationAtThisShank = currentSaturation - (i * 2)
                 val isFullShank = saturationAtThisShank >= 2.0f
 
-                if (isFullShank) {
-                    // Full food icon, gold-tinted (ARGB)
-                    guiGraphics.drawTexture(
-                        GUI_ICONS, sx, startY,
-                        61f + hardU, 27f,
-                        iconSize, iconSize, iconSize, iconSize, 256, 256,
-                        0xBBFFD700.toInt() // bright gold, 73% alpha
-                    )
-                } else {
-                    // Half food icon, darker gold tint (ARGB)
-                    guiGraphics.drawTexture(
-                        GUI_ICONS, sx, startY,
-                        52f + hardU, 27f,
-                        iconSize, iconSize, iconSize, iconSize, 256, 256,
-                        0x88B8860B.toInt() // dark gold, 53% alpha
-                    )
-                }
+                // U = 16 for the EMPTY food icon (drumstick outline / border
+                // only). Always use the empty outline icon — for the partial
+                // shank we just reduce alpha so it looks like the outline
+                // fades away rather than switching to a different texture.
+                val u = 16f + hardU
+                val color = if (isFullShank) 0xCCFFC000.toInt()  // bright gold outline, 80% alpha
+                            else 0x66FFD700                       // faded gold, 40% alpha — outline shrinks right-to-left
+
+                guiGraphics.drawTexture(
+                    GUI_ICONS, sx, startY,
+                    u, 27f,
+                    iconSize, iconSize, iconSize, iconSize, 256, 256,
+                    color
+                )
             }
         }
 
